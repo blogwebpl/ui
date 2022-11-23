@@ -1,0 +1,94 @@
+import styled from 'styled-components';
+
+const StyledButton = styled.button<{
+	margin?: string;
+	color?: string;
+	isLightColor?: boolean;
+	disabled?: boolean;
+}>`
+	background-color: transparent;
+	border: 0;
+	border-radius: 50%;
+	color: ${(props) => props.color || props.theme.palette.element.primary.text};
+	cursor: pointer;
+	display: flex;
+	margin: ${(props) => props.margin};
+	outline: 0;
+	padding: 12px;
+	position: relative;
+	text-indent: -9999999999px;
+	&:hover,
+	&:focus {
+		background-color: ${(props) => {
+			return props.isLightColor
+				? `#eeeeee${props.theme.opacity.actions.hover * 100}`
+				: `${props.color}${props.theme.opacity.actions.hover * 100}`;
+		}};
+	}
+	&:active {
+		background-color: ${(props) => {
+			return props.isLightColor
+				? `#eeeeee${props.theme.opacity.actions.hover * 100}`
+				: `${props.color}${props.theme.opacity.actions.hover * 100}`;
+		}};
+	}
+	&:before {
+		background: #7e7e7e;
+		border-radius: 7%;
+		color: #eee;
+		content: '' attr(data-label) '';
+		font-size: 10px;
+		left: 50%;
+		opacity: 0;
+		padding: 4px 5px;
+		position: absolute;
+		scale: 0;
+		text-align: center;
+		top: -28px;
+		transform: translate(-50%) scale(0);
+		transition: all 0.1s linear;
+		visibility: hidden;
+	}
+	&[data-label='']:before {
+		display: none;
+	}
+	&:not([disabled]):hover:before {
+		opacity: 0.9;
+		transform: translate(-50%) scale(1);
+		visibility: visible;
+	}
+	&:disabled {
+		color: #ccc;
+		background-color: transparent;
+	}
+`;
+
+interface IconButtonProps {
+	children: React.ReactNode;
+	/**
+	 * Color in HEX !!!
+	 */
+	color?: string;
+	id?: string;
+	isLightColor?: boolean;
+	isDisabled?: boolean;
+	label?: string;
+	margin?: string;
+	onClick?: () => void;
+}
+
+export function IconButton(props: IconButtonProps) {
+	return (
+		<StyledButton
+			color={props.color}
+			data-label={props.label}
+			disabled={props.isDisabled}
+			id={props.id}
+			isLightColor={props.isLightColor}
+			onClick={props.onClick}
+			margin={props.margin}
+		>
+			{props.children}
+		</StyledButton>
+	);
+}
