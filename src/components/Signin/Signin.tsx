@@ -18,9 +18,10 @@ interface SigninProps {
 	logo?: string;
 	alertText?: string;
 	handleSubmit: ({ email, password }: SigninFormData) => void;
+	isPending?: boolean;
 }
 
-export function Signin(props: SigninProps) {
+export function SignIn(props: SigninProps) {
 	const emailRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
 	const rememberEmailRef = useRef<HTMLInputElement>(null);
@@ -85,7 +86,12 @@ export function Signin(props: SigninProps) {
 					<Checkbox id="checkbox" label="Zapamiętaj e-mail" forwardedRef={rememberEmailRef} />
 				</FieldContainer>
 				<ButtonContainer>
-					<Button label="ZALOGUJ SIĘ" variant="primary" type="submit" />
+					<Button
+						label="ZALOGUJ SIĘ"
+						variant="primary"
+						type="submit"
+						isDisabled={props.isPending}
+					/>
 				</ButtonContainer>
 			</Form>
 		</Card>

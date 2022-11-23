@@ -2,7 +2,7 @@ import { MouseEventHandler } from 'react';
 import { StyledButton } from './buttonStyle';
 
 export interface ButtonProps {
-	disabled?: boolean;
+	isDisabled?: boolean;
 	id?: string;
 	label: string;
 	onClick?: MouseEventHandler<HTMLButtonElement>;
@@ -13,5 +13,9 @@ export interface ButtonProps {
 }
 
 export function Button(props: ButtonProps) {
-	return <StyledButton {...props}>{props.label}</StyledButton>;
+	return (
+		<StyledButton {...props} disabled={props.isDisabled}>
+			{props.label}
+		</StyledButton>
+	);
 }
