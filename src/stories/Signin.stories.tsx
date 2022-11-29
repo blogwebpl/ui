@@ -31,5 +31,10 @@ WithoutLogo.args = {
 
 export const WithAlert = Template.bind({});
 WithAlert.args = {
-	alertText: 'Nieprawidłowy email lub hasło.',
+	result: {
+		error: {
+			status: 'FETCH_ERROR',
+			error: '',
+		},
+	},
 };

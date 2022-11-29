@@ -14,14 +14,21 @@ export interface SigninFormData {
 	password: string;
 }
 
-interface SigninProps {
-	logo?: string;
-	alertText?: string;
-	handleSubmit: ({ email, password }: SigninFormData) => void;
-	isPending?: boolean;
+export interface Result {
+	error?: {
+		status: string;
+		error: string;
+	};
+	isLoading?: boolean;
 }
 
-export function SignIn(props: SigninProps) {
+interface SignInProps {
+	logo?: string;
+	handleSubmit: ({ email, password }: SigninFormData) => void;
+	result?: Result;
+}
+
+export function SignIn(props: SignInProps) {
 	const emailRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
 	const rememberEmailRef = useRef<HTMLInputElement>(null);
@@ -49,13 +56,23 @@ export function SignIn(props: SigninProps) {
 		props.handleSubmit({ email, password });
 	};
 
+	let alertText = '';
+
+	switch (props.result?.error?.status) {
+		case 'FETCH_ERROR':
+			alertText = 'Brak komunikacji z serwerem.';
+			break;
+		default:
+			alertText = props.result?.error?.error || '';
+	}
+
 	return (
 		<Card padding minWidth="320px">
 			{props.logo && <Logo src={props.logo} />}
 			<Typography component="h6" userSelect="none" color="#000000">
 				Zaloguj się
 			</Typography>
-			<Form alertText={props.alertText} onSubmit={handleSubmit}>
+			<Form alertText={alertText} onSubmit={handleSubmit}>
 				<FieldContainer>
 					<TextField
 						id="email"
@@ -90,7 +107,7 @@ export function SignIn(props: SigninProps) {
 						label="ZALOGUJ SIĘ"
 						variant="primary"
 						type="submit"
-						isDisabled={props.isPending}
+						isDisabled={props.result?.isLoading}
 					/>
 				</ButtonContainer>
 			</Form>
