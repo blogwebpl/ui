@@ -14,18 +14,10 @@ export interface SigninFormData {
 	password: string;
 }
 
-export interface Result {
-	error?: {
-		status: string;
-		error: string;
-	};
-	isLoading?: boolean;
-}
-
 interface SignInProps {
 	logo?: string;
 	handleSubmit: ({ email, password }: SigninFormData) => void;
-	result?: Result;
+	result?: any;
 }
 
 export function SignIn(props: SignInProps) {
