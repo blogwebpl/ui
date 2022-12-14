@@ -16,7 +16,7 @@ const StyledButton = styled.button<{
 	outline: 0;
 	padding: 12px;
 	position: relative;
-	text-indent: -9999999999px;
+
 	&:hover,
 	&:focus {
 		background-color: ${(props) => {
@@ -33,16 +33,16 @@ const StyledButton = styled.button<{
 		}};
 	}
 	&:before {
+		white-space: nowrap;
 		background: #7e7e7e;
 		border-radius: 7%;
 		color: #eee;
-		content: '' attr(data-label) '';
+		content: attr(data-label);
 		font-size: 10px;
 		left: 50%;
 		opacity: 0;
 		padding: 4px 5px;
 		position: absolute;
-		scale: 0;
 		text-align: center;
 		top: -28px;
 		transform: translate(-50%) scale(0);
@@ -82,6 +82,7 @@ export function IconButton(props: IconButtonProps) {
 		<StyledButton
 			color={props.color}
 			data-label={props.label}
+			aria-label={props.label}
 			disabled={props.isDisabled}
 			id={props.id}
 			isLightColor={props.isLightColor}
