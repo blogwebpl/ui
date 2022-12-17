@@ -5,5 +5,5 @@ interface LogoProps {
 }
 
 export const Logo = (props: LogoProps) => {
-	return <StyledLogo src={props.src} />;
+	return <StyledLogo src={props.src} alt="" />;
 };

@@ -53,12 +53,14 @@ export function AppBar(props: AppBarProps) {
 	return (
 		<StyledAppBar>
 			<IconButton
+				label=""
+				ariaLabel="menu"
 				isLightColor={true}
 				margin="0 16px 0 -12px"
 				onClick={handleMenuIconClick}
 				isDisabled={!props.isSignIn}
 			>
-				{props.isDrawerOpen ? <CloseIcon size={24} /> : <MenuIcon size={24} />}Menu
+				{props.isDrawerOpen ? <CloseIcon size={24} /> : <MenuIcon size={24} />}
 			</IconButton>
 			<StyledTitleContainer>
 				<Typography component="h6" userSelect="none">
@@ -67,6 +69,8 @@ export function AppBar(props: AppBarProps) {
 			</StyledTitleContainer>
 			<StyledIconContainer>
 				<IconButton
+					label=""
+					ariaLabel="profile"
 					isDisabled={!props.isSignIn}
 					isLightColor={true}
 					onClick={() => {
@@ -75,16 +79,18 @@ export function AppBar(props: AppBarProps) {
 						}
 					}}
 				>
-					{props.isSignIn ? <PersonIcon size={24} /> : <LockIcon size={24} />}Profile
+					{props.isSignIn ? <PersonIcon size={24} /> : <LockIcon size={24} />}
 				</IconButton>
 				{props.isSignIn && props.sidebarIcon && (
 					<IconButton
+						label=""
+						data-label="sidebar"
 						isLightColor={true}
 						onClick={() => {
 							props.setIsSideMenuOpen(!props.isSideMenuOpen);
 						}}
 					>
-						{props.isSideMenuOpen ? <CloseIcon size={24} /> : props.sidebarIcon}Sidebar
+						{props.isSideMenuOpen ? <CloseIcon size={24} /> : props.sidebarIcon}
 					</IconButton>
 				)}
 			</StyledIconContainer>

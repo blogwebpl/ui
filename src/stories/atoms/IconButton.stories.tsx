@@ -11,7 +11,7 @@ export default {
 
 const Template: ComponentStory<typeof IconButton> = () => {
 	return (
-		<IconButton color="#000000" label="person">
+		<IconButton color="#000000" label="person" ariaLabel="person">
 			<MdPerson size={24} />
 		</IconButton>
 	);

@@ -73,6 +73,7 @@ interface IconButtonProps {
 	isLightColor?: boolean;
 	isDisabled?: boolean;
 	label?: string;
+	ariaLabel?: string;
 	margin?: string;
 	onClick?: () => void;
 }
@@ -82,7 +83,7 @@ export function IconButton(props: IconButtonProps) {
 		<StyledButton
 			color={props.color}
 			data-label={props.label}
-			aria-label={props.label}
+			aria-label={props.ariaLabel || props.label}
 			disabled={props.isDisabled}
 			id={props.id}
 			isLightColor={props.isLightColor}
