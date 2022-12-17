@@ -1,4 +1,5 @@
 import { KeyboardEventHandler, LegacyRef } from 'react';
+import { IconType } from 'react-icons';
 import { StyledContainer } from './textFieldStyle';
 
 export interface TextFieldProps {
@@ -14,12 +15,13 @@ export interface TextFieldProps {
 	autoFocus?: boolean;
 	disabled?: boolean;
 	controlled?: boolean;
+	icon?: IconType;
 }
 
 export function TextField(props: TextFieldProps) {
 	if (props.controlled)
 		return (
-			<StyledContainer>
+			<StyledContainer icon={props.icon !== undefined}>
 				<input
 					id={props.id}
 					type={props.type}
@@ -42,7 +44,7 @@ export function TextField(props: TextFieldProps) {
 			</StyledContainer>
 		);
 	return (
-		<StyledContainer>
+		<StyledContainer icon={props.icon !== undefined}>
 			<input
 				id={props.id}
 				type={props.type}
@@ -60,6 +62,7 @@ export function TextField(props: TextFieldProps) {
 				{props.label}
 				{props.required ? ' *' : null}
 			</label>
+			{props.icon && <props.icon size={24} className="icon" />}
 		</StyledContainer>
 	);
 }

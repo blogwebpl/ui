@@ -1,5 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { useState } from 'react';
+import { MdSearch as SearchIcon } from 'react-icons/md';
 
 import { TextField } from '../../components/atoms/TextField';
 
@@ -34,6 +35,9 @@ Password.args = { type: 'password' };
 
 export const Number = Template.bind({});
 Number.args = { type: 'number' };
+
+export const WithIcon = Template.bind({});
+WithIcon.args = { type: 'text', icon: SearchIcon };
 
 export const Disabled = Template.bind({});
 Disabled.args = { type: 'text', disabled: true, value: 'Text in disabled' };

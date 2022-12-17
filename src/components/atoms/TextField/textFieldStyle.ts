@@ -1,10 +1,12 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const StyledContainer = styled.fieldset`
+export const StyledContainer = styled.fieldset<{ icon: boolean }>`
 	border: 0;
 	margin: 0;
 	padding: 0;
 	position: relative;
+	display: flex;
+	align-items: center;
 	input {
 		border-color: ${(props) => props.theme.palette.text.hint};
 		border-radius: ${(props) => props.theme.shape.borderRadious || 0};
@@ -17,6 +19,11 @@ export const StyledContainer = styled.fieldset`
 		font-weight: ${(props) => props.theme.typography.fontWeightRegular};
 		height: 56px;
 		padding: 14px 13px;
+		${(props) =>
+			props.icon &&
+			css`
+				padding-right: 40px;
+			`}
 		width: 100%;
 	}
 	input:hover {
@@ -27,6 +34,11 @@ export const StyledContainer = styled.fieldset`
 		border-width: 2px;
 		outline: 0;
 		padding: 17px 12px;
+		${(props) =>
+			props.icon &&
+			css`
+				padding-right: 40px;
+			`}
 	}
 	label {
 		background-color: ${(props) => props.theme.palette.background.default};
@@ -54,5 +66,10 @@ export const StyledContainer = styled.fieldset`
 		outline: 0;
 		transform: translate(2px, -9px) scale(0.75);
 		transition: all linear 0.2s;
+	}
+
+	.icon {
+		position: absolute;
+		right: 10px;
 	}
 `;
