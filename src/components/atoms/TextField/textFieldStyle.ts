@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 
-export const StyledContainer = styled.fieldset<{ icon: boolean }>`
+export const StyledContainer = styled.fieldset<{ icon: boolean; slim?: boolean }>`
+	width: 100%;
 	border: 0;
 	margin: 0;
 	padding: 0;
@@ -8,6 +9,7 @@ export const StyledContainer = styled.fieldset<{ icon: boolean }>`
 	display: flex;
 	align-items: center;
 	input {
+		width: 100%;
 		border-color: ${(props) => props.theme.palette.text.hint};
 		border-radius: ${(props) => props.theme.shape.borderRadious || 0};
 		border-style: solid;
@@ -20,11 +22,16 @@ export const StyledContainer = styled.fieldset<{ icon: boolean }>`
 		height: 56px;
 		padding: 14px 13px;
 		${(props) =>
+			props.slim &&
+			css`
+				padding: 10px 13px;
+				height: auto;
+			`}
+		${(props) =>
 			props.icon &&
 			css`
 				padding-right: 40px;
 			`}
-		width: 100%;
 	}
 	input:hover {
 		border-color: ${(props) => props.theme.palette.text.primary};
@@ -34,6 +41,12 @@ export const StyledContainer = styled.fieldset<{ icon: boolean }>`
 		border-width: 2px;
 		outline: 0;
 		padding: 17px 12px;
+		${(props) =>
+			props.slim &&
+			css`
+				padding: 9px 12px;
+				height: auto;
+			`}
 		${(props) =>
 			props.icon &&
 			css`
@@ -56,6 +69,11 @@ export const StyledContainer = styled.fieldset<{ icon: boolean }>`
 		color: ${(props) => props.theme.palette.text.secondary};
 		pointer-events: none;
 		transform: translate(8px, 19px) scale(1);
+		${(props) =>
+			props.slim &&
+			css`
+				transform: translate(8px, 11px) scale(1);
+			`}
 		transition: all linear 0.2s;
 	}
 	input:focus ~ label {
@@ -71,5 +89,6 @@ export const StyledContainer = styled.fieldset<{ icon: boolean }>`
 	.icon {
 		position: absolute;
 		right: 10px;
+		color: ${(props) => props.theme.palette.text.secondary};
 	}
 `;

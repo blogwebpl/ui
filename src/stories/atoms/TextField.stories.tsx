@@ -39,5 +39,8 @@ Number.args = { type: 'number' };
 export const WithIcon = Template.bind({});
 WithIcon.args = { type: 'text', icon: SearchIcon };
 
+export const Slim = Template.bind({});
+Slim.args = { type: 'text', slim: true, icon: SearchIcon };
+
 export const Disabled = Template.bind({});
 Disabled.args = { type: 'text', disabled: true, value: 'Text in disabled' };

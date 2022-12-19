@@ -1,5 +1,5 @@
+/* eslint-disable no-alert */
 import {
-	MdSearch as SearchIcon,
 	MdSortByAlpha as SortIcon,
 	MdPrint as PrintIcon,
 	MdAddCircle as AddIcon,
@@ -19,14 +19,7 @@ export default {
 
 const actions: TableAction[] = [
 	{
-		icon: SearchIcon,
-		hint: 'filtruj',
-		isDisabled: false,
-		onClick: () => {
-			alert('filtruj');
-		},
-	},
-	{
+		id: 'sort',
 		icon: SortIcon,
 		hint: 'kol.sort.',
 		isDisabled: false,
@@ -35,6 +28,7 @@ const actions: TableAction[] = [
 		},
 	},
 	{
+		id: 'print',
 		icon: PrintIcon,
 		hint: 'drukuj',
 		isDisabled: false,
@@ -43,6 +37,7 @@ const actions: TableAction[] = [
 		},
 	},
 	{
+		id: 'excel',
 		icon: ExcelIcon,
 		hint: 'do excela',
 		isDisabled: false,
@@ -51,6 +46,7 @@ const actions: TableAction[] = [
 		},
 	},
 	{
+		id: 'add',
 		icon: AddIcon,
 		hint: 'dodaj',
 		isDisabled: false,

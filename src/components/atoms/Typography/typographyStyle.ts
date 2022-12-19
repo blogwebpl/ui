@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const StyledTypography = styled.div<{ component: string; userSelect?: string }>`
+export const StyledTypography = styled.div<{
+	component: string;
+	userSelect?: string;
+	width?: string;
+}>`
 	font-size: ${(props) => props.theme.typography[props.component].fontSize};
 	font-weight: ${(props) => props.theme.typography[props.component].fontWeight};
 	letter-spacing: ${(props) => props.theme.typography[props.component].letterSpacing};
@@ -10,4 +14,5 @@ export const StyledTypography = styled.div<{ component: string; userSelect?: str
 	display: inline-block;
 	margin: 0;
 	padding: 0;
+	width: ${(props) => (props.width ? props.width : 'auto')};
 `;
