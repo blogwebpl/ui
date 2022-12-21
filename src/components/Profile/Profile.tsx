@@ -3,11 +3,6 @@ import styled from 'styled-components';
 import { Card } from '../atoms/Card';
 import { Typography } from '../atoms/Typography';
 
-export interface SigninFormData {
-	email: string;
-	password: string;
-}
-
 const StyledEmailContainer = styled.div`
 	color: ${(props) => props.theme.palette.text.secondary};
 	display: flex;

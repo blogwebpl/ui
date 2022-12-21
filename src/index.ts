@@ -10,4 +10,6 @@ export * from './components/atoms/Main';
 export * from './components/atoms/Table';
 export * from './components/atoms/TextField';
 export * from './components/atoms/Theme';
+export * from './components/atoms/Select';
+export * from './components/Profile';
 export * from './components/SignIn';
