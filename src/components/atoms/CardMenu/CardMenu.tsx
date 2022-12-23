@@ -2,7 +2,10 @@ import { IconType } from 'react-icons';
 import styled from 'styled-components';
 
 const StyledUl = styled.ul`
+	padding: 0;
+	margin: 8px 0 8px 0;
 	li {
+		color: #000000;
 		list-style: none;
 		display: flex;
 		padding: 8px 0;
@@ -37,18 +40,18 @@ export interface MenuItem {
 }
 
 interface CardMenuProps {
-	options: MenuItem[];
+	items: MenuItem[];
 }
 
 export function CardMenu(props: CardMenuProps) {
 	return (
 		<StyledUl>
-			{props.options.map((option: any) => (
-				<li key={option.id} onClick={option.onClick}>
+			{props.items.map((item: any) => (
+				<li key={item.id} onClick={item.onClick}>
 					<StyledIconContainer>
-						<option.icon size={24} />
+						<item.icon size={24} />
 					</StyledIconContainer>
-					<StyledLabelContainer>{option.label}</StyledLabelContainer>
+					<StyledLabelContainer>{item.label}</StyledLabelContainer>
 				</li>
 			))}
 		</StyledUl>

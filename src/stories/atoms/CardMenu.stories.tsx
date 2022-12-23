@@ -2,7 +2,7 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { MdPerson as IconPerson, MdLock as IconLock } from 'react-icons/md';
-import { CardMenu } from '../../components/atoms/CardMenu';
+import { CardMenu, MenuItem } from '../../components/atoms/CardMenu';
 
 export default {
 	title: 'atoms/CardMenu',
@@ -10,13 +10,13 @@ export default {
 	args: {},
 } as ComponentMeta<typeof CardMenu>;
 
-const options = [
+const items: MenuItem[] = [
 	{ id: 'person', icon: IconPerson, label: 'Person Link', onClick: () => alert('Person') },
 	{ id: 'lock', icon: IconLock, label: 'Lock Link', onClick: () => alert('Lock') },
 ];
 
 const Template: ComponentStory<typeof CardMenu> = () => {
-	return <CardMenu options={options} />;
+	return <CardMenu items={items} />;
 };
 
 export const Default = Template.bind({});

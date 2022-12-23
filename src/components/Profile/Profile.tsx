@@ -1,7 +1,8 @@
-import { useState } from 'react';
-import { MdPerson as IconPerson } from 'react-icons/md';
+/* eslint-disable no-alert */
+import { MdPerson as IconPerson, MdMode as IconEdit, MdLock as IconLock } from 'react-icons/md';
 import styled from 'styled-components';
 import { Card } from '../atoms/Card';
+import { CardMenu, MenuItem } from '../atoms/CardMenu';
 import { FieldContainer } from '../atoms/FieldContainer';
 import { Select } from '../atoms/Select';
 import { Typography } from '../atoms/Typography';
@@ -18,32 +19,46 @@ const StyledEmailContainer = styled.div`
 	}
 `;
 
-export function Profile() {
-	const options = [
-		{ value: 'Admin', label: 'Admin' },
-		{ value: 'User', label: 'User' },
+interface Option {
+	value: string;
+	label: string;
+}
+
+interface ProfileProps {
+	roles: Option[];
+	role: Option;
+	onChange: (newRole: Option) => void;
+	email: string;
+	changePassword: () => void;
+	logout: () => void;
+}
+
+export function Profile(props: ProfileProps) {
+	const menuItems: MenuItem[] = [
+		{ id: 'changePassword', icon: IconEdit, label: 'Zmień hasło', onClick: props.changePassword },
+		{ id: 'lock', icon: IconLock, label: 'Wyloguj', onClick: props.logout },
 	];
-	const [value, setValue] = useState(options[0]);
 	return (
-		<Card padding minWidth="320px">
+		<Card padding minWidth="360px">
 			<Typography component="h6" userSelect="none" color="#000000">
 				Profil użytkownika
 			</Typography>
 			<StyledEmailContainer>
 				<IconPerson size={24} />
-				<span>test@example.com</span>
+				<span>{props.email}</span>
 			</StyledEmailContainer>
 			<FieldContainer>
 				<Select
 					label="Aktywna grupa"
-					options={options}
-					value={value}
-					onChange={setValue}
+					options={props.roles}
+					value={props.role}
+					onChange={props.onChange}
 					isMulti={false}
 					isClearable={false}
 					isRequired={true}
 				/>
 			</FieldContainer>
+			<CardMenu items={menuItems} />
 		</Card>
 	);
 }
