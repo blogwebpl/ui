@@ -18,6 +18,7 @@ export const defaultTheme = {
 		background: {
 			default: '#fff',
 			paper: '#ededed',
+			paperDark: '#cdcdcd',
 			alert: '#FFCDD1',
 		},
 		element: {
