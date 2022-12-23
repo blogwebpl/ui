@@ -4,6 +4,7 @@ export * from './components/atoms/Button';
 export * from './components/atoms/ButtonContainer';
 export * from './components/atoms/Card';
 export * from './components/atoms/CardMenu';
+export * from './components/Drawer';
 export * from './components/atoms/FieldContainer';
 export * from './components/atoms/Form';
 export * from './components/atoms/IconButton';

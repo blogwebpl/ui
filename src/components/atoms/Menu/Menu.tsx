@@ -74,7 +74,7 @@ interface MenuItemProps {
 	url: string | null;
 }
 
-export function MenuItem({
+function MenuItem({
 	id,
 	label,
 	Icon,
@@ -121,7 +121,7 @@ interface Item {
 	slug: string;
 }
 
-export function Menu(props: any) {
+export function Menu(props: { items: Item[] }) {
 	const [openedItem, setOpenedItem] = useState('');
 	return (
 		<StyledMenu className="menu">
