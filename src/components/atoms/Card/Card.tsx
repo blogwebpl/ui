@@ -22,7 +22,7 @@ const StyledCard = styled.div<StyledCardProps>`
 	color: ${(props) => props.theme.palette.element.primary.text};
 	display: inline-block;
 	padding: ${(props) => (props.padding ? '16px' : '0')};
-	width-min: min(calc(100% - 2rem), ${(props) => props.minWidth});
+	min-width: min(calc(100% - 2rem), ${(props) => props.minWidth});
 	margin-inline: auto;
 	box-sizing: border-box;
 `;

@@ -11,5 +11,6 @@ export * from './components/atoms/Table';
 export * from './components/atoms/TextField';
 export * from './components/atoms/Theme';
 export * from './components/atoms/Select';
+export * from './components/atoms/CardMenu';
 export * from './components/Profile';
 export * from './components/SignIn';

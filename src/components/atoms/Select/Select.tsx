@@ -8,6 +8,7 @@ const theme: ThemeConfig = (t: Theme) => {
 			...t.colors,
 			primary: '#3f51b5',
 			neutral30: 'rgba(0, 0, 0, 0.87)',
+			text: 'black',
 		},
 	};
 };
@@ -44,6 +45,7 @@ const Label = styled.label<{ isFloating?: boolean }>`
 interface SelectProps {
 	isMulti?: boolean;
 	isRequired?: boolean;
+	isClearable?: boolean;
 	label: string;
 	options: any;
 	value: { value: string; label: string }[] | { value: string; label: string } | null;
@@ -64,7 +66,7 @@ export function Select(props: SelectProps) {
 
 	return (
 		<ReactSelect
-			isClearable={true}
+			isClearable={props.isClearable}
 			theme={theme}
 			styles={styles}
 			value={props.value}
