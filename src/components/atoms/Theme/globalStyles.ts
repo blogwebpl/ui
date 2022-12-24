@@ -6,6 +6,8 @@ export const GlobalStyles = createGlobalStyle<{ theme: typeof defaultTheme }>`
 
 	html, body, #app, #root {
 		height: 100%;
+		margin:0;
+		padding:0;
 	}
 
 	body {
@@ -14,8 +16,8 @@ export const GlobalStyles = createGlobalStyle<{ theme: typeof defaultTheme }>`
 		font-size: ${(props) => props.theme.typography.fontSize.normal};
 		-webkit-font-smoothing: antialiased;
 		font-weight: ${(props) => props.theme.typography.fontWeightRegular};
-		margin: 0;
-		padding: 0
+		margin: 0 !important;
+		padding: 0 !important;
 	}
 	h6 {
 		display: inline-block;

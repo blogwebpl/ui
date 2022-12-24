@@ -9,7 +9,7 @@ export default {
 	args: {},
 } as ComponentMeta<typeof Menu>;
 
-const MenuItems = [
+const menuItems = [
 	{
 		id: 'settings',
 		icon: IconSettings,
@@ -40,7 +40,7 @@ const MenuItems = [
 const Template: ComponentStory<typeof Menu> = () => {
 	return (
 		<Router>
-			<Menu items={MenuItems} />
+			<Menu items={menuItems} />
 		</Router>
 	);
 };

@@ -113,7 +113,7 @@ export function Submenu({ children, isOpen, elements }: SubmenuProps) {
 	);
 }
 
-interface Item {
+export interface Item {
 	id: string;
 	icon: IconType;
 	label: string;
