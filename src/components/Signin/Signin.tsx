@@ -17,7 +17,8 @@ export interface SigninFormData {
 interface SignInProps {
 	logo?: string;
 	handleSubmit: ({ email, password }: SigninFormData) => void;
-	result?: any;
+	isLoading: boolean;
+	error: any;
 }
 
 export function SignIn(props: SignInProps) {
@@ -50,12 +51,12 @@ export function SignIn(props: SignInProps) {
 
 	let alertText = '';
 
-	switch (props.result?.error?.status) {
-		case 'FETCH_ERROR':
+	switch (props.error?.code) {
+		case 'ERR_NETWORK':
 			alertText = 'Brak komunikacji z serwerem.';
 			break;
 		default:
-			alertText = props.result?.error?.error || '';
+			alertText = props.error?.message || '';
 	}
 
 	return (
@@ -99,7 +100,7 @@ export function SignIn(props: SignInProps) {
 						label="ZALOGUJ SIĘ"
 						variant="primary"
 						type="submit"
-						isDisabled={props.result?.isLoading}
+						isDisabled={props.isLoading}
 					/>
 				</ButtonContainer>
 			</Form>
