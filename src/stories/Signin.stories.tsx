@@ -31,10 +31,6 @@ WithoutLogo.args = {
 
 export const WithAlert = Template.bind({});
 WithAlert.args = {
-	result: {
-		error: {
-			status: 'FETCH_ERROR',
-			error: '',
-		},
-	},
+	isLoading: false,
+	error: 'Brak komunikacji z serwerem.',
 };

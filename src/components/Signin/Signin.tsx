@@ -18,7 +18,7 @@ interface SignInProps {
 	logo?: string;
 	handleSubmit: ({ email, password }: SigninFormData) => void;
 	isLoading: boolean;
-	error: any;
+	error: string;
 }
 
 export function SignIn(props: SignInProps) {
@@ -49,23 +49,13 @@ export function SignIn(props: SignInProps) {
 		props.handleSubmit({ email, password });
 	};
 
-	let alertText = '';
-
-	switch (props.error?.code) {
-		case 'ERR_NETWORK':
-			alertText = 'Brak komunikacji z serwerem.';
-			break;
-		default:
-			alertText = props.error?.message || '';
-	}
-
 	return (
 		<Card padding minWidth="320px">
 			{props.logo && <Logo src={props.logo} />}
 			<Typography component="h6" userSelect="none" color="#000000">
 				Zaloguj się
 			</Typography>
-			<Form alertText={alertText} onSubmit={handleSubmit}>
+			<Form alertText={props.error} onSubmit={handleSubmit}>
 				<FieldContainer>
 					<TextField
 						id="email"
