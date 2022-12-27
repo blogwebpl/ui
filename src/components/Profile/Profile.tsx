@@ -38,6 +38,9 @@ export function Profile(props: ProfileProps) {
 		{ id: 'changePassword', icon: IconEdit, label: 'Zmień hasło', onClick: props.changePassword },
 		{ id: 'lock', icon: IconLock, label: 'Wyloguj', onClick: props.logout },
 	];
+	if (!props.role) {
+		return null;
+	}
 	return (
 		<Card padding minWidth="360px">
 			<Typography component="h6" userSelect="none" color="#000000">

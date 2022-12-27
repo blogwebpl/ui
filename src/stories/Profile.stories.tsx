@@ -30,7 +30,7 @@ const Template: ComponentStory<typeof Profile> = () => {
 	};
 
 	const handleLogout = () => {
-		alert('Change logout');
+		alert('Logout');
 	};
 
 	return (
