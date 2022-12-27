@@ -42,13 +42,18 @@ const Label = styled.label<{ isFloating?: boolean }>`
 	font-size: ${(props) => (props.isFloating ? `0.75rem` : `1rem`)};
 `;
 
+export interface SelectOption {
+	value: string;
+	label: string;
+}
+
 interface SelectProps {
 	isMulti?: boolean;
 	isRequired?: boolean;
 	isClearable?: boolean;
 	label: string;
 	options: any;
-	value: { value: string; label: string }[] | { value: string; label: string } | null;
+	value: SelectOption[] | SelectOption | null;
 	onChange: React.Dispatch<React.SetStateAction<any>>;
 }
 
