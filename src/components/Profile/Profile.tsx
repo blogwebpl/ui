@@ -26,7 +26,7 @@ interface Option {
 
 interface ProfileProps {
 	roles: Option[];
-	role: Option;
+	role: Option | null;
 	onChange: (newRole: Option) => void;
 	email: string;
 	changePassword: () => void;
