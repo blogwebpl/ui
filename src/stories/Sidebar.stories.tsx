@@ -24,7 +24,7 @@ const Template: ComponentStory<typeof Sidebar> = () => {
 				title="przewoznik.info"
 				setIsDrawerOpen={() => {}}
 				SidebarIcon={MdDirectionsCar}
-				isSideMenuOpen={isSidebarOpen}
+				isSidebarOpen={isSidebarOpen}
 				setIsSidebarOpen={setIsSidebarOpen}
 			/>
 			<Main isCovered={true} setIsDrawerOpen={() => {}} isDrawerOpen={false}>

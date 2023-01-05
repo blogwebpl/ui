@@ -51,7 +51,7 @@ const Template: ComponentStory<typeof Drawer> = () => {
 			<AppBar
 				handleProfileClick={() => {}}
 				isDrawerOpen={isDrawerOpen}
-				isSideMenuOpen={false}
+				isSidebarOpen={false}
 				isSignIn={true}
 				setIsDrawerOpen={setIsDrawerOpen}
 				setIsSidebarOpen={() => {}}

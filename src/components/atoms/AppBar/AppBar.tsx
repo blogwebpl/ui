@@ -22,7 +22,7 @@ interface AppBarProps {
 	/**
 	 * Menu on the right - state: true - open; false - close.
 	 */
-	isSideMenuOpen: boolean;
+	isSidebarOpen: boolean;
 	/**
 	 * Is user sign in ?
 	 */
@@ -34,7 +34,7 @@ interface AppBarProps {
 	/**
 	 * Set menu od the right state:  true - open; false - close.
 	 */
-	setIsSidebarOpen: (isSideMenuOpen: boolean) => void;
+	setIsSidebarOpen: (isSidebarOpen: boolean) => void;
 	/**
 	 *  Icon - control for sidbar
 	 */
@@ -49,6 +49,11 @@ export function AppBar(props: AppBarProps) {
 	const handleMenuIconClick = () => {
 		if (props.isSignIn) {
 			props.setIsDrawerOpen(!props.isDrawerOpen);
+		}
+	};
+	const handleSidebarIconClick = () => {
+		if (props.isSignIn) {
+			props.setIsSidebarOpen(!props.isSidebarOpen);
 		}
 	};
 	return (
@@ -74,11 +79,7 @@ export function AppBar(props: AppBarProps) {
 					ariaLabel="profile"
 					isDisabled={!props.isSignIn}
 					isLightColor={true}
-					onClick={() => {
-						if (props.isSignIn) {
-							props.handleProfileClick();
-						}
-					}}
+					onClick={() => {}}
 				>
 					{props.isSignIn ? <PersonIcon size={24} /> : <LockIcon size={24} />}
 				</IconButton>
@@ -87,11 +88,9 @@ export function AppBar(props: AppBarProps) {
 						label=""
 						data-label="sidebar"
 						isLightColor={true}
-						onClick={() => {
-							props.setIsSidebarOpen(!props.isSideMenuOpen);
-						}}
+						onClick={handleSidebarIconClick}
 					>
-						{props.isSideMenuOpen ? <CloseIcon size={24} /> : <props.SidebarIcon size={24} />}
+						{props.isSidebarOpen ? <CloseIcon size={24} /> : <props.SidebarIcon size={24} />}
 					</IconButton>
 				)}
 			</StyledIconContainer>

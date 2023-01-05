@@ -32,7 +32,7 @@ export const Default: ComponentStory<typeof AppBar> = (args) => {
 
 export const WithRightMenuIcon: ComponentStory<typeof AppBar> = (args) => {
 	const [isDrawerOpen, setIsDrawerOpen] = useState(args.isDrawerOpen);
-	const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 	return (
 		<AppBar
 			{...args}
@@ -40,8 +40,8 @@ export const WithRightMenuIcon: ComponentStory<typeof AppBar> = (args) => {
 			setIsDrawerOpen={setIsDrawerOpen}
 			isDrawerOpen={isDrawerOpen}
 			SidebarIcon={MdDirectionsCar}
-			isSideMenuOpen={isSideMenuOpen}
-			setIsSidebarOpen={setIsSideMenuOpen}
+			isSidebarOpen={isSidebarOpen}
+			setIsSidebarOpen={setIsSidebarOpen}
 		/>
 	);
 };
