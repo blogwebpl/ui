@@ -39,7 +39,7 @@ export const WithRightMenuIcon: ComponentStory<typeof AppBar> = (args) => {
 			handleProfileClick={() => {}}
 			setIsDrawerOpen={setIsDrawerOpen}
 			isDrawerOpen={isDrawerOpen}
-			sidebarIcon={<MdDirectionsCar size={24} />}
+			SidebarIcon={MdDirectionsCar}
 			isSideMenuOpen={isSideMenuOpen}
 			setIsSideMenuOpen={setIsSideMenuOpen}
 		/>
