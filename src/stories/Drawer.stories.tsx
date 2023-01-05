@@ -54,7 +54,7 @@ const Template: ComponentStory<typeof Drawer> = () => {
 				isSideMenuOpen={false}
 				isSignIn={true}
 				setIsDrawerOpen={setIsDrawerOpen}
-				setIsSideMenuOpen={() => {}}
+				setIsSidebarOpen={() => {}}
 				title={''}
 			/>
 			<Main isCovered={true} isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen}>

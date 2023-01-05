@@ -4,3 +4,4 @@ TODO:
 - tables
 - sidemenu
 - themes
+- devices list

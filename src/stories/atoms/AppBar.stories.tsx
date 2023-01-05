@@ -41,7 +41,7 @@ export const WithRightMenuIcon: ComponentStory<typeof AppBar> = (args) => {
 			isDrawerOpen={isDrawerOpen}
 			SidebarIcon={MdDirectionsCar}
 			isSideMenuOpen={isSideMenuOpen}
-			setIsSideMenuOpen={setIsSideMenuOpen}
+			setIsSidebarOpen={setIsSideMenuOpen}
 		/>
 	);
 };

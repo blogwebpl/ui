@@ -34,7 +34,7 @@ interface AppBarProps {
 	/**
 	 * Set menu od the right state:  true - open; false - close.
 	 */
-	setIsSideMenuOpen: (isSideMenuOpen: boolean) => void;
+	setIsSidebarOpen: (isSideMenuOpen: boolean) => void;
 	/**
 	 *  Icon - control for sidbar
 	 */
@@ -88,7 +88,7 @@ export function AppBar(props: AppBarProps) {
 						data-label="sidebar"
 						isLightColor={true}
 						onClick={() => {
-							props.setIsSideMenuOpen(!props.isSideMenuOpen);
+							props.setIsSidebarOpen(!props.isSideMenuOpen);
 						}}
 					>
 						{props.isSideMenuOpen ? <CloseIcon size={24} /> : <props.SidebarIcon size={24} />}
