@@ -1,3 +1,4 @@
+import { IconType } from 'react-icons';
 import {
 	MdClose as CloseIcon,
 	MdLock as LockIcon,
@@ -37,7 +38,7 @@ interface AppBarProps {
 	/**
 	 *  Icon - control for sidbar
 	 */
-	sidebarIcon?: React.ReactElement;
+	SidebarIcon?: IconType;
 	/**
 	 * Appbar title.
 	 */
@@ -81,7 +82,7 @@ export function AppBar(props: AppBarProps) {
 				>
 					{props.isSignIn ? <PersonIcon size={24} /> : <LockIcon size={24} />}
 				</IconButton>
-				{props.isSignIn && props.sidebarIcon && (
+				{props.isSignIn && props.SidebarIcon && (
 					<IconButton
 						label=""
 						data-label="sidebar"
@@ -90,7 +91,7 @@ export function AppBar(props: AppBarProps) {
 							props.setIsSideMenuOpen(!props.isSideMenuOpen);
 						}}
 					>
-						{props.isSideMenuOpen ? <CloseIcon size={24} /> : props.sidebarIcon}
+						{props.isSideMenuOpen ? <CloseIcon size={24} /> : <props.SidebarIcon size={24} />}
 					</IconButton>
 				)}
 			</StyledIconContainer>
