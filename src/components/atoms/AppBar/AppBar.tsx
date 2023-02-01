@@ -79,7 +79,7 @@ export function AppBar(props: AppBarProps) {
 					ariaLabel="profile"
 					isDisabled={!props.isLoggedin}
 					isLightColor={true}
-					onClick={() => {}}
+					onClick={props.handleProfileClick}
 				>
 					{props.isLoggedin ? <PersonIcon size={24} /> : <LockIcon size={24} />}
 				</IconButton>

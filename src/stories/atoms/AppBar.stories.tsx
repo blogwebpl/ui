@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { useState } from 'react';
 
@@ -23,7 +24,9 @@ export const Default: ComponentStory<typeof AppBar> = (args) => {
 	return (
 		<AppBar
 			{...args}
-			handleProfileClick={() => {}}
+			handleProfileClick={() => {
+				alert('profile');
+			}}
 			setIsDrawerOpen={setIsDrawerOpen}
 			isDrawerOpen={isDrawerOpen}
 		/>
@@ -36,7 +39,7 @@ export const WithRightMenuIcon: ComponentStory<typeof AppBar> = (args) => {
 	return (
 		<AppBar
 			{...args}
-			handleProfileClick={() => {}}
+			handleProfileClick={() => alert('profile')}
 			setIsDrawerOpen={setIsDrawerOpen}
 			isDrawerOpen={isDrawerOpen}
 			SidebarIcon={MdDirectionsCar}
