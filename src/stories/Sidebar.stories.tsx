@@ -20,7 +20,7 @@ const Template: ComponentStory<typeof Sidebar> = () => {
 			<AppBar
 				handleProfileClick={() => {}}
 				isDrawerOpen={false}
-				isLogin={true}
+				isLoggedin={true}
 				title="przewoznik.info"
 				setIsDrawerOpen={() => {}}
 				SidebarIcon={MdDirectionsCar}

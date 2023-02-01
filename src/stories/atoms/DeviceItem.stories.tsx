@@ -66,7 +66,7 @@ export const InSidebar: ComponentStory<typeof DeviceItem> = () => {
 			<AppBar
 				handleProfileClick={() => {}}
 				isDrawerOpen={false}
-				isLogin={true}
+				isLoggedin={true}
 				title="przewoznik.info"
 				setIsDrawerOpen={() => {}}
 				SidebarIcon={MdDirectionsCar}

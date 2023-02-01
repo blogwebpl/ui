@@ -26,7 +26,7 @@ interface AppBarProps {
 	/**
 	 * Is user sign in ?
 	 */
-	isLogin: boolean;
+	isLoggedin: boolean;
 	/**
 	 * Set Drawer state:  true - open; false - close.
 	 */
@@ -47,12 +47,12 @@ interface AppBarProps {
 
 export function AppBar(props: AppBarProps) {
 	const handleMenuIconClick = () => {
-		if (props.isLogin) {
+		if (props.isLoggedin) {
 			props.setIsDrawerOpen(!props.isDrawerOpen);
 		}
 	};
 	const handleSidebarIconClick = () => {
-		if (props.isLogin) {
+		if (props.isLoggedin) {
 			props.setIsSidebarOpen(!props.isSidebarOpen);
 		}
 	};
@@ -64,7 +64,7 @@ export function AppBar(props: AppBarProps) {
 				isLightColor={true}
 				margin="0 16px 0 -12px"
 				onClick={handleMenuIconClick}
-				isDisabled={!props.isLogin}
+				isDisabled={!props.isLoggedin}
 			>
 				{props.isDrawerOpen ? <CloseIcon size={24} /> : <MenuIcon size={24} />}
 			</IconButton>
@@ -77,13 +77,13 @@ export function AppBar(props: AppBarProps) {
 				<IconButton
 					label=""
 					ariaLabel="profile"
-					isDisabled={!props.isLogin}
+					isDisabled={!props.isLoggedin}
 					isLightColor={true}
 					onClick={() => {}}
 				>
-					{props.isLogin ? <PersonIcon size={24} /> : <LockIcon size={24} />}
+					{props.isLoggedin ? <PersonIcon size={24} /> : <LockIcon size={24} />}
 				</IconButton>
-				{props.isLogin && props.SidebarIcon && (
+				{props.isLoggedin && props.SidebarIcon && (
 					<IconButton
 						label=""
 						data-label="sidebar"
