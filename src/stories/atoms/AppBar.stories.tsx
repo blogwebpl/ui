@@ -10,11 +10,11 @@ export default {
 	args: {
 		title: 'przewoznik.info',
 		isDrawerOpen: false,
-		isSignIn: true,
+		isLogin: true,
 	},
 	argTypes: {
 		isDrawerOpen: { control: false },
-		isSignIn: { control: { type: 'boolean' } },
+		isLogin: { control: { type: 'boolean' } },
 	},
 } as ComponentMeta<typeof AppBar>;
 

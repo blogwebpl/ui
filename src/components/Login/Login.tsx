@@ -9,19 +9,19 @@ import { Logo } from '../atoms/Logo';
 import { TextField } from '../atoms/TextField';
 import { Typography } from '../atoms/Typography';
 
-export interface SigninFormData {
+export interface LoginFormData {
 	email: string;
 	password: string;
 }
 
-interface SignInProps {
+interface LoginProps {
 	logo?: string;
-	handleSubmit: ({ email, password }: SigninFormData) => void;
+	handleSubmit: ({ email, password }: LoginFormData) => void;
 	isLoading: boolean;
 	error: string;
 }
 
-export function SignIn(props: SignInProps) {
+export function Login(props: LoginProps) {
 	const emailRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
 	const rememberEmailRef = useRef<HTMLInputElement>(null);

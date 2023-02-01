@@ -15,5 +15,6 @@ export * from './components/atoms/Table';
 export * from './components/atoms/TextField';
 export * from './components/atoms/Theme';
 export * from './components/Profile';
-export * from './components/SignIn';
+export * from './components/Login';
 export * from './components/atoms/Sidebar';
+export * from './components/atoms/DeviceItem';

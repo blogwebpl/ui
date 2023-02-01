@@ -1,6 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { SignIn } from '../components/SignIn';
+import { Login } from '../components/Login';
 import logo from '../assets/logo.svg';
 import { Main } from '../components/atoms/Main';
 
@@ -9,15 +9,15 @@ const handleSubmit = ({ email, password }: { email: string; password: string }) 
 };
 
 export default {
-	title: 'SignIn',
-	component: SignIn,
+	title: 'Login',
+	component: Login,
 	args: { logo, handleSubmit, isLoading: false },
-} as ComponentMeta<typeof SignIn>;
+} as ComponentMeta<typeof Login>;
 
-const Template: ComponentStory<typeof SignIn> = (args) => {
+const Template: ComponentStory<typeof Login> = (args) => {
 	return (
 		<Main isCovered={true} isDrawerOpen={false} setIsDrawerOpen={() => {}}>
-			<SignIn {...args} />
+			<Login {...args} />
 		</Main>
 	);
 };

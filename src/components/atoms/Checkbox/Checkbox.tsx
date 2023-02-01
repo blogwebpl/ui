@@ -6,7 +6,7 @@ const StyledCheckbox = styled.label`
 	position: relative;
 	display: inline-block;
 	color: ${(props) => props.theme.palette.text.secondary};
-	font-size:${(props) => props.theme.typography.fontSize.normal};
+	font-size: ${(props) => props.theme.typography.fontSize.normal};
 	line-height: 1.6;
 	& > input {
 		appearance: none;
@@ -23,7 +23,7 @@ const StyledCheckbox = styled.label`
 		box-shadow: none;
 		outline: none;
 		opacity: 0;
-		
+
 		pointer-events: none;
 		transition: opacity 0.3s, transform 0.2s;
 	}
@@ -35,7 +35,6 @@ const StyledCheckbox = styled.label`
 	}
 
 	& > span::before {
-
 		content: '';
 		display: inline-block;
 		box-sizing: border-box;
@@ -96,12 +95,9 @@ const StyledCheckbox = styled.label`
 		${(props) => props.theme.opacity.actions.focus};
 	}
 
-
 	& > input:active + span::before {
 		border-color: ${(props) => props.theme.palette.element.accent.default};
 	}
-
-
 
 	& > input:disabled {
 		opacity: 0;
@@ -121,7 +117,7 @@ const StyledCheckbox = styled.label`
 		border-color: transparent;
 		background-color: currentColor;
 	}
-}`;
+`;
 
 interface CheckboxProps {
 	id?: string;
@@ -135,7 +131,7 @@ interface CheckboxProps {
 export function Checkbox(props: CheckboxProps) {
 	if (props.controlled)
 		return (
-			<StyledCheckbox>
+			<StyledCheckbox className="checkbox">
 				<input
 					type="checkbox"
 					checked={props.checked}
