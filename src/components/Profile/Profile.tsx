@@ -25,8 +25,8 @@ interface Option {
 }
 
 interface ProfileProps {
-	roles: Option[];
-	role: Option | null;
+	roles: Option[] | undefined;
+	role: Option | null | undefined;
 	onChange: (newRole: Option) => void;
 	email: string;
 	changePassword: () => void;
@@ -41,6 +41,9 @@ export function Profile(props: ProfileProps) {
 	if (!props.role) {
 		return null;
 	}
+	const options = props.roles || [];
+	const value = props.role || null;
+
 	return (
 		<Card padding minWidth="360px">
 			<Typography component="h6" userSelect="none" color="#000000">
@@ -53,8 +56,8 @@ export function Profile(props: ProfileProps) {
 			<FieldContainer>
 				<Select
 					label="Aktywna grupa"
-					options={props.roles}
-					value={props.role}
+					options={options}
+					value={value}
 					onChange={props.onChange}
 					isMulti={false}
 					isClearable={false}
