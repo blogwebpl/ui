@@ -37,7 +37,7 @@ export function ChangePassword(props: ChangePasswordProps) {
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const password1 = passwordRef1.current!.value;
-		const password2 = passwordRef1.current!.value;
+		const password2 = passwordRef2.current!.value;
 		if (!password1 || !password2) return;
 		props.onSubmit(password1, password2);
 	};
