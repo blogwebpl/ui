@@ -23,7 +23,7 @@ const StyledEmailContainer = styled.div`
 `;
 
 interface ChangePasswordProps {
-	onSubmit: (password: string) => void;
+	onSubmit: (password1: string, password2: string) => void;
 	onCancel: () => void;
 	email: string;
 	error: string;
@@ -39,7 +39,7 @@ export function ChangePassword(props: ChangePasswordProps) {
 		const password1 = passwordRef1.current!.value;
 		const password2 = passwordRef1.current!.value;
 		if (!password1 || !password2) return;
-		props.onSubmit(password1);
+		props.onSubmit(password1, password2);
 	};
 
 	return (
