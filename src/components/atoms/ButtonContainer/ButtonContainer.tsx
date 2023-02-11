@@ -4,6 +4,7 @@ const StyledButtonContainer = styled.div`
 	margin-top: 16px;
 	margin-bottom: 8px;
 	display: flex;
+	column-gap: 16px;
 `;
 
 interface ButtonContainerProps {

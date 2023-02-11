@@ -18,3 +18,4 @@ export * from './components/Profile';
 export * from './components/Login';
 export * from './components/atoms/Sidebar';
 export * from './components/atoms/DeviceItem';
+export * from './components/ChangePassword';
