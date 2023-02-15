@@ -71,8 +71,8 @@ export interface DeviceItemProps {
 	checked: boolean;
 	toggleChecked: any;
 	onClick: any;
-	center: boolean;
-	toggleCenter: any;
+	follow: boolean;
+	toggleFollow: any;
 }
 
 function IconBattery() {
@@ -107,9 +107,9 @@ export function DeviceItem(props: DeviceItemProps) {
 			</StyledDetailContainer>
 			<StyledIconsContainer>
 				<IconButton
-					color={props.center ? '#ff4080' : '#777777'}
+					color={props.follow ? '#ff4080' : '#777777'}
 					label=""
-					onClick={() => props.toggleCenter(props.vid)}
+					onClick={() => props.toggleFollow(props.vid)}
 				>
 					<IconCenter size={24} />
 				</IconButton>
