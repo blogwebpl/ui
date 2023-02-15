@@ -24,8 +24,8 @@ export const Default: ComponentStory<typeof DeviceItem> = () => {
 			checked={false}
 			toggleChecked={() => {}}
 			onClick={() => {}}
-			toggleCenter={() => {}}
-			center={false}
+			toggleFollow={() => {}}
+			follow={false}
 		/>
 	);
 };
@@ -85,8 +85,8 @@ export const InSidebar: ComponentStory<typeof DeviceItem> = () => {
 						checked={device.checked}
 						toggleChecked={handleToggleChecked}
 						onClick={(vid: string) => alert(vid)}
-						toggleCenter={handleToggleCenter}
-						center={device.center}
+						toggleFollow={handleToggleCenter}
+						follow={device.center}
 					/>
 				))}
 			</Sidebar>
