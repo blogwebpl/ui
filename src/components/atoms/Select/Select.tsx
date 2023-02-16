@@ -15,12 +15,15 @@ const theme: ThemeConfig = (t: Theme) => {
 
 const styles: StylesConfig = {
 	control: (baseStyles, state) => {
+		const { borderColor } = baseStyles;
 		return {
 			...baseStyles,
 			minHeight: 56,
-			paddingLeft: state.isFocused ? 8 : 9,
+			// paddingLeft: state.isFocused ? 8 : 9,
 			boxShadow: 'none',
-			borderWidth: state.isFocused ? 2 : 1,
+			// borderWidth: state.isFocused ? 2 : 1,
+			outline: state.isFocused ? '1px solid' : 'none',
+			outlineColor: borderColor,
 		};
 	},
 };

@@ -26,6 +26,7 @@ export const defaultTheme = {
 				default: '#3f51b5',
 				action: '#303F9F',
 				text: '#fff',
+				textDark: '#000',
 				border: '#3f51b5',
 			},
 			secondary: {

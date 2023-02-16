@@ -1,6 +1,8 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { useState } from 'react';
 import { MdSearch as SearchIcon } from 'react-icons/md';
+import { Card } from '../../components/atoms/Card';
+import { Main } from '../../components/atoms/Main';
 
 import { TextField } from '../../components/atoms/TextField';
 
@@ -24,7 +26,13 @@ export default {
 
 const Template: ComponentStory<typeof TextField> = (args) => {
 	const [value, setValue] = useState('');
-	return <TextField {...args} value={value || args.value} setValue={setValue} />;
+	return (
+		<Main isCovered={false} isDrawerOpen={false} setIsDrawerOpen={undefined}>
+			<Card minWidth="420px" padding={true}>
+				<TextField {...args} value={value || args.value} setValue={setValue} />
+			</Card>
+		</Main>
+	);
 };
 
 export const Text = Template.bind({});

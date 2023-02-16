@@ -38,9 +38,8 @@ export const StyledContainer = styled.fieldset<{ icon: boolean; slim?: boolean }
 	}
 	input:focus {
 		border-color: ${(props) => props.theme.palette.element.primary.default};
-		border-width: 2px;
-		outline: 0;
-		padding: 17px 12px;
+		outline: 1px solid;
+		outline-color: ${(props) => props.theme.palette.element.primary.default};
 		${(props) =>
 			props.slim &&
 			css`

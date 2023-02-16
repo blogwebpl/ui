@@ -1,5 +1,7 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { useState } from 'react';
+import { Card } from '../../components/atoms/Card';
+import { Main } from '../../components/atoms/Main';
 import { Select } from '../../components/atoms/Select';
 
 export default {
@@ -17,14 +19,22 @@ const options = [
 const Template: ComponentStory<typeof Select> = (args) => {
 	const [value, setValue] = useState(null);
 	return (
-		<Select
-			{...args}
-			label="Select Field"
-			isRequired={true}
-			options={options}
-			value={value}
-			onChange={setValue}
-		/>
+		<Main isCovered={false} isDrawerOpen={false} setIsDrawerOpen={undefined}>
+			<Card minWidth="420px" padding={true}>
+				<br />
+				<br />
+				<Select
+					{...args}
+					label="Select Field"
+					isRequired={true}
+					options={options}
+					value={value}
+					onChange={setValue}
+				/>
+				<br />
+				<br />
+			</Card>
+		</Main>
 	);
 };
 

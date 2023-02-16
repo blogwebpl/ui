@@ -19,7 +19,7 @@ const StyledCard = styled.div<StyledCardProps>`
 	background-color: ${(props) => props.theme.palette.background.default};
 	border-radius: ${(props) => props.theme.shape.borderRadious};
 	box-shadow: ${(props) => props.theme.shadows[2]};
-	color: ${(props) => props.theme.palette.element.primary.text};
+	color: ${(props) => props.theme.palette.element.primary.textDark};
 	display: inline-block;
 	padding: ${(props) => (props.padding ? '16px' : '0')};
 	min-width: min(calc(100% - 2rem), ${(props) => props.minWidth});
