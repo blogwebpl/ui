@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-alert */
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { useState } from 'react';
@@ -18,6 +19,7 @@ export default {
 export const Default: ComponentStory<typeof DeviceItem> = () => {
 	return (
 		<DeviceItem
+			id="123"
 			vid="m3"
 			name="Mazda"
 			time={new Date()}
@@ -34,7 +36,7 @@ export const Default: ComponentStory<typeof DeviceItem> = () => {
 
 const devicesList: Device[] = [
 	{
-		_id: '',
+		_id: '123',
 		vid: 'oa',
 		name: 'Opel',
 		time: new Date(),
@@ -46,7 +48,7 @@ const devicesList: Device[] = [
 		st: new Date(),
 	},
 	{
-		_id: '',
+		_id: '456',
 		vid: 'm3',
 		name: 'Mazda',
 		time: new Date(),
@@ -112,6 +114,7 @@ export const InSidebar: ComponentStory<typeof DeviceItem> = () => {
 						show={device.show}
 						time={device.time}
 						vid={device.vid}
+						id={device._id}
 					/>
 				))}
 			</Sidebar>
