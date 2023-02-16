@@ -69,13 +69,13 @@ export interface DeviceItemProps {
 	vid: string;
 	name: string;
 	time: Date;
-	handleNameClick: (vid: string) => void;
+	handleNameClick: (id: string) => void;
 	show: boolean;
-	handleShowClick: (vid: string) => void;
+	handleShowClick: (id: string, show: boolean) => void;
 	info: boolean;
-	handleInfoClick: (vid: string) => void;
+	handleInfoClick: (id: string, info: boolean) => void;
 	follow: boolean;
-	handleFollowClick: (vid: string) => void;
+	handleFollowClick: (id: string, follow: boolean) => void;
 	io?: { [key: string]: [number, number] };
 }
 
@@ -119,7 +119,7 @@ export function DeviceItem(props: DeviceItemProps) {
 				<Checkbox
 					controlled={true}
 					checked={props.show}
-					onChange={() => props.handleShowClick(props.id)}
+					onChange={() => props.handleShowClick(props.id, !props.show)}
 				/>
 			</StyledCheckboxContainer>
 			<StyledDetailContainer onClick={() => props.handleNameClick(props.id)}>
@@ -133,14 +133,14 @@ export function DeviceItem(props: DeviceItemProps) {
 				<IconButton
 					color={props.follow ? '#ff4080' : '#777777'}
 					label=""
-					onClick={() => props.handleFollowClick(props.id)}
+					onClick={() => props.handleFollowClick(props.id, !props.follow)}
 				>
 					<IconCenter size={24} />
 				</IconButton>
 				<IconButton
 					color={props.info ? '#ff4080' : '#777777'}
 					label=""
-					onClick={() => props.handleInfoClick(props.id)}
+					onClick={() => props.handleInfoClick(props.id, !props.info)}
 				>
 					<IconInformation size={24} />
 				</IconButton>
