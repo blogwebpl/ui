@@ -69,7 +69,7 @@ export interface DeviceItemProps {
 	vid: string;
 	name: string;
 	time: Date;
-	handleNameClick: (id: string) => void;
+	handleNameClick: (id: string, pos: [number, number]) => void;
 	show: boolean;
 	handleShowClick: (id: string, show: boolean) => void;
 	info: boolean;
@@ -77,6 +77,7 @@ export interface DeviceItemProps {
 	follow: boolean;
 	handleFollowClick: (id: string, follow: boolean) => void;
 	io?: { [key: string]: [number, number] };
+	pos: [number, number];
 }
 
 export interface Gps {
@@ -122,7 +123,7 @@ export function DeviceItem(props: DeviceItemProps) {
 					onChange={() => props.handleShowClick(props.id, !props.show)}
 				/>
 			</StyledCheckboxContainer>
-			<StyledDetailContainer onClick={() => props.handleNameClick(props.id)}>
+			<StyledDetailContainer onClick={() => props.handleNameClick(props.id, props.pos)}>
 				<div>
 					<span>{props.name}</span>
 					<br />

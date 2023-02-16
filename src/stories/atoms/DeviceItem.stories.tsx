@@ -30,6 +30,7 @@ export const Default: ComponentStory<typeof DeviceItem> = () => {
 			follow={false}
 			info={false}
 			handleInfoClick={() => {}}
+			pos={[18, 53]}
 		/>
 	);
 };
@@ -115,6 +116,7 @@ export const InSidebar: ComponentStory<typeof DeviceItem> = () => {
 						time={device.time}
 						vid={device.vid}
 						id={device._id}
+						pos={[18, 53]}
 					/>
 				))}
 			</Sidebar>
