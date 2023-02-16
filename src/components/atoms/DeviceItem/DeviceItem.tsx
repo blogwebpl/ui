@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import styled from 'styled-components';
 import { MdInfo as IconInformation, MdCenterFocusStrong as IconCenter } from 'react-icons/md';
 import dayjs from 'dayjs';
@@ -64,6 +65,7 @@ export const StyledSVG = styled.svg`
 `;
 
 export interface DeviceItemProps {
+	_id: string;
 	vid: string;
 	name: string;
 	time: Date;
@@ -117,10 +119,10 @@ export function DeviceItem(props: DeviceItemProps) {
 				<Checkbox
 					controlled={true}
 					checked={props.show}
-					onChange={() => props.handleShowClick(props.vid)}
+					onChange={() => props.handleShowClick(props._id)}
 				/>
 			</StyledCheckboxContainer>
-			<StyledDetailContainer onClick={() => props.handleNameClick(props.vid)}>
+			<StyledDetailContainer onClick={() => props.handleNameClick(props._id)}>
 				<div>
 					<span>{props.name}</span>
 					<br />
@@ -131,14 +133,14 @@ export function DeviceItem(props: DeviceItemProps) {
 				<IconButton
 					color={props.follow ? '#ff4080' : '#777777'}
 					label=""
-					onClick={() => props.handleFollowClick(props.vid)}
+					onClick={() => props.handleFollowClick(props._id)}
 				>
 					<IconCenter size={24} />
 				</IconButton>
 				<IconButton
 					color={props.info ? '#ff4080' : '#777777'}
 					label=""
-					onClick={() => props.handleInfoClick(props.vid)}
+					onClick={() => props.handleInfoClick(props._id)}
 				>
 					<IconInformation size={24} />
 				</IconButton>
