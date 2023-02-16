@@ -5,7 +5,7 @@ import { MdDirectionsCar } from 'react-icons/md';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AppBar } from '../../components/atoms/AppBar';
 
-import { DeviceItem } from '../../components/atoms/DeviceItem';
+import { Device, DeviceItem } from '../../components/atoms/DeviceItem';
 import { Main } from '../../components/atoms/Main';
 import { Sidebar } from '../../components/atoms/Sidebar';
 
@@ -20,44 +20,67 @@ export const Default: ComponentStory<typeof DeviceItem> = () => {
 		<DeviceItem
 			vid="m3"
 			name="Mazda"
-			date={new Date()}
-			checked={false}
-			toggleChecked={() => {}}
-			onClick={() => {}}
-			toggleFollow={() => {}}
+			time={new Date()}
+			show={false}
+			handleShowClick={() => {}}
+			handleNameClick={() => {}}
+			handleFollowClick={() => {}}
 			follow={false}
+			info={false}
+			handleInfoClick={() => {}}
 		/>
 	);
 };
 
-interface Device {
-	vid: string;
-	name: string;
-	date: Date;
-	checked: boolean;
-	center: boolean;
-}
-
 const devicesList: Device[] = [
-	{ vid: 'oa', name: 'Opel', date: new Date(), checked: false, center: false },
-	{ vid: 'm3', name: 'Mazda', date: new Date(), checked: false, center: false },
+	{
+		_id: '',
+		vid: 'oa',
+		name: 'Opel',
+		time: new Date(),
+		show: false,
+		follow: false,
+		info: false,
+		gps: {},
+		io: {},
+		st: new Date(),
+	},
+	{
+		_id: '',
+		vid: 'm3',
+		name: 'Mazda',
+		time: new Date(),
+		show: false,
+		follow: false,
+		info: false,
+		gps: {},
+		io: {},
+		st: new Date(),
+	},
 ];
 
 export const InSidebar: ComponentStory<typeof DeviceItem> = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 	const [devices, setDevices] = useState(devicesList);
 
-	const handleToggleChecked = (vid: string) => {
+	const handleShowClick = (vid: string) => {
 		const newDevices = [...devices];
 		const index = newDevices.findIndex((device) => device.vid === vid);
-		newDevices[index].checked = !newDevices[index].checked;
+		newDevices[index].show = !newDevices[index].show;
 		setDevices(newDevices);
 	};
 
-	const handleToggleCenter = (vid: string) => {
+	const handleFollowClick = (vid: string) => {
 		const newDevices = [...devices];
 		const index = newDevices.findIndex((device) => device.vid === vid);
-		newDevices[index].center = !newDevices[index].center;
+		newDevices[index].follow = !newDevices[index].follow;
+		setDevices(newDevices);
+	};
+
+	const handleInfoClick = (vid: string) => {
+		const newDevices = [...devices];
+		const index = newDevices.findIndex((device) => device.vid === vid);
+		newDevices[index].info = !newDevices[index].info;
 		setDevices(newDevices);
 	};
 
@@ -67,11 +90,11 @@ export const InSidebar: ComponentStory<typeof DeviceItem> = () => {
 				handleProfileClick={() => {}}
 				isDrawerOpen={false}
 				isLoggedin={true}
-				title="przewoznik.info"
-				setIsDrawerOpen={() => {}}
-				SidebarIcon={MdDirectionsCar}
 				isSidebarOpen={isSidebarOpen}
+				setIsDrawerOpen={() => {}}
 				setIsSidebarOpen={setIsSidebarOpen}
+				SidebarIcon={MdDirectionsCar}
+				title="przewoznik.info"
 			/>
 			<Main isCovered={true} setIsDrawerOpen={() => {}} isDrawerOpen={false}>
 				&nbsp;
@@ -79,14 +102,16 @@ export const InSidebar: ComponentStory<typeof DeviceItem> = () => {
 			<Sidebar isSidebarOpen={isSidebarOpen}>
 				{devices.map((device) => (
 					<DeviceItem
-						vid={device.vid}
+						follow={device.follow}
+						handleFollowClick={handleFollowClick}
+						handleInfoClick={handleInfoClick}
+						handleNameClick={(vid: string) => alert(vid)}
+						handleShowClick={handleShowClick}
+						info={device.info}
 						name={device.name}
-						date={device.date}
-						checked={device.checked}
-						toggleChecked={handleToggleChecked}
-						onClick={(vid: string) => alert(vid)}
-						toggleFollow={handleToggleCenter}
-						follow={device.center}
+						show={device.show}
+						time={device.time}
+						vid={device.vid}
 					/>
 				))}
 			</Sidebar>

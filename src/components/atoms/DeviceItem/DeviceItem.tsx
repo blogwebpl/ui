@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 import { MdInfo as IconInformation, MdCenterFocusStrong as IconCenter } from 'react-icons/md';
-import { useState } from 'react';
 import dayjs from 'dayjs';
 import { Checkbox } from '../Checkbox';
 import { IconButton } from '../IconButton';
 
-const StyledItem = styled.div<{ showInfo: boolean }>`
-	height: ${(props) => (props.showInfo ? '112px' : '56px')};
+const StyledItem = styled.div<{ info: boolean }>`
+	height: ${(props) => (props.info ? '112px' : '56px')};
 	width: auto;
 	border-bottom: 1px solid #808080;
 	display: flex;
@@ -67,12 +66,36 @@ export const StyledSVG = styled.svg`
 export interface DeviceItemProps {
 	vid: string;
 	name: string;
-	date: Date;
-	checked: boolean;
-	toggleChecked: any;
-	onClick: any;
+	time: Date;
+	handleNameClick: (vid: string) => void;
+	show: boolean;
+	handleShowClick: (vid: string) => void;
+	info: boolean;
+	handleInfoClick: (vid: string) => void;
 	follow: boolean;
-	toggleFollow: any;
+	handleFollowClick: (vid: string) => void;
+	io?: { [key: string]: [number, number] };
+}
+
+export interface Gps {
+	pos: [number, number];
+	alt: number;
+	ang: number;
+	sat: number;
+	spd: number;
+}
+
+export interface Device {
+	_id: string;
+	name: string;
+	show: boolean;
+	info: boolean;
+	follow: boolean;
+	vid: string;
+	gps: Gps | {};
+	io: { [key: string]: [number, number] };
+	st: Date;
+	time: Date;
 }
 
 function IconBattery() {
@@ -88,35 +111,34 @@ function IconBattery() {
 }
 
 export function DeviceItem(props: DeviceItemProps) {
-	const [showInfo, setShowInfo] = useState<boolean>(false);
 	return (
-		<StyledItem showInfo={showInfo} key={props.vid}>
+		<StyledItem info={props.info} key={props.vid}>
 			<StyledCheckboxContainer>
 				<Checkbox
 					controlled={true}
-					checked={props.checked}
-					onChange={() => props.toggleChecked(props.vid)}
+					checked={props.show}
+					onChange={() => props.handleShowClick(props.vid)}
 				/>
 			</StyledCheckboxContainer>
-			<StyledDetailContainer onClick={() => props.onClick(props.vid)}>
+			<StyledDetailContainer onClick={() => props.handleNameClick(props.vid)}>
 				<div>
 					<span>{props.name}</span>
 					<br />
-					<small>{props.date && dayjs(props.date).format('YYYY-MM-DD HH:mm:ss')}</small>
+					<small>{props.time && dayjs(props.time).format('YYYY-MM-DD HH:mm:ss')}</small>
 				</div>
 			</StyledDetailContainer>
 			<StyledIconsContainer>
 				<IconButton
 					color={props.follow ? '#ff4080' : '#777777'}
 					label=""
-					onClick={() => props.toggleFollow(props.vid)}
+					onClick={() => props.handleFollowClick(props.vid)}
 				>
 					<IconCenter size={24} />
 				</IconButton>
 				<IconButton
-					color={showInfo ? '#ff4080' : '#777777'}
+					color={props.info ? '#ff4080' : '#777777'}
 					label=""
-					onClick={() => setShowInfo(!showInfo)}
+					onClick={() => props.handleInfoClick(props.vid)}
 				>
 					<IconInformation size={24} />
 				</IconButton>
