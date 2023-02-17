@@ -45,7 +45,10 @@ const devicesList: Device[] = [
 		follow: false,
 		info: false,
 		gps: { pos: [18, 53], alt: 1, ang: 45, sat: 5, spd: 35 },
-		io: [[66, 12678]],
+		io: [
+			[1, 1],
+			[66, 12678],
+		],
 		st: new Date(),
 	},
 	{
@@ -57,7 +60,10 @@ const devicesList: Device[] = [
 		follow: false,
 		info: false,
 		gps: { pos: [18, 53], alt: 1, ang: 45, sat: 5, spd: 35 },
-		io: [[66, 12678]],
+		io: [
+			[1, 1],
+			[66, 12678],
+		],
 		st: new Date(),
 	},
 ];
@@ -66,23 +72,23 @@ export const InSidebar: ComponentStory<typeof DeviceItem> = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 	const [devices, setDevices] = useState(devicesList);
 
-	const handleShowClick = (vid: string) => {
+	const handleShowClick = (_id: string) => {
 		const newDevices = [...devices];
-		const index = newDevices.findIndex((device) => device.vid === vid);
+		const index = newDevices.findIndex((device) => device._id === _id);
 		newDevices[index].show = !newDevices[index].show;
 		setDevices(newDevices);
 	};
 
-	const handleFollowClick = (vid: string) => {
+	const handleFollowClick = (_id: string) => {
 		const newDevices = [...devices];
-		const index = newDevices.findIndex((device) => device.vid === vid);
+		const index = newDevices.findIndex((device) => device._id === _id);
 		newDevices[index].follow = !newDevices[index].follow;
 		setDevices(newDevices);
 	};
 
-	const handleInfoClick = (vid: string) => {
+	const handleInfoClick = (_id: string) => {
 		const newDevices = [...devices];
-		const index = newDevices.findIndex((device) => device.vid === vid);
+		const index = newDevices.findIndex((device) => device._id === _id);
 		newDevices[index].info = !newDevices[index].info;
 		setDevices(newDevices);
 	};
@@ -117,6 +123,7 @@ export const InSidebar: ComponentStory<typeof DeviceItem> = () => {
 						vid={device.vid}
 						id={device._id}
 						pos={[18, 53]}
+						io={device.io}
 					/>
 				))}
 			</Sidebar>

@@ -44,10 +44,12 @@ const StyledIconsContainer = styled.div`
 `;
 
 const StyledIOContainer = styled.div`
+	font-size: 12px;
 	flex-grow: 1;
 	height: 56px;
 	display: flex;
 	align-items: center;
+	font-weight: 400;
 `;
 
 const StyledBreak = styled.div`
@@ -76,7 +78,7 @@ export interface DeviceItemProps {
 	handleInfoClick: (id: string, info: boolean) => void;
 	follow: boolean;
 	handleFollowClick: (id: string, follow: boolean) => void;
-	io?: { [key: string]: [number, number] };
+	io?: [number, number][];
 	pos: [number, number];
 }
 
@@ -114,6 +116,8 @@ function IconBattery() {
 }
 
 export function DeviceItem(props: DeviceItemProps) {
+	const { io } = props;
+	const battery = io?.find((i) => i[0] === 66);
 	return (
 		<StyledItem info={props.info} key={props.vid}>
 			<StyledCheckboxContainer>
@@ -149,6 +153,8 @@ export function DeviceItem(props: DeviceItemProps) {
 			<StyledBreak />
 			<StyledIOContainer>
 				<IconBattery />
+				&nbsp;
+				{battery && Math.round(battery[1] / 10) / 100} V
 			</StyledIOContainer>
 		</StyledItem>
 	);
