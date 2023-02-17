@@ -45,7 +45,7 @@ const devicesList: Device[] = [
 		follow: false,
 		info: false,
 		gps: { pos: [18, 53], alt: 1, ang: 45, sat: 5, spd: 35 },
-		io: {},
+		io: [[66, 12678]],
 		st: new Date(),
 	},
 	{
@@ -57,7 +57,7 @@ const devicesList: Device[] = [
 		follow: false,
 		info: false,
 		gps: { pos: [18, 53], alt: 1, ang: 45, sat: 5, spd: 35 },
-		io: {},
+		io: [[66, 12678]],
 		st: new Date(),
 	},
 ];
