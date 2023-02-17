@@ -62,7 +62,7 @@ const devicesList: Device[] = [
 		gps: { pos: [18, 53], alt: 1, ang: 45, sat: 5, spd: 35 },
 		io: [
 			[1, 1],
-			[66, 12678],
+			[66, 12000],
 		],
 		st: new Date(),
 	},
