@@ -96,7 +96,7 @@ export interface Device {
 	follow: boolean;
 	vid: string;
 	gps: Gps;
-	io: { [key: string]: [number, number] };
+	io: [number, number][];
 	st: Date;
 	time: Date;
 }
