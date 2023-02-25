@@ -5,6 +5,7 @@ const StyledButton = styled.button<{
 	color?: string;
 	isLightColor?: boolean;
 	disabled?: boolean;
+	mobileInvisible: boolean;
 }>`
 	background-color: transparent;
 	border: 0;
@@ -12,6 +13,9 @@ const StyledButton = styled.button<{
 	color: ${(props) => props.color || props.theme.palette.element.primary.text};
 	cursor: pointer;
 	display: flex;
+	@media (max-width: 460px) {
+		display: ${(props) => (props.mobileInvisible ? 'none' : 'flex')};
+	}
 	margin: ${(props) => props.margin};
 	outline: 0;
 	padding: 12px;
@@ -76,6 +80,7 @@ interface IconButtonProps {
 	ariaLabel?: string;
 	margin?: string;
 	onClick?: () => void;
+	mobileInvisible?: boolean;
 }
 
 export function IconButton(props: IconButtonProps) {
@@ -89,6 +94,7 @@ export function IconButton(props: IconButtonProps) {
 			isLightColor={props.isLightColor}
 			onClick={props.onClick}
 			margin={props.margin}
+			mobileInvisible={!!props.mobileInvisible}
 		>
 			{props.children}
 		</StyledButton>
