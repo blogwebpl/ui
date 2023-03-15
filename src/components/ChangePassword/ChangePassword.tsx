@@ -43,7 +43,7 @@ export function ChangePassword(props: ChangePasswordProps) {
 	};
 
 	return (
-		<Card padding minWidth="360px">
+		<Card padding minWidth="320px">
 			<Typography component="h6" userSelect="none" color="#000000">
 				Zmiana hasła
 			</Typography>

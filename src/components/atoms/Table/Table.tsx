@@ -3,9 +3,10 @@ import styled from 'styled-components';
 import { MdSearch as SearchIcon } from 'react-icons/md';
 
 import { Card } from '../Card';
-import { IconButton } from '../IconButton';
+// import { IconButton } from '../IconButton';
 import { TextField } from '../TextField';
 import { Typography } from '../Typography';
+import { Tools } from '../Tools';
 
 const StyledHeader = styled.div`
 	display: flex;
@@ -77,7 +78,8 @@ function TableHeader(props: TableHeaderProps) {
 				<TextField label="" type="text" icon={SearchIcon} slim={true} />
 			</StyledFilterContainer>
 			<StyledIconContainer>
-				<div style={{ display: 'flex', width: 'auto', height: '48px' }}>
+				<Tools actions={props.actions} />
+				{/* <div style={{ display: 'flex', width: 'auto', height: '48px' }}>
 					{props.actions.map((action) => (
 						<IconButton
 							key={action.id}
@@ -89,7 +91,7 @@ function TableHeader(props: TableHeaderProps) {
 							<action.icon size={24} color="#757575" />
 						</IconButton>
 					))}
-				</div>
+				</div> */}
 			</StyledIconContainer>
 		</StyledHeader>
 	);

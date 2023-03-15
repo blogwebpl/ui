@@ -28,7 +28,7 @@ const styles: StylesConfig = {
 	},
 };
 
-const Label = styled.label<{ isFloating?: boolean }>`
+const Label = styled.label<{ isFloating?: boolean; hasValue?: boolean }>`
 	background: white;
 	padding: 0 5px;
 	pointer-events: none;
@@ -39,10 +39,10 @@ const Label = styled.label<{ isFloating?: boolean }>`
 		props.isFloating
 			? props.theme.palette.element.primary.default
 			: props.theme.palette.text.secondary};
-	top: ${(props) => (props.isFloating ? `-7px` : `19px`)};
-	left: ${(props) => (props.isFloating ? `8px` : `8px`)};
+	top: ${(props) => (props.isFloating || props.hasValue ? `-7px` : `19px`)};
+	left: ${(props) => (props.isFloating || props.hasValue ? `8px` : `8px`)};
 
-	font-size: ${(props) => (props.isFloating ? `0.75rem` : `1rem`)};
+	font-size: ${(props) => (props.isFloating || props.hasValue ? `0.75rem` : `1rem`)};
 `;
 
 export interface SelectOption {
@@ -64,7 +64,7 @@ export function Select(props: SelectProps) {
 	const Control = (controlProps: any) => {
 		return (
 			<>
-				<Label isFloating={controlProps.isFocused || controlProps.hasValue}>
+				<Label isFloating={controlProps.isFocused} hasValue={controlProps.hasValue}>
 					{props.label} {props.isRequired ? '*' : ''}
 				</Label>
 				<components.Control {...controlProps} />

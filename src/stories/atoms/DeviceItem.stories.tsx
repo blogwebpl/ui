@@ -6,9 +6,10 @@ import { MdDirectionsCar } from 'react-icons/md';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AppBar } from '../../components/atoms/AppBar';
 
-import { Device, DeviceItem } from '../../components/atoms/DeviceItem';
+import { DeviceItem } from '../../components/atoms/DeviceItem';
 import { Main } from '../../components/atoms/Main';
 import { Sidebar } from '../../components/atoms/Sidebar';
+import { devicesList } from './devicesList';
 
 export default {
 	title: 'atoms/DeviceItem',
@@ -34,39 +35,6 @@ export const Default: ComponentStory<typeof DeviceItem> = () => {
 		/>
 	);
 };
-
-const devicesList: Device[] = [
-	{
-		_id: '123',
-		vid: 'oa',
-		name: 'Opel',
-		time: new Date(),
-		show: false,
-		follow: false,
-		info: false,
-		gps: { pos: [18, 53], alt: 1, ang: 45, sat: 5, spd: 35 },
-		io: [
-			[1, 1],
-			[66, 12678],
-		],
-		st: new Date(),
-	},
-	{
-		_id: '456',
-		vid: 'm3',
-		name: 'Mazda',
-		time: new Date(),
-		show: false,
-		follow: false,
-		info: false,
-		gps: { pos: [18, 53], alt: 1, ang: 45, sat: 5, spd: 35 },
-		io: [
-			[1, 1],
-			[66, 12000],
-		],
-		st: new Date(),
-	},
-];
 
 export const InSidebar: ComponentStory<typeof DeviceItem> = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(true);

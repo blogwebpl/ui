@@ -19,3 +19,5 @@ export * from './components/Login';
 export * from './components/atoms/Sidebar';
 export * from './components/atoms/DeviceItem';
 export * from './components/ChangePassword';
+export * from './components/atoms/PlayerSettings';
+export * from './components/atoms/Tools';
