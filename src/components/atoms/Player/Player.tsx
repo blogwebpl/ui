@@ -12,7 +12,7 @@ import styled from 'styled-components';
 import { IconButton } from '../IconButton';
 
 const StyledPlayer = styled.div`
-	max-width: 432;
+	max-width: 432px;
 	height: 100px;
 	background: white;
 	padding: 4px 48px;
@@ -40,6 +40,7 @@ const StyledRightText = styled.div``;
 
 const StyledControl = styled.div`
 	display: flex;
+	justify-content: space-around;
 	margin: 4px 0 8px 0;
 `;
 
