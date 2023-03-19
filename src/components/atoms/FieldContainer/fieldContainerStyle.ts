@@ -12,7 +12,7 @@ export const StyledMultiContainer = styled.div`
 	padding: 16px 0 8px 0;
 	display: flex;
 	column-gap: 16px;
-	@media (max-width: 320px) {
+	@media (max-width: 360px) {
 		flex-direction: column;
 		row-gap: 24px;
 	}
