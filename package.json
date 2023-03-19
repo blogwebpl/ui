@@ -1,6 +1,6 @@
 {
 	"name": "@blogwebpl/ui",
-	"version": "0.0.58",
+	"version": "0.0.59",
 	"description": "",
 	"main": "./dist/cjs/index.js",
 	"module": "./dist/esm/index.js",

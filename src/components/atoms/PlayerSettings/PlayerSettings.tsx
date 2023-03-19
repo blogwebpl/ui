@@ -6,6 +6,7 @@ import { Device } from '../DeviceItem';
 import { FieldContainer } from '../FieldContainer';
 import { Select, SelectOption } from '../Select';
 import { TextField } from '../TextField';
+import { Typography } from '../Typography';
 
 interface PlayerSettingsProps {
 	devices: Device[];
@@ -31,6 +32,9 @@ export function PlayerSettings({ devices }: PlayerSettingsProps) {
 
 	return (
 		<Card minWidth="320px" padding>
+			<Typography component="h6" userSelect="none" color="#000000">
+				Ustawienia trasy
+			</Typography>
 			<FieldContainer isMulti>
 				<TextField
 					label="Od:"
