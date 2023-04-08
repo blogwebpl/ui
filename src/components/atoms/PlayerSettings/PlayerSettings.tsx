@@ -23,7 +23,7 @@ const todayEnd = new Date(
 	Date.UTC(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59)
 );
 
-export function PlayerSettings({ devices }: PlayerSettingsProps) {
+export function PlayerSettings({ devices, onLoad, onClose, onCancel }: PlayerSettingsProps) {
 	const options: SelectOption[] = devices
 		.map((device) => ({
 			label: device.name,
@@ -58,11 +58,11 @@ export function PlayerSettings({ devices }: PlayerSettingsProps) {
 				/>
 			</FieldContainer>
 			<ButtonContainer>
-				<Button label="Zakończ" variant="secondary" />
-				<Button label="Anuluj" variant="primary" />
+				<Button label="Zakończ" variant="secondary" onClick={onClose} />
+				<Button label="Anuluj" variant="primary" onClick={onCancel} />
 			</ButtonContainer>
 			<ButtonContainer>
-				<Button label="Wczytaj" variant="accent" />
+				<Button label="Wczytaj" variant="accent" onClick={onLoad} />
 			</ButtonContainer>
 		</Card>
 	);
