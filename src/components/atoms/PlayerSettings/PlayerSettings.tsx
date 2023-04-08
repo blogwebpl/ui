@@ -10,6 +10,9 @@ import { Typography } from '../Typography';
 
 interface PlayerSettingsProps {
 	devices: Device[];
+	onLoad: () => void;
+	onClose: () => void;
+	onCancel: () => void;
 }
 
 const today = new Date();

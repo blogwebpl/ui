@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { Main } from '../../components/atoms/Main';
 import { devicesList } from './devicesList';
@@ -12,7 +13,18 @@ export default {
 const Template: ComponentStory<typeof PlayerSettings> = () => {
 	return (
 		<Main isCovered={false} isDrawerOpen={false} setIsDrawerOpen={undefined}>
-			<PlayerSettings devices={devicesList} />
+			<PlayerSettings
+				devices={devicesList}
+				onLoad={() => {
+					alert('on load');
+				}}
+				onCancel={() => {
+					alert('on cancel');
+				}}
+				onClose={() => {
+					alert('on close');
+				}}
+			/>
 		</Main>
 	);
 };
