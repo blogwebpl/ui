@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Button } from '../Button';
 import { ButtonContainer } from '../ButtonContainer';
 import { Card } from '../Card';
@@ -10,10 +10,13 @@ import { Typography } from '../Typography';
 
 interface PlayerSettingsProps {
 	devices: Device[];
-	onLoad: () => void;
+	onLoad: ({ vid, dateFrom, dateTo }: { vid: string; dateFrom: string; dateTo: string }) => void;
 	onClose: () => void;
 	onCancel: () => void;
 }
+
+const dateFromRef = useRef<HTMLInputElement>(null);
+const dateToRef = useRef<HTMLInputElement>(null);
 
 const today = new Date();
 const todayStart = new Date(
@@ -31,7 +34,7 @@ export function PlayerSettings({ devices, onLoad, onClose, onCancel }: PlayerSet
 		}))
 		.sort((device1, device2) => (device1.label < device2.label ? -1 : 1));
 
-	const [value, setValue] = useState<SelectOption | null>(options ? options[0] : null);
+	const [device, setDevice] = useState<SelectOption | null>(options ? options[0] : null);
 
 	return (
 		<Card minWidth="320px" padding>
@@ -43,15 +46,21 @@ export function PlayerSettings({ devices, onLoad, onClose, onCancel }: PlayerSet
 					label="Od:"
 					type="datetime-local"
 					value={todayStart.toISOString().slice(0, 16)}
+					forwardedRef={dateFromRef}
 				/>
-				<TextField label="Do:" type="datetime-local" value={todayEnd.toISOString().slice(0, 16)} />
+				<TextField
+					label="Do:"
+					type="datetime-local"
+					value={todayEnd.toISOString().slice(0, 16)}
+					forwardedRef={dateToRef}
+				/>
 			</FieldContainer>
 			<FieldContainer>
 				<Select
 					label="Pojazd"
 					options={options}
-					value={value}
-					onChange={setValue}
+					value={device}
+					onChange={setDevice}
 					isMulti={false}
 					isClearable={false}
 					isRequired={true}
@@ -62,7 +71,16 @@ export function PlayerSettings({ devices, onLoad, onClose, onCancel }: PlayerSet
 				<Button label="Anuluj" variant="primary" onClick={onCancel} />
 			</ButtonContainer>
 			<ButtonContainer>
-				<Button label="Wczytaj" variant="accent" onClick={onLoad} />
+				<Button
+					label="Wczytaj"
+					variant="accent"
+					onClick={() => {
+						const vid = device?.value || '';
+						const dateFrom = dateFromRef.current!.value;
+						const dateTo = dateToRef.current!.value;
+						onLoad({ vid, dateFrom, dateTo });
+					}}
+				/>
 			</ButtonContainer>
 		</Card>
 	);
