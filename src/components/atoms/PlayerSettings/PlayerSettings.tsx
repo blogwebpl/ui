@@ -15,9 +15,6 @@ interface PlayerSettingsProps {
 	onCancel: () => void;
 }
 
-const dateFromRef = useRef<HTMLInputElement>(null);
-const dateToRef = useRef<HTMLInputElement>(null);
-
 const today = new Date();
 const todayStart = new Date(
 	Date.UTC(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0)
@@ -27,6 +24,9 @@ const todayEnd = new Date(
 );
 
 export function PlayerSettings({ devices, onLoad, onClose, onCancel }: PlayerSettingsProps) {
+	const dateFromRef = useRef<HTMLInputElement>(null);
+	const dateToRef = useRef<HTMLInputElement>(null);
+
 	const options: SelectOption[] = devices
 		.map((device) => ({
 			label: device.name,
