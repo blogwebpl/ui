@@ -18,7 +18,7 @@ interface AppBarProps {
 	/**
 	 * Action on 'Action Icon' click.
 	 */
-	handleActionClick: () => void;
+	handleActionClick?: () => void;
 	/**
 	 * Drawer state: true - open; false - close.
 	 */

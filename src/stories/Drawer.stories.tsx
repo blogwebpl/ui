@@ -1,7 +1,9 @@
+/* eslint-disable no-alert */
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { MdSettings as IconSettings, MdMap as IconMap } from 'react-icons/md';
 import { useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { TbRoad } from 'react-icons/tb';
 import { Drawer } from '../components/Drawer';
 import { Item } from '../components/atoms/Menu';
 import { Main } from '../components/atoms/Main';
@@ -56,6 +58,10 @@ const Template: ComponentStory<typeof Drawer> = () => {
 				setIsDrawerOpen={setIsDrawerOpen}
 				setIsSidebarOpen={() => {}}
 				title={''}
+				ActionIcon={TbRoad}
+				handleActionClick={() => {
+					alert('action');
+				}}
 			/>
 			<Main isCovered={true} isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen}>
 				&nbsp;

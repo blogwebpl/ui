@@ -4,6 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { useState } from 'react';
 import { MdDirectionsCar } from 'react-icons/md';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { TbRoad } from 'react-icons/tb';
 import { AppBar } from '../../components/atoms/AppBar';
 
 import { DeviceItem } from '../../components/atoms/DeviceItem';
@@ -72,6 +73,10 @@ export const InSidebar: ComponentStory<typeof DeviceItem> = () => {
 				setIsSidebarOpen={setIsSidebarOpen}
 				SidebarIcon={MdDirectionsCar}
 				title="przewoznik.info"
+				ActionIcon={TbRoad}
+				handleActionClick={() => {
+					alert('action');
+				}}
 			/>
 			<Main isCovered={true} setIsDrawerOpen={() => {}} isDrawerOpen={false}>
 				&nbsp;
