@@ -3,6 +3,8 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { useState } from 'react';
 
 import { MdDirectionsCar } from 'react-icons/md';
+import { TbRoad } from 'react-icons/tb';
+
 import { AppBar } from '../../components/atoms/AppBar';
 
 export default {
@@ -45,6 +47,10 @@ export const WithRightMenuIcon: ComponentStory<typeof AppBar> = (args) => {
 			SidebarIcon={MdDirectionsCar}
 			isSidebarOpen={isSidebarOpen}
 			setIsSidebarOpen={setIsSidebarOpen}
+			ActionIcon={TbRoad}
+			handleActionClick={() => {
+				alert('action');
+			}}
 		/>
 	);
 };

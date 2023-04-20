@@ -16,6 +16,10 @@ interface AppBarProps {
 	 */
 	handleProfileClick: () => void;
 	/**
+	 * Action on 'Action Icon' click.
+	 */
+	handleActionClick: () => void;
+	/**
 	 * Drawer state: true - open; false - close.
 	 */
 	isDrawerOpen: boolean;
@@ -39,6 +43,10 @@ interface AppBarProps {
 	 *  Icon - control for sidbar
 	 */
 	SidebarIcon?: IconType;
+	/**
+	 *  Icon - control for action
+	 */
+	ActionIcon?: IconType;
 	/**
 	 * Appbar title.
 	 */
@@ -83,6 +91,18 @@ export function AppBar(props: AppBarProps) {
 				>
 					{props.isLoggedin ? <PersonIcon size={24} /> : <LockIcon size={24} />}
 				</IconButton>
+
+				{props.isLoggedin && props.ActionIcon && (
+					<IconButton
+						label=""
+						ariaLabel="action"
+						isLightColor={true}
+						onClick={props.handleActionClick}
+					>
+						<props.ActionIcon size={24} />
+					</IconButton>
+				)}
+
 				{props.isLoggedin && props.SidebarIcon && (
 					<IconButton
 						label=""
