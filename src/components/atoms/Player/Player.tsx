@@ -72,7 +72,7 @@ export function Player({
 			<StyledControl>
 				<IconButton
 					color="#000000"
-					label="start"
+					label=""
 					ariaLabel="start"
 					onClick={() => onButtonClick('SkipPrevious')}
 				>
@@ -80,7 +80,7 @@ export function Player({
 				</IconButton>
 				<IconButton
 					color="#000000"
-					label="poprzedni"
+					label=""
 					ariaLabel="poprzedni"
 					mobileInvisible
 					onClick={() => onButtonClick('FastRewind')}
@@ -89,7 +89,7 @@ export function Player({
 				</IconButton>
 				<IconButton
 					color="#000000"
-					label="pauza"
+					label=""
 					ariaLabel="pauza"
 					onClick={() => onButtonClick('Pause')}
 				>
@@ -97,7 +97,7 @@ export function Player({
 				</IconButton>
 				<IconButton
 					color="#000000"
-					label="odtwórz"
+					label=""
 					ariaLabel="odtwórz"
 					onClick={() => onButtonClick('Play')}
 				>
@@ -105,7 +105,7 @@ export function Player({
 				</IconButton>
 				<IconButton
 					color="#000000"
-					label="następny"
+					label=""
 					ariaLabel="następny"
 					mobileInvisible
 					onClick={() => onButtonClick('FastForward')}
@@ -114,7 +114,7 @@ export function Player({
 				</IconButton>
 				<IconButton
 					color="#000000"
-					label="koniec"
+					label=""
 					ariaLabel="koniec"
 					onClick={() => onButtonClick('SkipNext')}
 				>
@@ -122,7 +122,7 @@ export function Player({
 				</IconButton>{' '}
 				<IconButton
 					color="#000000"
-					label="opcje"
+					label=""
 					ariaLabel="opcje"
 					onClick={() => onButtonClick('Eject')}
 				>
