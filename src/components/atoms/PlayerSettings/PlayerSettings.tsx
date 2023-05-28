@@ -12,7 +12,6 @@ interface PlayerSettingsProps {
 	devices: Device[];
 	onLoad: ({ vid, dateFrom, dateTo }: { vid: string; dateFrom: string; dateTo: string }) => void;
 	onClose: () => void;
-	onCancel: () => void;
 }
 
 const today = new Date();
@@ -23,7 +22,7 @@ const todayEnd = new Date(
 	Date.UTC(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59)
 );
 
-export function PlayerSettings({ devices, onLoad, onClose, onCancel }: PlayerSettingsProps) {
+export function PlayerSettings({ devices, onLoad, onClose }: PlayerSettingsProps) {
 	const dateFromRef = useRef<HTMLInputElement>(null);
 	const dateToRef = useRef<HTMLInputElement>(null);
 
@@ -67,10 +66,7 @@ export function PlayerSettings({ devices, onLoad, onClose, onCancel }: PlayerSet
 				/>
 			</FieldContainer>
 			<ButtonContainer>
-				<Button label="Zakończ" variant="secondary" onClick={onClose} />
-				<Button label="Anuluj" variant="primary" onClick={onCancel} />
-			</ButtonContainer>
-			<ButtonContainer>
+				<Button label="Zakończ" variant="primary" onClick={onClose} />
 				<Button
 					label="Wczytaj"
 					variant="accent"

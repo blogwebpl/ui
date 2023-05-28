@@ -18,9 +18,6 @@ const Template: ComponentStory<typeof PlayerSettings> = () => {
 				onLoad={() => {
 					alert('on load');
 				}}
-				onCancel={() => {
-					alert('on cancel');
-				}}
 				onClose={() => {
 					alert('on close');
 				}}
