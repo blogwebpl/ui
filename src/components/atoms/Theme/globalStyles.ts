@@ -27,7 +27,9 @@ export const GlobalStyles = createGlobalStyle<{ theme: typeof defaultTheme }>`
 	h6,
 	p,
 	ol,
-	ul {
+	ul, 
+	div,
+	span {
 		margin: 0;
 		padding: 0;
 		font-size: 1.6rem;

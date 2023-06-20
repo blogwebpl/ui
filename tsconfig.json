@@ -13,7 +13,7 @@
 			"dom",
 			"esnext"
 		],
-		"declaration": true,
+		"declaration": false,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"importHelpers": true,
