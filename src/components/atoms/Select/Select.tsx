@@ -10,6 +10,7 @@ const theme: ThemeConfig = (t: Theme) => {
 			neutral30: 'rgba(0, 0, 0, 0.87)',
 			text: 'black',
 		},
+		fontSize: '1.6rem',
 	};
 };
 
