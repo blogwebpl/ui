@@ -30,7 +30,7 @@ const styles: StylesConfig = {
 
 const Label = styled.label<{ isFloating?: boolean; hasValue?: boolean }>`
 	background: white;
-	padding: 0 5px;
+	padding: 0 0.5rem;
 	pointer-events: none;
 	position: absolute;
 	transition: 0.2s ease all;
@@ -39,10 +39,10 @@ const Label = styled.label<{ isFloating?: boolean; hasValue?: boolean }>`
 		props.isFloating
 			? props.theme.palette.element.primary.default
 			: props.theme.palette.text.secondary};
-	top: ${(props) => (props.isFloating || props.hasValue ? `-7px` : `19px`)};
-	left: ${(props) => (props.isFloating || props.hasValue ? `8px` : `8px`)};
+	top: ${(props) => (props.isFloating || props.hasValue ? `-0.7rem` : `1.9rem`)};
+	left: 0.8rem;
 
-	font-size: ${(props) => (props.isFloating || props.hasValue ? `0.75rem` : `1rem`)};
+	font-size: ${(props) => (props.isFloating || props.hasValue ? `1.2rem` : `1.6rem`)};
 `;
 
 export interface SelectOption {

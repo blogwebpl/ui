@@ -61,7 +61,7 @@ export const defaultTheme = {
 	typography: {
 		fontFamily: '"Roboto", "Helvetica", "Arial", sans-ServiceUIFrameContext',
 		fontSize: {
-			normal: '1em',
+			normal: '1.6rem',
 		},
 		fontWeightLight: '300',
 		fontWeightRegular: '400',
@@ -69,15 +69,15 @@ export const defaultTheme = {
 		fontWeightBold: '700',
 		h6: {
 			fontWeight: '500',
-			fontSize: '1.25em',
+			fontSize: '2rem',
 			lineHeight: '1.6',
-			letterSpacing: '0.0075em',
+			letterSpacing: '0.012rem',
 		},
 		subtitle1: {
 			fontWeight: '500',
 			fontSize: '1em',
 			lineHeight: '1.25',
-			letterSpacing: '0.15em',
+			letterSpacing: '0.24rem',
 		},
 	},
 };

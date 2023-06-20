@@ -16,12 +16,12 @@ const StyledHeader = styled.div`
 `;
 
 export const StyledTitleContainer = styled.div`
-	height: 64px;
+	height: 6.4rem;
 	width: 100%;
 	box-sizing: border-box;
-	padding-top: 16px;
-	padding-left: 16px;
-	padding-right: 16px;
+	padding-top: 1.6rem;
+	padding-left: 1.6rem;
+	padding-right: 1.6rem;
 	flex: 1;
 `;
 export const StyledFilterContainer = styled.div`
