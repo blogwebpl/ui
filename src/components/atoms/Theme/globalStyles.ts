@@ -4,10 +4,13 @@ import { defaultTheme } from './themes';
 
 export const GlobalStyles = createGlobalStyle<{ theme: typeof defaultTheme }>`
 
+	html {
+		font-size: 62.5%;
+	}
+
 	html, body, #app, #root {
 		box-sizing: border-box;
 		height: 100%;
-		font-size: 62.5%;
 		margin:0;
 		padding:0;
 	}
