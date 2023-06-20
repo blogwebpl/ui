@@ -47,6 +47,8 @@ export const defaultTheme = {
 			secondary: 'rgba(0, 0, 0, 0.54)',
 			hint: 'rgba(0, 0, 0, 0.38)',
 			alert: '#e91e63',
+			menuPrimary: '#444444',
+			menuSecondary: '#7D7D7d',
 		},
 	},
 	shadows: [

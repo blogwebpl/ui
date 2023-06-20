@@ -60,6 +60,7 @@ const StyledCheckbox = styled.label`
 		border-right: none;
 		border-top: none;
 		transform: translate(3px, 4px) rotate(-45deg);
+		box-sizing: content-box;
 	}
 
 	& > input:checked,

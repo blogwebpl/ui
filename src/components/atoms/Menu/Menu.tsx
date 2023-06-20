@@ -1,23 +1,26 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { MdChevronRight as IconRight } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
+import { MdArrowRight as IconRight } from 'react-icons/md';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { IconType } from 'react-icons';
 
-const StyledMenu = styled.div`
-	margin: 0;
-	padding: 8px 0;
+const StyledMenu = styled.ul`
+	li {
+		border-bottom: 0.1rem solid #eeeeee;
+		padding: 0.8rem;
+	}
 `;
 
 const StyledSubmenu = styled.div<{ isOpen: boolean; elements: number }>`
-	font-size: 14px;
+	font-size: 1.4rem;
 	height: auto;
-	max-height: ${(props) => (props.isOpen ? `${44 * props.elements}px` : '0')};
+	max-height: ${(props) => (props.isOpen ? `${4.4 * props.elements}rem` : '0')};
 	overflow: hidden;
-	transition: max-height 0.35s ease-out;
 	a {
 		text-decoration: none;
 	}
+	opacity: ${(props) => (props.isOpen ? '1' : '0')};
+	transition: opacity 0.25s ease-out, max-height 0.25s ease-out;
 `;
 
 interface SubmenuProps {
@@ -26,32 +29,24 @@ interface SubmenuProps {
 	elements: number;
 }
 
-const StyledItem = styled.div<{ isOpen: boolean }>`
+const StyledItem = styled.div<{ isOpen: boolean; isSub: boolean }>`
 	align-items: center;
-	color: ${(props) => props.theme.palette.text.primary};
+	color: ${(props) =>
+		props.isSub ? props.theme.palette.text.menuSecondary : props.theme.palette.text.menuPrimary};
 	display: flex;
-	font-size: 1em;
-	height: 2em;
+	font-size: 1.4rem;
+	font-weight: 500;
+	height: auto;
 	margin: 0;
-	padding: 8px 16px;
+	padding: ${(props) => (props.isSub ? '0.4rem 1.6rem' : '0.8rem 1.6rem')};
 	user-select: none;
-	&:hover {
-		background-color: ${(props) =>
-			props.isOpen
-				? props.theme.palette.background.paperDark
-				: props.theme.palette.background.paper};
-	}
-
-	&:active {
-		background-color: ${(props) =>
-			`${props.theme.palette.text.primary}${props.theme.opacity.actions.active} }`};
-	}
+	cursor: pointer;
 `;
 
 const StyledIconContainer = styled.div`
-	height: 24px;
-	margin-right: 32px;
-	width: 24px;
+	height: 2.4rem;
+	margin-right: 3.2rem;
+	width: 2.4rem;
 `;
 
 const StyledLabel = styled.div`
@@ -59,10 +54,10 @@ const StyledLabel = styled.div`
 `;
 
 const StyledChevronContainer = styled.div<{ isOpen: boolean }>`
-	height: 24px;
+	height: 2.4rem;
 	transform: ${(props) => (props.isOpen ? 'rotate(90deg)' : 'rotate(0)')};
 	transition: transform ease-out 0.35s;
-	width: 24px;
+	width: 2.4rem;
 `;
 
 interface MenuItemProps {
@@ -72,6 +67,7 @@ interface MenuItemProps {
 	isOpen?: boolean;
 	setOpenedItem?: any;
 	url: string | null;
+	isSub?: boolean;
 }
 
 function MenuItem({
@@ -81,10 +77,12 @@ function MenuItem({
 	isOpen = false,
 	setOpenedItem = () => {},
 	url,
+	isSub = false,
 }: MenuItemProps) {
-	const navigate = useNavigate();
+	const navigate: NavigateFunction = useNavigate();
 	return (
 		<StyledItem
+			isSub={isSub}
 			isOpen={isOpen}
 			onClick={() => {
 				if (url) {
@@ -126,7 +124,7 @@ export function Menu(props: { items: Item[] }) {
 	return (
 		<StyledMenu className="menu">
 			{props.items.map((item: Item) => (
-				<div key={item.id}>
+				<li key={item.id}>
 					<MenuItem
 						id={item.id}
 						Icon={item.icon}
@@ -143,11 +141,12 @@ export function Menu(props: { items: Item[] }) {
 									id={subItem.id}
 									label={subItem.label}
 									url={subItem.slug}
+									isSub={true}
 								/>
 							))}
 						</Submenu>
 					) : null}
-				</div>
+				</li>
 			))}
 		</StyledMenu>
 	);

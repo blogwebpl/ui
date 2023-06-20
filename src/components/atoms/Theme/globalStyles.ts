@@ -18,6 +18,22 @@ export const GlobalStyles = createGlobalStyle<{ theme: typeof defaultTheme }>`
 		box-sizing: inherit;
 	}
 
+	body,
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	p,
+	ol,
+	ul {
+		margin: 0;
+		padding: 0;
+		font-size: 1.6rem;
+		font-weight: normal;
+	}
+
 	body {
 		background-color: ${(props) => props.theme.palette.background.default};
 		font-family: ${(props) => props.theme.typography.fontFamily};
@@ -38,10 +54,13 @@ export const GlobalStyles = createGlobalStyle<{ theme: typeof defaultTheme }>`
 	}
 	.marker-label-red {
 		color: #363640;
-		font-size: 11.5px;
+		font-size: 1.15rem;
 	}
 	.marker-label-blue {
 		color: blue;
-		font-size: 11.5px;
+		font-size: 1.15rem;
+	}
+	ul {
+		list-style: none;
 	}
 `;
