@@ -9,7 +9,8 @@ import { FaFileExcel as ExcelIcon } from 'react-icons/fa';
 
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { Table, TableAction } from '../../components/atoms/Table';
+import { Table, TableAction, TableColumn } from '../../components/atoms/Table';
+import { data } from './table.data';
 
 export default {
 	title: 'atoms/Table',
@@ -56,8 +57,42 @@ const actions: TableAction[] = [
 	},
 ];
 
+const columns: TableColumn[] = [
+	{
+		id: 'firstName',
+		label: 'Imię',
+		width: '10rem',
+		sort: 'asc',
+		sortOrder: 2,
+	},
+	{
+		id: 'lastName',
+		label: 'Nazwisko',
+		width: '10rem',
+		sort: 'asc',
+		sortOrder: 1,
+	},
+	{
+		id: 'age',
+		label: 'Wiek',
+		width: '5rem',
+		sort: 'desc',
+		sortOrder: 3,
+	},
+];
+
 const Template: ComponentStory<typeof Table> = () => {
-	return <Table title="Użytkownicy" actions={actions} />;
+	return (
+		<Table
+			width="72rem"
+			title="Użytkownicy"
+			actions={actions}
+			columns={columns}
+			data={data}
+			rowsPerPage={5}
+			pageNumber={1}
+		/>
+	);
 };
 
 export const Default = Template.bind({});
