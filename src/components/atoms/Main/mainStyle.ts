@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
-export const StyledMain = styled.main<{ isDrawerOpen: boolean; isCovered: boolean }>`
+export const StyledMain = styled.main<{
+	isDrawerOpen: boolean;
+	isCovered: boolean;
+	background?: string;
+}>`
 	@media (orientation: landscape) {
 		top: 48px;
 	}
@@ -12,6 +16,8 @@ export const StyledMain = styled.main<{ isDrawerOpen: boolean; isCovered: boolea
 		top: 64px;
 	}
 	background-color: ${(props) => props.theme.palette.background.paper};
+	background-image: url(${(props) => props.background});
+	background-size: cover;
 	align-items: center;
 	bottom: 0;
 	display: flex;

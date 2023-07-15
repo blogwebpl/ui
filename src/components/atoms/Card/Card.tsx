@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 interface StyledCardProps {
 	padding?: boolean;
 	minWidth: string;
+	opacity?: boolean;
 }
 
 const fadeIn = keyframes`
@@ -16,7 +17,6 @@ const fadeIn = keyframes`
 
 const StyledCard = styled.div<StyledCardProps>`
 	animation: ${fadeIn} 300ms linear;
-	background-color: ${(props) => props.theme.palette.background.default};
 	border-radius: ${(props) => props.theme.shape.borderRadious};
 	box-shadow: ${(props) => props.theme.shadows[2]};
 	color: ${(props) => props.theme.palette.element.primary.textDark};
@@ -25,16 +25,21 @@ const StyledCard = styled.div<StyledCardProps>`
 	min-width: min(calc(100% - 32px), ${(props) => props.minWidth});
 	margin-inline: auto;
 	box-sizing: border-box;
+	opacity: ${(props) => (props.opacity ? '0.95' : '1')};
+	background-color: ${(props) =>
+		props.opacity ? 'rgba(255, 255, 255, 0.9)' : props.theme.palette.background.default};
+	backdrop-filter: ${(props) => (props.opacity ? 'blur(15px)' : 'none')};
 `;
 
 interface CardProps {
 	children: React.ReactNode;
 	minWidth: string;
 	padding?: boolean;
+	opacity?: boolean;
 }
 export function Card(props: CardProps) {
 	return (
-		<StyledCard padding={props.padding} minWidth={props.minWidth}>
+		<StyledCard padding={props.padding} minWidth={props.minWidth} opacity={props.opacity}>
 			{props.children}
 		</StyledCard>
 	);

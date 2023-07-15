@@ -75,7 +75,7 @@ export const StyledTable = styled.table`
 	}
 	td.number {
 		text-align: right;
-		padding-right: 12px;
+		padding-inline-end: 9rem;
 	}
 
 	th:first-child,

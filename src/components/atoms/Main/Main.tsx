@@ -17,6 +17,10 @@ interface MainProps {
 	 * Set the drawer open state.
 	 */
 	setIsDrawerOpen: any;
+	/**
+	 * Background image
+	 */
+	background?: string;
 }
 
 /**
@@ -26,6 +30,7 @@ interface MainProps {
 export function Main(props: MainProps) {
 	return (
 		<StyledMain
+			background={props.background}
 			isDrawerOpen={props.isDrawerOpen}
 			isCovered={props.isCovered}
 			onClick={() => {
