@@ -20,7 +20,7 @@ interface MainProps {
 	/**
 	 * Background image
 	 */
-	background?: string;
+	background?: any;
 }
 
 /**
