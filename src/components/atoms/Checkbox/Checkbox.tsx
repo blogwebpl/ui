@@ -12,20 +12,22 @@ const StyledCheckbox = styled.label`
 		appearance: none;
 		z-index: -1;
 		position: absolute;
-		left: -10px;
-		top: -12px;
+		left: -1rem;
+		top: -1.2rem;
 		display: block;
 		margin: 0;
 		border-radius: 50%;
-		width: 48px;
-		height: 48px;
+		width: 4.8rem;
+		height: 4.8rem;
 		background-color: ${(props) => props.theme.palette.element.accent.default};
 		box-shadow: none;
 		outline: none;
 		opacity: 0;
 
 		pointer-events: none;
-		transition: opacity 0.3s, transform 0.2s;
+		transition:
+			opacity 0.3s,
+			transform 0.2s;
 	}
 	& > span {
 		display: inline-block;
@@ -38,28 +40,30 @@ const StyledCheckbox = styled.label`
 		content: '';
 		display: inline-block;
 		box-sizing: border-box;
-		margin: 3px 15px 3px 5px;
+		margin: 0.3rem 1.5rem 0.3rem 0.5rem;
 		color: ${(props) => props.theme.palette.text.secondary};
-		border: solid 2px currentColor;
-		border-radius: 2px;
-		width: 18px;
-		height: 18px;
+		border: solid 0.2rem currentColor;
+		border-radius: 0.2rem;
+		width: 1.8rem;
+		height: 1.8rem;
 		vertical-align: top;
-		transition: border-color 0.2s, background-color 0.2s;
+		transition:
+			border-color 0.2s,
+			background-color 0.2s;
 	}
 
 	& > span::after {
 		content: '';
 		display: block;
 		position: absolute;
-		top: 3px;
-		left: 5px;
-		width: 10px;
-		height: 5px;
-		border: solid 2px transparent;
+		top: 0.3rem;
+		left: 0.5rem;
+		width: 1rem;
+		height: 0.5rem;
+		border: solid 0.2rem transparent;
 		border-right: none;
 		border-top: none;
-		transform: translate(3px, 4px) rotate(-45deg);
+		transform: translate(0.3rem, 0.4rem) rotate(-45deg);
 		box-sizing: content-box;
 	}
 
@@ -81,7 +85,7 @@ const StyledCheckbox = styled.label`
 
 	& > input:indeterminate + span::after {
 		border-left: none;
-		transform: translate(4px, 3px);
+		transform: translate(0.4rem, 0.3rem);
 	}
 
 	&:hover > input {

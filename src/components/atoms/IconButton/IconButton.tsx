@@ -13,12 +13,12 @@ const StyledButton = styled.button<{
 	color: ${(props) => props.color || props.theme.palette.element.primary.text};
 	cursor: pointer;
 	display: flex;
-	@media (max-width: 460px) {
+	@media (max-width: 28.75rem) {
 		display: ${(props) => (props.mobileInvisible ? 'none' : 'flex')};
 	}
 	margin: ${(props) => props.margin};
 	outline: 0;
-	padding: 12px;
+	padding: 1.2rem;
 	position: relative;
 
 	&:hover,
@@ -42,13 +42,13 @@ const StyledButton = styled.button<{
 		border-radius: 7%;
 		color: #eee;
 		content: attr(data-label);
-		font-size: 10px;
+		font-size: 1rem;
 		left: 50%;
 		opacity: 0;
-		padding: 4px 5px;
+		padding: 0.4rem 0.5rem;
 		position: absolute;
 		text-align: center;
-		top: -28px;
+		top: -2.8rem;
 		transform: translate(-50%) scale(0);
 		transition: all 0.1s linear;
 		visibility: hidden;

@@ -63,7 +63,7 @@ export function TextField(props: TextFieldProps) {
 				{props.label}
 				{props.required ? ' *' : null}
 			</label>
-			{props.icon && <props.icon size={24} className="icon" />}
+			{props.icon && <props.icon size="2.4rem" className="icon" />}
 		</StyledContainer>
 	);
 }

@@ -15,7 +15,7 @@ interface ToolsProps {
 
 export function Tools(props: ToolsProps) {
 	return (
-		<div style={{ display: 'flex', width: 'auto', height: '48px' }}>
+		<div style={{ display: 'flex', width: 'auto', height: '4.8rem' }}>
 			{props.actions.map((action) => (
 				<IconButton
 					key={action.id}
@@ -24,7 +24,7 @@ export function Tools(props: ToolsProps) {
 					color="#757575"
 					label={action.hint}
 				>
-					<action.icon size={24} color="#757575" />
+					<action.icon size="2.4rem" color="#757575" />
 				</IconButton>
 			))}
 		</div>
