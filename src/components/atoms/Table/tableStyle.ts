@@ -73,13 +73,35 @@ export const StyledTable = styled.table`
 	}
 	tr {
 		border-bottom: 0.1rem solid #e0e0e0;
-		// height: 4.8rem;
 	}
+
 	thead > tr {
 		height: 5.6rem;
 	}
-	tbody > tr:hover {
+	tbody.tableBody > tr:hover {
 		background-color: #eeeeee;
+	}
+	.bodyMobile td {
+		height: 4rem;
+	}
+
+	.bodyMobile td:first-child {
+		font-weight: bold;
+		text-align: right;
+	}
+
+	tr.options td {
+		height: 4.8rem;
+	}
+
+	tr.options td:last-child {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+	}
+
+	.rowGap td {
+		height: 1.5rem !important;
 	}
 `;
 
