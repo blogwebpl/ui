@@ -36,7 +36,7 @@ export function PlayerSettings({ devices, onLoad, onClose }: PlayerSettingsProps
 	const [device, setDevice] = useState<SelectOption | null>(options ? options[0] : null);
 
 	return (
-		<Card minWidth="320px" padding>
+		<Card minWidth="32rem" padding>
 			<Typography component="h6" userSelect="none" color="#000000">
 				Ustawienia trasy
 			</Typography>

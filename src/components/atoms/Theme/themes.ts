@@ -1,11 +1,11 @@
 export const defaultTheme = {
 	name: 'lightTheme',
 	breakpoints: {
-		xs: '480px',
-		sm: '768px',
-		md: '1024px',
-		lg: '1200px',
-		xl: '1920px',
+		xs: '30rem',
+		sm: '48rem',
+		md: '64rem',
+		lg: '75rem',
+		xl: '120rem',
 	},
 	opacity: {
 		actions: {
@@ -53,12 +53,12 @@ export const defaultTheme = {
 	},
 	shadows: [
 		'none',
-		'0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12)',
-		'0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)',
-		'0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12)',
+		'0 0.2rem 0.1rem -0.1rem rgba(0,0,0,0.2),0 0.1rem 0.1rem 0 rgba(0,0,0,0.14),0 0.1rem 0.3rem 0 rgba(0,0,0,0.12)',
+		'0 0.3rem 0.1rem -0.2rem rgba(0,0,0,0.2),0 0.2rem 0.2rem 0 rgba(0,0,0,0.14),0 0.1rem 0.5rem 0 rgba(0,0,0,0.12)',
+		'0 0.3rem 0.3rem -0.2rem rgba(0,0,0,0.2),0 0.3rem 0.4rem 0 rgba(0,0,0,0.14),0 0.1rem 0.8rem 0 rgba(0,0,0,0.12)',
 	],
 	shape: {
-		borderRadious: '4px',
+		borderRadious: '0.4rem',
 	},
 	typography: {
 		fontFamily: '"Roboto", "Helvetica", "Arial", sans-ServiceUIFrameContext',

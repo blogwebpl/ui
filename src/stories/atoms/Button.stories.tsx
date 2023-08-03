@@ -7,7 +7,7 @@ export default {
 	component: Button,
 	args: {
 		label: 'Button',
-		width: '250px',
+		width: '25rem',
 		disabled: false,
 		variant: 'primary',
 	},

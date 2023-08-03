@@ -7,9 +7,9 @@ export const StyledAlert = styled.div`
 	background-color: ${(props) => props.theme.palette.background.alert};
 	border-radius: ${(props) => props.theme.shape.borderRadious};
 	color: ${(props) => props.theme.palette.text.alert};
-	border: 1px solid currentColor;
+	border: 0.1rem solid currentColor;
 	display: inline-block;
-	padding: 16px;
+	padding: 1.6rem;
 	width: 100%;
-	margin: 16px 0 8px 0;
+	margin: 1.6em 0 0.8rem 0;
 `;

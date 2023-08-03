@@ -11,10 +11,10 @@ const StyledEmailContainer = styled.div`
 	color: ${(props) => props.theme.palette.text.secondary};
 	display: flex;
 	align-items: center;
-	margin-top: 16px;
-	margin-bottom: 8px;
+	margin-top: 1.6rem;
+	margin-bottom: 0.8rem;
 	span {
-		padding: 0 8px;
+		padding: 0 0.8rem;
 		user-select: none;
 	}
 `;
@@ -45,12 +45,12 @@ export function Profile(props: ProfileProps) {
 	const value = props.role || null;
 
 	return (
-		<Card padding minWidth="320px">
+		<Card padding minWidth="32rem">
 			<Typography component="h6" userSelect="none" color="#000000">
 				Profil użytkownika
 			</Typography>
 			<StyledEmailContainer>
-				<IconPerson size={24} />
+				<IconPerson size="2.4rem" />
 				<span>{props.email}</span>
 			</StyledEmailContainer>
 			<FieldContainer>

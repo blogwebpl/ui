@@ -20,7 +20,9 @@ const StyledSubmenu = styled.div<{ isOpen: boolean; elements: number }>`
 		text-decoration: none;
 	}
 	opacity: ${(props) => (props.isOpen ? '1' : '0')};
-	transition: opacity 0.25s ease-out, max-height 0.25s ease-out;
+	transition:
+		opacity 0.25s ease-out,
+		max-height 0.25s ease-out;
 `;
 
 interface SubmenuProps {
@@ -92,11 +94,11 @@ function MenuItem({
 				}
 			}}
 		>
-			<StyledIconContainer>{Icon ? <Icon size={24} /> : null}</StyledIconContainer>
+			<StyledIconContainer>{Icon ? <Icon size="2.4rem" /> : null}</StyledIconContainer>
 			<StyledLabel className={url ? 'link' : ''}>{label}</StyledLabel>
 			{url ? null : (
 				<StyledChevronContainer isOpen={isOpen}>
-					<IconRight size={24} />
+					<IconRight size="2.4rem" />
 				</StyledChevronContainer>
 			)}
 		</StyledItem>

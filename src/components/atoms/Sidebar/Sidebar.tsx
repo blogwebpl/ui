@@ -5,20 +5,20 @@ const StyledSidebar = styled.div<{ isSidebarOpen: boolean }>`
 	bottom: 0;
 	box-shadow: ${(props) => props.theme.shadows[3]};
 	right: 0;
-	max-width: calc(100% - 56px);
+	max-width: calc(100% - 5.6rem);
 	overflow-y: auto;
 	position: fixed;
-	transform: ${(props) => (props.isSidebarOpen ? 'translate(0px)' : 'translate(101%)')};
+	transform: ${(props) => (props.isSidebarOpen ? 'translate(0)' : 'translate(101%)')};
 	transition: transform 0.25s ease-in-out 0s;
-	width: 320px;
+	width: 32rem;
 	@media (orientation: landscape) {
-		top: 48px;
+		top: 4.8rem;
 	}
 	@media (orientation: portrait) {
-		top: 56px;
+		top: 5.6rem;
 	}
 	@media (min-width: ${(props) => props.theme.breakpoints.sm}) {
-		top: 64px;
+		top: 6.4rem;
 	}
 `;
 

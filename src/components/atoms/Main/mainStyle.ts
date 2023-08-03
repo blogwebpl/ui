@@ -6,14 +6,14 @@ export const StyledMain = styled.main<{
 	background?: string;
 }>`
 	@media (orientation: landscape) {
-		top: 48px;
+		top: 4.8rem;
 	}
 	@media (orientation: portrait) {
-		top: 56px;
+		top: 5.6rem;
 	}
 	@media (min-width: ${(props) => props.theme.breakpoints.sm}) {
-		left: ${(props) => (props.isDrawerOpen && !props.isCovered ? '320px' : '0')};
-		top: 64px;
+		left: ${(props) => (props.isDrawerOpen && !props.isCovered ? '32rem' : '0')};
+		top: 6.4rem;
 	}
 	background-color: ${(props) => props.theme.palette.background.paper};
 	background-image: url(${(props) => props.background});
@@ -28,13 +28,13 @@ export const StyledMain = styled.main<{
 	transition: all linear 0.25s;
 	&:after {
 		@media (orientation: landscape) {
-			top: 48px;
+			top: 4.8rem;
 		}
 		@media (orientation: portrait) {
-			top: 56px;
+			top: 5.6rem;
 		}
 		@media (min-width: ${(props) => props.theme.breakpoints.sm}) {
-			top: 64px;
+			top: 6.4rem;
 		}
 		background-color: rgba(0, 0, 0, 0.2);
 		bottom: 0;

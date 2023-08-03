@@ -6,47 +6,47 @@ import { Checkbox } from '../Checkbox';
 import { IconButton } from '../IconButton';
 
 const StyledItem = styled.div<{ info: boolean }>`
-	height: ${(props) => (props.info ? '112px' : '56px')};
+	height: ${(props) => (props.info ? '11.2rem' : '5.6rem')};
 	width: auto;
-	border-bottom: 1px solid #808080;
+	border-bottom: 0.1rem solid #808080;
 	display: flex;
-	padding: 0 12px;
+	padding: 0 1.2rem;
 	flex-wrap: wrap;
 	overflow: hidden;
 `;
 
 const StyledCheckboxContainer = styled.div`
-	height: 56px;
-	width: 48px;
+	height: 5.6rem;
+	width: 4.8rem;
 	display: flex;
 	align-items: center;
 `;
 
 const StyledDetailContainer = styled.div`
-	height: 56px;
+	height: 5.6rem;
 	flex-grow: 1;
 	display: flex;
 	align-items: center;
-	font-size: 14px;
+	font-size: 1.4rem;
 	font-weight: bold;
 	user-select: none;
 	small {
-		font-size: 12px !important;
+		font-size: 1.2rem !important;
 		font-weight: 400;
 	}
 `;
 
 const StyledIconsContainer = styled.div`
-	width: 96px;
-	height: 56px;
+	width: 9.6rem;
+	height: 5.6rem;
 	display: flex;
 	align-items: center;
 `;
 
 const StyledIOContainer = styled.div`
-	font-size: 12px;
+	font-size: 1.2rem
 	flex-grow: 1;
-	height: 56px;
+	height: 5.6rem
 	display: flex;
 	align-items: center;
 	font-weight: 400;
@@ -61,9 +61,9 @@ export const StyledSVG = styled.svg`
 	display: inline-block;
 	fill: currentColor;
 	flex-shrink: 0;
-	height: 24px;
+	height: 2.4rem
 	user-select: none;
-	width: 24px;
+	width: 2.4rem;
 `;
 
 export interface DeviceItemProps {
@@ -140,14 +140,14 @@ export function DeviceItem(props: DeviceItemProps) {
 					label=""
 					onClick={() => props.handleFollowClick(props.id, !props.follow)}
 				>
-					<IconCenter size={24} />
+					<IconCenter size="2.4rem" />
 				</IconButton>
 				<IconButton
 					color={props.info ? '#ff4080' : '#777777'}
 					label=""
 					onClick={() => props.handleInfoClick(props.id, !props.info)}
 				>
-					<IconInformation size={24} />
+					<IconInformation size="2.4rem" />
 				</IconButton>
 			</StyledIconsContainer>
 			<StyledBreak />

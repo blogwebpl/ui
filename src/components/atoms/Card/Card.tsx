@@ -21,14 +21,14 @@ const StyledCard = styled.div<StyledCardProps>`
 	box-shadow: ${(props) => props.theme.shadows[2]};
 	color: ${(props) => props.theme.palette.element.primary.textDark};
 	display: inline-block;
-	padding: ${(props) => (props.padding ? '16px' : '0')};
-	min-width: min(calc(100% - 32px), ${(props) => props.minWidth});
+	padding: ${(props) => (props.padding ? '1.6rem' : '0')};
+	min-width: min(calc(100% - 3.2rem), ${(props) => props.minWidth});
 	margin-inline: auto;
 	box-sizing: border-box;
 	opacity: ${(props) => (props.opacity ? '0.95' : '1')};
 	background-color: ${(props) =>
 		props.opacity ? 'rgba(255, 255, 255, 0.9)' : props.theme.palette.background.default};
-	backdrop-filter: ${(props) => (props.opacity ? 'blur(15px)' : 'none')};
+	backdrop-filter: ${(props) => (props.opacity ? 'blur(1.5rem)' : 'none')};
 `;
 
 interface CardProps {

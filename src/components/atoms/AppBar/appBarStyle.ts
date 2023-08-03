@@ -5,16 +5,16 @@ export const StyledAppBar = styled.header`
 	background-color: ${(props) => props.theme.palette.element.primary.default};
 	color: ${(props) => props.theme.palette.element.primary.text};
 	display: flex;
-	padding: 0 24px;
+	padding: 0 2.4rem;
 
 	@media (orientation: landscape) {
-		height: 48px;
+		height: 4.8rem;
 	}
 	@media (orientation: portrait) {
-		height: 56px;
+		height: 5.6rem;
 	}
 	@media (min-width: ${(props) => props.theme.breakpoints.sm}) {
-		height: 64px;
+		height: 6.4rem;
 	}
 `;
 
@@ -25,5 +25,5 @@ export const StyledTitleContainer = styled.div`
 
 export const StyledIconContainer = styled.div`
 	display: flex;
-	margin-right: -12px;
+	margin-right: -1.2rem;
 `;

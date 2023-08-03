@@ -3,12 +3,12 @@ import styled from 'styled-components';
 
 const StyledUl = styled.ul`
 	padding: 0;
-	margin: 8px 0 8px 0;
+	margin: 0.8rem 0 0.8rem 0;
 	li {
 		color: #000000;
 		list-style: none;
 		display: flex;
-		padding: 8px 0;
+		padding: 0.8rem 0;
 		&:hover,
 		&:focus {
 			background-color: ${(props) => `#000000${props.theme.opacity.actions.hover * 100}`};
@@ -17,8 +17,8 @@ const StyledUl = styled.ul`
 `;
 
 const StyledIconContainer = styled.span`
-	width: 32px;
-	hegiht: 48px;
+	width: 3.2rem;
+	hegiht: 4.8rem;
 	display: flex;
 	align-items: center;
 	cursor: pointer;
@@ -26,7 +26,7 @@ const StyledIconContainer = styled.span`
 
 const StyledLabelContainer = styled.span`
 	width: auto;
-	hegiht: 48px;
+	hegiht: 4.8rem;
 	display: flex;
 	align-items: center;
 	cursor: pointer;
@@ -49,7 +49,7 @@ export function CardMenu(props: CardMenuProps) {
 			{props.items.map((item: any) => (
 				<li key={item.id} onClick={item.onClick}>
 					<StyledIconContainer>
-						<item.icon size={24} />
+						<item.icon size="2.4rem" />
 					</StyledIconContainer>
 					<StyledLabelContainer>{item.label}</StyledLabelContainer>
 				</li>

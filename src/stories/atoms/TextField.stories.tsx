@@ -8,7 +8,7 @@ import { TextField } from '../../components/atoms/TextField';
 
 const withContainer = (StoryFn: any) => {
 	return (
-		<div style={{ maxWidth: '320px' }}>
+		<div style={{ maxWidth: '32rem' }}>
 			<StoryFn />
 		</div>
 	);

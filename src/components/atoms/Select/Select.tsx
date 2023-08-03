@@ -23,7 +23,7 @@ const styles: StylesConfig = {
 			// paddingLeft: state.isFocused ? 8 : 9,
 			boxShadow: 'none',
 			// borderWidth: state.isFocused ? 2 : 1,
-			outline: state.isFocused ? '1px solid' : 'none',
+			outline: state.isFocused ? '0.1rem solid' : 'none',
 			outlineColor: borderColor,
 		};
 	},

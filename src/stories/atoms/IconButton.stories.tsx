@@ -12,7 +12,7 @@ export default {
 const Template: ComponentStory<typeof IconButton> = () => {
 	return (
 		<IconButton color="#000000" label="person" ariaLabel="person">
-			<MdPerson size={24} />
+			<MdPerson size="2.4rem" />
 		</IconButton>
 	);
 };

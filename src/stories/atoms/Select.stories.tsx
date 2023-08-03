@@ -20,7 +20,7 @@ const Template: ComponentStory<typeof Select> = (args) => {
 	const [value, setValue] = useState(null);
 	return (
 		<Main isCovered={false} isDrawerOpen={false} setIsDrawerOpen={undefined}>
-			<Card minWidth="420px" padding={true}>
+			<Card minWidth="42rem" padding={true}>
 				<br />
 				<br />
 				<Select

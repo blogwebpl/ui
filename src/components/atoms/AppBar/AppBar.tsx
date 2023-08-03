@@ -70,11 +70,11 @@ export function AppBar(props: AppBarProps) {
 				label=""
 				ariaLabel="menu"
 				isLightColor={true}
-				margin="0 16px 0 -12px"
+				margin="0 1.6rem 0 -1.2rem"
 				onClick={handleMenuIconClick}
 				isDisabled={!props.isLoggedin}
 			>
-				{props.isDrawerOpen ? <CloseIcon size={24} /> : <MenuIcon size={24} />}
+				{props.isDrawerOpen ? <CloseIcon size="2.4rem" /> : <MenuIcon size="2.4rem" />}
 			</IconButton>
 			<StyledTitleContainer>
 				<Typography component="h6" userSelect="none">
@@ -89,7 +89,7 @@ export function AppBar(props: AppBarProps) {
 					isLightColor={true}
 					onClick={props.handleProfileClick}
 				>
-					{props.isLoggedin ? <PersonIcon size={24} /> : <LockIcon size={24} />}
+					{props.isLoggedin ? <PersonIcon size="2.4rem" /> : <LockIcon size="2.4rem" />}
 				</IconButton>
 
 				{props.isLoggedin && props.ActionIcon && (
@@ -99,7 +99,7 @@ export function AppBar(props: AppBarProps) {
 						isLightColor={true}
 						onClick={props.handleActionClick}
 					>
-						<props.ActionIcon size={24} />
+						<props.ActionIcon size="2.4rem" />
 					</IconButton>
 				)}
 
@@ -110,7 +110,11 @@ export function AppBar(props: AppBarProps) {
 						isLightColor={true}
 						onClick={handleSidebarIconClick}
 					>
-						{props.isSidebarOpen ? <CloseIcon size={24} /> : <props.SidebarIcon size={24} />}
+						{props.isSidebarOpen ? (
+							<CloseIcon size="2.4rem" />
+						) : (
+							<props.SidebarIcon size="2.4rem" />
+						)}
 					</IconButton>
 				)}
 			</StyledIconContainer>

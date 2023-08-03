@@ -42,19 +42,19 @@ export const StyledButton = styled.button<{ variant: string; width?: string }>`
 				return 'inherit';
 		}
 	}};
-	border-width: 1px;
+	border-width: 0.1rem;
 	border-style: solid;
 	align-items: center;
 	display: inline-flex;
 	font-size: ${(props) => props.theme.typography.fontSize.normal};
 	font-weight: ${(props) => props.theme.typography.fontWeightMedium};
-	height: 44px;
+	height: 4.4rem;
 	@media only screen and (min-width: ${(props) => props.theme.breakpoints.xs}) {
-		height: 36px;
+		height: 3.6rem;
 	}
 	justify-content: center;
-	outline-offset: 2px;
-	padding: 0 16px;
+	outline-offset: 0.2rem;
+	padding: 0 1.6rem;
 	user-select: none;
 
 	&:active:enabled {

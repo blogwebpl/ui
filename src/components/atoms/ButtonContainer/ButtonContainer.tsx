@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 const StyledButtonContainer = styled.div`
-	margin-top: 16px;
-	margin-bottom: 8px;
+	margin-top: 1.6rem;
+	margin-bottom: 0.8rem;
 	display: flex;
-	column-gap: 16px;
+	column-gap: 1.6rem;
 `;
 
 interface ButtonContainerProps {

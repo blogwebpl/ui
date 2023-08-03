@@ -12,12 +12,12 @@ import styled from 'styled-components';
 import { IconButton } from '../IconButton';
 
 const StyledPlayer = styled.div`
-	max-width: 432px;
-	height: 100px;
+	max-width: 43.2rem;
+	height: 10rem;
 	background: white;
-	padding: 4px 48px;
-	@media (max-width: 460px) {
-		padding: 4px 24px;
+	padding: 0.4rem 4.8rem;
+	@media (max-width: 28,75rem) {
+		padding: 0.4rem 2.4rem;
 	}
 	opacity: 0.9;
 `;
@@ -29,7 +29,7 @@ const StyledSlider = styled.input.attrs({
 `;
 
 const StyledTextContainer = styled.div`
-	font-size: 14px;
+	font-size: 1.4rem;
 	color: #111111;
 	display: flex;
 	justify-content: space-between;
@@ -41,7 +41,7 @@ const StyledRightText = styled.div``;
 const StyledControl = styled.div`
 	display: flex;
 	justify-content: space-around;
-	margin: 4px 0 8px 0;
+	margin: 0.4rem 0 0.8rem 0;
 `;
 
 interface PlayerProps {
@@ -76,7 +76,7 @@ export function Player({
 					ariaLabel="start"
 					onClick={() => onButtonClick('SkipPrevious')}
 				>
-					<MdSkipPrevious size={24} />
+					<MdSkipPrevious size="2.4rem" />
 				</IconButton>
 				<IconButton
 					color="#000000"
@@ -85,7 +85,7 @@ export function Player({
 					mobileInvisible
 					onClick={() => onButtonClick('FastRewind')}
 				>
-					<MdFastRewind size={24} />
+					<MdFastRewind size="2.4rem" />
 				</IconButton>
 				<IconButton
 					color="#000000"
@@ -93,7 +93,7 @@ export function Player({
 					ariaLabel="pauza"
 					onClick={() => onButtonClick('Pause')}
 				>
-					<MdPause size={24} color={isPlaying ? 'black' : 'red'} />
+					<MdPause size="2.4rem" color={isPlaying ? 'black' : 'red'} />
 				</IconButton>
 				<IconButton
 					color="#000000"
@@ -101,7 +101,7 @@ export function Player({
 					ariaLabel="odtwórz"
 					onClick={() => onButtonClick('Play')}
 				>
-					<MdPlayArrow size={24} color={isPlaying ? 'red' : 'black'} />
+					<MdPlayArrow size="2.4rem" color={isPlaying ? 'red' : 'black'} />
 				</IconButton>
 				<IconButton
 					color="#000000"
@@ -110,7 +110,7 @@ export function Player({
 					mobileInvisible
 					onClick={() => onButtonClick('FastForward')}
 				>
-					<MdFastForward size={24} />
+					<MdFastForward size="2.4rem" />
 				</IconButton>
 				<IconButton
 					color="#000000"
@@ -118,7 +118,7 @@ export function Player({
 					ariaLabel="koniec"
 					onClick={() => onButtonClick('SkipNext')}
 				>
-					<MdSkipNext size={24} />
+					<MdSkipNext size="2.4rem" />
 				</IconButton>{' '}
 				<IconButton
 					color="#000000"
@@ -126,7 +126,7 @@ export function Player({
 					ariaLabel="opcje"
 					onClick={() => onButtonClick('Eject')}
 				>
-					<MdEject size={24} />
+					<MdEject size="2.4rem" />
 				</IconButton>
 			</StyledControl>
 			<StyledSlider
