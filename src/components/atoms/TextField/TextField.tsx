@@ -11,6 +11,7 @@ export interface TextFieldProps {
 	setValue?: any;
 	forwardedRef?: LegacyRef<HTMLInputElement>;
 	onKeyPress?: KeyboardEventHandler<HTMLInputElement>;
+	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	autoComplete?: string;
 	autoFocus?: boolean;
 	disabled?: boolean;
@@ -27,9 +28,13 @@ export function TextField(props: TextFieldProps) {
 					id={props.id}
 					type={props.type}
 					value={props.value}
-					onChange={(e) => {
-						props.setValue(e.target.value);
-					}}
+					onChange={
+						props.onChange
+							? props.onChange
+							: (e) => {
+									props.setValue(e.target.value);
+							  }
+					}
 					required={props.required}
 					ref={props.forwardedRef}
 					onKeyPress={props.onKeyPress}
@@ -42,6 +47,7 @@ export function TextField(props: TextFieldProps) {
 					{props.label}
 					{props.required ? ' *' : null}
 				</label>
+				{props.icon && <props.icon size="2.4rem" className="icon" />}
 			</StyledContainer>
 		);
 	return (

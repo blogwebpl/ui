@@ -41,6 +41,45 @@ export const StyledTable = styled.table`
 	padding: 0;
 	margin: 0;
 
+	span {
+		display: inline-block;
+		transform-origin: center center;
+	}
+
+	@keyframes rotateAnimationDesc {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(180deg);
+		}
+	}
+
+	@keyframes rotateAnimationAsc {
+		from {
+			transform: rotate(180deg);
+		}
+		to {
+			transform: rotate(0deg);
+		}
+	}
+
+	.desc {
+		animation-name: rotateAnimationDesc;
+		animation-duration: 0.25s;
+		animation-fill-mode: forwards;
+		animation-timing-function: ease-out;
+		font-size: 1.3rem;
+	}
+
+	.asc {
+		animation-name: rotateAnimationAsc;
+		animation-duration: 0.25s;
+		animation-fill-mode: forwards;
+		animation-timing-function: ease-out;
+		font-size: 1.3rem;
+	}
+
 	th {
 		color: #757575;
 		font-size: 1.2rem;
@@ -103,6 +142,12 @@ export const StyledTable = styled.table`
 	.rowGap td {
 		height: 1.5rem !important;
 	}
+	.emptyRow {
+		height: 4.9rem;
+	}
+	.emptyRow:hover {
+		background-color: inherit !important;
+	}
 `;
 
 export const StyledFooter = styled.div`
@@ -130,5 +175,11 @@ export const StyledFooterItem = styled.span`
 	align-items: center;
 	select {
 		margin: 0 3rem 0 1rem;
+	}
+	&.w100 {
+		min-width: 10rem;
+		display: flex;
+		flex-direction: row-reverse;
+		margin-right: 2rem;
 	}
 `;

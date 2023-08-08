@@ -89,7 +89,7 @@ const Template: ComponentStory<typeof Table> = () => {
 			actions={actions}
 			columns={columns}
 			data={data}
-			rowsPerPage={5}
+			rowsPerPage={0}
 			pageNumber={1}
 		/>
 	);

@@ -17,7 +17,6 @@ const fadeIn = keyframes`
 
 const StyledCard = styled.div<StyledCardProps>`
 	animation: ${fadeIn} 300ms linear;
-	border-radius: ${(props) => props.theme.shape.borderRadious};
 	box-shadow: ${(props) => props.theme.shadows[2]};
 	color: ${(props) => props.theme.palette.element.primary.textDark};
 	display: inline-block;
@@ -29,6 +28,9 @@ const StyledCard = styled.div<StyledCardProps>`
 	background-color: ${(props) =>
 		props.opacity ? 'rgba(255, 255, 255, 0.9)' : props.theme.palette.background.default};
 	backdrop-filter: ${(props) => (props.opacity ? 'blur(1.5rem)' : 'none')};
+	@media (min-width: 23rem) {
+		border-radius: ${(props) => props.theme.shape.borderRadious};
+	}
 `;
 
 interface CardProps {
@@ -37,6 +39,9 @@ interface CardProps {
 	padding?: boolean;
 	opacity?: boolean;
 }
+
+// TODO: remove round for mobile
+
 export function Card(props: CardProps) {
 	return (
 		<StyledCard padding={props.padding} minWidth={props.minWidth} opacity={props.opacity}>

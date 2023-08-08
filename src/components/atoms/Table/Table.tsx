@@ -7,9 +7,10 @@ import {
 	MdCreate as EditIcon,
 	MdOutlineChevronRight as NextIcon,
 	MdOutlineChevronLeft as PrevIcon,
+	MdDelete as TrashIcon,
 } from 'react-icons/md';
 
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Card } from '../Card';
 import { TextField } from '../TextField';
 import { Typography } from '../Typography';
@@ -69,11 +70,15 @@ function getFontSizeFromBody(): number {
 
 export function Table(props: TableProps) {
 	const { data } = props;
+	const [columns, setColumns] = useState(props.columns);
 	const [isMobile, setIsMobile] = useState(false);
 	const [fontSize, setFontSize] = useState<number>(getFontSizeFromBody());
 	const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
 	const [rowsPerPage, setRowsPerPage] = useState<number>(props.rowsPerPage || 0);
 	const [pageNumber, setPageNumber] = useState<number>(props.pageNumber || 1);
+	const [searchText, setSearchText] = useState<string>('');
+	const [searchDelayTimer, setSearchDelayTimer] = useState<NodeJS.Timeout | null>(null);
+	const [checkedRows, setCheckedRows] = useState<{ [key: string]: boolean }>({});
 
 	useEffect(() => {
 		function handleResize() {
@@ -88,23 +93,128 @@ export function Table(props: TableProps) {
 		};
 	}, []);
 
+	const handleSearchTextChange = (text: string) => {
+		if (searchDelayTimer) {
+			clearTimeout(searchDelayTimer);
+		}
+		setSearchDelayTimer(
+			setTimeout(() => {
+				setCheckedRows({});
+				setPageNumber(1);
+				setSearchText(text);
+			}, 300)
+		);
+	};
+
+	const handleCheckboxChange = (rowId: string | number) => {
+		setCheckedRows((prevCheckedRows) => ({
+			...prevCheckedRows,
+			[rowId]: !prevCheckedRows[rowId] || false,
+		}));
+	};
+
+	const changeSortOrder = (id: number | string) => {
+		const currentColumns = [...columns];
+		const column = currentColumns.find((col) => col.id === id);
+		if (column) {
+			column.sort = column.sort === 'asc' ? 'desc' : 'asc';
+			setColumns(currentColumns);
+		}
+	};
+
 	let computedRowsPerPage = rowsPerPage;
 
 	if (rowsPerPage === 0) {
-		console.log(fontSize);
-
 		const headerHeight = 7.5 * fontSize;
 		const footerHeight = 3 * fontSize;
 		const rowHeight = 3.2 * fontSize;
 		computedRowsPerPage = Math.floor((viewportHeight - headerHeight - footerHeight) / rowHeight);
-		if (computedRowsPerPage < 0) computedRowsPerPage = 0;
+		computedRowsPerPage = Math.max(computedRowsPerPage, 0);
 	}
 
 	if (isMobile) computedRowsPerPage = data.length;
 
 	const startIndex = (pageNumber - 1) * computedRowsPerPage;
 	const endIndex = startIndex + computedRowsPerPage;
-	const dataForPage = data.slice(startIndex, endIndex);
+
+	const filteredData = data.filter((item) =>
+		Object.entries(item).some(([key, value]) => {
+			if (key === 'id') {
+				return false;
+			}
+
+			return String(value).toLowerCase().includes(searchText.toLowerCase());
+		})
+	);
+
+	const sortFunction = (a: DynamicObject, b: DynamicObject, column: TableColumn) => {
+		const aValue = String(a[column.id]);
+		const bValue = String(b[column.id]);
+
+		if (column.sort === 'asc') {
+			return aValue.localeCompare(bValue, 'pl', { sensitivity: 'base' });
+		}
+		return bValue.localeCompare(aValue, 'pl', { sensitivity: 'base' });
+	};
+
+	const multiSortFunction = (a: DynamicObject, b: DynamicObject) => {
+		const primarySortColumn = columns.find((col) => col.sortOrder === 1);
+
+		if (primarySortColumn) {
+			const primarySortResult = sortFunction(a, b, primarySortColumn);
+			if (primarySortResult !== 0) {
+				return primarySortResult;
+			}
+		}
+
+		return columns
+			.filter((col) => col.sortOrder > 1)
+			.sort((col1, col2) => col1.sortOrder - col2.sortOrder)
+			.reduce((result, column) => {
+				if (result !== 0) {
+					return result;
+				}
+				return sortFunction(a, b, column);
+			}, 0);
+	};
+
+	const sortedData = [...filteredData].sort((a: DynamicObject, b: DynamicObject) => {
+		return multiSortFunction(a, b);
+	});
+
+	const dataForPage = sortedData.slice(startIndex, endIndex);
+
+	const fromRow = (pageNumber - 1) * computedRowsPerPage + 1;
+	const toRow = Math.min(
+		(pageNumber - 1) * computedRowsPerPage + computedRowsPerPage,
+		filteredData.length
+	);
+	const trArray = Array.from(
+		{ length: computedRowsPerPage - (toRow - fromRow + 1) },
+		(_, index) => index
+	);
+
+	let tableActions = props.actions;
+
+	const numberOfCheckedRows = Object.values(checkedRows).filter((checked) => checked).length;
+
+	if (numberOfCheckedRows) {
+		tableActions = props.actions.map((action) => {
+			if (action.id === 'add') {
+				const a: TableAction = {
+					id: 'del',
+					icon: TrashIcon,
+					hint: 'usuń',
+					isDisabled: false,
+					onClick: () => {
+						// alert('usuń');
+					},
+				};
+				return a;
+			}
+			return action;
+		});
+	}
 
 	return (
 		<Card minWidth={props.width} padding={false}>
@@ -116,7 +226,17 @@ export function Table(props: TableProps) {
 				</StyledTitleContainer>
 				{isMobile ? null : (
 					<StyledFilterContainer>
-						<TextField label="" type="text" icon={SearchIcon} slim={true} autoFocus />
+						<TextField
+							label=""
+							type="text"
+							icon={SearchIcon}
+							slim={true}
+							autoFocus
+							onChange={(e: ChangeEvent<HTMLInputElement>) =>
+								handleSearchTextChange(e.target.value)
+							}
+							controlled
+						/>
 					</StyledFilterContainer>
 				)}
 				<StyledIconContainer>
@@ -130,7 +250,7 @@ export function Table(props: TableProps) {
 							</IconButton>
 						</>
 					) : (
-						<Tools actions={props.actions} />
+						<Tools actions={tableActions} />
 					)}
 				</StyledIconContainer>
 			</StyledHeader>
@@ -142,9 +262,15 @@ export function Table(props: TableProps) {
 								<Checkbox />
 							</th>
 							{props.columns.map((column) => (
-								<th style={{ minWidth: column.width }} key={column.id}>
+								<th
+									style={{ minWidth: column.width }}
+									key={column.id}
+									onClick={() => {
+										changeSortOrder(column.id);
+									}}
+								>
 									<span>{column.label}&nbsp;&nbsp;</span>
-									<span>▲</span>
+									<span className={column.sort === 'asc' ? 'asc' : 'desc'}>▲</span>
 								</th>
 							))}
 							<th>&nbsp;</th>
@@ -156,9 +282,13 @@ export function Table(props: TableProps) {
 						{dataForPage.map((row: DynamicObject) => (
 							<tr key={row.id}>
 								<td>
-									<Checkbox />
+									<Checkbox
+										checked={checkedRows[row.id] || false}
+										onChange={() => handleCheckboxChange(row.id)}
+										controlled
+									/>
 								</td>
-								{props.columns.map((column) => (
+								{columns.map((column) => (
 									<td
 										key={`${row.id}-${column.id}`}
 										className={typeof row[column.id] === 'number' ? 'number' : ''}
@@ -171,6 +301,12 @@ export function Table(props: TableProps) {
 										<EditIcon size="2.4rem" color="#757575" />
 									</IconButton>
 								</td>
+							</tr>
+						))}
+
+						{trArray.map((_, index) => (
+							<tr key={index} className="emptyRow">
+								<td colSpan={props.columns.length + 2}>&nbsp;</td>
 							</tr>
 						))}
 					</tbody>
@@ -187,7 +323,12 @@ export function Table(props: TableProps) {
 								<tr className="options">
 									<td>Opcje:</td>
 									<td className="options">
-										<Checkbox />{' '}
+										<Checkbox
+											checked={checkedRows[row.id] || false}
+											onChange={() => handleCheckboxChange(row.id)}
+											controlled
+										/>
+										&nbsp;
 										<IconButton isLightColor={false} onClick={() => {}} color="#757575" label="">
 											<EditIcon size="2.4rem" color="#757575" />
 										</IconButton>
@@ -225,11 +366,17 @@ export function Table(props: TableProps) {
 								<option value={13}>13</option>
 								<option value={14}>14</option>
 								<option value={15}>15</option>
+								<option value={15}>20</option>
+								<option value={15}>50</option>
+								<option value={15}>100</option>
+								<option value={15}>200</option>
+								<option value={15}>500</option>
 							</select>
 						</StyledFooterItem>
-						<StyledFooterItem>
-							{(pageNumber - 1) * rowsPerPage + 1}&nbsp;-&nbsp;
-							{(pageNumber - 1) * rowsPerPage + rowsPerPage} z {props.data.length}&nbsp;&nbsp;
+						<StyledFooterItem className="w100">
+							{fromRow}&nbsp;-&nbsp;
+							{toRow}&nbsp;/&nbsp;{filteredData.length}
+							&nbsp;&nbsp;
 						</StyledFooterItem>
 						<StyledFooterItem>
 							<IconButton
@@ -248,7 +395,7 @@ export function Table(props: TableProps) {
 								isLightColor={false}
 								onClick={() => {
 									setPageNumber((pn) =>
-										Math.ceil(props.data.length) / rowsPerPage > pn ? pn + 1 : pn
+										Math.ceil(filteredData.length) / computedRowsPerPage > pn ? pn + 1 : pn
 									);
 								}}
 								color="#757575"
