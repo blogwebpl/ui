@@ -2,7 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 
 import { defaultTheme } from './themes';
 
-export const GlobalStyles = createGlobalStyle<{ theme: typeof defaultTheme }>`
+export const GlobalStyles = createGlobalStyle<{ theme?: typeof defaultTheme }>`
 
 	html {
 		font-size: 62.5%;
