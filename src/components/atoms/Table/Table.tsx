@@ -316,7 +316,14 @@ export function Table(props: TableProps) {
 							<tbody key={`${row.id}-tbody`} className="bodyMobile">
 								{props.columns.map((column: TableColumn, index: number) => (
 									<tr key={`${row.id}-tr-${index}`} className="innerRow">
-										<td>{column.label}:</td>
+										<td
+											onClick={() => {
+												changeSortOrder(column.id);
+											}}
+										>
+											<span className={column.sort === 'asc' ? 'asc' : 'desc'}>▲</span>&nbsp;
+											<span>{column.label}:</span>
+										</td>
 										<td>{row[column.id]}</td>
 									</tr>
 								))}
