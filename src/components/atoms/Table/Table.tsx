@@ -82,8 +82,6 @@ export function Table(props: TableProps) {
 	const [searchDelayTimer, setSearchDelayTimer] = useState<NodeJS.Timeout | null>(null);
 	const [checkedRows, setCheckedRows] = useState<{ [key: string]: boolean }>({});
 
-	const history = useHistory();
-
 	useEffect(() => {
 		function handleResize() {
 			setIsMobile(window.innerWidth < 321);
@@ -302,7 +300,7 @@ export function Table(props: TableProps) {
 								))}
 								<td>
 									<IconButton isLightColor={false} onClick={() => {
-										history.push("/about");
+										// history.push("/about");
 									}} color="#757575" label="">
 										{props.readOnly ? <ViewIcon size="2.4rem" color="#757575" /> : <EditIcon size="2.4rem" color="#757575" />}
 										
