@@ -91,6 +91,7 @@ const Template: ComponentStory<typeof Table> = () => {
 			data={data}
 			rowsPerPage={0}
 			pageNumber={1}
+			readOnly={false}
 		/>
 	);
 };

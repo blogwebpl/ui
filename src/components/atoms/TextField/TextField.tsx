@@ -42,6 +42,7 @@ export function TextField(props: TextFieldProps) {
 					autoFocus={props.autoFocus}
 					disabled={props.disabled}
 					placeholder=" "
+					spellCheck="false"
 				/>
 				<label htmlFor={props.id}>
 					{props.label}
@@ -64,6 +65,7 @@ export function TextField(props: TextFieldProps) {
 				autoFocus={props.autoFocus}
 				disabled={props.disabled}
 				placeholder=" "
+				spellCheck="false"
 			/>
 			<label htmlFor={props.id}>
 				{props.label}

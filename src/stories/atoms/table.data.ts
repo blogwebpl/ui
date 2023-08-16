@@ -2,7 +2,7 @@ export const data = [
 	{
 		id: 1,
 		firstName: 'Albert',
-		lastName: ' Acki',
+		lastName: 'Acki',
 		email: 'aacki0@vimeo.com',
 		age: 50,
 	},

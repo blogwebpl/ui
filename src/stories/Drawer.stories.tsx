@@ -76,7 +76,7 @@ const Template: ComponentStory<typeof Drawer> = () => {
 				handleProfileClick={() => {}}
 				isDrawerOpen={isDrawerOpen}
 				isSidebarOpen={false}
-				isLoggedin={true}
+				isLoggedIn={true}
 				setIsDrawerOpen={setIsDrawerOpen}
 				setIsSidebarOpen={() => {}}
 				title={''}

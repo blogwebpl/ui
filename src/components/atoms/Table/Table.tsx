@@ -5,6 +5,7 @@ import {
 	MdSearch as SearchIcon,
 	MdMoreVert as DotsIcon,
 	MdCreate as EditIcon,
+	MdRemoveRedEye as ViewIcon,
 	MdOutlineChevronRight as NextIcon,
 	MdOutlineChevronLeft as PrevIcon,
 	MdDelete as TrashIcon,
@@ -56,6 +57,7 @@ export interface TableProps {
 	data: DynamicObject[];
 	rowsPerPage: number;
 	pageNumber: number;
+	readOnly?: boolean;
 }
 
 function getFontSizeFromBody(): number {
@@ -79,6 +81,8 @@ export function Table(props: TableProps) {
 	const [searchText, setSearchText] = useState<string>('');
 	const [searchDelayTimer, setSearchDelayTimer] = useState<NodeJS.Timeout | null>(null);
 	const [checkedRows, setCheckedRows] = useState<{ [key: string]: boolean }>({});
+
+	const history = useHistory();
 
 	useEffect(() => {
 		function handleResize() {
@@ -297,8 +301,11 @@ export function Table(props: TableProps) {
 									</td>
 								))}
 								<td>
-									<IconButton isLightColor={false} onClick={() => {}} color="#757575" label="">
-										<EditIcon size="2.4rem" color="#757575" />
+									<IconButton isLightColor={false} onClick={() => {
+										history.push("/about");
+									}} color="#757575" label="">
+										{props.readOnly ? <ViewIcon size="2.4rem" color="#757575" /> : <EditIcon size="2.4rem" color="#757575" />}
+										
 									</IconButton>
 								</td>
 							</tr>
@@ -337,7 +344,7 @@ export function Table(props: TableProps) {
 										/>
 										&nbsp;
 										<IconButton isLightColor={false} onClick={() => {}} color="#757575" label="">
-											<EditIcon size="2.4rem" color="#757575" />
+											{props.readOnly ? <ViewIcon size="2.4rem" color="#757575" /> : <EditIcon size="2.4rem" color="#757575" />}
 										</IconButton>
 									</td>
 								</tr>
@@ -373,11 +380,11 @@ export function Table(props: TableProps) {
 								<option value={13}>13</option>
 								<option value={14}>14</option>
 								<option value={15}>15</option>
-								<option value={15}>20</option>
-								<option value={15}>50</option>
-								<option value={15}>100</option>
-								<option value={15}>200</option>
-								<option value={15}>500</option>
+								<option value={20}>20</option>
+								<option value={50}>50</option>
+								<option value={100}>100</option>
+								<option value={200}>200</option>
+								<option value={500}>500</option>
 							</select>
 						</StyledFooterItem>
 						<StyledFooterItem className="w100">

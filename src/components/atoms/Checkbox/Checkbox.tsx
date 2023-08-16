@@ -1,5 +1,6 @@
 import { LegacyRef } from 'react';
 import styled from 'styled-components';
+import React from 'react';
 
 const StyledCheckbox = styled.label`
 	z-index: 0;
@@ -133,15 +134,16 @@ interface CheckboxProps {
 	forwardedRef?: LegacyRef<HTMLInputElement>;
 }
 
-export function Checkbox(props: CheckboxProps) {
+export const Checkbox = React.memo((props: CheckboxProps)=> {
 	if (props.controlled)
 		return (
 			<StyledCheckbox className="checkbox">
 				<input
 					type="checkbox"
 					checked={props.checked}
-					onChange={(e) => props.onChange(e.target.value)}
+					onChange={(e:React.ChangeEvent<HTMLInputElement>) => props.onChange(e.target.value)}
 					ref={props.forwardedRef}
+					readOnly
 				/>
 				<span>{props.label}</span>
 			</StyledCheckbox>
@@ -152,4 +154,4 @@ export function Checkbox(props: CheckboxProps) {
 			<span>{props.label}</span>
 		</StyledCheckbox>
 	);
-}
+});

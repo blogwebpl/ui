@@ -67,7 +67,7 @@ export const InSidebar: ComponentStory<typeof DeviceItem> = () => {
 			<AppBar
 				handleProfileClick={() => {}}
 				isDrawerOpen={false}
-				isLoggedin={true}
+				isLoggedIn={true}
 				isSidebarOpen={isSidebarOpen}
 				setIsDrawerOpen={() => {}}
 				setIsSidebarOpen={setIsSidebarOpen}
