@@ -45,6 +45,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@storybook/react-webpack5", "virtual:a870783800462ec8b1d2b903fee64373741ea7450459ff78a85f45cc69ed677ae56de967f7bbe65b4eca86176fc4aeabd9981ce24f995d6169c0383367fd7616#npm:7.3.1"],\
             ["@storybook/testing-library", "npm:0.2.0"],\
             ["@total-typescript/ts-reset", "npm:0.5.1"],\
+            ["@types/node", "npm:20.5.0"],\
             ["@types/react", "npm:18.2.20"],\
             ["@types/react-dom", "npm:18.2.7"],\
             ["@types/styled-components", "npm:5.1.26"],\
@@ -2878,6 +2879,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@storybook/react-webpack5", "virtual:a870783800462ec8b1d2b903fee64373741ea7450459ff78a85f45cc69ed677ae56de967f7bbe65b4eca86176fc4aeabd9981ce24f995d6169c0383367fd7616#npm:7.3.1"],\
             ["@storybook/testing-library", "npm:0.2.0"],\
             ["@total-typescript/ts-reset", "npm:0.5.1"],\
+            ["@types/node", "npm:20.5.0"],\
             ["@types/react", "npm:18.2.20"],\
             ["@types/react-dom", "npm:18.2.7"],\
             ["@types/styled-components", "npm:5.1.26"],\
@@ -7632,6 +7634,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "../../../../../YARN_CACHE_FOLDER/@types-node-npm-20.4.8-f8f2d8d349-86a3963c0c.zip/node_modules/@types/node/",\
           "packageDependencies": [\
             ["@types/node", "npm:20.4.8"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:20.5.0", {\
+          "packageLocation": "../../../../../YARN_CACHE_FOLDER/@types-node-npm-20.5.0-ea170d5dd7-659bc5fc93.zip/node_modules/@types/node/",\
+          "packageDependencies": [\
+            ["@types/node", "npm:20.5.0"]\
           ],\
           "linkType": "HARD"\
         }]\
