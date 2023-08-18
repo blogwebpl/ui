@@ -5,15 +5,18 @@
 	],
 	"exclude": [
 		"dist",
-		"node_modules"
+		"node_modules",
+		"**/*.stories.tsx" 
 	],
 	"compilerOptions": {
+		"target": "es5",
+		"types": ["@types/node"],
 		"module": "esnext",
 		"lib": [
 			"dom",
 			"esnext"
 		],
-		"declaration": false,
+		"declaration": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
 		"importHelpers": true,
