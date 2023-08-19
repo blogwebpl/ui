@@ -30,9 +30,9 @@ interface MainProps {
 export function Main(props: MainProps) {
 	return (
 		<StyledMain
-			background={props.background}
-			isDrawerOpen={props.isDrawerOpen}
-			isCovered={props.isCovered}
+			$background={props.background}
+			$isdraweropen={props.isDrawerOpen}
+			$iscovered={props.isCovered}
 			onClick={() => {
 				if (props.isDrawerOpen && props.isCovered) {
 					props.setIsDrawerOpen(false);

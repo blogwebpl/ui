@@ -1,9 +1,9 @@
 import styled, { keyframes } from 'styled-components';
 
 interface StyledCardProps {
-	padding?: boolean;
-	minWidth: string;
-	opacity?: boolean;
+	$padding?: boolean;
+	$minwidth: string;
+	$opacity?: boolean;
 }
 
 const fadeIn = keyframes`
@@ -20,14 +20,14 @@ const StyledCard = styled.div<StyledCardProps>`
 	box-shadow: ${(props) => props.theme.shadows[2]};
 	color: ${(props) => props.theme.palette.element.primary.textDark};
 	display: inline-block;
-	padding: ${(props) => (props.padding ? '1.6rem' : '0')};
-	min-width: min(calc(100% - 3.2rem), ${(props) => props.minWidth});
+	padding: ${(props) => (props.$padding ? '1.6rem' : '0')};
+	min-width: min(calc(100% - 3.2rem), ${(props) => props.$minwidth});
 	margin-inline: auto;
 	box-sizing: border-box;
-	opacity: ${(props) => (props.opacity ? '0.95' : '1')};
+	opacity: ${(props) => (props.$opacity ? '0.95' : '1')};
 	background-color: ${(props) =>
-		props.opacity ? 'rgba(255, 255, 255, 0.9)' : props.theme.palette.background.default};
-	backdrop-filter: ${(props) => (props.opacity ? 'blur(1.5rem)' : 'none')};
+		props.$opacity ? 'rgba(255, 255, 255, 0.9)' : props.theme.palette.background.default};
+	backdrop-filter: ${(props) => (props.$opacity ? 'blur(1.5rem)' : 'none')};
 	@media (min-width: 23rem) {
 		border-radius: ${(props) => props.theme.shape.borderRadious};
 	}
@@ -40,11 +40,9 @@ interface CardProps {
 	opacity?: boolean;
 }
 
-// TODO: remove round for mobile
-
 export function Card(props: CardProps) {
 	return (
-		<StyledCard padding={props.padding} minWidth={props.minWidth} opacity={props.opacity}>
+		<StyledCard $padding={props.padding} $minwidth={props.minWidth} $opacity={props.opacity}>
 			{props.children}
 		</StyledCard>
 	);

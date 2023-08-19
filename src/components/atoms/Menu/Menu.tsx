@@ -11,15 +11,15 @@ const StyledMenu = styled.ul`
 	}
 `;
 
-const StyledSubmenu = styled.div<{ isOpen: boolean; elements: number }>`
+const StyledSubmenu = styled.div<{ $isopen: boolean; $elements: number }>`
 	font-size: 1.4rem;
 	height: auto;
-	max-height: ${(props) => (props.isOpen ? `${4.4 * props.elements}rem` : '0')};
+	max-height: ${(props) => (props.$isopen ? `${4.4 * props.$elements}rem` : '0')};
 	overflow: hidden;
 	a {
 		text-decoration: none;
 	}
-	opacity: ${(props) => (props.isOpen ? '1' : '0')};
+	opacity: ${(props) => (props.$isopen ? '1' : '0')};
 	transition:
 		opacity 0.25s ease-out,
 		max-height 0.25s ease-out;
@@ -31,16 +31,16 @@ interface SubmenuProps {
 	elements: number;
 }
 
-const StyledItem = styled.div<{ isOpen: boolean; isSub: boolean }>`
+const StyledItem = styled.div<{ $isopen: boolean; $issub: boolean }>`
 	align-items: center;
 	color: ${(props) =>
-		props.isSub ? props.theme.palette.text.menuSecondary : props.theme.palette.text.menuPrimary};
+		props.$issub ? props.theme.palette.text.menuSecondary : props.theme.palette.text.menuPrimary};
 	display: flex;
 	font-size: 1.4rem;
 	font-weight: 500;
 	height: auto;
 	margin: 0;
-	padding: ${(props) => (props.isSub ? '0.4rem 1.6rem' : '0.8rem 1.6rem')};
+	padding: ${(props) => (props.$issub ? '0.4rem 1.6rem' : '0.8rem 1.6rem')};
 	user-select: none;
 	cursor: pointer;
 `;
@@ -55,9 +55,9 @@ const StyledLabel = styled.div`
 	flex-grow: 1;
 `;
 
-const StyledChevronContainer = styled.div<{ isOpen: boolean }>`
+const StyledChevronContainer = styled.div<{ $isopen: boolean }>`
 	height: 2.4rem;
-	transform: ${(props) => (props.isOpen ? 'rotate(90deg)' : 'rotate(0)')};
+	transform: ${(props) => (props.$isopen ? 'rotate(90deg)' : 'rotate(0)')};
 	transition: transform ease-out 0.35s;
 	width: 2.4rem;
 `;
@@ -84,8 +84,8 @@ function MenuItem({
 	const navigate: NavigateFunction = useNavigate();
 	return (
 		<StyledItem
-			isSub={isSub}
-			isOpen={isOpen}
+			$issub={isSub}
+			$isopen={isOpen}
 			onClick={() => {
 				if (url) {
 					navigate(url);
@@ -97,7 +97,7 @@ function MenuItem({
 			<StyledIconContainer>{Icon ? <Icon size="2.4rem" /> : null}</StyledIconContainer>
 			<StyledLabel className={url ? 'link' : ''}>{label}</StyledLabel>
 			{url ? null : (
-				<StyledChevronContainer isOpen={isOpen}>
+				<StyledChevronContainer $isopen={isOpen}>
 					<IconRight size="2.4rem" />
 				</StyledChevronContainer>
 			)}
@@ -107,7 +107,7 @@ function MenuItem({
 
 export function Submenu({ children, isOpen, elements }: SubmenuProps) {
 	return (
-		<StyledSubmenu elements={elements} isOpen={isOpen}>
+		<StyledSubmenu $elements={elements} $isopen={isOpen}>
 			{children}
 		</StyledSubmenu>
 	);

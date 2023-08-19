@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Item, Menu } from '../atoms/Menu';
 
-const StyledDrawer = styled.div<{ isDrawerOpen: boolean }>`
+const StyledDrawer = styled.div<{ $isdraweropen: boolean }>`
 	background-color: ${(props) => props.theme.palette.background.default};
 	bottom: 0;
 	box-shadow: ${(props) => props.theme.shadows[3]};
@@ -9,7 +9,7 @@ const StyledDrawer = styled.div<{ isDrawerOpen: boolean }>`
 	max-width: calc(100% - 5.6rem);
 	overflow: hidden;
 	position: fixed;
-	transform: ${(props) => (props.isDrawerOpen ? 'translate(0)' : 'translate(-101%)')};
+	transform: ${(props) => (props.$isdraweropen ? 'translate(0)' : 'translate(-101%)')};
 	transition: transform 0.25s ease-in-out 0s;
 	width: 32rem;
 	@media (orientation: landscape) {
@@ -34,7 +34,7 @@ export function Drawer(props: DrawerProps) {
 	return (
 		<StyledDrawer
 			className="drawer"
-			isDrawerOpen={props.isDrawerOpen}
+			$isdraweropen={props.isDrawerOpen}
 			onClick={(e) => {
 				if (!props.closeOnClick) {
 					return;

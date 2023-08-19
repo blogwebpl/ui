@@ -69,7 +69,7 @@ export const StyledContainer = styled.fieldset<{ $icon: boolean; $slim?: boolean
 		pointer-events: none;
 		transform: translate(0.8rem, 1.9rem) scale(1);
 		${(props) =>
-			props.slim &&
+			props.$slim &&
 			css`
 				transform: translate(0.8rem, 1.1rem) scale(1);
 			`}

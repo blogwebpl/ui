@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-export const StyledButton = styled.button<{ variant: string; width?: string }>`
+export const StyledButton = styled.button<{ $variant: string; $width?: string }>`
 	background-color: ${(props) => {
-		switch (props.variant) {
+		switch (props.$variant) {
 			case 'primary':
 				return props.theme.palette.element.primary.default;
 			case 'secondary':
@@ -14,7 +14,7 @@ export const StyledButton = styled.button<{ variant: string; width?: string }>`
 		}
 	}};
 	color: ${(props) => {
-		switch (props.variant) {
+		switch (props.$variant) {
 			case 'primary':
 				return props.theme.palette.element.primary.text;
 			case 'secondary':
@@ -26,12 +26,12 @@ export const StyledButton = styled.button<{ variant: string; width?: string }>`
 		}
 	}};
 	width: ${(props) => {
-		return props.width || '100%';
+		return props.$width || '100%';
 	}};
 	border-radius: ${(props) => props.theme.shape.borderRadious};
 	box-shadow: ${(props) => props.theme.shadows[3]};
 	border-color: ${(props) => {
-		switch (props.variant) {
+		switch (props.$widthvariant) {
 			case 'primary':
 				return props.theme.palette.element.primary.border;
 			case 'secondary':
@@ -59,7 +59,7 @@ export const StyledButton = styled.button<{ variant: string; width?: string }>`
 
 	&:active:enabled {
 		background-color: ${(props) => {
-			switch (props.variant) {
+			switch (props.$variant) {
 				case 'primary':
 					return props.theme.palette.element.primary.action;
 				case 'secondary':
