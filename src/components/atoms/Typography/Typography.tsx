@@ -11,10 +11,10 @@ interface TypographyProps {
 export function Typography(props: TypographyProps) {
 	return (
 		<StyledTypography
-			component={props.component}
+			$component={props.component}
 			$userselect={props.userSelect}
-			color={props.color}
-			width={props.width}
+			$color={props.color}
+			$width={props.width}
 		>
 			{props.children}
 		</StyledTypography>

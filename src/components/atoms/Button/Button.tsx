@@ -14,7 +14,7 @@ export interface ButtonProps {
 
 export function Button(props: ButtonProps) {
 	return (
-		<StyledButton {...{ ...props, isDisabled: undefined }} $variant={props.variant} $width={props.width} disabled={props.isDisabled}>
+		<StyledButton {...{ ...props, isDisabled: undefined, variant: undefined, width: undefined }} $variant={props.variant} $width={props.width} disabled={props.isDisabled}>
 			{props.label}
 		</StyledButton>
 	);

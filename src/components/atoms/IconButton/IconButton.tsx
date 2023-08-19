@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 const StyledButton = styled.button<{
-	margin?: string;
-	color?: string;
+	$margin?: string;
+	$color?: string;
 	$islightcolor?: boolean;
 	disabled?: boolean;
 	$mobileinvisible: boolean;
@@ -10,13 +10,13 @@ const StyledButton = styled.button<{
 	background-color: transparent;
 	border: 0;
 	border-radius: 50%;
-	color: ${(props) => props.color || props.theme.palette.element.primary.text};
+	color: ${(props) => props.$color || props.theme.palette.element.primary.text};
 	cursor: pointer;
 	display: flex;
 	@media (max-width: 28.75rem) {
 		display: ${(props) => (props.$mobileinvisible ? 'none' : 'flex')};
 	}
-	margin: ${(props) => props.margin};
+	margin: ${(props) => props.$margin};
 	outline: 0;
 	padding: 1.2rem;
 	position: relative;
@@ -86,14 +86,14 @@ interface IconButtonProps {
 export function IconButton(props: IconButtonProps) {
 	return (
 		<StyledButton
-			color={props.color}
+			$color={props.color}
 			data-label={props.label}
 			aria-label={props.ariaLabel || props.label}
 			disabled={props.isDisabled}
 			id={props.id}
 			$islightcolor={props.isLightColor}
 			onClick={props.onClick}
-			margin={props.margin}
+			$margin={props.margin}
 			$mobileinvisible={!!props.mobileInvisible}
 		>
 			{props.children}

@@ -31,7 +31,7 @@ export const StyledButton = styled.button<{ $variant: string; $width?: string }>
 	border-radius: ${(props) => props.theme.shape.borderRadious};
 	box-shadow: ${(props) => props.theme.shadows[3]};
 	border-color: ${(props) => {
-		switch (props.$widthvariant) {
+		switch (props.$variant) {
 			case 'primary':
 				return props.theme.palette.element.primary.border;
 			case 'secondary':
