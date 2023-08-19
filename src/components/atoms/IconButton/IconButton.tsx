@@ -3,9 +3,9 @@ import styled from 'styled-components';
 const StyledButton = styled.button<{
 	margin?: string;
 	color?: string;
-	isLightColor?: boolean;
+	islightcolor?: boolean;
 	disabled?: boolean;
-	mobileInvisible: boolean;
+	mobileinvisible: boolean;
 }>`
 	background-color: transparent;
 	border: 0;
@@ -91,10 +91,10 @@ export function IconButton(props: IconButtonProps) {
 			aria-label={props.ariaLabel || props.label}
 			disabled={props.isDisabled}
 			id={props.id}
-			isLightColor={props.isLightColor}
+			islightcolor={props.isLightColor}
 			onClick={props.onClick}
 			margin={props.margin}
-			mobileInvisible={!!props.mobileInvisible}
+			mobileinvisible={!!props.mobileInvisible}
 		>
 			{props.children}
 		</StyledButton>

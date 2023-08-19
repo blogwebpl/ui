@@ -19,4 +19,8 @@ module.exports = {
 	docs: {
 		autodocs: true,
 	},
+	webpackFinal: async (config, { configType }) => {
+		config.mode = configType === 'DEVELOPMENT' ? 'development' : 'production';
+		return config;
+	  },
 };
