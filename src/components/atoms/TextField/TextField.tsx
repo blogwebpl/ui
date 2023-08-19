@@ -23,7 +23,7 @@ export interface TextFieldProps {
 export function TextField(props: TextFieldProps) {
 	if (props.controlled)
 		return (
-			<StyledContainer icon={props.icon !== undefined} slim={props.slim}>
+			<StyledContainer $icon={props.icon !== undefined} $slim={props.slim}>
 				<input
 					id={props.id}
 					type={props.type}
@@ -52,7 +52,7 @@ export function TextField(props: TextFieldProps) {
 			</StyledContainer>
 		);
 	return (
-		<StyledContainer icon={props.icon !== undefined} slim={props.slim}>
+		<StyledContainer $icon={props.icon !== undefined} $slim={props.slim}>
 			<input
 				id={props.id}
 				type={props.type}

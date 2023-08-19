@@ -3,9 +3,9 @@ import styled from 'styled-components';
 const StyledButton = styled.button<{
 	margin?: string;
 	color?: string;
-	islightcolor?: boolean;
+	$islightcolor?: boolean;
 	disabled?: boolean;
-	mobileinvisible: boolean;
+	$mobileinvisible: boolean;
 }>`
 	background-color: transparent;
 	border: 0;
@@ -14,7 +14,7 @@ const StyledButton = styled.button<{
 	cursor: pointer;
 	display: flex;
 	@media (max-width: 28.75rem) {
-		display: ${(props) => (props.mobileinvisible ? 'none' : 'flex')};
+		display: ${(props) => (props.$mobileinvisible ? 'none' : 'flex')};
 	}
 	margin: ${(props) => props.margin};
 	outline: 0;
@@ -24,14 +24,14 @@ const StyledButton = styled.button<{
 	&:hover,
 	&:focus {
 		background-color: ${(props) => {
-			return props.islightcolor
+			return props.$islightcolor
 				? `#eeeeee${props.theme.opacity.actions.hover * 100}`
 				: `${props.color}${props.theme.opacity.actions.hover * 100}`;
 		}};
 	}
 	&:active {
 		background-color: ${(props) => {
-			return props.islightcolor
+			return props.$islightcolor
 				? `#eeeeee${props.theme.opacity.actions.hover * 100}`
 				: `${props.color}${props.theme.opacity.actions.hover * 100}`;
 		}};
@@ -91,10 +91,10 @@ export function IconButton(props: IconButtonProps) {
 			aria-label={props.ariaLabel || props.label}
 			disabled={props.isDisabled}
 			id={props.id}
-			islightcolor={props.isLightColor}
+			$islightcolor={props.isLightColor}
 			onClick={props.onClick}
 			margin={props.margin}
-			mobileinvisible={!!props.mobileInvisible}
+			$mobileinvisible={!!props.mobileInvisible}
 		>
 			{props.children}
 		</StyledButton>

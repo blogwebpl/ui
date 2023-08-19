@@ -12,7 +12,7 @@ export function Typography(props: TypographyProps) {
 	return (
 		<StyledTypography
 			component={props.component}
-			userSelect={props.userSelect}
+			$userselect={props.userSelect}
 			color={props.color}
 			width={props.width}
 		>

@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const StyledContainer = styled.fieldset<{ icon: boolean; slim?: boolean }>`
+export const StyledContainer = styled.fieldset<{ $icon: boolean; $slim?: boolean }>`
 	width: 100%;
 	border: 0;
 	margin: 0;
@@ -22,13 +22,13 @@ export const StyledContainer = styled.fieldset<{ icon: boolean; slim?: boolean }
 		height: 5.6rem;
 		padding: 1.4rem 1.3rem;
 		${(props) =>
-			props.slim &&
+			props.$slim &&
 			css`
 				padding: 1rem 1.3rem;
 				height: auto;
 			`}
 		${(props) =>
-			props.icon &&
+			props.$icon &&
 			css`
 				padding-right: 4rem;
 			`}
@@ -41,13 +41,13 @@ export const StyledContainer = styled.fieldset<{ icon: boolean; slim?: boolean }
 		outline: 0.1rem solid;
 		outline-color: ${(props) => props.theme.palette.element.primary.default};
 		${(props) =>
-			props.slim &&
+			props.$slim &&
 			css`
 				padding: 0.9rem 1.2rem;
 				height: auto;
 			`}
 		${(props) =>
-			props.icon &&
+			props.$icon &&
 			css`
 				padding-right: 4rem;
 			`}
