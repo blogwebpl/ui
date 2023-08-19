@@ -14,7 +14,7 @@ const StyledButton = styled.button<{
 	cursor: pointer;
 	display: flex;
 	@media (max-width: 28.75rem) {
-		display: ${(props) => (props.mobileInvisible ? 'none' : 'flex')};
+		display: ${(props) => (props.mobileinvisible ? 'none' : 'flex')};
 	}
 	margin: ${(props) => props.margin};
 	outline: 0;
@@ -24,14 +24,14 @@ const StyledButton = styled.button<{
 	&:hover,
 	&:focus {
 		background-color: ${(props) => {
-			return props.isLightColor
+			return props.islightcolor
 				? `#eeeeee${props.theme.opacity.actions.hover * 100}`
 				: `${props.color}${props.theme.opacity.actions.hover * 100}`;
 		}};
 	}
 	&:active {
 		background-color: ${(props) => {
-			return props.isLightColor
+			return props.islightcolor
 				? `#eeeeee${props.theme.opacity.actions.hover * 100}`
 				: `${props.color}${props.theme.opacity.actions.hover * 100}`;
 		}};
