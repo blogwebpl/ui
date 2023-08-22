@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const StyledSidebar = styled.div<{ isSidebarOpen: boolean }>`
+const StyledSidebar = styled.div<{ $issidebaropen: boolean }>`
 	background-color: ${(props) => props.theme.palette.background.default};
 	bottom: 0;
 	box-shadow: ${(props) => props.theme.shadows[3]};
@@ -8,7 +8,7 @@ const StyledSidebar = styled.div<{ isSidebarOpen: boolean }>`
 	max-width: calc(100% - 5.6rem);
 	overflow-y: auto;
 	position: fixed;
-	transform: ${(props) => (props.isSidebarOpen ? 'translate(0)' : 'translate(101%)')};
+	transform: ${(props) => (props.$issidebaropen ? 'translate(0)' : 'translate(101%)')};
 	transition: transform 0.25s ease-in-out 0s;
 	width: 32rem;
 	@media (orientation: landscape) {
@@ -31,7 +31,7 @@ interface SidebarProps {
 
 export function Sidebar(props: SidebarProps) {
 	return (
-		<StyledSidebar className="sidebar" isSidebarOpen={props.isSidebarOpen}>
+		<StyledSidebar className="sidebar" $issidebaropen={props.isSidebarOpen}>
 			<StyledContent>{props.children}</StyledContent>
 		</StyledSidebar>
 	);
