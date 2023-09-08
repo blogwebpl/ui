@@ -65,7 +65,7 @@ export function Select(props: SelectProps) {
 	const Control = (controlProps: any) => {
 		return (
 			<>
-				<Label $isfloating={controlProps.isFocused} $hasvalue={controlProps.$hasvalue}>
+				<Label $isfloating={controlProps.isFocused} $hasvalue={controlProps.hasValue}>
 					{props.label} {props.isRequired ? '*' : ''}
 				</Label>
 				<components.Control {...controlProps} />
