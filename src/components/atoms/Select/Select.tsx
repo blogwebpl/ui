@@ -15,7 +15,7 @@ const theme: ThemeConfig = (t: Theme) => {
 };
 
 const styles: StylesConfig = {
-	control: (baseStyles, state) => {
+	control: (baseStyles: any, state: any) => {
 		const { borderColor } = baseStyles;
 		return {
 			...baseStyles,
@@ -29,21 +29,21 @@ const styles: StylesConfig = {
 	},
 };
 
-const Label = styled.label<{ isFloating?: boolean; hasValue?: boolean }>`
+const Label = styled.label<{ $isfloating?: boolean; $hasvalue?: boolean }>`
 	background: white;
 	padding: 0 0.5rem;
 	pointer-events: none;
 	position: absolute;
 	transition: 0.2s ease all;
 	z-index: 1;
-	color: ${(props) =>
-		props.isFloating
+	color: ${(props: any) =>
+		props.$isfloating
 			? props.theme.palette.element.primary.default
 			: props.theme.palette.text.secondary};
-	top: ${(props) => (props.isFloating || props.hasValue ? `-0.7rem` : `1.9rem`)};
+	top: ${(props: any) => (props.$isfloating || props.$hasvalue ? `-0.7rem` : `1.9rem`)};
 	left: 0.8rem;
 
-	font-size: ${(props) => (props.isFloating || props.hasValue ? `1.2rem` : `1.6rem`)};
+	font-size: ${(props: any) => (props.$isfloating || props.$hasvalue ? `1.2rem` : `1.6rem`)};
 `;
 
 export interface SelectOption {
@@ -65,7 +65,7 @@ export function Select(props: SelectProps) {
 	const Control = (controlProps: any) => {
 		return (
 			<>
-				<Label isFloating={controlProps.isFocused} hasValue={controlProps.hasValue}>
+				<Label $isfloating={controlProps.isFocused} $hasvalue={controlProps.$hasvalue}>
 					{props.label} {props.isRequired ? '*' : ''}
 				</Label>
 				<components.Control {...controlProps} />

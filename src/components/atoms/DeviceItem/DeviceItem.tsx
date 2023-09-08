@@ -5,8 +5,8 @@ import dayjs from 'dayjs';
 import { Checkbox } from '../Checkbox';
 import { IconButton } from '../IconButton';
 
-const StyledItem = styled.div<{ info: boolean }>`
-	height: ${(props) => (props.info ? '11.2rem' : '5.6rem')};
+const StyledItem = styled.div<{ $info: boolean }>`
+	height: ${(props) => (props.$info ? '11.2rem' : '5.6rem')};
 	width: auto;
 	border-bottom: 0.1rem solid #808080;
 	display: flex;
@@ -119,7 +119,7 @@ export function DeviceItem(props: DeviceItemProps) {
 	const { io } = props;
 	const battery = io?.find((i) => i[0] === 66);
 	return (
-		<StyledItem info={props.info} key={props.vid}>
+		<StyledItem $info={props.info} key={props.vid}>
 			<StyledCheckboxContainer>
 				<Checkbox
 					controlled={true}
