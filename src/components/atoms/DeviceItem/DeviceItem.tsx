@@ -68,7 +68,6 @@ export const StyledSVG = styled.svg`
 
 export interface DeviceItemProps {
 	id: string;
-	vid: string;
 	name: string;
 	time: Date;
 	handleNameClick: (id: string, pos: [number, number]) => void;
@@ -91,12 +90,11 @@ export interface Gps {
 }
 
 export interface Device {
-	_id: string;
+	id: string;
 	name: string;
 	show: boolean;
 	info: boolean;
 	follow: boolean;
-	vid: string;
 	gps: Gps;
 	io: [number, number][];
 	st: Date;
@@ -119,7 +117,7 @@ export function DeviceItem(props: DeviceItemProps) {
 	const { io } = props;
 	const battery = io?.find((i) => i[0] === 66);
 	return (
-		<StyledItem $info={props.info} key={props.vid}>
+		<StyledItem $info={props.info} key={props.id}>
 			<StyledCheckboxContainer>
 				<Checkbox
 					controlled={true}
