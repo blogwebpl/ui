@@ -43,7 +43,7 @@ export const StyledMain = styled.main<{
 		left: 0;
 		position: fixed;
 		right: 0;
-		z-index: 100;
+		z-index: 10000;
 		@media (min-width: ${(props) => props.theme.breakpoints.sm}) {
 			display: ${(props) => (props.$isdraweropen && props.$iscovered ? 'block' : 'none')};
 		}
