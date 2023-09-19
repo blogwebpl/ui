@@ -67,7 +67,7 @@ export const StyledSVG = styled.svg`
 `;
 
 export interface DeviceItemProps {
-	id: string;
+	deviceId: string;
 	name: string;
 	time: Date;
 	handleNameClick: (id: string, pos: [number, number]) => void;
@@ -90,7 +90,7 @@ export interface Gps {
 }
 
 export interface Device {
-	id: string;
+	deviceId: string;
 	name: string;
 	show: boolean;
 	info: boolean;
@@ -117,15 +117,15 @@ export function DeviceItem(props: DeviceItemProps) {
 	const { io } = props;
 	const battery = io?.find((i) => i[0] === 66);
 	return (
-		<StyledItem $info={props.info} key={props.id}>
+		<StyledItem $info={props.info} key={props.deviceId}>
 			<StyledCheckboxContainer>
 				<Checkbox
 					controlled={true}
 					checked={props.show}
-					onChange={() => props.handleShowClick(props.id, !props.show)}
+					onChange={() => props.handleShowClick(props.deviceId, !props.show)}
 				/>
 			</StyledCheckboxContainer>
-			<StyledDetailContainer onClick={() => props.handleNameClick(props.id, props.pos)}>
+			<StyledDetailContainer onClick={() => props.handleNameClick(props.deviceId, props.pos)}>
 				<div>
 					<span>{props.name}</span>
 					<br />
@@ -136,14 +136,14 @@ export function DeviceItem(props: DeviceItemProps) {
 				<IconButton
 					color={props.follow ? '#ff4080' : '#777777'}
 					label=""
-					onClick={() => props.handleFollowClick(props.id, !props.follow)}
+					onClick={() => props.handleFollowClick(props.deviceId, !props.follow)}
 				>
 					<IconCenter size="2.4rem" />
 				</IconButton>
 				<IconButton
 					color={props.info ? '#ff4080' : '#777777'}
 					label=""
-					onClick={() => props.handleInfoClick(props.id, !props.info)}
+					onClick={() => props.handleInfoClick(props.deviceId, !props.info)}
 				>
 					<IconInformation size="2.4rem" />
 				</IconButton>

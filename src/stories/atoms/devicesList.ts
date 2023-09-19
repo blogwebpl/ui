@@ -2,8 +2,7 @@ import { Device } from '../../components/atoms/DeviceItem';
 
 export const devicesList: Device[] = [
 	{
-		_id: '123',
-		vid: 'oa',
+		deviceId: '123',
 		name: 'Opel',
 		time: new Date(),
 		show: false,
@@ -17,8 +16,7 @@ export const devicesList: Device[] = [
 		st: new Date(),
 	},
 	{
-		_id: '456',
-		vid: 'm3',
+		deviceId: '456',
 		name: 'Mazda',
 		time: new Date(),
 		show: false,

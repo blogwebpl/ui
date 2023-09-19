@@ -29,7 +29,7 @@ export function PlayerSettings({ devices, onLoad, onClose }: PlayerSettingsProps
 	const options: SelectOption[] = devices
 		.map((device) => ({
 			label: device.name,
-			value: device.vid,
+			value: device.deviceId,
 		}))
 		.sort((device1, device2) => (device1.label < device2.label ? -1 : 1));
 
