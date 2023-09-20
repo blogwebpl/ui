@@ -6,7 +6,7 @@
 	"exclude": [
 		"dist",
 		"node_modules",
-		"**/*.stories.tsx" 
+		// "**/*.stories.tsx" 
 	],
 	"compilerOptions": {
 		"target": "es5",

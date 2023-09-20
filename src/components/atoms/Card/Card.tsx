@@ -16,6 +16,7 @@ const fadeIn = keyframes`
 `;
 
 const StyledCard = styled.div<StyledCardProps>`
+	position: relative;
 	animation: ${fadeIn} 300ms linear;
 	box-shadow: ${(props) => props.theme.shadows[2]};
 	color: ${(props) => props.theme.palette.element.primary.textDark};

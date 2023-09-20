@@ -22,3 +22,5 @@ export * from './components/ChangePassword';
 export * from './components/atoms/Player';
 export * from './components/atoms/PlayerSettings';
 export * from './components/atoms/Tools';
+export * from './components/EditForm';
+export * from './components/atoms/Tabs';
