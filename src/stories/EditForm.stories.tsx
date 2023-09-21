@@ -1,8 +1,8 @@
 import React from 'react';
-import { EditForm } from '../components/EditForm';
+import { EditForm, Field } from '../components/EditForm';
 import { Main } from '../components/atoms/Main';
 
-const fields = [
+const fields: Field[] = [
 	{
 		key: 'name',
 		type: 'text',
@@ -32,9 +32,9 @@ const Template = (props: any) => {
 		{ label: 'Tab 1', active: true },
 		{ label: 'Tab 2', active: false },
 	]);
+	const values = { name: 'Tomasz', surname: 'Durałek', age: 42, date: '2023-01-01' };
 	const setActiveTab = (e: React.MouseEvent<HTMLAnchorElement>) => {
 		const dataIndex = Number(e.currentTarget.getAttribute('data-index'));
-		console.log(dataIndex);
 		const newTabs = tabs.map((tab, index) => {
 			if (index === dataIndex) {
 				return { ...tab, active: true };
@@ -45,10 +45,16 @@ const Template = (props: any) => {
 	};
 	return (
 		<Main isCovered={true} isDrawerOpen={false} setIsDrawerOpen={() => {}}>
-			<EditForm {...props} setActiveTab={setActiveTab} tabs={tabs} fields={fields} />
+			<EditForm
+				{...props}
+				setActiveTab={setActiveTab}
+				tabs={tabs}
+				fields={fields}
+				values={values}
+			/>
 		</Main>
 	);
 };
 
 export default { component: Template, title: 'EditForm' };
-export const Default = { args: { test: true } };
+export const Default = {};

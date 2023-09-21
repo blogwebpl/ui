@@ -3,12 +3,13 @@ import { StyledContainer, StyledMultiContainer } from './fieldContainerStyle';
 interface FieldContainerProps {
 	children: React.ReactNode;
 	isMulti?: boolean;
+	hidden?: boolean;
 }
 
-export function FieldContainer({ children, isMulti }: FieldContainerProps) {
+export function FieldContainer({ children, isMulti, hidden }: FieldContainerProps) {
 	return isMulti ? (
-		<StyledMultiContainer>{children}</StyledMultiContainer>
+		<StyledMultiContainer hidden={hidden}>{children}</StyledMultiContainer>
 	) : (
-		<StyledContainer>{children}</StyledContainer>
+		<StyledContainer hidden={hidden}>{children}</StyledContainer>
 	);
 }
