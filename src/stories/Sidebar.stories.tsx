@@ -1,5 +1,4 @@
 /* eslint-disable no-alert */
-import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { MdDirectionsCar } from 'react-icons/md';
@@ -8,13 +7,7 @@ import { Sidebar } from '../components/atoms/Sidebar';
 import { AppBar } from '../components/atoms/AppBar';
 import { Main } from '../components/atoms/Main';
 
-export default {
-	title: 'Sidebar',
-	component: Sidebar,
-	args: {},
-} as ComponentMeta<typeof Sidebar>;
-
-const Template: ComponentStory<typeof Sidebar> = () => {
+const Template = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
 	return (
@@ -41,4 +34,5 @@ const Template: ComponentStory<typeof Sidebar> = () => {
 	);
 };
 
-export const Default = Template.bind({});
+export default { component: Template, title: 'Sidebar' };
+export const Default = {};

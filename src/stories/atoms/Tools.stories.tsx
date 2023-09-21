@@ -1,5 +1,4 @@
 /* eslint-disable no-alert */
-import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import {
 	MdSortByAlpha as SortIcon,
@@ -8,12 +7,6 @@ import {
 } from 'react-icons/md';
 import { FaFileExcel as ExcelIcon } from 'react-icons/fa';
 import { Action, Tools } from '../../components/atoms/Tools';
-
-export default {
-	title: 'atoms/Tools',
-	component: Tools,
-	args: {},
-} as ComponentMeta<typeof Tools>;
 
 const actions: Action[] = [
 	{
@@ -54,8 +47,9 @@ const actions: Action[] = [
 	},
 ];
 
-const Template: ComponentStory<typeof Tools> = () => {
+const Template = () => {
 	return <Tools actions={actions} />;
 };
 
-export const Default = Template.bind({});
+export default { component: Template, title: 'Atoms/Tools' };
+export const Default = {};

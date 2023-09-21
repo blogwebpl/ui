@@ -1,15 +1,8 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-
 import { Alert } from '../../components/atoms/Alert';
 
-export default {
-	title: 'atoms/Alert',
-	component: Alert,
-	args: {},
-} as ComponentMeta<typeof Alert>;
-
-const Template: ComponentStory<typeof Alert> = () => {
+const Template = () => {
 	return <Alert>Test Alert</Alert>;
 };
 
-export const Default = Template.bind({});
+export default { title: 'atoms/Alert', component: Template };
+export const Default = {};

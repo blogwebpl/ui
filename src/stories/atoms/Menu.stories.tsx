@@ -1,4 +1,3 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
 import {
 	MdSettings as IconSettings,
 	MdMap as IconMap,
@@ -7,12 +6,6 @@ import {
 
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Menu } from '../../components/atoms/Menu';
-
-export default {
-	title: 'atoms/Menu',
-	component: Menu,
-	args: {},
-} as ComponentMeta<typeof Menu>;
 
 const menuItems = [
 	{
@@ -60,7 +53,7 @@ const menuItems = [
 	},
 ];
 
-const Template: ComponentStory<typeof Menu> = () => {
+const Template = () => {
 	return (
 		<Router>
 			<Menu items={menuItems} />
@@ -68,4 +61,9 @@ const Template: ComponentStory<typeof Menu> = () => {
 	);
 };
 
-export const Default = Template.bind({});
+export default {
+	title: 'atoms/Menu',
+	component: Template,
+};
+
+export const Default = {};

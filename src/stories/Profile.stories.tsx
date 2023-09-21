@@ -1,15 +1,8 @@
 /* eslint-disable no-alert */
-import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { useState } from 'react';
 import { Profile } from '../components/Profile';
 import { Main } from '../components/atoms/Main';
-
-export default {
-	title: 'Profile',
-	component: Profile,
-	args: {},
-} as ComponentMeta<typeof Profile>;
 
 const roles = [
 	{ value: '1', label: 'Admin' },
@@ -18,7 +11,7 @@ const roles = [
 
 const email = 'tomek@blogweb.pl';
 
-const Template: ComponentStory<typeof Profile> = () => {
+const Template = () => {
 	const [role, setRole] = useState(roles[1]);
 
 	const handleRoleChange = (newRole: { value: string; label: string }) => {
@@ -47,4 +40,5 @@ const Template: ComponentStory<typeof Profile> = () => {
 	);
 };
 
-export const Default = Template.bind({});
+export default { component: Template, title: 'Profile' };
+export const Default = {};

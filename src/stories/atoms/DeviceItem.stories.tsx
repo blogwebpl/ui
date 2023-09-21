@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-alert */
-import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { useState } from 'react';
 import { MdDirectionsCar } from 'react-icons/md';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -12,17 +11,10 @@ import { Main } from '../../components/atoms/Main';
 import { Sidebar } from '../../components/atoms/Sidebar';
 import { devicesList } from './devicesList';
 
-export default {
-	title: 'atoms/DeviceItem',
-	component: DeviceItem,
-	args: {},
-} as ComponentMeta<typeof DeviceItem>;
-
-export const Default: ComponentStory<typeof DeviceItem> = () => {
+export const Template = () => {
 	return (
 		<DeviceItem
-			id="123"
-			vid="m3"
+			deviceId="123"
 			name="Mazda"
 			time={new Date()}
 			show={false}
@@ -37,27 +29,27 @@ export const Default: ComponentStory<typeof DeviceItem> = () => {
 	);
 };
 
-export const InSidebar: ComponentStory<typeof DeviceItem> = () => {
+const InSidebarComponent = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 	const [devices, setDevices] = useState(devicesList);
 
-	const handleShowClick = (_id: string) => {
+	const handleShowClick = (deviceId: string) => {
 		const newDevices = [...devices];
-		const index = newDevices.findIndex((device) => device._id === _id);
+		const index = newDevices.findIndex((device) => device.deviceId === deviceId);
 		newDevices[index].show = !newDevices[index].show;
 		setDevices(newDevices);
 	};
 
-	const handleFollowClick = (_id: string) => {
+	const handleFollowClick = (deviceId: string) => {
 		const newDevices = [...devices];
-		const index = newDevices.findIndex((device) => device._id === _id);
+		const index = newDevices.findIndex((device) => device.deviceId === deviceId);
 		newDevices[index].follow = !newDevices[index].follow;
 		setDevices(newDevices);
 	};
 
-	const handleInfoClick = (_id: string) => {
+	const handleInfoClick = (deviceId: string) => {
 		const newDevices = [...devices];
-		const index = newDevices.findIndex((device) => device._id === _id);
+		const index = newDevices.findIndex((device) => device.deviceId === deviceId);
 		newDevices[index].info = !newDevices[index].info;
 		setDevices(newDevices);
 	};
@@ -93,8 +85,7 @@ export const InSidebar: ComponentStory<typeof DeviceItem> = () => {
 						name={device.name}
 						show={device.show}
 						time={device.time}
-						vid={device.vid}
-						id={device._id}
+						deviceId={device.deviceId}
 						pos={[18, 53]}
 						io={device.io}
 					/>
@@ -103,3 +94,9 @@ export const InSidebar: ComponentStory<typeof DeviceItem> = () => {
 		</Router>
 	);
 };
+
+export default {
+	title: 'atoms/DeviceItem',
+	component: InSidebarComponent,
+};
+export const Default = {};

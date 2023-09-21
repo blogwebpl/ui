@@ -7,16 +7,8 @@ import {
 
 import { FaFileExcel as ExcelIcon } from 'react-icons/fa';
 
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-
 import { Table, TableAction, TableColumn } from '../../components/atoms/Table';
 import { data } from './table.data';
-
-export default {
-	title: 'atoms/Table',
-	component: Table,
-	args: {},
-} as ComponentMeta<typeof Table>;
 
 const actions: TableAction[] = [
 	{
@@ -81,7 +73,7 @@ const columns: TableColumn[] = [
 	},
 ];
 
-const Template: ComponentStory<typeof Table> = () => {
+const Template = () => {
 	return (
 		<Table
 			width="72rem"
@@ -96,4 +88,5 @@ const Template: ComponentStory<typeof Table> = () => {
 	);
 };
 
-export const Default = Template.bind({});
+export default { component: Template, title: 'Atoms/Table' };
+export const Default = {};

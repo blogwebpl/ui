@@ -1,14 +1,7 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { useState } from 'react';
 import { Card } from '../../components/atoms/Card';
 import { Main } from '../../components/atoms/Main';
 import { Select } from '../../components/atoms/Select';
-
-export default {
-	title: 'atoms/Select',
-	component: Select,
-	args: {},
-} as ComponentMeta<typeof Select>;
 
 const options = [
 	{ value: 'chocolate', label: 'Chocolate' },
@@ -16,7 +9,7 @@ const options = [
 	{ value: 'vanilla', label: 'Vanilla' },
 ];
 
-const Template: ComponentStory<typeof Select> = (args) => {
+const Template = (args: any) => {
 	const [value, setValue] = useState(null);
 	return (
 		<Main isCovered={false} isDrawerOpen={false} setIsDrawerOpen={undefined}>
@@ -38,6 +31,6 @@ const Template: ComponentStory<typeof Select> = (args) => {
 	);
 };
 
-export const Default = Template.bind({});
-export const MultiSelect = Template.bind({});
-MultiSelect.args = { isMulti: true };
+export default { component: Template, title: 'Atoms/Select' };
+export const Default = {};
+export const MultiSelect = { args: { isMulti: true } };

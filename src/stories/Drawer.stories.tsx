@@ -1,5 +1,4 @@
 /* eslint-disable no-alert */
-import { ComponentStory, ComponentMeta } from '@storybook/react';
 import {
 	MdSettings as IconSettings,
 	MdMap as IconMap,
@@ -12,12 +11,6 @@ import { Drawer } from '../components/Drawer';
 import { Item } from '../components/atoms/Menu';
 import { Main } from '../components/atoms/Main';
 import { AppBar } from '../components/atoms/AppBar';
-
-export default {
-	title: 'Drawer',
-	component: Drawer,
-	args: {},
-} as ComponentMeta<typeof Drawer>;
 
 const menuItems: Item[] = [
 	{
@@ -65,7 +58,7 @@ const menuItems: Item[] = [
 	},
 ];
 
-const Template: ComponentStory<typeof Drawer> = () => {
+const Template = () => {
 	const [isDrawerOpen, setIsDrawerOpen] = useState(true);
 	const closeDrawer = () => {
 		setIsDrawerOpen(false);
@@ -98,4 +91,5 @@ const Template: ComponentStory<typeof Drawer> = () => {
 	);
 };
 
-export const Default = Template.bind({});
+export default { component: Template, title: 'Drawer' };
+export const Default = {};

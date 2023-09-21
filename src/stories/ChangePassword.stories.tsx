@@ -1,18 +1,10 @@
 /* eslint-disable no-alert */
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-
 import { ChangePassword } from '../components/ChangePassword';
 import { Main } from '../components/atoms/Main';
 
-export default {
-	title: 'ChangePassword',
-	component: ChangePassword,
-	args: {},
-} as ComponentMeta<typeof ChangePassword>;
-
 const email = 'tomek@blogweb.pl';
 
-const Template: ComponentStory<typeof ChangePassword> = () => {
+const Template = () => {
 	const handleChangePassword = (password: string) => {
 		alert(`Change password ${password}`);
 	};
@@ -33,4 +25,5 @@ const Template: ComponentStory<typeof ChangePassword> = () => {
 	);
 };
 
-export const Default = Template.bind({});
+export default { component: Template, title: 'ChangePassword' };
+export const Default = {};

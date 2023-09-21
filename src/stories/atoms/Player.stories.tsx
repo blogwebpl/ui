@@ -1,22 +1,10 @@
 /* eslint-disable no-alert */
-import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { useEffect, useState } from 'react';
 import { Main } from '../../components/atoms/Main';
 
 import { Player } from '../../components/atoms/Player';
 
-export default {
-	title: 'atoms/Player',
-	component: Player,
-	args: {
-		isPlaying: true,
-		time: new Date(),
-		position: 1,
-		length: 1000,
-	},
-} as ComponentMeta<typeof Player>;
-
-const Template: ComponentStory<typeof Player> = (args) => {
+const Template = (args: any) => {
 	const length = 1000;
 	const [position, setPosition] = useState<number>(1);
 	const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -86,4 +74,16 @@ const Template: ComponentStory<typeof Player> = (args) => {
 	);
 };
 
-export const Default = Template.bind({});
+export default {
+	title: 'atoms/Player',
+	component: Template,
+};
+
+export const Default = {
+	args: {
+		isPlaying: true,
+		time: new Date(),
+		position: 1,
+		length: 1000,
+	},
+};

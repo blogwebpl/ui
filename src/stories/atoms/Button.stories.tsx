@@ -1,33 +1,37 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-
 import { Button } from '../../components/atoms/Button';
+
+const Template = (args: any) => {
+	return <Button {...args} />;
+};
 
 export default {
 	title: 'atoms/Button',
-	component: Button,
+	component: Template,
+};
+
+export const Default = {
 	args: {
 		label: 'Button',
 		width: '25rem',
 		disabled: false,
 		variant: 'primary',
 	},
-} as ComponentMeta<typeof Button>;
-
-const Template: ComponentStory<typeof Button> = (args) => {
-	return <Button {...args} />;
 };
 
-export const Primary = Template.bind({});
-Primary.args = {
-	variant: 'primary',
+export const Primary = {
+	args: {
+		variant: 'primary',
+	},
 };
 
-export const Secondary = Template.bind({});
-Secondary.args = {
-	variant: 'secondary',
+export const Secondary = {
+	args: {
+		variant: 'secondary',
+	},
 };
 
-export const Accent = Template.bind({});
-Accent.args = {
-	variant: 'accent',
+export const Accent = {
+	args: {
+		variant: 'accent',
+	},
 };

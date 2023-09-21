@@ -4,7 +4,7 @@ export const StyledContainer = styled.div`
 	color: black;
 	margin: 0;
 	padding: 1.6rem 0 0.8rem 0;
-	display: ${(props) => (props.hidden ? 'none' : 'flex')};
+	display: ${(props) => (props.hidden ? 'none' : 'block')};
 `;
 
 export const StyledMultiContainer = styled.div<{ hidden2?: boolean }>`

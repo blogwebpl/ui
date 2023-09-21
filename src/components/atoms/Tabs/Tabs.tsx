@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const StyledTabs = styled.div`
+	user-select: none;
 	display: flex;
 	width: 100%;
 	height: 4rem;
