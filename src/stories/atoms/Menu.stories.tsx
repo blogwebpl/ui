@@ -7,21 +7,24 @@ import {
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Menu } from '../../components/atoms/Menu';
 
-const menuItems = [
+export const menuItems = [
 	{
 		id: 'records',
 		icon: IconRecord,
-		label: 'Kartoteki',
+		label: {
+			pl: 'Kartoteki',
+			en: 'Records',
+		},
 		slug: '',
 		children: [
 			{
 				id: 'vehicles',
-				label: 'Kartoteka pojazdów',
+				label: { pl: 'Kartoteka pojazdów', en: 'Vehicles' },
 				slug: '/vehicles',
 			},
 			{
 				id: 'users',
-				label: 'Kartoteka użytkowników',
+				label: { pl: 'Kartoteka użytkowników', en: 'Users' },
 				slug: '/users',
 			},
 		],
@@ -29,7 +32,7 @@ const menuItems = [
 	{
 		id: 'settings',
 		icon: IconSettings,
-		label: 'Ustawienia',
+		label: { pl: 'Ustawienia', en: 'Settings' },
 		slug: '',
 		children: [
 			{
@@ -47,7 +50,7 @@ const menuItems = [
 	{
 		id: 'map',
 		icon: IconMap,
-		label: 'Mapa',
+		label: { pl: 'Mapa', en: 'Map' },
 		slug: '/map',
 		children: [],
 	},
@@ -56,7 +59,7 @@ const menuItems = [
 const Template = () => {
 	return (
 		<Router>
-			<Menu items={menuItems} />
+			<Menu items={menuItems} language="en" />
 		</Router>
 	);
 };

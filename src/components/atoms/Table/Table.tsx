@@ -129,7 +129,7 @@ export function Table(props: TableProps) {
 	if (rowsPerPage === 0) {
 		const headerHeight = 7.5 * fontSize;
 		const footerHeight = 3 * fontSize;
-		const rowHeight = 3.2 * fontSize;
+		const rowHeight = 3.1 * fontSize;
 		computedRowsPerPage = Math.floor((viewportHeight - headerHeight - footerHeight) / rowHeight);
 		computedRowsPerPage = Math.max(computedRowsPerPage, 0);
 	}
@@ -299,11 +299,19 @@ export function Table(props: TableProps) {
 									</td>
 								))}
 								<td>
-									<IconButton isLightColor={false} onClick={() => {
-										// history.push("/about");
-									}} color="#757575" label="">
-										{props.readOnly ? <ViewIcon size="2.4rem" color="#757575" /> : <EditIcon size="2.4rem" color="#757575" />}
-										
+									<IconButton
+										isLightColor={false}
+										onClick={() => {
+											// history.push("/about");
+										}}
+										color="#757575"
+										label=""
+									>
+										{props.readOnly ? (
+											<ViewIcon size="2.4rem" color="#757575" />
+										) : (
+											<EditIcon size="2.4rem" color="#757575" />
+										)}
 									</IconButton>
 								</td>
 							</tr>
@@ -342,7 +350,11 @@ export function Table(props: TableProps) {
 										/>
 										&nbsp;
 										<IconButton isLightColor={false} onClick={() => {}} color="#757575" label="">
-											{props.readOnly ? <ViewIcon size="2.4rem" color="#757575" /> : <EditIcon size="2.4rem" color="#757575" />}
+											{props.readOnly ? (
+												<ViewIcon size="2.4rem" color="#757575" />
+											) : (
+												<EditIcon size="2.4rem" color="#757575" />
+											)}
 										</IconButton>
 									</td>
 								</tr>

@@ -113,15 +113,20 @@ export function Submenu({ children, isOpen, elements }: SubmenuProps) {
 	);
 }
 
+export type Language = 'pl' | 'en';
+
 export interface Item {
 	id: string;
 	icon: IconType;
-	label: string;
+	label: {
+		pl: string;
+		en: string;
+	};
 	children: any;
 	slug: string;
 }
 
-export function Menu(props: { items: Item[] }) {
+export function Menu(props: { items: Item[]; language: Language }) {
 	const [openedItem, setOpenedItem] = useState('');
 	return (
 		<StyledMenu className="menu">
@@ -132,7 +137,7 @@ export function Menu(props: { items: Item[] }) {
 						Icon={item.icon}
 						isOpen={openedItem === item.id}
 						setOpenedItem={setOpenedItem}
-						label={item.label}
+						label={item.label[props.language]}
 						url={item.children.length === 0 ? item.slug! : null}
 					/>
 					{item.children.length > 0 ? (
@@ -141,7 +146,7 @@ export function Menu(props: { items: Item[] }) {
 								<MenuItem
 									key={subItem.id}
 									id={subItem.id}
-									label={subItem.label}
+									label={subItem.label[props.language]}
 									url={subItem.slug}
 									isSub={true}
 								/>
