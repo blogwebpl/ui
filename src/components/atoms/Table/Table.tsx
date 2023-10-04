@@ -129,8 +129,11 @@ export function Table(props: TableProps) {
 	if (rowsPerPage === 0) {
 		const headerHeight = 7.5 * fontSize;
 		const footerHeight = 3 * fontSize;
-		const rowHeight = 3.3 * fontSize;
-		computedRowsPerPage = Math.floor((viewportHeight - headerHeight - footerHeight) / rowHeight);
+		const rowHeight = 3.0625 * fontSize;
+		const appbarHeight = 4 * fontSize;
+		computedRowsPerPage = Math.floor(
+			(viewportHeight - headerHeight - footerHeight - appbarHeight - 8) / rowHeight
+		);
 		computedRowsPerPage = Math.max(computedRowsPerPage, 0);
 	}
 
