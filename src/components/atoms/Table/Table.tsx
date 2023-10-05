@@ -28,6 +28,7 @@ import {
 	StyledFooterContainer,
 	StyledFooterItem,
 } from './tableStyle';
+import { Language } from '../Menu';
 
 export interface TableAction {
 	id: string;
@@ -39,7 +40,10 @@ export interface TableAction {
 
 export interface TableColumn {
 	id: string;
-	label: string;
+	label: {
+		pl: string;
+		en: string;
+	};
 	width: string;
 	sort: string;
 	sortOrder: number;
@@ -58,6 +62,7 @@ export interface TableProps {
 	rowsPerPage: number;
 	pageNumber: number;
 	readOnly?: boolean;
+	language: Language;
 }
 
 function getFontSizeFromBody(): number {
@@ -274,7 +279,8 @@ export function Table(props: TableProps) {
 										changeSortOrder(column.id);
 									}}
 								>
-									<span>{column.label}&nbsp;&nbsp;</span>
+									<span>{column.label[props.language]}&nbsp;&nbsp;</span>
+
 									<span className={column.sort === 'asc' ? 'asc' : 'desc'}>▲</span>
 								</th>
 							))}
@@ -338,7 +344,7 @@ export function Table(props: TableProps) {
 											}}
 										>
 											<span className={column.sort === 'asc' ? 'asc' : 'desc'}>▲</span>&nbsp;
-											<span>{column.label}:</span>
+											<span>{column.label[props.language]}:</span>
 										</td>
 										<td>{row[column.id]}</td>
 									</tr>
