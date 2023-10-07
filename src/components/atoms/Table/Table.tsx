@@ -54,7 +54,10 @@ interface DynamicObject {
 }
 
 export interface TableProps {
-	title: string;
+	title: {
+		pl: string;
+		en: string;
+	};
 	actions: TableAction[];
 	width: string;
 	columns: TableColumn[];
@@ -231,7 +234,7 @@ export function Table(props: TableProps) {
 			<StyledHeader>
 				<StyledTitleContainer>
 					<Typography component="h6" color="#000000" userSelect="none">
-						{props.title}
+						{props.title[props.language]}
 					</Typography>
 				</StyledTitleContainer>
 				{isMobile ? null : (

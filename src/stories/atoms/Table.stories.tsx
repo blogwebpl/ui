@@ -52,21 +52,24 @@ const actions: TableAction[] = [
 const columns: TableColumn[] = [
 	{
 		id: 'firstName',
-		label: 'Imię',
+		label: {
+			pl: 'Imię',
+			en: 'First name',
+		},
 		width: '10rem',
 		sort: 'asc',
 		sortOrder: 2,
 	},
 	{
 		id: 'lastName',
-		label: 'Nazwisko',
+		label: { pl: 'Nazwisko', en: 'Last name' },
 		width: '10rem',
 		sort: 'asc',
 		sortOrder: 1,
 	},
 	{
 		id: 'age',
-		label: 'Wiek',
+		label: { pl: 'Wiek', en: 'Age' },
 		width: '5rem',
 		sort: 'desc',
 		sortOrder: 3,
@@ -84,6 +87,7 @@ const Template = () => {
 			rowsPerPage={0}
 			pageNumber={1}
 			readOnly={false}
+			language="pl"
 		/>
 	);
 };
