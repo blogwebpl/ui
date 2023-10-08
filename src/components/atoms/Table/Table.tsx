@@ -39,7 +39,7 @@ export interface TableAction {
 }
 
 export interface TableColumn {
-	id: string;
+	field: string;
 	label: {
 		pl: string;
 		en: string;
@@ -125,7 +125,7 @@ export function Table(props: TableProps) {
 
 	const changeSortOrder = (id: number | string) => {
 		const currentColumns = [...columns];
-		const column = currentColumns.find((col) => col.id === id);
+		const column = currentColumns.find((col) => col.field === id);
 		if (column) {
 			column.sort = column.sort === 'asc' ? 'desc' : 'asc';
 			setColumns(currentColumns);
@@ -161,8 +161,8 @@ export function Table(props: TableProps) {
 	);
 
 	const sortFunction = (a: DynamicObject, b: DynamicObject, column: TableColumn) => {
-		const aValue = String(a[column.id]);
-		const bValue = String(b[column.id]);
+		const aValue = String(a[column.field]);
+		const bValue = String(b[column.field]);
 
 		if (column.sort === 'asc') {
 			return aValue.localeCompare(bValue, 'pl', { sensitivity: 'base' });
@@ -277,9 +277,9 @@ export function Table(props: TableProps) {
 							{props.columns.map((column) => (
 								<th
 									style={{ minWidth: column.width }}
-									key={column.id}
+									key={column.field}
 									onClick={() => {
-										changeSortOrder(column.id);
+										changeSortOrder(column.field);
 									}}
 								>
 									<span>{column.label[props.language]}&nbsp;&nbsp;</span>
@@ -304,10 +304,10 @@ export function Table(props: TableProps) {
 								</td>
 								{columns.map((column) => (
 									<td
-										key={`${row.id}-${column.id}`}
-										className={typeof row[column.id] === 'number' ? 'number' : ''}
+										key={`${row.id}-${column.field}`}
+										className={typeof row[column.field] === 'number' ? 'number' : ''}
 									>
-										{row[column.id]}
+										{row[column.field]}
 									</td>
 								))}
 								<td>
@@ -330,7 +330,7 @@ export function Table(props: TableProps) {
 						))}
 
 						{trArray.map((_, index) => (
-							<tr key={index} className="emptyRow">
+							<tr key={`empty${index}`} className="emptyRow">
 								<td colSpan={props.columns.length + 2}>&nbsp;</td>
 							</tr>
 						))}
@@ -343,13 +343,13 @@ export function Table(props: TableProps) {
 									<tr key={`${row.id}-tr-${index}`} className="innerRow">
 										<td
 											onClick={() => {
-												changeSortOrder(column.id);
+												changeSortOrder(column.field);
 											}}
 										>
 											<span className={column.sort === 'asc' ? 'asc' : 'desc'}>▲</span>&nbsp;
 											<span>{column.label[props.language]}:</span>
 										</td>
-										<td>{row[column.id]}</td>
+										<td>{row[column.field]}</td>
 									</tr>
 								))}
 								<tr className="options">

@@ -51,7 +51,7 @@ const actions: TableAction[] = [
 
 const columns: TableColumn[] = [
 	{
-		id: 'firstName',
+		field: 'firstName',
 		label: {
 			pl: 'Imię',
 			en: 'First name',
@@ -61,14 +61,14 @@ const columns: TableColumn[] = [
 		sortOrder: 2,
 	},
 	{
-		id: 'lastName',
+		field: 'lastName',
 		label: { pl: 'Nazwisko', en: 'Last name' },
 		width: '10rem',
 		sort: 'asc',
 		sortOrder: 1,
 	},
 	{
-		id: 'age',
+		field: 'age',
 		label: { pl: 'Wiek', en: 'Age' },
 		width: '5rem',
 		sort: 'desc',
@@ -80,7 +80,7 @@ const Template = () => {
 	return (
 		<Table
 			width="72rem"
-			title="Użytkownicy"
+			title={{ pl: 'Użytkownicy', en: 'Users' }}
 			actions={actions}
 			columns={columns}
 			data={data}
