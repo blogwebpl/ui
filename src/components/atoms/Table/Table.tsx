@@ -410,9 +410,9 @@ export function Table(props: TableProps) {
 							</select>
 						</StyledFooterItem>
 						<StyledFooterItem className="w100">
-							{fromRow}&nbsp;-&nbsp;
-							{toRow}&nbsp;/&nbsp;{filteredData.length}
-							&nbsp;&nbsp;
+							{toRow > 0
+								? `${fromRow}&nbsp;-&nbsp;${toRow}&nbsp;/&nbsp;${filteredData.length}&nbsp;&nbsp;`
+								: null}
 						</StyledFooterItem>
 						<StyledFooterItem>
 							<IconButton
@@ -431,7 +431,7 @@ export function Table(props: TableProps) {
 								isLightColor={false}
 								onClick={() => {
 									setPageNumber((pn) =>
-										Math.ceil(filteredData.length) / computedRowsPerPage > pn ? pn + 1 : pn
+										Math.ceil(filteredData.length / computedRowsPerPage) > pn ? pn + 1 : pn
 									);
 								}}
 								color="#757575"
