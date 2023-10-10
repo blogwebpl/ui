@@ -50,7 +50,7 @@ export interface TableColumn {
 }
 
 interface DynamicObject {
-	[key: string]: string | number;
+	[key: string]: any;
 }
 
 export interface TableProps {
@@ -67,6 +67,8 @@ export interface TableProps {
 	readOnly?: boolean;
 	language: Language;
 }
+
+const ObjectIdPattern = /^[0-9a-fA-F]{24}$/;
 
 function getFontSizeFromBody(): number {
 	const bodyElement = document.body;
@@ -156,9 +158,45 @@ export function Table(props: TableProps) {
 				return false;
 			}
 
+			if (typeof value === 'object') {
+				return Object.entries(value).some(([objValue]) => {
+					if (ObjectIdPattern.test(String(objValue))) {
+						return false;
+					}
+					// TODO: test in value object keys if key is on column list after dot
+					return String(objValue).toLowerCase().includes(searchText.toLowerCase());
+				});
+			}
+
 			return String(value).toLowerCase().includes(searchText.toLowerCase());
 		})
 	);
+
+	const transformData = (dat: any[]): any[] => {
+		return dat.map((item) => {
+			const newItem: any = {};
+
+			columns.forEach((column) => {
+				const fieldParts = column.field.split('.');
+				let value = item;
+
+				fieldParts.forEach((part) => {
+					if (Object.prototype.hasOwnProperty.call(value, part)) {
+						value = value[part];
+					} else {
+						value = undefined;
+					}
+				});
+
+				if (value !== undefined) {
+					const newFieldName = fieldParts.join('.');
+					newItem[newFieldName] = value;
+				}
+			});
+
+			return newItem;
+		});
+	};
 
 	const sortFunction = (a: DynamicObject, b: DynamicObject, column: TableColumn) => {
 		const aValue = String(a[column.field]);
@@ -191,9 +229,11 @@ export function Table(props: TableProps) {
 			}, 0);
 	};
 
-	const sortedData = [...filteredData].sort((a: DynamicObject, b: DynamicObject) => {
+	const sortedData = [...transformData(filteredData)].sort((a: DynamicObject, b: DynamicObject) => {
 		return multiSortFunction(a, b);
 	});
+
+	console.log(transformData(filteredData));
 
 	const dataForPage = sortedData.slice(startIndex, endIndex);
 
@@ -410,9 +450,7 @@ export function Table(props: TableProps) {
 							</select>
 						</StyledFooterItem>
 						<StyledFooterItem className="w100">
-							{toRow > 0
-								? `${fromRow}&nbsp;-&nbsp;${toRow}&nbsp;/&nbsp;${filteredData.length}&nbsp;&nbsp;`
-								: null}
+							{toRow > 0 ? `${fromRow} - ${toRow} / ${filteredData.length}  ` : null}
 						</StyledFooterItem>
 						<StyledFooterItem>
 							<IconButton

@@ -74,6 +74,13 @@ const columns: TableColumn[] = [
 		sort: 'desc',
 		sortOrder: 3,
 	},
+	{
+		field: 'user.test2',
+		label: { pl: 'Test', en: 'Test' },
+		width: '5rem',
+		sort: 'desc',
+		sortOrder: 4,
+	},
 ];
 
 const Template = () => {
