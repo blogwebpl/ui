@@ -1,6 +1,8 @@
 import '@total-typescript/ts-reset';
 import { IconType } from 'react-icons';
 
+import { useNavigate } from 'react-router-dom';
+
 import {
 	MdSearch as SearchIcon,
 	MdMoreVert as DotsIcon,
@@ -47,6 +49,7 @@ export interface TableColumn {
 	width: string;
 	sort: string;
 	sortOrder: number;
+	type: string;
 }
 
 interface DynamicObject {
@@ -66,6 +69,7 @@ export interface TableProps {
 	pageNumber: number;
 	readOnly?: boolean;
 	language: Language;
+	crud: number;
 }
 
 const ObjectIdPattern = /^[0-9a-fA-F]{24}$/;
@@ -91,6 +95,12 @@ export function Table(props: TableProps) {
 	const [searchText, setSearchText] = useState<string>('');
 	const [searchDelayTimer, setSearchDelayTimer] = useState<NodeJS.Timeout | null>(null);
 	const [checkedRows, setCheckedRows] = useState<{ [key: string]: boolean }>({});
+
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		setColumns(props.columns);
+	}, [props.columns]);
 
 	useEffect(() => {
 		function handleResize() {
@@ -172,29 +182,27 @@ export function Table(props: TableProps) {
 		})
 	);
 
-	const transformData = (dat: any[]): any[] => {
-		return dat.map((item) => {
-			const newItem: any = {};
+	const transformData = (dataToTransform: any[]): any[] => {
+		return dataToTransform.map((row) => {
+			const transformedRow = { ...row };
 
 			columns.forEach((column) => {
-				const fieldParts = column.field.split('.');
-				let value = item;
+				if (column.field.includes('.')) {
+					const keys = column.field.split('.');
 
-				fieldParts.forEach((part) => {
-					if (Object.prototype.hasOwnProperty.call(value, part)) {
-						value = value[part];
-					} else {
-						value = undefined;
+					let currentNode = transformedRow;
+
+					// TODO: refactor to reduce
+					// eslint-disable-next-line no-restricted-syntax
+					for (const key of keys) {
+						if (Object.prototype.hasOwnProperty.call(currentNode, key)) {
+							currentNode = currentNode[key];
+						}
 					}
-				});
-
-				if (value !== undefined) {
-					const newFieldName = fieldParts.join('.');
-					newItem[newFieldName] = value;
+					transformedRow[column.field] = currentNode;
 				}
 			});
-
-			return newItem;
+			return transformedRow;
 		});
 	};
 
@@ -229,11 +237,11 @@ export function Table(props: TableProps) {
 			}, 0);
 	};
 
-	const sortedData = [...transformData(filteredData)].sort((a: DynamicObject, b: DynamicObject) => {
+	const transformedData = transformData(filteredData);
+
+	const sortedData = [...transformedData].sort((a: DynamicObject, b: DynamicObject) => {
 		return multiSortFunction(a, b);
 	});
-
-	console.log(transformData(filteredData));
 
 	const dataForPage = sortedData.slice(startIndex, endIndex);
 
@@ -251,7 +259,12 @@ export function Table(props: TableProps) {
 
 	const numberOfCheckedRows = Object.values(checkedRows).filter((checked) => checked).length;
 
-	if (numberOfCheckedRows) {
+	const canDelete: boolean = (props.crud & 1) !== 0;
+	const canUpdate: boolean = (props.crud & 2) !== 0;
+	const canRead: boolean = (props.crud & 4) !== 0;
+	const canCreate: boolean = (props.crud & 8) !== 0;
+
+	if (numberOfCheckedRows && canDelete) {
 		tableActions = props.actions.map((action) => {
 			if (action.id === 'add') {
 				const a: TableAction = {
@@ -268,6 +281,27 @@ export function Table(props: TableProps) {
 			return action;
 		});
 	}
+
+	if (!canCreate) {
+		tableActions = props.actions.map((action) => {
+			if (action.id === 'add') {
+				const a: TableAction = {
+					...action,
+					onClick: () => {
+						alert('Brak uprawnień do dodawania');
+					},
+				};
+				return a;
+			}
+			return action;
+		});
+	}
+
+	if (columns.length === 0) {
+		return null;
+	}
+
+	if (!canRead) return null;
 
 	return (
 		<Card minWidth={props.width} padding={false}>
@@ -354,12 +388,16 @@ export function Table(props: TableProps) {
 									<IconButton
 										isLightColor={false}
 										onClick={() => {
-											// history.push("/about");
+											if (props.readOnly || !canUpdate) {
+												navigate(`/view/${row.id}`);
+											} else {
+												navigate(`/edit/${row.id}`);
+											}
 										}}
 										color="#757575"
 										label=""
 									>
-										{props.readOnly ? (
+										{props.readOnly || !canUpdate ? (
 											<ViewIcon size="2.4rem" color="#757575" />
 										) : (
 											<EditIcon size="2.4rem" color="#757575" />

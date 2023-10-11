@@ -7,8 +7,10 @@ import {
 
 import { FaFileExcel as ExcelIcon } from 'react-icons/fa';
 
+import { useEffect, useState } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Table, TableAction, TableColumn } from '../../components/atoms/Table';
-import { data } from './table.data';
+import { tableData } from './table.data';
 
 const actions: TableAction[] = [
 	{
@@ -49,7 +51,7 @@ const actions: TableAction[] = [
 	},
 ];
 
-const columns: TableColumn[] = [
+const tableColumns: TableColumn[] = [
 	{
 		field: 'firstName',
 		label: {
@@ -59,6 +61,7 @@ const columns: TableColumn[] = [
 		width: '10rem',
 		sort: 'asc',
 		sortOrder: 2,
+		type: 'string',
 	},
 	{
 		field: 'lastName',
@@ -66,6 +69,7 @@ const columns: TableColumn[] = [
 		width: '10rem',
 		sort: 'asc',
 		sortOrder: 1,
+		type: 'string',
 	},
 	{
 		field: 'age',
@@ -73,6 +77,7 @@ const columns: TableColumn[] = [
 		width: '5rem',
 		sort: 'desc',
 		sortOrder: 3,
+		type: 'number',
 	},
 	{
 		field: 'user.test2',
@@ -80,22 +85,34 @@ const columns: TableColumn[] = [
 		width: '5rem',
 		sort: 'desc',
 		sortOrder: 4,
+		type: 'number',
 	},
 ];
 
 const Template = () => {
+	const [data, setData] = useState<any[]>([]);
+	const [columns, setColumns] = useState<TableColumn[]>([]);
+	useEffect(() => {
+		setTimeout(() => {
+			setData(tableData);
+			setColumns(tableColumns);
+		}, 1000);
+	}, []);
 	return (
-		<Table
-			width="72rem"
-			title={{ pl: 'Użytkownicy', en: 'Users' }}
-			actions={actions}
-			columns={columns}
-			data={data}
-			rowsPerPage={0}
-			pageNumber={1}
-			readOnly={false}
-			language="pl"
-		/>
+		<Router>
+			<Table
+				width="72rem"
+				title={{ pl: 'Użytkownicy', en: 'Users' }}
+				actions={actions}
+				columns={columns}
+				data={data}
+				rowsPerPage={0}
+				pageNumber={1}
+				readOnly={false}
+				language="pl"
+				crud={15}
+			/>
+		</Router>
 	);
 };
 
