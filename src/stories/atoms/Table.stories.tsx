@@ -111,6 +111,7 @@ const Template = () => {
 				readOnly={false}
 				language="pl"
 				crud={15}
+				collection="users"
 			/>
 		</Router>
 	);

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { Item, Language, Menu } from '../atoms/Menu';
+import { Item, Menu } from '../atoms/Menu';
+import { Language } from '../types';
 
 const StyledDrawer = styled.div<{ $isdraweropen: boolean }>`
 	background-color: ${(props) => props.theme.palette.background.default};

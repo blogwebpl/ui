@@ -1,42 +1,59 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../atoms/Button';
 import { ButtonContainer } from '../atoms/ButtonContainer';
 import { Card } from '../atoms/Card';
 import { FieldContainer } from '../atoms/FieldContainer';
-import { Tab, Tabs } from '../atoms/Tabs';
+import { Tabs } from '../atoms/Tabs';
 import { TextField } from '../atoms/TextField';
 import { Typography } from '../atoms/Typography';
 import { Alert } from '../atoms/Alert';
+import { Language, Translations } from '../types';
 
 const StyledVerticalGap = styled.div`
 	height: 5.6rem;
 `;
 
 export interface Field {
-	key: string;
+	field: string;
 	type: string;
-	tab: string;
+	tab: number;
 	required: boolean;
-	label: string;
+	label: Translations;
 }
 
 interface EditFormProps {
-	tabs: Tab[];
-	setActiveTab: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+	tabs: Translations[];
+	activeTab: number;
 	fields: Field[];
 	values: { [key: string]: string | number | readonly string[] | undefined };
+	language: Language;
+	collection: string;
 }
 
-export function EditForm({ tabs, fields, setActiveTab, values }: EditFormProps) {
+export function EditForm(props: EditFormProps) {
+	if (props.fields.length === 0) {
+		return null;
+	}
+
+	console.log(props);
+
+	const navigate = useNavigate();
+
 	const [error, setError] = useState('');
+	const [activeTab, setActiveTab] = useState(props.activeTab);
 
 	const inputRefs: { [key: string]: React.RefObject<HTMLInputElement> } = {};
 
+	const handleSetActiveTab = (e: React.MouseEvent<HTMLAnchorElement>) => {
+		setActiveTab(Number(e.currentTarget.getAttribute('data-index')));
+	};
+
 	const validateForm = () => {
-		return fields.every((field) => {
+		return props.fields.every((field) => {
 			if (field.required) {
-				const inputRef = inputRefs[field.key];
+				const inputRef = inputRefs[field.field];
 				return inputRef && inputRef.current && inputRef.current.value !== '';
 			}
 			return true;
@@ -45,10 +62,10 @@ export function EditForm({ tabs, fields, setActiveTab, values }: EditFormProps) 
 
 	const getFormData = () => {
 		const formData: { [key: string]: string } = {};
-		fields.forEach((field) => {
-			const inputRef = inputRefs[field.key];
+		props.fields.forEach((field) => {
+			const inputRef = inputRefs[field.field];
 			if (inputRef && inputRef.current) {
-				formData[field.key] = inputRef.current.value;
+				formData[field.field] = inputRef.current.value;
 			}
 		});
 		return formData;
@@ -64,21 +81,28 @@ export function EditForm({ tabs, fields, setActiveTab, values }: EditFormProps) 
 		console.log(getFormData());
 	};
 
-	const activeTabLabel = tabs.find((tab) => tab.active)?.label;
-
 	return (
 		<Card minWidth="32rem" padding>
 			<Typography component="h6" userSelect="none" color="#000000">
 				Edycja
 			</Typography>
-			{tabs && tabs.length > 0 ? <Tabs tabs={tabs} setActiveTab={setActiveTab} /> : null}
-			{activeTabLabel ? <StyledVerticalGap /> : null}
+			{props.tabs && props.tabs.length > 0 ? (
+				<>
+					<Tabs
+						language={props.language}
+						tabs={props.tabs}
+						setActiveTab={handleSetActiveTab}
+						activeTab={activeTab}
+					/>
+					<StyledVerticalGap />
+				</>
+			) : null}
 			{error ? <Alert>{error}</Alert> : null}
 
-			{fields.map((field) => {
-				const shouldHide = field.tab !== activeTabLabel && activeTabLabel !== undefined;
-				inputRefs[field.key] = useRef(null);
-				const fieldValue = values[field.key] || '';
+			{props.fields.map((field, index) => {
+				const shouldHide = activeTab !== field.tab;
+				inputRefs[field.field] = useRef(null);
+				const fieldValue = props.values?.[field?.field];
 				switch (field.type) {
 					case 'text':
 					case 'number':
@@ -87,14 +111,15 @@ export function EditForm({ tabs, fields, setActiveTab, values }: EditFormProps) 
 					case 'email':
 					case 'datetime-local':
 						return (
-							<FieldContainer key={field.key} hidden={shouldHide}>
+							<FieldContainer key={field.field} hidden={shouldHide}>
 								<TextField
-									label={field.label}
+									label={field.label[props.language]}
 									required={field.required}
-									id={field.key}
+									id={field.field}
 									type={field.type}
-									forwardedRef={inputRefs[field.key]}
+									forwardedRef={inputRefs[field.field]}
 									value={fieldValue}
+									autoFocus={index === 0}
 								/>
 							</FieldContainer>
 						);
@@ -103,7 +128,13 @@ export function EditForm({ tabs, fields, setActiveTab, values }: EditFormProps) 
 				}
 			})}
 			<ButtonContainer>
-				<Button label="Anuluj" variant="primary" onClick={() => {}} />
+				<Button
+					label="Anuluj"
+					variant="primary"
+					onClick={() => {
+						navigate(`/${props.collection}`);
+					}}
+				/>
 				<Button label="Zapisz" variant="accent" onClick={handleClickSave} />
 			</ButtonContainer>
 		</Card>

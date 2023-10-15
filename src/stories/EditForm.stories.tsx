@@ -1,58 +1,62 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { EditForm, Field } from '../components/EditForm';
 import { Main } from '../components/atoms/Main';
 
-const fields: Field[] = [
+const editFields: Field[] = [
 	{
-		key: 'name',
+		field: 'name',
 		type: 'text',
-		tab: 'Tab 1',
+		tab: 0,
 		required: true,
-		label: 'Imię',
+		label: { pl: 'Imię', en: 'First name' },
 	},
 	{
-		key: 'surname',
+		field: 'surname',
 		type: 'text',
-		tab: 'Tab 1',
+		tab: 0,
 		required: false,
-		label: 'Nazwisko',
+		label: { pl: 'Nazwisko', en: 'Last name' },
 	},
 	{
-		key: 'age',
+		field: 'age',
 		type: 'number',
-		tab: 'Tab 1',
+		tab: 0,
 		required: false,
-		label: 'Wiek',
+		label: { pl: 'Wiek', en: 'Age' },
 	},
-	{ key: 'date', type: 'date', tab: 'Tab 2', required: true, label: 'Data' },
+	{ field: 'date', type: 'date', tab: 1, required: true, label: { pl: 'Data', en: 'Date' } },
 ];
 
 const Template = (props: any) => {
-	const [tabs, setTabs] = React.useState([
-		{ label: 'Tab 1', active: true },
-		{ label: 'Tab 2', active: false },
-	]);
+	const tabs = [
+		{ pl: 'Tab1', en: 'Tab1' },
+		{ pl: 'Tab2', en: 'Tab2' },
+	];
+	const [fields, setFields] = useState<Field[]>([]);
+
 	const values = { name: 'Tomasz', surname: 'Durałek', age: 42, date: '2023-01-01' };
-	const setActiveTab = (e: React.MouseEvent<HTMLAnchorElement>) => {
-		const dataIndex = Number(e.currentTarget.getAttribute('data-index'));
-		const newTabs = tabs.map((tab, index) => {
-			if (index === dataIndex) {
-				return { ...tab, active: true };
-			}
-			return { ...tab, active: false };
-		});
-		setTabs(newTabs);
-	};
+
+	useEffect(() => {
+		setTimeout(() => {
+			setFields(editFields);
+		}, 100);
+	}, []);
+
 	return (
-		<Main isCovered={true} isDrawerOpen={false} setIsDrawerOpen={() => {}}>
-			<EditForm
-				{...props}
-				setActiveTab={setActiveTab}
-				tabs={tabs}
-				fields={fields}
-				values={values}
-			/>
-		</Main>
+		<Router>
+			<Main isCovered={true} isDrawerOpen={false} setIsDrawerOpen={() => {}}>
+				<EditForm
+					{...props}
+					tabs={tabs}
+					activeTab={0}
+					fields={fields}
+					values={values}
+					language="en"
+					collection="test"
+				/>
+			</Main>
+		</Router>
 	);
 };
 

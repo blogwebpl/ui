@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Language, Translations } from '../../types';
 
 const StyledTabs = styled.div`
 	user-select: none;
@@ -31,22 +32,23 @@ const StyledTabs = styled.div`
 	}
 `;
 
-export interface Tab {
-	active: boolean;
-	label: string;
-}
-
 interface TabsProps {
-	tabs: Tab[];
+	tabs: Translations[];
 	setActiveTab: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+	language: Language;
+	activeTab: number;
 }
 
-export function Tabs({ tabs, setActiveTab }: TabsProps) {
+export function Tabs({ tabs, language, activeTab, setActiveTab }: TabsProps) {
 	return (
 		<StyledTabs>
-			{tabs.map((tab: Tab, index: number) => (
-				<a data-index={index} className={tab.active ? 'active' : ''} onClick={setActiveTab}>
-					{tab.label}
+			{tabs.map((tab: Translations, index: number) => (
+				<a
+					data-index={index}
+					className={index === activeTab ? 'active' : ''}
+					onClick={setActiveTab}
+				>
+					{tab[language]}
 				</a>
 			))}
 		</StyledTabs>

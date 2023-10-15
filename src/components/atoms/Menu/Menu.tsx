@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { MdArrowRight as IconRight } from 'react-icons/md';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { IconType } from 'react-icons';
+import { Language, Translations } from '../../types';
 
 const StyledMenu = styled.ul`
 	li {
@@ -113,15 +114,10 @@ export function Submenu({ children, isOpen, elements }: SubmenuProps) {
 	);
 }
 
-export type Language = 'pl' | 'en';
-
 export interface Item {
 	id: string;
 	icon: IconType;
-	label: {
-		pl: string;
-		en: string;
-	};
+	label: Translations;
 	children: any;
 	slug: string;
 }

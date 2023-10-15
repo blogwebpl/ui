@@ -4,8 +4,8 @@ import { Tabs } from '../../components/atoms/Tabs';
 
 const Template = () => {
 	const [tabs, setTabs] = React.useState([
-		{ label: 'Tab 1', active: true },
-		{ label: 'Tab 2', active: false },
+		{ en: 'Tab 1', pl: 'Tab 1' },
+		{ en: 'Tab 2', pl: 'Tab 2' },
 	]);
 	const setActiveTab = (e: React.MouseEvent<HTMLAnchorElement>) => {
 		const dataIndex = Number(e.currentTarget.getAttribute('data-index'));
@@ -18,7 +18,7 @@ const Template = () => {
 		});
 		setTabs(newTabs);
 	};
-	return <Tabs tabs={tabs} setActiveTab={setActiveTab} />;
+	return <Tabs tabs={tabs} setActiveTab={setActiveTab} language="en" activeTab={0} />;
 };
 
 export default { component: Template, title: 'Atoms/Tabs' };

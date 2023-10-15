@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import '@total-typescript/ts-reset';
 import { IconType } from 'react-icons';
 
@@ -30,7 +31,7 @@ import {
 	StyledFooterContainer,
 	StyledFooterItem,
 } from './tableStyle';
-import { Language } from '../Menu';
+import { Language, Translations } from '../../types';
 
 export interface TableAction {
 	id: string;
@@ -42,10 +43,7 @@ export interface TableAction {
 
 export interface TableColumn {
 	field: string;
-	label: {
-		pl: string;
-		en: string;
-	};
+	label: Translations;
 	width: string;
 	sort: string;
 	sortOrder: number;
@@ -57,10 +55,7 @@ interface DynamicObject {
 }
 
 export interface TableProps {
-	title: {
-		pl: string;
-		en: string;
-	};
+	title: Translations;
 	actions: TableAction[];
 	width: string;
 	columns: TableColumn[];
@@ -70,6 +65,7 @@ export interface TableProps {
 	readOnly?: boolean;
 	language: Language;
 	crud: number;
+	collection: string;
 }
 
 const ObjectIdPattern = /^[0-9a-fA-F]{24}$/;
@@ -105,6 +101,7 @@ export function Table(props: TableProps) {
 	useEffect(() => {
 		function handleResize() {
 			setIsMobile(window.innerWidth < 321);
+			console.log(window.innerWidth < 321);
 			setViewportHeight(window.innerHeight);
 			setFontSize(() => getFontSizeFromBody());
 		}
@@ -368,11 +365,25 @@ export function Table(props: TableProps) {
 				{!isMobile ? (
 					<tbody className="tableBody">
 						{dataForPage.map((row: DynamicObject) => (
-							<tr key={row.id}>
+							<tr
+								key={row.id}
+								onClick={(event) => {
+									if (
+										(event.target as HTMLElement).tagName === 'TD' &&
+										(props.readOnly || !canUpdate)
+									) {
+										navigate(`/${props.collection}/view/${row.id}`);
+									} else {
+										navigate(`/${props.collection}/edit/${row.id}`);
+									}
+								}}
+							>
 								<td>
 									<Checkbox
 										checked={checkedRows[row.id] || false}
-										onChange={() => handleCheckboxChange(row.id)}
+										onChange={() => {
+											handleCheckboxChange(row.id);
+										}}
 										controlled
 									/>
 								</td>
@@ -389,9 +400,9 @@ export function Table(props: TableProps) {
 										isLightColor={false}
 										onClick={() => {
 											if (props.readOnly || !canUpdate) {
-												navigate(`/view/${row.id}`);
+												navigate(`/${props.collection}/view/${row.id}`);
 											} else {
-												navigate(`/edit/${row.id}`);
+												navigate(`/${props.collection}/edit/${row.id}`);
 											}
 										}}
 										color="#757575"
