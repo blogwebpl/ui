@@ -47,6 +47,7 @@ export function Tabs({ tabs, language, activeTab, setActiveTab }: TabsProps) {
 					data-index={index}
 					className={index === activeTab ? 'active' : ''}
 					onClick={setActiveTab}
+					key={tab[language]}
 				>
 					{tab[language]}
 				</a>

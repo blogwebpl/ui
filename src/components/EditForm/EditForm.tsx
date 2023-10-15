@@ -30,14 +30,13 @@ interface EditFormProps {
 	values: { [key: string]: string | number | readonly string[] | undefined };
 	language: Language;
 	collection: string;
+	saveData: (formData: Object) => Promise<boolean>;
 }
 
 export function EditForm(props: EditFormProps) {
 	if (props.fields.length === 0) {
 		return null;
 	}
-
-	console.log(props);
 
 	const navigate = useNavigate();
 
@@ -71,14 +70,26 @@ export function EditForm(props: EditFormProps) {
 		return formData;
 	};
 
-	const handleClickSave = () => {
+	const handleClickSave = async () => {
 		setError('');
 		if (validateForm() === false) {
-			setError('Wypełnij wszystkie wymagane pola.');
+			if (props.language === 'pl') {
+				setError('Wypełnij wszystkie wymagane pola.');
+			} else if (props.language === 'en') {
+				setError('Fill all required fields.');
+			}
 			return;
 		}
 
-		console.log(getFormData());
+		const resultOk = await props.saveData(getFormData());
+
+		if (resultOk) {
+			navigate(`/${props.collection}`);
+		} else if (props.language === 'pl') {
+			setError('Wystąpił błąd podczas zapisu danych.');
+		} else if (props.language === 'en') {
+			setError('An error occurred while saving data.');
+		}
 	};
 
 	return (
