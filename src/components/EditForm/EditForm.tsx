@@ -96,7 +96,7 @@ export function EditForm(props: EditFormProps) {
 		props.fields.forEach((field) => {
 			dataToSave[field.field] = inputValues[field.field];
 		});
-		const resultOk = await props.saveData(inputValues);
+		const resultOk = await props.saveData(dataToSave);
 
 		if (resultOk) {
 			navigate(`/${props.collection}`);
