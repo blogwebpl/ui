@@ -92,6 +92,10 @@ export function EditForm(props: EditFormProps) {
 			return;
 		}
 
+		const dataToSave: any = {};
+		props.fields.forEach((field) => {
+			dataToSave[field.field] = inputValues[field.field];
+		});
 		const resultOk = await props.saveData(inputValues);
 
 		if (resultOk) {
