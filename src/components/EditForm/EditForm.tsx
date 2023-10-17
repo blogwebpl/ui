@@ -42,6 +42,7 @@ export function EditForm(props: EditFormProps) {
 
 	const [error, setError] = useState('');
 	const [activeTab, setActiveTab] = useState(props.activeTab);
+	const [inputValues, setInputValues] = useState<any>(props.values);
 
 	const inputRefs: { [key: string]: React.RefObject<HTMLInputElement> } = {};
 
@@ -113,7 +114,7 @@ export function EditForm(props: EditFormProps) {
 			{props.fields.map((field, index) => {
 				const shouldHide = activeTab !== field.tab;
 				inputRefs[field.field] = useRef(null);
-				const fieldValue = props.values?.[field?.field];
+				// const fieldValue = props.values?.[field?.field];
 				switch (field.type) {
 					case 'text':
 					case 'number':
@@ -129,8 +130,12 @@ export function EditForm(props: EditFormProps) {
 									id={field.field}
 									type={field.type}
 									forwardedRef={inputRefs[field.field]}
-									value={fieldValue}
+									value={inputValues[field.field]}
+									onChange={(e) =>
+										setInputValues((v: any) => ({ ...v, [field.field]: e.target.value }))
+									}
 									autoFocus={index === 0}
+									controlled
 								/>
 							</FieldContainer>
 						);
