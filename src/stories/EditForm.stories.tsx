@@ -34,8 +34,13 @@ const Template = (props: any) => {
 		{ pl: 'Tab2', en: 'Tab2' },
 	];
 	const [fields, setFields] = useState<Field[]>([]);
+	const [values, setValues] = useState({});
 
-	const values = { name: 'Tomasz', surname: 'Durałek', age: 42, date: '2023-01-01' };
+	useEffect(() => {
+		setTimeout(() => {
+			setValues({ name: 'Tomasz', surname: 'Durałek', age: 42, date: '2023-01-01' });
+		}, 300);
+	}, []);
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -54,6 +59,10 @@ const Template = (props: any) => {
 					values={values}
 					language="en"
 					collection="test"
+					saveData={(data: any) => {
+						console.log(data);
+						return true;
+					}}
 				/>
 			</Main>
 		</Router>
