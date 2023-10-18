@@ -61,7 +61,11 @@ const Template = (props: any) => {
 					collection="test"
 					saveData={(data: any) => {
 						console.log(data);
-						return true;
+						return new Promise((resolve) => {
+							setTimeout(() => {
+								resolve(true);
+							}, 1000);
+						});
 					}}
 				/>
 			</Main>

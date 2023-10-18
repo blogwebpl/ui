@@ -43,6 +43,7 @@ export function EditForm(props: EditFormProps) {
 	const [error, setError] = useState('');
 	const [activeTab, setActiveTab] = useState(props.activeTab);
 	const [inputValues, setInputValues] = useState<any>(props.values || {});
+	const [isSaving, setIsSaving] = useState(false);
 
 	useEffect(() => {
 		setInputValues(props.values);
@@ -82,6 +83,7 @@ export function EditForm(props: EditFormProps) {
 	// };
 
 	const handleClickSave = async () => {
+		setIsSaving(true);
 		setError('');
 		if (validateForm() === false) {
 			if (props.language === 'pl') {
@@ -98,6 +100,7 @@ export function EditForm(props: EditFormProps) {
 		});
 		const resultOk = await props.saveData(dataToSave);
 
+		setIsSaving(false);
 		if (resultOk) {
 			navigate(`/${props.collection}`);
 		} else if (props.language === 'pl') {
@@ -164,8 +167,9 @@ export function EditForm(props: EditFormProps) {
 					onClick={() => {
 						navigate(`/${props.collection}`);
 					}}
+					isDisabled={isSaving}
 				/>
-				<Button label="Zapisz" variant="accent" onClick={handleClickSave} />
+				<Button label="Zapisz" variant="accent" onClick={handleClickSave} isDisabled={isSaving} />
 			</ButtonContainer>
 		</Card>
 	);
