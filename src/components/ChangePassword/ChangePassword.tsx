@@ -1,5 +1,5 @@
 /* eslint-disable no-alert */
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { MdPerson as IconPerson } from 'react-icons/md';
 import styled from 'styled-components';
 import { Button } from '../atoms/Button';
@@ -23,27 +23,29 @@ const StyledEmailContainer = styled.div`
 `;
 
 interface ChangePasswordProps {
-	onSubmit: (password1: string, password2: string) => void;
+	onSubmit: (password1: string, password2: string) => Promise<boolean>;
 	onCancel: () => void;
 	email: string;
 	error: string;
-	isLoading: boolean;
 }
 
 export function ChangePassword(props: ChangePasswordProps) {
+	const [isSaving, setIsSaving] = useState(false);
 	const passwordRef1 = useRef<HTMLInputElement>(null);
 	const passwordRef2 = useRef<HTMLInputElement>(null);
 
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const password1 = passwordRef1.current!.value;
 		const password2 = passwordRef2.current!.value;
 		if (!password1 || !password2) return;
-		props.onSubmit(password1, password2);
+		setIsSaving(true);
+		await props.onSubmit(password1, password2);
+		setIsSaving(false);
 	};
 
 	return (
-		<Card padding minWidth="32rem">
+		<Card padding minWidth="32rem" isloading={isSaving}>
 			<Typography component="h6" userSelect="none" color="#000000">
 				Zmiana hasła
 			</Typography>
@@ -66,6 +68,7 @@ export function ChangePassword(props: ChangePasswordProps) {
 								passwordRef2.current.focus();
 							}
 						}}
+						disabled={isSaving}
 					/>
 				</FieldContainer>
 				<FieldContainer>
@@ -75,6 +78,7 @@ export function ChangePassword(props: ChangePasswordProps) {
 						required={true}
 						type="password"
 						forwardedRef={passwordRef2}
+						disabled={isSaving}
 					/>
 				</FieldContainer>
 				<ButtonContainer>
@@ -82,10 +86,10 @@ export function ChangePassword(props: ChangePasswordProps) {
 						label="ANULUJ"
 						variant="secondary"
 						type="button"
-						isDisabled={props.isLoading}
+						isDisabled={isSaving}
 						onClick={props.onCancel}
 					/>
-					<Button label="ZAPISZ" variant="primary" type="submit" isDisabled={props.isLoading} />
+					<Button label="ZAPISZ" variant="primary" type="submit" isDisabled={isSaving} />
 				</ButtonContainer>
 			</Form>
 		</Card>

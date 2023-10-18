@@ -4,6 +4,7 @@ interface StyledCardProps {
 	$padding?: boolean;
 	$minwidth: string;
 	$opacity?: boolean;
+	$isloading?: boolean;
 }
 
 const fadeIn = keyframes`
@@ -32,6 +33,7 @@ const StyledCard = styled.div<StyledCardProps>`
 	@media (min-width: 23rem) {
 		border-radius: ${(props) => props.theme.shape.borderRadious};
 	}
+	cursor: ${(props) => (props.$isloading ? 'wait' : 'default')};
 `;
 
 interface CardProps {
@@ -39,11 +41,17 @@ interface CardProps {
 	minWidth: string;
 	padding?: boolean;
 	opacity?: boolean;
+	isloading?: boolean;
 }
 
 export function Card(props: CardProps) {
 	return (
-		<StyledCard $padding={props.padding} $minwidth={props.minWidth} $opacity={props.opacity}>
+		<StyledCard
+			$padding={props.padding}
+			$minwidth={props.minWidth}
+			$opacity={props.opacity}
+			$isloading={props.isloading}
+		>
 			{props.children}
 		</StyledCard>
 	);

@@ -111,7 +111,7 @@ export function EditForm(props: EditFormProps) {
 	};
 
 	return (
-		<Card minWidth="32rem" padding>
+		<Card minWidth="32rem" padding isloading={isSaving}>
 			<Typography component="h6" userSelect="none" color="#000000">
 				Edycja
 			</Typography>

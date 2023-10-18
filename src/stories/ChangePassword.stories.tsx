@@ -5,9 +5,15 @@ import { Main } from '../components/atoms/Main';
 const email = 'tomek@blogweb.pl';
 
 const Template = () => {
-	const handleChangePassword = (password: string) => {
-		alert(`Change password ${password}`);
+	const handleChangePassword = async (password: string): Promise<boolean> => {
+		console.log(password);
+		return new Promise((resolve) => {
+			setTimeout(() => {
+				resolve(true);
+			}, 1000);
+		});
 	};
+
 	const handleCancel = () => {
 		alert('Change cancel');
 	};
@@ -19,7 +25,6 @@ const Template = () => {
 				onCancel={handleCancel}
 				email={email}
 				error=""
-				isLoading={false}
 			/>
 		</Main>
 	);
