@@ -27,7 +27,7 @@ interface EditFormProps {
 	tabs: Translations[];
 	activeTab: number;
 	fields: Field[];
-	values: { [key: string]: string | number | readonly string[] | undefined } | undefined;
+	values: any;
 	language: Language;
 	collection: string;
 	saveData: (formData: Object) => Promise<boolean>;
