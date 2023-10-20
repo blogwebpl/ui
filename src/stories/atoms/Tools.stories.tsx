@@ -13,7 +13,7 @@ const actions: Action[] = [
 		id: 'sort',
 		icon: SortIcon,
 		hint: 'kol.sort.',
-		isDisabled: false,
+		disabled: false,
 		onClick: () => {
 			alert('kolejnosc sortowania');
 		},
@@ -22,7 +22,7 @@ const actions: Action[] = [
 		id: 'print',
 		icon: PrintIcon,
 		hint: 'drukuj',
-		isDisabled: false,
+		disabled: false,
 		onClick: () => {
 			alert('drukuj');
 		},
@@ -31,7 +31,7 @@ const actions: Action[] = [
 		id: 'excel',
 		icon: ExcelIcon,
 		hint: 'do excela',
-		isDisabled: false,
+		disabled: false,
 		onClick: () => {
 			alert('excel');
 		},
@@ -40,7 +40,7 @@ const actions: Action[] = [
 		id: 'add',
 		icon: AddIcon,
 		hint: 'dodaj',
-		isDisabled: false,
+		disabled: false,
 		onClick: () => {
 			alert('dodaj');
 		},

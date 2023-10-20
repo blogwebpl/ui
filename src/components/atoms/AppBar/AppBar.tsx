@@ -72,7 +72,7 @@ export function AppBar(props: AppBarProps) {
 				isLightColor={true}
 				margin="0 1.6rem 0 -1.2rem"
 				onClick={handleMenuIconClick}
-				isDisabled={!props.isLoggedIn}
+				disabled={!props.isLoggedIn}
 			>
 				{props.isDrawerOpen ? <CloseIcon size="2.4rem" /> : <MenuIcon size="2.4rem" />}
 			</IconButton>
@@ -85,7 +85,7 @@ export function AppBar(props: AppBarProps) {
 				<IconButton
 					label=""
 					ariaLabel="profile"
-					isDisabled={!props.isLoggedIn}
+					disabled={!props.isLoggedIn}
 					isLightColor={true}
 					onClick={props.handleProfileClick}
 				>

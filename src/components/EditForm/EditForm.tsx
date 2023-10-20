@@ -27,7 +27,7 @@ interface EditFormProps {
 	tabs: Translations[];
 	activeTab: number;
 	fields: Field[];
-	values: { [key: string]: string | number | readonly string[] | undefined };
+	values: { [key: string]: string | number | readonly string[] | undefined } | undefined;
 	language: Language;
 	collection: string;
 	saveData: (formData: Object) => Promise<boolean>;
@@ -46,7 +46,9 @@ export function EditForm(props: EditFormProps) {
 	const [isSaving, setIsSaving] = useState(false);
 
 	useEffect(() => {
-		setInputValues(props.values);
+		if (props.values !== undefined) {
+			setInputValues(props.values);
+		}
 	}, [props.values]);
 
 	// const inputRefs: { [key: string]: React.RefObject<HTMLInputElement> } = {};
@@ -111,7 +113,7 @@ export function EditForm(props: EditFormProps) {
 	};
 
 	return (
-		<Card minWidth="32rem" padding isloading={isSaving}>
+		<Card minWidth="32rem" padding isPending={isSaving}>
 			<Typography component="h6" userSelect="none" color="#000000">
 				Edycja
 			</Typography>
@@ -167,9 +169,9 @@ export function EditForm(props: EditFormProps) {
 					onClick={() => {
 						navigate(`/${props.collection}`);
 					}}
-					isDisabled={isSaving}
+					disabled={isSaving}
 				/>
-				<Button label="Zapisz" variant="accent" onClick={handleClickSave} isDisabled={isSaving} />
+				<Button label="Zapisz" variant="accent" onClick={handleClickSave} disabled={isSaving} />
 			</ButtonContainer>
 		</Card>
 	);

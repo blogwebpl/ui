@@ -75,7 +75,7 @@ interface IconButtonProps {
 	color?: string;
 	id?: string;
 	isLightColor?: boolean;
-	isDisabled?: boolean;
+	disabled?: boolean;
 	label?: string;
 	ariaLabel?: string;
 	margin?: string;
@@ -89,7 +89,7 @@ export function IconButton(props: IconButtonProps) {
 			$color={props.color}
 			data-label={props.label}
 			aria-label={props.ariaLabel || props.label}
-			disabled={props.isDisabled}
+			disabled={props.disabled}
 			id={props.id}
 			$islightcolor={props.isLightColor}
 			onClick={props.onClick}

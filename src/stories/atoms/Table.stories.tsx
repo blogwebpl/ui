@@ -17,7 +17,7 @@ const actions: TableAction[] = [
 		id: 'sort',
 		icon: SortIcon,
 		hint: 'kol.sort.',
-		isDisabled: false,
+		disabled: false,
 		onClick: () => {
 			alert('kolejnosc sortowania');
 		},
@@ -26,7 +26,7 @@ const actions: TableAction[] = [
 		id: 'print',
 		icon: PrintIcon,
 		hint: 'drukuj',
-		isDisabled: false,
+		disabled: false,
 		onClick: () => {
 			alert('drukuj');
 		},
@@ -35,7 +35,7 @@ const actions: TableAction[] = [
 		id: 'excel',
 		icon: ExcelIcon,
 		hint: 'do excela',
-		isDisabled: false,
+		disabled: false,
 		onClick: () => {
 			alert('excel');
 		},
@@ -44,7 +44,7 @@ const actions: TableAction[] = [
 		id: 'add',
 		icon: AddIcon,
 		hint: 'dodaj',
-		isDisabled: false,
+		disabled: false,
 		onClick: () => {
 			alert('dodaj');
 		},

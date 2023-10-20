@@ -2,7 +2,7 @@ import { MouseEventHandler } from 'react';
 import { StyledButton } from './buttonStyle';
 
 export interface ButtonProps {
-	isDisabled?: boolean;
+	disabled?: boolean;
 	id?: string;
 	label: string;
 	onClick?: MouseEventHandler<HTMLButtonElement>;
@@ -15,10 +15,10 @@ export interface ButtonProps {
 export function Button(props: ButtonProps) {
 	return (
 		<StyledButton
-			{...{ ...props, isDisabled: undefined, variant: undefined, width: undefined }}
+			{...{ ...props, disabled: undefined, variant: undefined, width: undefined }}
 			$variant={props.variant}
 			$width={props.width}
-			disabled={props.isDisabled}
+			disabled={props.disabled}
 		>
 			{props.label}
 		</StyledButton>

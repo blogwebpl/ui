@@ -17,7 +17,7 @@ export interface LoginFormData {
 interface LoginProps {
 	logo?: string;
 	handleSubmit: ({ email, password }: LoginFormData) => void;
-	isLoading: boolean;
+	isPending: boolean;
 	error: string;
 }
 
@@ -86,12 +86,7 @@ export function Login(props: LoginProps) {
 					<Checkbox id="checkbox" label="Zapamiętaj e-mail" forwardedRef={rememberEmailRef} />
 				</FieldContainer>
 				<ButtonContainer>
-					<Button
-						label="ZALOGUJ SIĘ"
-						variant="primary"
-						type="submit"
-						isDisabled={props.isLoading}
-					/>
+					<Button label="ZALOGUJ SIĘ" variant="primary" type="submit" disabled={props.isPending} />
 				</ButtonContainer>
 			</Form>
 		</Card>

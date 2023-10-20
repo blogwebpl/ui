@@ -5,7 +5,7 @@ export interface Action {
 	id: string;
 	icon: IconType;
 	hint: string;
-	isDisabled?: boolean;
+	disabled?: boolean;
 	onClick: () => void;
 }
 
@@ -23,6 +23,7 @@ export function Tools(props: ToolsProps) {
 					onClick={action.onClick}
 					color="#757575"
 					label={action.hint}
+					disabled={action.disabled}
 				>
 					<action.icon size="2.4rem" color="#757575" />
 				</IconButton>

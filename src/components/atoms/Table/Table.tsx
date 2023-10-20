@@ -37,7 +37,7 @@ export interface TableAction {
 	id: string;
 	icon: IconType;
 	hint: string;
-	isDisabled?: boolean;
+	disabled?: boolean;
 	onClick: () => void;
 }
 
@@ -267,7 +267,7 @@ export function Table(props: TableProps) {
 					id: 'del',
 					icon: TrashIcon,
 					hint: 'usuń',
-					isDisabled: false,
+					disabled: false,
 					onClick: () => {
 						// alert('usuń');
 					},

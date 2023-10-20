@@ -30,7 +30,7 @@ interface ChangePasswordProps {
 }
 
 export function ChangePassword(props: ChangePasswordProps) {
-	const [isSaving, setIsSaving] = useState(false);
+	const [isPending, setIsPending] = useState(false);
 	const passwordRef1 = useRef<HTMLInputElement>(null);
 	const passwordRef2 = useRef<HTMLInputElement>(null);
 
@@ -39,13 +39,13 @@ export function ChangePassword(props: ChangePasswordProps) {
 		const password1 = passwordRef1.current!.value;
 		const password2 = passwordRef2.current!.value;
 		if (!password1 || !password2) return;
-		setIsSaving(true);
+		setIsPending(true);
 		await props.onSubmit(password1, password2);
-		setIsSaving(false);
+		setIsPending(false);
 	};
 
 	return (
-		<Card padding minWidth="32rem" isloading={isSaving}>
+		<Card padding minWidth="32rem" isPending={isPending}>
 			<Typography component="h6" userSelect="none" color="#000000">
 				Zmiana hasła
 			</Typography>
@@ -68,7 +68,7 @@ export function ChangePassword(props: ChangePasswordProps) {
 								passwordRef2.current.focus();
 							}
 						}}
-						disabled={isSaving}
+						disabled={isPending}
 					/>
 				</FieldContainer>
 				<FieldContainer>
@@ -78,7 +78,7 @@ export function ChangePassword(props: ChangePasswordProps) {
 						required={true}
 						type="password"
 						forwardedRef={passwordRef2}
-						disabled={isSaving}
+						disabled={isPending}
 					/>
 				</FieldContainer>
 				<ButtonContainer>
@@ -86,10 +86,10 @@ export function ChangePassword(props: ChangePasswordProps) {
 						label="ANULUJ"
 						variant="secondary"
 						type="button"
-						isDisabled={isSaving}
+						disabled={isPending}
 						onClick={props.onCancel}
 					/>
-					<Button label="ZAPISZ" variant="primary" type="submit" isDisabled={isSaving} />
+					<Button label="ZAPISZ" variant="primary" type="submit" disabled={isPending} />
 				</ButtonContainer>
 			</Form>
 		</Card>

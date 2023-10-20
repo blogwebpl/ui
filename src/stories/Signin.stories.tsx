@@ -15,8 +15,8 @@ const Template = (args: any) => {
 };
 
 export default { component: Template, title: 'Login' };
-export const Default = { args: { logo, handleSubmit, isLoading: false } };
-export const WithoutLogo = { args: { logo: undefined, handleSubmit, isLoading: false } };
+export const Default = { args: { logo, handleSubmit, isPending: false } };
+export const WithoutLogo = { args: { logo: undefined, handleSubmit, isPending: false } };
 export const WithAlert = {
-	args: { logo: undefined, handleSubmit, isLoading: false, error: 'Brak komunikacji z serwerem.' },
+	args: { logo: undefined, handleSubmit, isPending: false, error: 'Brak komunikacji z serwerem.' },
 };
