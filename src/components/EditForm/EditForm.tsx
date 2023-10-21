@@ -30,6 +30,8 @@ interface EditFormProps {
 	values: any;
 	language: Language;
 	collection: string;
+	title: Translations;
+	mode: 'add' | 'edit' | 'view';
 	saveData: (formData: Object) => Promise<boolean>;
 }
 
@@ -115,7 +117,7 @@ export function EditForm(props: EditFormProps) {
 	return (
 		<Card minWidth="32rem" padding isPending={isSaving}>
 			<Typography component="h6" userSelect="none" color="#000000">
-				Edycja
+				{props.title[props.language]}
 			</Typography>
 			{props.tabs && props.tabs.length > 0 ? (
 				<>
@@ -154,6 +156,7 @@ export function EditForm(props: EditFormProps) {
 										setInputValues((v: any) => ({ ...v, [field.field]: e.target.value }))
 									}
 									autoFocus={index === 0}
+									disabled={props.mode === 'view'}
 									controlled
 								/>
 							</FieldContainer>
@@ -171,7 +174,9 @@ export function EditForm(props: EditFormProps) {
 					}}
 					disabled={isSaving}
 				/>
-				<Button label="Zapisz" variant="accent" onClick={handleClickSave} disabled={isSaving} />
+				{props.mode !== 'view' ? (
+					<Button label="Zapisz" variant="accent" onClick={handleClickSave} disabled={isSaving} />
+				) : null}
 			</ButtonContainer>
 		</Card>
 	);

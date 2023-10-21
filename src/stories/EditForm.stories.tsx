@@ -53,6 +53,7 @@ const Template = (props: any) => {
 			<Main isCovered={true} isDrawerOpen={false} setIsDrawerOpen={() => {}}>
 				<EditForm
 					{...props}
+					title={{ pl: 'Edycja', en: 'Edit' }}
 					tabs={tabs}
 					activeTab={0}
 					fields={fields}
