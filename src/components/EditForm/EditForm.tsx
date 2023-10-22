@@ -114,10 +114,40 @@ export function EditForm(props: EditFormProps) {
 		}
 	};
 
+	let extTitle = '';
+	if (props.language === 'pl') {
+		switch (props.mode) {
+			case 'add':
+				extTitle = ' - dodawanie';
+				break;
+			case 'edit':
+				extTitle = ' - edycja';
+				break;
+			case 'view':
+				extTitle = ' - podgląd';
+				break;
+			default:
+		}
+	}
+	if (props.language === 'en') {
+		switch (props.mode) {
+			case 'add':
+				extTitle = ' - add';
+				break;
+			case 'edit':
+				extTitle = ' - edit';
+				break;
+			case 'view':
+				extTitle = ' - view';
+				break;
+			default:
+		}
+	}
+
 	return (
 		<Card minWidth="32rem" padding isPending={isSaving}>
 			<Typography component="h6" userSelect="none" color="#000000">
-				{props.title[props.language]}
+				{props.title[props.language] + extTitle}
 			</Typography>
 			{props.tabs && props.tabs.length > 0 ? (
 				<>
