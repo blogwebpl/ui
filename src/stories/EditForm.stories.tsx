@@ -26,6 +26,12 @@ const editFields: Field[] = [
 		label: { pl: 'Wiek', en: 'Age' },
 	},
 	{ field: 'date', type: 'date', tab: 1, required: true, label: { pl: 'Data', en: 'Date' } },
+	{ field: 'roles', type: 'roles', tab: 1, required: true, label: { pl: 'Grupy', en: 'Roles' } },
+];
+
+const roles = [
+	{ value: 'admin', label: 'Admin' },
+	{ value: 'user', label: 'User' },
 ];
 
 const Template = (props: any) => {
@@ -60,6 +66,7 @@ const Template = (props: any) => {
 					values={values}
 					language="en"
 					collection="test"
+					roles={roles}
 					saveData={(data: any) => {
 						console.log(data);
 						return new Promise((resolve) => {

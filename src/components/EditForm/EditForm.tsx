@@ -10,6 +10,7 @@ import { TextField } from '../atoms/TextField';
 import { Typography } from '../atoms/Typography';
 import { Alert } from '../atoms/Alert';
 import { Language, Translations } from '../types';
+import { Select, SelectOption } from '../atoms/Select';
 
 const StyledVerticalGap = styled.div`
 	height: 5.6rem;
@@ -32,6 +33,7 @@ interface EditFormProps {
 	collection: string;
 	title: Translations;
 	mode: 'add' | 'edit' | 'view';
+	roles?: SelectOption[];
 	saveData: (formData: Object) => Promise<boolean>;
 }
 
@@ -182,15 +184,31 @@ export function EditForm(props: EditFormProps) {
 									type={field.type}
 									// forwardedRef={inputRefs[field.field]}
 									value={inputValues?.[field.field] || ''}
-									onChange={(e) =>
-										setInputValues((v: any) => ({ ...v, [field.field]: e.target.value }))
-									}
+									onChange={(e) => {
+										setInputValues((v: any) => ({ ...v, [field.field]: e.target.value }));
+									}}
 									autoFocus={index === 0}
 									disabled={props.mode === 'view'}
 									controlled
 								/>
 							</FieldContainer>
 						);
+					case 'roles':
+						return (
+							<FieldContainer key={field.field} hidden={shouldHide}>
+								<Select
+									label={field.label[props.language]}
+									options={props.roles || null}
+									value={inputValues?.[field.field] || null}
+									onChange={(value: SelectOption) => {
+										setInputValues((v: any) => ({ ...v, [field.field]: value }));
+									}}
+									isMulti
+									isClearable={false}
+								/>
+							</FieldContainer>
+						);
+
 					default:
 						return null;
 				}
