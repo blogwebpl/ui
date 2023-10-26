@@ -6,7 +6,10 @@ export const StyledTypography = styled.div<{
 	$width?: string;
 	$color?: string;
 }>`
-	font-size: ${(props) => props.theme.typography[props.$component].fontSize};
+	font-size: 1.6rem;
+	@media (min-width: ${(props) => props.theme.breakpoints.sm}) {
+		font-size: ${(props) => props.theme.typography[props.$component].fontSize};
+	}
 	font-weight: ${(props) => props.theme.typography[props.$component].fontWeight};
 	letter-spacing: ${(props) => props.theme.typography[props.$component].letterSpacing};
 	line-height: ${(props) => props.theme.typography[props.$component].lineHeight};

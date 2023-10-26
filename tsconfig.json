@@ -6,10 +6,11 @@
 	"exclude": [
 		"dist",
 		"node_modules",
-		// "**/*.stories.tsx" 
+		"**/*.stories.tsx",
+		"stories"
 	],
 	"compilerOptions": {
-		"target": "es5",
+		"target": "es6",
 		"types": ["@types/node"],
 		"module": "esnext",
 		"lib": [
@@ -29,7 +30,7 @@
 		"outDir": "./dist/esm",
 		"rootDir": "./src",
 		"skipLibCheck": true,
-		"sourceMap": true,
+		"sourceMap": false,
 		"strict": true,
 	}
 }

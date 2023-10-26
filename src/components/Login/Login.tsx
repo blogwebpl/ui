@@ -51,7 +51,7 @@ export function Login(props: LoginProps) {
 
 	return (
 		<Card padding minWidth="32rem" opacity={true}>
-			{props.logo && <Logo src={props.logo} />}
+			{props.logo && <Logo src={props.logo} height="6.4rem" />}
 			<Typography component="h6" userSelect="none" color="#000000">
 				Zaloguj się
 			</Typography>
