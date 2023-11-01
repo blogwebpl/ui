@@ -168,6 +168,9 @@ export function EditForm(props: EditFormProps) {
 				const shouldHide = activeTab !== field.tab;
 				// inputRefs[field.field] = useRef(null);
 				// const fieldValue = props.values?.[field?.field];
+
+				// props.roles?.filter(item => inputValues[field.field].includes(item.value)
+
 				switch (field.type) {
 					case 'text':
 					case 'number':
@@ -193,22 +196,29 @@ export function EditForm(props: EditFormProps) {
 								/>
 							</FieldContainer>
 						);
-					case 'roles':
+					case 'roles': {
+						const optionsRoles = props.roles || [];
+						const values = inputValues?.[field.field] || [];
+						const valueRoles = optionsRoles.filter((item) => values.includes(item.value));
+
 						return (
 							<FieldContainer key={field.field} hidden={shouldHide}>
 								<Select
 									label={field.label[props.language]}
-									options={props.roles || null}
-									value={inputValues?.[field.field] || null}
-									onChange={(value: SelectOption) => {
-										setInputValues((v: any) => ({ ...v, [field.field]: value }));
+									options={optionsRoles}
+									value={valueRoles}
+									onChange={(value: SelectOption[]) => {
+										setInputValues((v: any) => ({
+											...v,
+											[field.field]: value.map((item: SelectOption) => item.value),
+										}));
 									}}
 									isMulti
 									isClearable={false}
 								/>
 							</FieldContainer>
 						);
-
+					}
 					default:
 						return null;
 				}

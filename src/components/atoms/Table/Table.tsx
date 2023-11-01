@@ -100,7 +100,7 @@ export function Table(props: TableProps) {
 
 	useEffect(() => {
 		function handleResize() {
-			setIsMobile(window.innerWidth < 321);
+			setIsMobile(window.innerWidth < 413);
 			setViewportHeight(window.innerHeight);
 			setFontSize(() => getFontSizeFromBody());
 		}

@@ -44,7 +44,7 @@ const Template = (props: any) => {
 
 	useEffect(() => {
 		setTimeout(() => {
-			setValues({ name: 'Tomasz', surname: 'Durałek', age: 42, date: '2023-01-01' });
+			setValues({ name: 'Tomasz', surname: 'Durałek', age: 42, date: '2023-01-01', roles: ['admin'] });
 		}, 300);
 	}, []);
 

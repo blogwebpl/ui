@@ -78,7 +78,7 @@ export function AppBar(props: AppBarProps) {
 			</IconButton>
 			<StyledTitleContainer>
 				<Typography component="h6" userSelect="none">
-					<span>{props.title}</span>
+					{props.title}
 				</Typography>
 			</StyledTitleContainer>
 			<StyledIconContainer>

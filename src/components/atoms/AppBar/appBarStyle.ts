@@ -21,6 +21,10 @@ export const StyledAppBar = styled.header`
 export const StyledTitleContainer = styled.div`
 	flex-grow: 1;
 	overflow: hidden;
+	margin-left: -1rem;
+	@media (min-width: ${(props) => props.theme.breakpoints.sm}) {
+		margin-left: 0;
+	}
 `;
 
 export const StyledIconContainer = styled.div`
