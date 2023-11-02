@@ -154,6 +154,7 @@ export function EditForm(props: EditFormProps) {
 		fieldName: string; // FieldName in the collection
 		shouldHide: boolean; // Should the select field be hidden
 		label: string; // Label of the select field
+		isMulti?: boolean; // Is the select field multi select
 	}
 
 	const SpecialSelect = ({
@@ -162,6 +163,7 @@ export function EditForm(props: EditFormProps) {
 		fieldName,
 		shouldHide,
 		label,
+		isMulti,
 	}: SpecialSelectProps) => {
 		const value = options.filter((item: SelectOption) => valueIds.includes(item.value));
 
@@ -177,7 +179,7 @@ export function EditForm(props: EditFormProps) {
 							[fieldName]: newValue.map((item: SelectOption) => item.value),
 						}));
 					}}
-					isMulti
+					isMulti={isMulti}
 					isClearable={false}
 				/>
 			</FieldContainer>
@@ -219,14 +221,17 @@ export function EditForm(props: EditFormProps) {
 				};
 
 				let options: SelectOption[] = [];
+				let isMulti = false;
 				switch (field.type) {
 					case 'roles':
 						options = props.roles || [];
+						isMulti = true;
 						break;
 					case 'permissions':
 						options = props.permissions || [];
+						isMulti = true;
 						break;
-					case 'menus':
+					case 'menu':
 						options = props.menus || [];
 						break;
 					default:
@@ -246,7 +251,7 @@ export function EditForm(props: EditFormProps) {
 						);
 					case 'roles':
 					case 'permissions':
-					case 'menus': {
+					case 'menu': {
 						return (
 							<SpecialSelect
 								options={options}
@@ -254,6 +259,7 @@ export function EditForm(props: EditFormProps) {
 								fieldName={field.field}
 								shouldHide={shouldHide}
 								label={field.label[props.language]}
+								isMulti={isMulti}
 							/>
 						);
 					}
