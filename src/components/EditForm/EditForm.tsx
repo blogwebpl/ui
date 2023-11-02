@@ -34,6 +34,8 @@ interface EditFormProps {
 	title: Translations;
 	mode: 'add' | 'edit' | 'view';
 	roles?: SelectOption[];
+	permissions?: SelectOption[];
+	menus?: SelectOption[];
 	saveData: (formData: Object) => Promise<boolean>;
 }
 
@@ -146,8 +148,44 @@ export function EditForm(props: EditFormProps) {
 		}
 	}
 
+	interface SpecialSelectProps {
+		options: SelectOption[]; // All the options you can choose
+		valueIds: string[]; // The ids of the values that are selected
+		fieldName: string; // FieldName in the collection
+		shouldHide: boolean; // Should the select field be hidden
+		label: string; // Label of the select field
+	}
+
+	const SpecialSelect = ({
+		options,
+		valueIds,
+		fieldName,
+		shouldHide,
+		label,
+	}: SpecialSelectProps) => {
+		const value = options.filter((item: SelectOption) => valueIds.includes(item.value));
+
+		return (
+			<FieldContainer key={fieldName} hidden={shouldHide}>
+				<Select
+					label={label}
+					options={options}
+					value={value}
+					onChange={(newValue: SelectOption[]) => {
+						setInputValues((v: any) => ({
+							...v,
+							[fieldName]: newValue.map((item: SelectOption) => item.value),
+						}));
+					}}
+					isMulti
+					isClearable={false}
+				/>
+			</FieldContainer>
+		);
+	};
+
 	return (
-		<Card minWidth="32rem" padding isPending={isSaving}>
+		<Card minWidth="48rem" padding isPending={isSaving}>
 			<Typography component="h6" userSelect="none" color="#000000">
 				{props.title[props.language] + extTitle}
 			</Typography>
@@ -166,10 +204,33 @@ export function EditForm(props: EditFormProps) {
 
 			{props.fields.map((field, index) => {
 				const shouldHide = activeTab !== field.tab;
-				// inputRefs[field.field] = useRef(null);
-				// const fieldValue = props.values?.[field?.field];
 
-				// props.roles?.filter(item => inputValues[field.field].includes(item.value)
+				const commonProps = {
+					label: field.label[props.language],
+					required: field.required,
+					id: field.field,
+					value: inputValues?.[field.field] || '',
+					onChange: (e: any) => {
+						setInputValues((v: any) => ({ ...v, [field.field]: e.target.value }));
+					},
+					autoFocus: index === 0,
+					disabled: props.mode === 'view',
+					controlled: true,
+				};
+
+				let options: SelectOption[] = [];
+				switch (field.type) {
+					case 'roles':
+						options = props.roles || [];
+						break;
+					case 'permissions':
+						options = props.permissions || [];
+						break;
+					case 'menus':
+						options = props.menus || [];
+						break;
+					default:
+				}
 
 				switch (field.type) {
 					case 'text':
@@ -180,43 +241,20 @@ export function EditForm(props: EditFormProps) {
 					case 'datetime-local':
 						return (
 							<FieldContainer key={field.field} hidden={shouldHide}>
-								<TextField
-									label={field.label[props.language]}
-									required={field.required}
-									id={field.field}
-									type={field.type}
-									// forwardedRef={inputRefs[field.field]}
-									value={inputValues?.[field.field] || ''}
-									onChange={(e) => {
-										setInputValues((v: any) => ({ ...v, [field.field]: e.target.value }));
-									}}
-									autoFocus={index === 0}
-									disabled={props.mode === 'view'}
-									controlled
-								/>
+								<TextField type={field.type} {...commonProps} />
 							</FieldContainer>
 						);
-					case 'roles': {
-						const optionsRoles = props.roles || [];
-						const values = inputValues?.[field.field] || [];
-						const valueRoles = optionsRoles.filter((item) => values.includes(item.value));
-
+					case 'roles':
+					case 'permissions':
+					case 'menus': {
 						return (
-							<FieldContainer key={field.field} hidden={shouldHide}>
-								<Select
-									label={field.label[props.language]}
-									options={optionsRoles}
-									value={valueRoles}
-									onChange={(value: SelectOption[]) => {
-										setInputValues((v: any) => ({
-											...v,
-											[field.field]: value.map((item: SelectOption) => item.value),
-										}));
-									}}
-									isMulti
-									isClearable={false}
-								/>
-							</FieldContainer>
+							<SpecialSelect
+								options={options}
+								valueIds={inputValues?.[field.field] || []}
+								fieldName={field.field}
+								shouldHide={shouldHide}
+								label={field.label[props.language]}
+							/>
 						);
 					}
 					default:
