@@ -27,12 +27,28 @@ const editFields: Field[] = [
 	},
 	{ field: 'date', type: 'date', tab: 1, required: true, label: { pl: 'Data', en: 'Date' } },
 	{ field: 'roles', type: 'roles', tab: 1, required: true, label: { pl: 'Grupy', en: 'Roles' } },
+	{ field: 'permissions', type: 'permissions', tab: 1, required: true, label: { pl: 'Uprawnienia', en: 'Permissions' } },
+	{ field: 'menu', type: 'menu', tab: 1, required: true, label: { pl: 'Menu', en: 'Menu' }}
 ];
 
 const roles = [
 	{ value: 'admin', label: 'Admin' },
 	{ value: 'user', label: 'User' },
 ];
+
+
+const permissions = [
+	{ value: 'perm1', label: 'Permission1' },
+	{ value: 'perm2', label: 'Permission2' },
+];
+
+const menus = [{
+	value: 'menu',
+	label: 'Menu',
+},{
+	value: 'menu2',
+	label: 'Menu2',
+}];
 
 const Template = (props: any) => {
 	const tabs = [
@@ -44,7 +60,7 @@ const Template = (props: any) => {
 
 	useEffect(() => {
 		setTimeout(() => {
-			setValues({ name: 'Tomasz', surname: 'Durałek', age: 42, date: '2023-01-01', roles: ['admin'] });
+			setValues({ name: 'Tomasz', surname: 'Durałek', age: 42, date: '2023-01-01', roles: ['admin'], permissions: ['perm1'], menu: 'menu' });
 		}, 300);
 	}, []);
 
@@ -67,6 +83,8 @@ const Template = (props: any) => {
 					language="en"
 					collection="test"
 					roles={roles}
+					permissions={permissions}
+					menus={menus}
 					saveData={(data: any) => {
 						console.log(data);
 						return new Promise((resolve) => {

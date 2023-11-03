@@ -150,7 +150,7 @@ export function EditForm(props: EditFormProps) {
 
 	interface SpecialSelectProps {
 		options: SelectOption[]; // All the options you can choose
-		valueIds: string[]; // The ids of the values that are selected
+		valueIds: string | string[]; // The ids of the values that are selected
 		fieldName: string; // FieldName in the collection
 		shouldHide: boolean; // Should the select field be hidden
 		label: string; // Label of the select field
@@ -165,19 +165,31 @@ export function EditForm(props: EditFormProps) {
 		label,
 		isMulti,
 	}: SpecialSelectProps) => {
-		const value = options.filter((item: SelectOption) => valueIds.includes(item.value));
-
+		let value: SelectOption | SelectOption[] = options.filter((item: SelectOption) => {
+			if (isMulti) {
+				return valueIds.includes(item.value);
+			}
+			return item.value === valueIds;
+		});
+		if (isMulti === false) {
+			// eslint-disable-next-line prefer-destructuring
+			value = value[0];
+		}
 		return (
 			<FieldContainer key={fieldName} hidden={shouldHide}>
 				<Select
 					label={label}
 					options={options}
 					value={value}
-					onChange={(newValue: SelectOption[]) => {
-						setInputValues((v: any) => ({
-							...v,
-							[fieldName]: newValue.map((item: SelectOption) => item.value),
-						}));
+					onChange={(newValue: SelectOption | SelectOption[]) => {
+						if (isMulti === false) {
+							setInputValues((v: any) => ({ ...v, [fieldName]: (newValue as SelectOption).value }));
+						} else {
+							setInputValues((v: any) => ({
+								...v,
+								[fieldName]: (newValue as SelectOption[]).map((item: SelectOption) => item.value),
+							}));
+						}
 					}}
 					isMulti={isMulti}
 					isClearable={false}
