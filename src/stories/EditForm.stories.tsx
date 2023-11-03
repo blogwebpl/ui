@@ -48,6 +48,9 @@ const menus = [{
 },{
 	value: 'menu2',
 	label: 'Menu2',
+},{
+	value: 'menu3',
+	label: 'Menu3',
 }];
 
 const Template = (props: any) => {
@@ -60,7 +63,7 @@ const Template = (props: any) => {
 
 	useEffect(() => {
 		setTimeout(() => {
-			setValues({ name: 'Tomasz', surname: 'Durałek', age: 42, date: '2023-01-01', roles: ['admin'], permissions: ['perm1'], menu: 'menu' });
+			setValues({ name: 'Tomasz', surname: 'Durałek', age: 42, date: '2023-01-01', roles: ['admin'], permissions: ['perm1'], menu: 'menu2' });
 		}, 300);
 	}, []);
 

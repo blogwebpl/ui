@@ -175,6 +175,14 @@ export function EditForm(props: EditFormProps) {
 			// eslint-disable-next-line prefer-destructuring
 			value = value[0];
 		}
+
+		// console.log('----------------------------------');
+		// console.log('fieldName', fieldName);
+		// console.log('options', options);
+		// console.log('valueIds', valueIds);
+		// console.log('value', value);
+		// console.log('----------------------------------');
+
 		return (
 			<FieldContainer key={fieldName} hidden={shouldHide}>
 				<Select

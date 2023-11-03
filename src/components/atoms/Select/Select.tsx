@@ -27,6 +27,13 @@ const styles: StylesConfig = {
 			outlineColor: borderColor,
 		};
 	},
+	menu: (baseStyles: any) => {
+		console.log(baseStyles);
+		return {
+			...baseStyles,
+			zIndex: 2,
+		};
+	},
 };
 
 const Label = styled.label<{ $isfloating?: boolean; $hasvalue?: boolean }>`
