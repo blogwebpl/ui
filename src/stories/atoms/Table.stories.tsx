@@ -58,7 +58,7 @@ const tableColumns: TableColumn[] = [
 			pl: 'Imię',
 			en: 'First name',
 		},
-		width: '10rem',
+		width: '12rem',
 		sort: 'asc',
 		sortOrder: 2,
 		type: 'string',
@@ -66,7 +66,7 @@ const tableColumns: TableColumn[] = [
 	{
 		field: 'lastName',
 		label: { pl: 'Nazwisko', en: 'Last name' },
-		width: '10rem',
+		width: '15rem',
 		sort: 'asc',
 		sortOrder: 1,
 		type: 'string',
@@ -74,7 +74,7 @@ const tableColumns: TableColumn[] = [
 	{
 		field: 'age',
 		label: { pl: 'Wiek', en: 'Age' },
-		width: '5rem',
+		width: '10rem',
 		sort: 'desc',
 		sortOrder: 3,
 		type: 'number',
@@ -82,7 +82,7 @@ const tableColumns: TableColumn[] = [
 	{
 		field: 'user.test2',
 		label: { pl: 'Test', en: 'Test' },
-		width: '5rem',
+		width: '10rem',
 		sort: 'desc',
 		sortOrder: 4,
 		type: 'number',

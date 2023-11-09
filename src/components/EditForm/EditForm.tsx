@@ -37,6 +37,7 @@ interface EditFormProps {
 	permissions?: SelectOption[];
 	menus?: SelectOption[];
 	saveData: (formData: Object) => Promise<boolean>;
+	width?: string;
 }
 
 export function EditForm(props: EditFormProps) {
@@ -207,7 +208,7 @@ export function EditForm(props: EditFormProps) {
 	};
 
 	return (
-		<Card minWidth="48rem" padding isPending={isSaving}>
+		<Card minWidth={props.width || '48rem'} padding isPending={isSaving}>
 			<Typography component="h6" userSelect="none" color="#000000">
 				{props.title[props.language] + extTitle}
 			</Typography>
@@ -292,7 +293,8 @@ export function EditForm(props: EditFormProps) {
 					label="Anuluj"
 					variant="primary"
 					onClick={() => {
-						navigate(`/${props.collection}`);
+						navigate(-1);
+						// navigate(`/${props.collection}`);
 					}}
 					disabled={isSaving}
 				/>

@@ -34,12 +34,20 @@ export const StyledIconContainer = styled.div`
 `;
 
 export const StyledTable = styled.table`
+	table-layout: fixed;
 	width: 100%;
 	border-collapse: collapse;
 	font-weight: 400;
 	border: 0;
 	padding: 0;
 	margin: 0;
+
+	@media (min-width: 417px) {
+		& {
+			margin: 0 2rem;
+			width: calc(100% - 4rem);
+		}
+	}
 
 	span {
 		display: inline-block;
@@ -94,6 +102,8 @@ export const StyledTable = styled.table`
 		text-align: left;
 		user-select: none;
 		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
 	}
 	td.number {
 		text-align: right;
@@ -102,13 +112,29 @@ export const StyledTable = styled.table`
 
 	th:first-child,
 	td:first-child {
-		width: 6.4rem;
-		text-align: center;
+		width: auto;
+		text-align: right;
+	}
+
+	@media (min-width: 417px) {
+		th:first-child,
+		td:first-child {
+			width: 6.4rem;
+			text-align: center;
+		}
 	}
 	th:last-child,
 	td:last-child {
-		width: 6.4rem;
+		// width: 6.4rem;
+		width: auto;
 		padding-left: 1.6rem;
+	}
+	@media (min-width: 417px) {
+		th:last-child,
+		td:last-child {
+			padding-left: 0;
+			float: right;
+		}
 	}
 	tr {
 		border-bottom: 0.1rem solid #e0e0e0;
@@ -159,6 +185,13 @@ export const StyledFooter = styled.div`
 	select {
 		border: 0;
 		color: #757575;
+	}
+
+	@media (min-width: 417px) {
+		& {
+			margin: 0 2rem;
+			width: calc(100% - 4rem);
+		}
 	}
 `;
 

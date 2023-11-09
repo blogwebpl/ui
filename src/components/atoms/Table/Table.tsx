@@ -2,7 +2,7 @@
 import '@total-typescript/ts-reset';
 import { IconType } from 'react-icons';
 
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
 	MdSearch as SearchIcon,
@@ -81,6 +81,10 @@ function getFontSizeFromBody(): number {
 }
 
 export function Table(props: TableProps) {
+	const location = useLocation();
+	const params = new URLSearchParams(location.search);
+	const searchParam = params.get('search');
+
 	const { data } = props;
 	const [columns, setColumns] = useState(props.columns);
 	const [isMobile, setIsMobile] = useState(false);
@@ -88,7 +92,8 @@ export function Table(props: TableProps) {
 	const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
 	const [rowsPerPage, setRowsPerPage] = useState<number>(props.rowsPerPage || 0);
 	const [pageNumber, setPageNumber] = useState<number>(props.pageNumber || 1);
-	const [searchText, setSearchText] = useState<string>('');
+	const [searchText, setSearchText] = useState<string>(searchParam || '');
+	const [searchTextForInput, setSearchTextForInput] = useState<string>(searchParam || '');
 	const [searchDelayTimer, setSearchDelayTimer] = useState<NodeJS.Timeout | null>(null);
 	const [checkedRows, setCheckedRows] = useState<{ [key: string]: boolean }>({});
 
@@ -100,7 +105,7 @@ export function Table(props: TableProps) {
 
 	useEffect(() => {
 		function handleResize() {
-			setIsMobile(window.innerWidth < 413);
+			setIsMobile(window.innerWidth < 417);
 			setViewportHeight(window.innerHeight);
 			setFontSize(() => getFontSizeFromBody());
 		}
@@ -119,8 +124,11 @@ export function Table(props: TableProps) {
 			setTimeout(() => {
 				setCheckedRows({});
 				setPageNumber(1);
+				navigate(`/${props.collection}/page/1?search=${encodeURIComponent(text)}`, {
+					replace: true,
+				});
 				setSearchText(text);
-			}, 300)
+			}, 450)
 		);
 	};
 
@@ -203,13 +211,21 @@ export function Table(props: TableProps) {
 	};
 
 	const sortFunction = (a: DynamicObject, b: DynamicObject, column: TableColumn) => {
-		const aValue = String(a[column.field]);
-		const bValue = String(b[column.field]);
-
-		if (column.sort === 'asc') {
-			return aValue.localeCompare(bValue, 'pl', { sensitivity: 'base' });
+		const aValue = a[column.field];
+		const bValue = b[column.field];
+		if (column.type === 'string') {
+			if (column.sort === 'asc') {
+				return aValue.localeCompare(bValue, 'pl', { sensitivity: 'base' });
+			}
+			return bValue.localeCompare(aValue, 'pl', { sensitivity: 'base' });
 		}
-		return bValue.localeCompare(aValue, 'pl', { sensitivity: 'base' });
+		if (column.type === 'number') {
+			if (column.sort === 'asc') {
+				return aValue > bValue;
+			}
+			return bValue > aValue;
+		}
+		return false;
 	};
 
 	const multiSortFunction = (a: DynamicObject, b: DynamicObject) => {
@@ -310,14 +326,17 @@ export function Table(props: TableProps) {
 				{isMobile ? null : (
 					<StyledFilterContainer>
 						<TextField
+							id="search"
 							label=""
 							type="text"
 							icon={SearchIcon}
 							slim={true}
 							autoFocus
-							onChange={(e: ChangeEvent<HTMLInputElement>) =>
-								handleSearchTextChange(e.target.value)
-							}
+							onChange={(e: ChangeEvent<HTMLInputElement>) => {
+								handleSearchTextChange(e.target.value);
+								setSearchTextForInput(e.target.value);
+							}}
+							value={searchTextForInput}
 							controlled
 						/>
 					</StyledFilterContainer>
@@ -346,7 +365,7 @@ export function Table(props: TableProps) {
 							</th>
 							{props.columns.map((column) => (
 								<th
-									style={{ minWidth: column.width }}
+									style={{ width: column.width }}
 									key={column.field}
 									onClick={() => {
 										changeSortOrder(column.field);
@@ -504,7 +523,18 @@ export function Table(props: TableProps) {
 							<IconButton
 								isLightColor={false}
 								onClick={() => {
-									setPageNumber((pn) => (pn > 1 ? pn - 1 : 1));
+									setPageNumber((pn) => {
+										const newPn = pn > 1 ? pn - 1 : 1;
+										navigate(
+											`/${props.collection}/page/${newPn}?search=${encodeURIComponent(searchText)}`,
+											{
+												replace: true,
+											}
+										);
+										const searchInput = document.getElementById('search');
+										if (searchInput) searchInput.focus();
+										return newPn;
+									});
 								}}
 								color="#757575"
 								label=""
@@ -516,9 +546,20 @@ export function Table(props: TableProps) {
 							<IconButton
 								isLightColor={false}
 								onClick={() => {
-									setPageNumber((pn) =>
-										Math.ceil(filteredData.length / computedRowsPerPage) > pn ? pn + 1 : pn
-									);
+									setPageNumber((pn) => {
+										const newPn =
+											Math.ceil(filteredData.length / computedRowsPerPage) > pn ? pn + 1 : pn;
+
+										navigate(
+											`/${props.collection}/page/${newPn}?search=${encodeURIComponent(searchText)}`,
+											{
+												replace: true,
+											}
+										);
+										const searchInput = document.getElementById('search');
+										if (searchInput) searchInput.focus();
+										return newPn;
+									});
 								}}
 								color="#757575"
 								label=""

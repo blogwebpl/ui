@@ -23,15 +23,17 @@ const StyledCard = styled.div<StyledCardProps>`
 	color: ${(props) => props.theme.palette.element.primary.textDark};
 	display: inline-block;
 	padding: ${(props) => (props.$padding ? '1.6rem' : '0')};
-	min-width: min(calc(100% - 3.2rem), ${(props) => props.$minwidth});
+	max-width: min(100%, ${(props) => props.$minwidth});
 	margin-inline: auto;
 	box-sizing: border-box;
 	opacity: ${(props) => (props.$opacity ? '0.95' : '1')};
 	background-color: ${(props) =>
 		props.$opacity ? 'rgba(255, 255, 255, 0.9)' : props.theme.palette.background.default};
 	backdrop-filter: ${(props) => (props.$opacity ? 'blur(1.5rem)' : 'none')};
-	@media (min-width: 23rem) {
+	@media (min-width: 26rem) {
 		border-radius: ${(props) => props.theme.shape.borderRadious};
+		margin: 0 1.6rem;
+		max-width: min(calc(100% - 3.2rem - 3.2rem), ${(props) => props.$minwidth});
 	}
 	cursor: ${(props) => (props.$isPending ? 'wait' : 'default')};
 `;
