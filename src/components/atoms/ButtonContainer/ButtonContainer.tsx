@@ -5,6 +5,12 @@ const StyledButtonContainer = styled.div`
 	margin-bottom: 0.8rem;
 	display: flex;
 	column-gap: 1.6rem;
+
+	float: right;
+	width: 100%;
+	@media (min-width: 26rem) {
+		max-width: 36rem;
+	}
 `;
 
 interface ButtonContainerProps {

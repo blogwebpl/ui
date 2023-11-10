@@ -81,12 +81,31 @@ function getFontSizeFromBody(): number {
 }
 
 export function Table(props: TableProps) {
+	let mergedColumns: TableColumn[] = props.columns;
+	const collectionColumns = localStorage.getItem(`collection-${props.collection}-columns`);
+	if (collectionColumns) {
+		const userColumns: TableColumn[] = JSON.parse(collectionColumns) as TableColumn[];
+
+		mergedColumns = props.columns.map((column) => {
+			const userColumn = userColumns.find((uc: TableColumn) => uc.field === column.field);
+			if (userColumn) {
+				return {
+					...column,
+					sort: userColumn.sort,
+					sortOrder: userColumn.sortOrder,
+					width: userColumn.width,
+				};
+			}
+			return column;
+		});
+	}
+
 	const location = useLocation();
 	const params = new URLSearchParams(location.search);
 	const searchParam = params.get('search');
 
 	const { data } = props;
-	const [columns, setColumns] = useState(props.columns);
+	const [columns, setColumns] = useState(mergedColumns);
 	const [isMobile, setIsMobile] = useState(false);
 	const [fontSize, setFontSize] = useState<number>(getFontSizeFromBody());
 	const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
@@ -100,7 +119,7 @@ export function Table(props: TableProps) {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		setColumns(props.columns);
+		setColumns(mergedColumns);
 	}, [props.columns]);
 
 	useEffect(() => {
@@ -145,6 +164,10 @@ export function Table(props: TableProps) {
 		if (column) {
 			column.sort = column.sort === 'asc' ? 'desc' : 'asc';
 			setColumns(currentColumns);
+			localStorage.setItem(
+				`collection-${props.collection}-columns`,
+				JSON.stringify(currentColumns)
+			);
 		}
 	};
 
@@ -221,11 +244,11 @@ export function Table(props: TableProps) {
 		}
 		if (column.type === 'number') {
 			if (column.sort === 'asc') {
-				return aValue > bValue;
+				return aValue - bValue;
 			}
-			return bValue > aValue;
+			return bValue - aValue;
 		}
-		return false;
+		return 0;
 	};
 
 	const multiSortFunction = (a: DynamicObject, b: DynamicObject) => {
@@ -363,7 +386,7 @@ export function Table(props: TableProps) {
 							<th>
 								<Checkbox />
 							</th>
-							{props.columns.map((column) => (
+							{mergedColumns.map((column) => (
 								<th
 									style={{ width: column.width }}
 									key={column.field}
@@ -438,7 +461,7 @@ export function Table(props: TableProps) {
 
 						{trArray.map((_, index) => (
 							<tr key={`empty${index}`} className="emptyRow">
-								<td colSpan={props.columns.length + 2}>&nbsp;</td>
+								<td colSpan={mergedColumns.length + 2}>&nbsp;</td>
 							</tr>
 						))}
 					</tbody>
@@ -446,7 +469,7 @@ export function Table(props: TableProps) {
 					<>
 						{dataForPage.map((row: DynamicObject) => (
 							<tbody key={`${row.id}-tbody`} className="bodyMobile">
-								{props.columns.map((column: TableColumn, index: number) => (
+								{mergedColumns.map((column: TableColumn, index: number) => (
 									<tr key={`${row.id}-tr-${index}`} className="innerRow">
 										<td
 											onClick={() => {

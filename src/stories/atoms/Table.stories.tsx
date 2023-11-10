@@ -74,7 +74,7 @@ const tableColumns: TableColumn[] = [
 	{
 		field: 'age',
 		label: { pl: 'Wiek', en: 'Age' },
-		width: '10rem',
+		width: '12rem',
 		sort: 'desc',
 		sortOrder: 3,
 		type: 'number',

@@ -34,6 +34,7 @@ const StyledCard = styled.div<StyledCardProps>`
 		border-radius: ${(props) => props.theme.shape.borderRadious};
 		margin: 0 1.6rem;
 		max-width: min(calc(100% - 3.2rem - 3.2rem), ${(props) => props.$minwidth});
+		width: 100%;
 	}
 	cursor: ${(props) => (props.$isPending ? 'wait' : 'default')};
 `;
