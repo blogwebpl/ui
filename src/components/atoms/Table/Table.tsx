@@ -32,6 +32,8 @@ import {
 	StyledFooterItem,
 } from './tableStyle';
 import { Language, Translations } from '../../types';
+// Check code in Table.tsx
+console.log('Checking code in Table.tsx');
 
 export interface TableAction {
 	id: string;
@@ -66,9 +68,10 @@ export interface TableProps {
 	language: Language;
 	crud: number;
 	collection: string;
+	mobileWidth?: number;
 }
 
-const ObjectIdPattern = /^[0-9a-fA-F]{24}$/;
+// const ObjectIdPattern = /^[0-9a-fA-F]{24}$/;
 
 function getFontSizeFromBody(): number {
 	const bodyElement = document.body;
@@ -124,7 +127,7 @@ export function Table(props: TableProps) {
 
 	useEffect(() => {
 		function handleResize() {
-			setIsMobile(window.innerWidth < 417);
+			setIsMobile(window.innerWidth < (props.mobileWidth || 417));
 			setViewportHeight(window.innerHeight);
 			setFontSize(() => getFontSizeFromBody());
 		}
@@ -133,7 +136,7 @@ export function Table(props: TableProps) {
 		return () => {
 			window.removeEventListener('resize', handleResize);
 		};
-	}, []);
+	}, [props.mobileWidth]);
 
 	const handleSearchTextChange = (text: string) => {
 		if (searchDelayTimer) {
@@ -141,7 +144,7 @@ export function Table(props: TableProps) {
 		}
 		setSearchDelayTimer(
 			setTimeout(() => {
-				setCheckedRows({});
+				// setCheckedRows({});
 				setPageNumber(1);
 				navigate(`/${props.collection}/page/1?search=${encodeURIComponent(text)}`, {
 					replace: true,
@@ -196,18 +199,47 @@ export function Table(props: TableProps) {
 			}
 
 			if (typeof value === 'object') {
-				return Object.entries(value).some(([objValue]) => {
-					if (ObjectIdPattern.test(String(objValue))) {
+				return Object.entries(value).some(([objKey, objValue]) => {
+					// Check if the key is specified in the columns
+					const isKeyInColumns = columns.some((column) => column.field === `${key}.${objKey}`);
+					if (!isKeyInColumns) {
 						return false;
 					}
-					// TODO: test in value object keys if key is on column list after dot
+
 					return String(objValue).toLowerCase().includes(searchText.toLowerCase());
 				});
 			}
+			if (typeof value === 'number') {
+				return String(value).includes(searchText);
+			}
 
-			return String(value).toLowerCase().includes(searchText.toLowerCase());
+			return value.toLowerCase().includes(searchText.toLowerCase());
 		})
 	);
+
+	// const transformData = (dataToTransform: any[]): any[] => {
+	// 	return dataToTransform.map((row) => {
+	// 		const transformedRow = { ...row };
+
+	// 		columns.forEach((column) => {
+	// 			if (column.field.includes('.')) {
+	// 				const keys = column.field.split('.');
+
+	// 				let currentNode = transformedRow;
+
+	// 				// TODO: refactor to reduce
+	// 				// eslint-disable-next-line no-restricted-syntax
+	// 				for (const key of keys) {
+	// 					if (Object.prototype.hasOwnProperty.call(currentNode, key)) {
+	// 						currentNode = currentNode[key];
+	// 					}
+	// 				}
+	// 				transformedRow[column.field] = currentNode;
+	// 			}
+	// 		});
+	// 		return transformedRow;
+	// 	});
+	// };
 
 	const transformData = (dataToTransform: any[]): any[] => {
 		return dataToTransform.map((row) => {
@@ -217,15 +249,10 @@ export function Table(props: TableProps) {
 				if (column.field.includes('.')) {
 					const keys = column.field.split('.');
 
-					let currentNode = transformedRow;
+					const currentNode = keys.reduce((current, key) => {
+						return Object.prototype.hasOwnProperty.call(current, key) ? current[key] : current;
+					}, transformedRow);
 
-					// TODO: refactor to reduce
-					// eslint-disable-next-line no-restricted-syntax
-					for (const key of keys) {
-						if (Object.prototype.hasOwnProperty.call(currentNode, key)) {
-							currentNode = currentNode[key];
-						}
-					}
 					transformedRow[column.field] = currentNode;
 				}
 			});
@@ -236,7 +263,7 @@ export function Table(props: TableProps) {
 	const sortFunction = (a: DynamicObject, b: DynamicObject, column: TableColumn) => {
 		const aValue = a[column.field];
 		const bValue = b[column.field];
-		if (column.type === 'string') {
+		if (column.type === 'text') {
 			if (column.sort === 'asc') {
 				return aValue.localeCompare(bValue, 'pl', { sensitivity: 'base' });
 			}
@@ -338,6 +365,14 @@ export function Table(props: TableProps) {
 
 	if (!canRead) return null;
 
+	const navigateToRow = (id: string) => {
+		if (props.readOnly || !canUpdate) {
+			navigate(`/${props.collection}/view/${id}`);
+		} else {
+			navigate(`/${props.collection}/edit/${id}`);
+		}
+	};
+
 	return (
 		<Card minWidth={props.width} padding={false}>
 			<StyledHeader>
@@ -379,7 +414,7 @@ export function Table(props: TableProps) {
 					)}
 				</StyledIconContainer>
 			</StyledHeader>
-			<StyledTable>
+			<StyledTable mobileWidth={`${String(props.mobileWidth ?? 0 / 16)}em`}>
 				{isMobile ? null : (
 					<thead>
 						<tr>
@@ -410,16 +445,14 @@ export function Table(props: TableProps) {
 								key={row.id}
 								onClick={(event) => {
 									if (
-										(event.target as HTMLElement).tagName === 'TD' &&
-										(props.readOnly || !canUpdate)
+										!(event.target as HTMLElement).classList.contains('first-td') &&
+										(event.target as HTMLElement).tagName === 'TD'
 									) {
-										navigate(`/${props.collection}/view/${row.id}`);
-									} else {
-										navigate(`/${props.collection}/edit/${row.id}`);
+										navigateToRow(row.id);
 									}
 								}}
 							>
-								<td>
+								<td className="first-td">
 									<Checkbox
 										checked={checkedRows[row.id] || false}
 										onChange={() => {
@@ -431,7 +464,8 @@ export function Table(props: TableProps) {
 								{columns.map((column) => (
 									<td
 										key={`${row.id}-${column.field}`}
-										className={typeof row[column.field] === 'number' ? 'number' : ''}
+										// className={typeof row[column.field] === 'number' ? 'number' : ''}
+										className={column.type === 'number' ? 'number' : ''}
 									>
 										{row[column.field]}
 									</td>
@@ -439,13 +473,7 @@ export function Table(props: TableProps) {
 								<td>
 									<IconButton
 										isLightColor={false}
-										onClick={() => {
-											if (props.readOnly || !canUpdate) {
-												navigate(`/${props.collection}/view/${row.id}`);
-											} else {
-												navigate(`/${props.collection}/edit/${row.id}`);
-											}
-										}}
+										onClick={() => navigateToRow(row.id)}
 										color="#757575"
 										label=""
 									>
@@ -510,7 +538,7 @@ export function Table(props: TableProps) {
 				)}
 			</StyledTable>
 			{isMobile ? null : (
-				<StyledFooter>
+				<StyledFooter mobileWidth={`${String(props.mobileWidth ?? 0 / 16)}em`}>
 					<StyledFooterContainer>
 						<StyledFooterItem>Wierszy na stronę:</StyledFooterItem>
 						<StyledFooterItem>
@@ -596,3 +624,8 @@ export function Table(props: TableProps) {
 		</Card>
 	);
 }
+
+Table.defaultProps = {
+	readOnly: true,
+	mobileWidth: 768,
+};

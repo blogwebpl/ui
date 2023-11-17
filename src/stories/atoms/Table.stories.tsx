@@ -61,7 +61,7 @@ const tableColumns: TableColumn[] = [
 		width: '12rem',
 		sort: 'asc',
 		sortOrder: 2,
-		type: 'string',
+		type: 'text',
 	},
 	{
 		field: 'lastName',
@@ -69,7 +69,7 @@ const tableColumns: TableColumn[] = [
 		width: '15rem',
 		sort: 'asc',
 		sortOrder: 1,
-		type: 'string',
+		type: 'text',
 	},
 	{
 		field: 'age',

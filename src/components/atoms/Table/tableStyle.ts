@@ -33,7 +33,11 @@ export const StyledIconContainer = styled.div`
 	display: flex;
 `;
 
-export const StyledTable = styled.table`
+interface StyledTableProps {
+	mobileWidth?: string;
+}
+
+export const StyledTable = styled.table<StyledTableProps>`
 	table-layout: fixed;
 	width: 100%;
 	border-collapse: collapse;
@@ -42,7 +46,7 @@ export const StyledTable = styled.table`
 	padding: 0;
 	margin: 0;
 
-	@media (min-width: 417px) {
+	@media (min-width: ${(props) => props.mobileWidth || '417px'}) {
 		& {
 			margin: 0 2rem;
 			width: calc(100% - 4rem);
@@ -116,7 +120,7 @@ export const StyledTable = styled.table`
 		text-align: right;
 	}
 
-	@media (min-width: 417px) {
+	@media (min-width: ${(props) => props.mobileWidth || '417px'}) {
 		th:first-child,
 		td:first-child {
 			width: 6.4rem;
@@ -129,7 +133,7 @@ export const StyledTable = styled.table`
 		width: auto;
 		padding-left: 1.6rem;
 	}
-	@media (min-width: 417px) {
+	@media (min-width: ${(props) => props.mobileWidth || '417px'}) {
 		th:last-child,
 		td:last-child {
 			padding-left: 0;
@@ -176,7 +180,7 @@ export const StyledTable = styled.table`
 	}
 `;
 
-export const StyledFooter = styled.div`
+export const StyledFooter = styled.div<StyledTableProps>`
 	display: flex;
 	justify-items: center;
 	height: 5.6rem;
@@ -187,7 +191,7 @@ export const StyledFooter = styled.div`
 		color: #757575;
 	}
 
-	@media (min-width: 417px) {
+	@media (min-width: ${(props) => props.mobileWidth || '417px'}) {
 		& {
 			margin: 0 2rem;
 			width: calc(100% - 4rem);
