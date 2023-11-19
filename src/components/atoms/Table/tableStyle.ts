@@ -33,81 +33,29 @@ export const StyledIconContainer = styled.div`
 	display: flex;
 `;
 
-interface StyledTableProps {
-	mobileWidth?: string;
-}
-
-export const StyledTable = styled.table<StyledTableProps>`
-	table-layout: fixed;
+export const StyledTable = styled.table`
 	width: 100%;
 	border-collapse: collapse;
-	font-weight: 400;
 	border: 0;
 	padding: 0;
 	margin: 0;
-
-	@media (min-width: ${(props) => props.mobileWidth || '417px'}) {
-		& {
-			margin: 0 2rem;
-			width: calc(100% - 4rem);
-		}
-	}
-
-	span {
-		display: inline-block;
-		transform-origin: center center;
-	}
-
-	@keyframes rotateAnimationDesc {
-		from {
-			transform: rotate(0deg);
-		}
-		to {
-			transform: rotate(180deg);
-		}
-	}
-
-	@keyframes rotateAnimationAsc {
-		from {
-			transform: rotate(180deg);
-		}
-		to {
-			transform: rotate(0deg);
-		}
-	}
-
-	.desc {
-		animation-name: rotateAnimationDesc;
-		animation-duration: 0.25s;
-		animation-fill-mode: forwards;
-		animation-timing-function: ease-out;
-		font-size: 1.3rem;
-	}
-
-	.asc {
-		animation-name: rotateAnimationAsc;
-		animation-duration: 0.25s;
-		animation-fill-mode: forwards;
-		animation-timing-function: ease-out;
-		font-size: 1.3rem;
-	}
+	font-weight: 400;
 
 	th {
 		color: #757575;
 		font-size: 1.2rem;
-		height: 100%;
 		text-align: left;
 		user-select: none;
 	}
+
 	td {
-		padding: 0;
 		color: #212121;
 		font-size: 1.3rem;
 		text-align: left;
-		user-select: none;
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		overflow: hidden;
+		user-select: none;
 	}
 	td.number {
 		text-align: right;
@@ -118,28 +66,16 @@ export const StyledTable = styled.table<StyledTableProps>`
 	td:first-child {
 		width: auto;
 		text-align: right;
+		overflow: visible;
+		padding-left: 0.8rem;
 	}
 
-	@media (min-width: ${(props) => props.mobileWidth || '417px'}) {
-		th:first-child,
-		td:first-child {
-			width: 6.4rem;
-			text-align: center;
-		}
-	}
 	th:last-child,
 	td:last-child {
-		// width: 6.4rem;
 		width: auto;
 		padding-left: 1.6rem;
 	}
-	@media (min-width: ${(props) => props.mobileWidth || '417px'}) {
-		th:last-child,
-		td:last-child {
-			padding-left: 0;
-			float: right;
-		}
-	}
+
 	tr {
 		border-bottom: 0.1rem solid #e0e0e0;
 	}
@@ -147,6 +83,7 @@ export const StyledTable = styled.table<StyledTableProps>`
 	thead > tr {
 		height: 5.6rem;
 	}
+
 	tbody.tableBody > tr:hover {
 		background-color: #eeeeee;
 	}
@@ -178,9 +115,41 @@ export const StyledTable = styled.table<StyledTableProps>`
 	.emptyRow:hover {
 		background-color: inherit !important;
 	}
+
+	&.desktop {
+		table-layout: fixed;
+		margin: 0 1rem;
+		width: calc(100% - 2rem);
+		th:first-child,
+		td:first-child {
+			width: 5.6rem;
+			text-align: center;
+			padding: 0 0.4rem;
+		}
+		th:last-child,
+		td:last-child {
+			padding-left: 0;
+			float: right;
+		}
+	}
+
+	span {
+		display: inline-block;
+		transform-origin: center center;
+	}
+
+	.desc {
+		font-size: 1.3rem;
+		transform: rotate(180deg);
+	}
+
+	.asc {
+		font-size: 1.3rem;
+		transform: rotate(0deg);
+	}
 `;
 
-export const StyledFooter = styled.div<StyledTableProps>`
+export const StyledFooter = styled.div`
 	display: flex;
 	justify-items: center;
 	height: 5.6rem;
@@ -191,11 +160,9 @@ export const StyledFooter = styled.div<StyledTableProps>`
 		color: #757575;
 	}
 
-	@media (min-width: ${(props) => props.mobileWidth || '417px'}) {
-		& {
-			margin: 0 2rem;
-			width: calc(100% - 4rem);
-		}
+	&.desktop {
+		margin: 0 2rem;
+		width: calc(100% - 4rem);
 	}
 `;
 
@@ -206,6 +173,7 @@ export const StyledFooterContainer = styled.div`
 	flex-direction: row;
 	justify-content: flex-end;
 `;
+
 export const StyledFooterItem = styled.span`
 	height: 4.8rem;
 	display: flex;

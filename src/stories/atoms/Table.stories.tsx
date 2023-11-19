@@ -112,6 +112,7 @@ const Template = () => {
 				language="pl"
 				crud={15}
 				collection="users"
+				mobileWidth={660}
 			/>
 		</Router>
 	);

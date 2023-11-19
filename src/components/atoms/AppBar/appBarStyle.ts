@@ -6,6 +6,9 @@ export const StyledAppBar = styled.header`
 	color: ${(props) => props.theme.palette.element.primary.text};
 	display: flex;
 	padding: 0 2.4rem;
+	position: fixed;
+	width: 100%;
+	z-index: 100000;
 
 	@media (orientation: landscape) {
 		height: 4.8rem;
@@ -15,6 +18,7 @@ export const StyledAppBar = styled.header`
 	}
 	@media (min-width: ${(props) => props.theme.breakpoints.sm}) {
 		height: 6.4rem;
+		// position: fixed;
 	}
 `;
 

@@ -14,7 +14,7 @@ import {
 	MdDelete as TrashIcon,
 } from 'react-icons/md';
 
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { Card } from '../Card';
 import { TextField } from '../TextField';
 import { Typography } from '../Typography';
@@ -32,8 +32,6 @@ import {
 	StyledFooterItem,
 } from './tableStyle';
 import { Language, Translations } from '../../types';
-// Check code in Table.tsx
-console.log('Checking code in Table.tsx');
 
 export interface TableAction {
 	id: string;
@@ -71,8 +69,6 @@ export interface TableProps {
 	mobileWidth?: number;
 }
 
-// const ObjectIdPattern = /^[0-9a-fA-F]{24}$/;
-
 function getFontSizeFromBody(): number {
 	const bodyElement = document.body;
 	if (bodyElement) {
@@ -83,14 +79,19 @@ function getFontSizeFromBody(): number {
 	return 16;
 }
 
-export function Table(props: TableProps) {
-	let mergedColumns: TableColumn[] = props.columns;
-	const collectionColumns = localStorage.getItem(`collection-${props.collection}-columns`);
+interface MergeColumnsProps {
+	columns: TableColumn[];
+	collection: string;
+}
+
+const mergeColumns = ({ columns, collection }: MergeColumnsProps): TableColumn[] => {
+	const collectionColumns = localStorage.getItem(`collection-${collection}-columns`);
 	if (collectionColumns) {
 		const userColumns: TableColumn[] = JSON.parse(collectionColumns) as TableColumn[];
+		const userColumnsMap = new Map(userColumns.map((uc) => [uc.field, uc]));
 
-		mergedColumns = props.columns.map((column) => {
-			const userColumn = userColumns.find((uc: TableColumn) => uc.field === column.field);
+		return columns.map((column) => {
+			const userColumn = userColumnsMap.get(column.field);
 			if (userColumn) {
 				return {
 					...column,
@@ -102,14 +103,22 @@ export function Table(props: TableProps) {
 			return column;
 		});
 	}
+	return columns;
+};
 
+export function Table(props: TableProps) {
+	const componentStartTime = performance.now();
 	const location = useLocation();
+	const navigate = useNavigate();
+
 	const params = new URLSearchParams(location.search);
 	const searchParam = params.get('search');
 
+	const mergedColumns = mergeColumns({ columns: props.columns, collection: props.collection });
+
 	const { data } = props;
 	const [columns, setColumns] = useState(mergedColumns);
-	const [isMobile, setIsMobile] = useState(false);
+	const [isMobile, setIsMobile] = useState(true);
 	const [fontSize, setFontSize] = useState<number>(getFontSizeFromBody());
 	const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
 	const [rowsPerPage, setRowsPerPage] = useState<number>(props.rowsPerPage || 0);
@@ -119,64 +128,71 @@ export function Table(props: TableProps) {
 	const [searchDelayTimer, setSearchDelayTimer] = useState<NodeJS.Timeout | null>(null);
 	const [checkedRows, setCheckedRows] = useState<{ [key: string]: boolean }>({});
 
-	const navigate = useNavigate();
-
 	useEffect(() => {
 		setColumns(mergedColumns);
 	}, [props.columns]);
 
 	useEffect(() => {
+		let debounceTimer: NodeJS.Timeout;
 		function handleResize() {
-			setIsMobile(window.innerWidth < (props.mobileWidth || 417));
-			setViewportHeight(window.innerHeight);
-			setFontSize(() => getFontSizeFromBody());
+			clearTimeout(debounceTimer);
+			debounceTimer = setTimeout(() => {
+				setIsMobile(window.innerWidth <= (props.mobileWidth || 416));
+				setViewportHeight(window.innerHeight);
+				setFontSize(() => getFontSizeFromBody());
+			}, 200);
 		}
 		handleResize();
 		window.addEventListener('resize', handleResize);
 		return () => {
 			window.removeEventListener('resize', handleResize);
+			if (debounceTimer) {
+				clearTimeout(debounceTimer);
+			}
 		};
 	}, [props.mobileWidth]);
 
-	const handleSearchTextChange = (text: string) => {
-		if (searchDelayTimer) {
-			clearTimeout(searchDelayTimer);
-		}
-		setSearchDelayTimer(
-			setTimeout(() => {
-				// setCheckedRows({});
-				setPageNumber(1);
-				navigate(`/${props.collection}/page/1?search=${encodeURIComponent(text)}`, {
-					replace: true,
-				});
-				setSearchText(text);
-			}, 450)
-		);
-	};
+	const handleSearchTextChange = useCallback(
+		(text: string) => {
+			if (searchDelayTimer) {
+				clearTimeout(searchDelayTimer);
+			}
+			setSearchDelayTimer(
+				setTimeout(() => {
+					setPageNumber(1);
+					navigate(`/${props.collection}/page/1?search=${encodeURIComponent(text)}`, {
+						replace: true,
+					});
+					setSearchText(text);
+				}, 450)
+			);
+		},
+		[props.collection, searchDelayTimer]
+	);
 
 	const handleCheckboxChange = (rowId: string | number) => {
+		const startTime = performance.now();
 		setCheckedRows((prevCheckedRows) => ({
 			...prevCheckedRows,
 			[rowId]: !prevCheckedRows[rowId] || false,
 		}));
+		const endTime = performance.now();
+		const executionTime = endTime - startTime;
+		console.log('Execution time:', executionTime);
 	};
 
 	const changeSortOrder = (id: number | string) => {
-		const currentColumns = [...columns];
-		const column = currentColumns.find((col) => col.field === id);
+		const column = columns.find((col) => col.field === id);
 		if (column) {
 			column.sort = column.sort === 'asc' ? 'desc' : 'asc';
-			setColumns(currentColumns);
-			localStorage.setItem(
-				`collection-${props.collection}-columns`,
-				JSON.stringify(currentColumns)
-			);
+			setColumns((prevColumns) => prevColumns.map((col) => (col.field === id ? column : col)));
+			localStorage.setItem(`collection-${props.collection}-columns`, JSON.stringify(columns));
 		}
 	};
 
 	let computedRowsPerPage = rowsPerPage;
 
-	if (rowsPerPage === 0) {
+	if (rowsPerPage === 0 && !isMobile) {
 		const headerHeight = 7.5 * fontSize;
 		const footerHeight = 3 * fontSize;
 		const rowHeight = 3.0625 * fontSize;
@@ -187,78 +203,60 @@ export function Table(props: TableProps) {
 		computedRowsPerPage = Math.max(computedRowsPerPage, 0);
 	}
 
-	if (isMobile) computedRowsPerPage = data.length;
+	if (isMobile) computedRowsPerPage = 15; // 15 or data.length;
 
 	const startIndex = (pageNumber - 1) * computedRowsPerPage;
 	const endIndex = startIndex + computedRowsPerPage;
-
-	const filteredData = data.filter((item) =>
-		Object.entries(item).some(([key, value]) => {
-			if (key === 'id') {
-				return false;
-			}
-
-			if (typeof value === 'object') {
-				return Object.entries(value).some(([objKey, objValue]) => {
-					// Check if the key is specified in the columns
-					const isKeyInColumns = columns.some((column) => column.field === `${key}.${objKey}`);
-					if (!isKeyInColumns) {
+	const filteredData = useMemo(() => {
+		if (searchText.length > 0) {
+			return data.filter((item) =>
+				Object.entries(item).some(([key, value]) => {
+					if (key === 'id') {
 						return false;
 					}
 
-					return String(objValue).toLowerCase().includes(searchText.toLowerCase());
+					if (typeof value === 'object') {
+						return Object.entries(value).some(([objKey, objValue]) => {
+							const isKeyInColumns = columns.some((column) => column.field === `${key}.${objKey}`);
+							if (!isKeyInColumns) {
+								return false;
+							}
+
+							return String(objValue).toLowerCase().includes(searchText.toLowerCase());
+						});
+					}
+					if (typeof value === 'number') {
+						return String(value).includes(searchText);
+					}
+
+					return value.toLowerCase().includes(searchText.toLowerCase());
+				})
+			);
+		}
+		return data;
+	}, [data, columns, searchText]);
+
+	const transformData = useCallback(
+		(dataToTransform: any[]): any[] => {
+			return dataToTransform.map((row) => {
+				const transformedRow = { ...row };
+
+				columns.forEach((column) => {
+					if (column.field.includes('.')) {
+						const keys = column.field.split('.');
+
+						const currentNode = keys.reduce((current, key) => {
+							return Object.prototype.hasOwnProperty.call(current, key) ? current[key] : current;
+						}, transformedRow);
+
+						transformedRow[column.field] = currentNode;
+					}
 				});
-			}
-			if (typeof value === 'number') {
-				return String(value).includes(searchText);
-			}
-
-			return value.toLowerCase().includes(searchText.toLowerCase());
-		})
-	);
-
-	// const transformData = (dataToTransform: any[]): any[] => {
-	// 	return dataToTransform.map((row) => {
-	// 		const transformedRow = { ...row };
-
-	// 		columns.forEach((column) => {
-	// 			if (column.field.includes('.')) {
-	// 				const keys = column.field.split('.');
-
-	// 				let currentNode = transformedRow;
-
-	// 				// TODO: refactor to reduce
-	// 				// eslint-disable-next-line no-restricted-syntax
-	// 				for (const key of keys) {
-	// 					if (Object.prototype.hasOwnProperty.call(currentNode, key)) {
-	// 						currentNode = currentNode[key];
-	// 					}
-	// 				}
-	// 				transformedRow[column.field] = currentNode;
-	// 			}
-	// 		});
-	// 		return transformedRow;
-	// 	});
-	// };
-
-	const transformData = (dataToTransform: any[]): any[] => {
-		return dataToTransform.map((row) => {
-			const transformedRow = { ...row };
-
-			columns.forEach((column) => {
-				if (column.field.includes('.')) {
-					const keys = column.field.split('.');
-
-					const currentNode = keys.reduce((current, key) => {
-						return Object.prototype.hasOwnProperty.call(current, key) ? current[key] : current;
-					}, transformedRow);
-
-					transformedRow[column.field] = currentNode;
-				}
+				return transformedRow;
 			});
-			return transformedRow;
-		});
-	};
+		},
+		[columns]
+	);
 
 	const sortFunction = (a: DynamicObject, b: DynamicObject, column: TableColumn) => {
 		const aValue = a[column.field];
@@ -299,13 +297,22 @@ export function Table(props: TableProps) {
 			}, 0);
 	};
 
-	const transformedData = transformData(filteredData);
+	const transformedData = useMemo(() => {
+		return transformData(filteredData);
+	}, [filteredData]);
 
-	const sortedData = [...transformedData].sort((a: DynamicObject, b: DynamicObject) => {
-		return multiSortFunction(a, b);
-	});
+	const sortStartTime = performance.now();
+
+	const sortedData = useMemo(() => {
+		return [...transformedData].sort((a: DynamicObject, b: DynamicObject) => {
+			return multiSortFunction(a, b);
+		});
+	}, [transformedData, columns]);
 
 	const dataForPage = sortedData.slice(startIndex, endIndex);
+	const sortEndTime = performance.now();
+	const sortExecutionTime = sortEndTime - sortStartTime;
+	console.log('Sort execution time:', sortExecutionTime);
 
 	const fromRow = (pageNumber - 1) * computedRowsPerPage + 1;
 	const toRow = Math.min(
@@ -373,6 +380,10 @@ export function Table(props: TableProps) {
 		}
 	};
 
+	const componentEndTime = performance.now();
+
+	console.log(componentEndTime - componentStartTime);
+
 	return (
 		<Card minWidth={props.width} padding={false}>
 			<StyledHeader>
@@ -414,7 +425,7 @@ export function Table(props: TableProps) {
 					)}
 				</StyledIconContainer>
 			</StyledHeader>
-			<StyledTable mobileWidth={`${String(props.mobileWidth ?? 0 / 16)}em`}>
+			<StyledTable className={isMobile ? 'mobile' : 'desktop'}>
 				{isMobile ? null : (
 					<thead>
 						<tr>
@@ -538,7 +549,7 @@ export function Table(props: TableProps) {
 				)}
 			</StyledTable>
 			{isMobile ? null : (
-				<StyledFooter mobileWidth={`${String(props.mobileWidth ?? 0 / 16)}em`}>
+				<StyledFooter className={isMobile ? 'mobile' : 'desktop'}>
 					<StyledFooterContainer>
 						<StyledFooterItem>Wierszy na stronę:</StyledFooterItem>
 						<StyledFooterItem>
@@ -626,6 +637,6 @@ export function Table(props: TableProps) {
 }
 
 Table.defaultProps = {
-	readOnly: true,
+	readOnly: false,
 	mobileWidth: 768,
 };

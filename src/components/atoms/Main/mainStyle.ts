@@ -5,6 +5,11 @@ export const StyledMain = styled.main<{
 	$iscovered: boolean;
 	$background?: string;
 }>`
+	overflow: auto;
+	left: 0;
+	position: fixed;
+	right: 0;
+	bottom: 0;
 	@media (orientation: landscape) {
 		top: 4.8rem;
 	}
@@ -19,12 +24,9 @@ export const StyledMain = styled.main<{
 	background-image: url(${(props) => props.$background});
 	background-size: cover;
 	align-items: center;
-	bottom: 0;
 	display: flex;
 	justify-content: center;
-	left: 0;
-	position: fixed;
-	right: 0;
+
 	transition: all linear 0.25s;
 	&:after {
 		@media (orientation: landscape) {

@@ -104,3 +104,4 @@ const Template = (props: any) => {
 
 export default { component: Template, title: 'EditForm' };
 export const Default = {};
+export const ReadOnly ={ args: { mode: 'view' }};
