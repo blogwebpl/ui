@@ -107,7 +107,6 @@ const mergeColumns = ({ columns, collection }: MergeColumnsProps): TableColumn[]
 };
 
 export function Table(props: TableProps) {
-	const componentStartTime = performance.now();
 	const location = useLocation();
 	const navigate = useNavigate();
 
@@ -118,7 +117,7 @@ export function Table(props: TableProps) {
 
 	const { data } = props;
 	const [columns, setColumns] = useState(mergedColumns);
-	const [isMobile, setIsMobile] = useState(true);
+	const [isMobile, setIsMobile] = useState(window.innerWidth <= (props.mobileWidth || 416));
 	const [fontSize, setFontSize] = useState<number>(getFontSizeFromBody());
 	const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
 	const [rowsPerPage, setRowsPerPage] = useState<number>(props.rowsPerPage || 0);
@@ -171,14 +170,10 @@ export function Table(props: TableProps) {
 	);
 
 	const handleCheckboxChange = (rowId: string | number) => {
-		const startTime = performance.now();
 		setCheckedRows((prevCheckedRows) => ({
 			...prevCheckedRows,
 			[rowId]: !prevCheckedRows[rowId] || false,
 		}));
-		const endTime = performance.now();
-		const executionTime = endTime - startTime;
-		console.log('Execution time:', executionTime);
 	};
 
 	const changeSortOrder = (id: number | string) => {
@@ -203,7 +198,7 @@ export function Table(props: TableProps) {
 		computedRowsPerPage = Math.max(computedRowsPerPage, 0);
 	}
 
-	if (isMobile) computedRowsPerPage = 15; // 15 or data.length;
+	if (isMobile) computedRowsPerPage = Math.min(25, data.length); // 25 or data.length;
 
 	const startIndex = (pageNumber - 1) * computedRowsPerPage;
 	const endIndex = startIndex + computedRowsPerPage;
@@ -285,7 +280,6 @@ export function Table(props: TableProps) {
 				return primarySortResult;
 			}
 		}
-
 		return columns
 			.filter((col) => col.sortOrder > 1)
 			.sort((col1, col2) => col1.sortOrder - col2.sortOrder)
@@ -301,8 +295,6 @@ export function Table(props: TableProps) {
 		return transformData(filteredData);
 	}, [filteredData]);
 
-	const sortStartTime = performance.now();
-
 	const sortedData = useMemo(() => {
 		return [...transformedData].sort((a: DynamicObject, b: DynamicObject) => {
 			return multiSortFunction(a, b);
@@ -310,9 +302,6 @@ export function Table(props: TableProps) {
 	}, [transformedData, columns]);
 
 	const dataForPage = sortedData.slice(startIndex, endIndex);
-	const sortEndTime = performance.now();
-	const sortExecutionTime = sortEndTime - sortStartTime;
-	console.log('Sort execution time:', sortExecutionTime);
 
 	const fromRow = (pageNumber - 1) * computedRowsPerPage + 1;
 	const toRow = Math.min(
@@ -379,10 +368,6 @@ export function Table(props: TableProps) {
 			navigate(`/${props.collection}/edit/${id}`);
 		}
 	};
-
-	const componentEndTime = performance.now();
-
-	console.log(componentEndTime - componentStartTime);
 
 	return (
 		<Card minWidth={props.width} padding={false}>
@@ -472,15 +457,18 @@ export function Table(props: TableProps) {
 										controlled
 									/>
 								</td>
-								{columns.map((column) => (
-									<td
-										key={`${row.id}-${column.field}`}
-										// className={typeof row[column.field] === 'number' ? 'number' : ''}
-										className={column.type === 'number' ? 'number' : ''}
-									>
-										{row[column.field]}
-									</td>
-								))}
+								{columns.map((column) => {
+									const pathArray = column.field.split('.');
+
+									return (
+										<td
+											key={`${row.id}-${column.field}`}
+											className={column.type === 'number' ? 'number' : ''}
+										>
+											{pathArray.reduce((obj, key) => obj && obj[key], row).toString()}
+										</td>
+									);
+								})}
 								<td>
 									<IconButton
 										isLightColor={false}
@@ -508,19 +496,23 @@ export function Table(props: TableProps) {
 					<>
 						{dataForPage.map((row: DynamicObject) => (
 							<tbody key={`${row.id}-tbody`} className="bodyMobile">
-								{mergedColumns.map((column: TableColumn, index: number) => (
-									<tr key={`${row.id}-tr-${index}`} className="innerRow">
-										<td
-											onClick={() => {
-												changeSortOrder(column.field);
-											}}
-										>
-											<span className={column.sort === 'asc' ? 'asc' : 'desc'}>▲</span>&nbsp;
-											<span>{column.label[props.language]}:</span>
-										</td>
-										<td>{row[column.field]}</td>
-									</tr>
-								))}
+								{mergedColumns.map((column: TableColumn, index: number) => {
+									const pathArray = column.field.split('.');
+
+									return (
+										<tr key={`${row.id}-tr-${index}`} className="innerRow">
+											<td
+												onClick={() => {
+													changeSortOrder(column.field);
+												}}
+											>
+												<span className={column.sort === 'asc' ? 'asc' : 'desc'}>▲</span>&nbsp;
+												<span>{column.label[props.language]}:</span>
+											</td>
+											<td>{pathArray.reduce((obj, key) => obj && obj[key], row).toString()}</td>
+										</tr>
+									);
+								})}
 								<tr className="options">
 									<td>Opcje:</td>
 									<td className="options">
@@ -530,8 +522,13 @@ export function Table(props: TableProps) {
 											controlled
 										/>
 										&nbsp;
-										<IconButton isLightColor={false} onClick={() => {}} color="#757575" label="">
-											{props.readOnly ? (
+										<IconButton
+											isLightColor={false}
+											onClick={() => navigateToRow(row.id)}
+											color="#757575"
+											label=""
+										>
+											{props.readOnly || !canUpdate ? (
 												<ViewIcon size="2.4rem" color="#757575" />
 											) : (
 												<EditIcon size="2.4rem" color="#757575" />
@@ -549,7 +546,7 @@ export function Table(props: TableProps) {
 				)}
 			</StyledTable>
 			{isMobile ? null : (
-				<StyledFooter className={isMobile ? 'mobile' : 'desktop'}>
+				<StyledFooter className={'desktop'}>
 					<StyledFooterContainer>
 						<StyledFooterItem>Wierszy na stronę:</StyledFooterItem>
 						<StyledFooterItem>

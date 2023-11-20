@@ -35,11 +35,13 @@ export const StyledIconContainer = styled.div`
 
 export const StyledTable = styled.table`
 	width: 100%;
+	overflow: hidden;
 	border-collapse: collapse;
 	border: 0;
 	padding: 0;
 	margin: 0;
 	font-weight: 400;
+	white-space: normal;
 
 	th {
 		color: #757575;
@@ -52,8 +54,7 @@ export const StyledTable = styled.table`
 		color: #212121;
 		font-size: 1.3rem;
 		text-align: left;
-		white-space: nowrap;
-		text-overflow: ellipsis;
+
 		overflow: hidden;
 		user-select: none;
 	}
@@ -64,7 +65,7 @@ export const StyledTable = styled.table`
 
 	th:first-child,
 	td:first-child {
-		width: auto;
+		width: 50%;
 		text-align: right;
 		overflow: visible;
 		padding-left: 0.8rem;
@@ -72,8 +73,13 @@ export const StyledTable = styled.table`
 
 	th:last-child,
 	td:last-child {
-		width: auto;
+		width: 50%;
 		padding-left: 1.6rem;
+		overflow: hidden;
+	}
+
+	td.options {
+		width: auto;
 	}
 
 	tr {
@@ -120,14 +126,19 @@ export const StyledTable = styled.table`
 		table-layout: fixed;
 		margin: 0 1rem;
 		width: calc(100% - 2rem);
+		td {
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
 		th:first-child,
 		td:first-child {
 			width: 5.6rem;
 			text-align: center;
-			padding: 0 0.4rem;
+			padding: 0 -0.4rem;
 		}
 		th:last-child,
 		td:last-child {
+			width: auto;
 			padding-left: 0;
 			float: right;
 		}
