@@ -19,6 +19,8 @@ interface LoginProps {
 	handleSubmit: ({ email, password }: LoginFormData) => void;
 	isPending: boolean;
 	error: string;
+	logoheight?: string;
+	logomargin?: string;
 }
 
 export function Login(props: LoginProps) {
@@ -51,7 +53,13 @@ export function Login(props: LoginProps) {
 
 	return (
 		<Card padding minWidth="32rem" opacity={true}>
-			{props.logo && <Logo src={props.logo} height="6.4rem" />}
+			{props.logo && (
+				<Logo
+					src={props.logo}
+					height={props.logoheight || '6.4rem'}
+					margin={props.logomargin || '0 auto 0.8rem'}
+				/>
+			)}
 			<Typography component="h6" userSelect="none" color="#000000">
 				Zaloguj się
 			</Typography>
@@ -86,7 +94,13 @@ export function Login(props: LoginProps) {
 					<Checkbox id="checkbox" label="Zapamiętaj e-mail" forwardedRef={rememberEmailRef} />
 				</FieldContainer>
 				<ButtonContainer>
-					<Button label="ZALOGUJ SIĘ" variant="primary" type="submit" disabled={props.isPending} />
+					<Button
+						className="w100"
+						label="ZALOGUJ SIĘ"
+						variant="primary"
+						type="submit"
+						disabled={props.isPending}
+					/>
 				</ButtonContainer>
 			</Form>
 		</Card>

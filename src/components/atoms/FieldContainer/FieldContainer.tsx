@@ -4,12 +4,17 @@ interface FieldContainerProps {
 	children: React.ReactNode;
 	isMulti?: boolean;
 	hidden?: boolean;
+	id?: string;
 }
 
-export function FieldContainer({ children, isMulti, hidden }: FieldContainerProps) {
+export function FieldContainer({ children, isMulti, hidden, id }: FieldContainerProps) {
 	return isMulti ? (
-		<StyledMultiContainer hidden={hidden}>{children}</StyledMultiContainer>
+		<StyledMultiContainer id={`container-${id}`} key={`container-${id}`} hidden={hidden}>
+			{children}
+		</StyledMultiContainer>
 	) : (
-		<StyledContainer hidden={hidden}>{children}</StyledContainer>
+		<StyledContainer id={`container-${id}`} key={`container-${id}`} hidden={hidden}>
+			{children}
+		</StyledContainer>
 	);
 }

@@ -8,11 +8,14 @@ const StyledButtonContainer = styled.div`
 
 	float: right;
 	width: 100%;
-	// @media (min-width: 26rem) {
-	// 	max-width: 36rem;
-	// }
+	max-width: 36rem;
 	button {
 		flex: 1;
+		max-width: 50%;
+		margin-left: auto;
+	}
+	button.w100 {
+		max-width: 100%;
 	}
 `;
 

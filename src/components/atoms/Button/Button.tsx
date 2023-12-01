@@ -10,6 +10,7 @@ export interface ButtonProps {
 	tabIndex?: number;
 	type?: 'button' | 'submit' | 'reset' | undefined;
 	width?: string;
+	className?: string;
 }
 
 export function Button(props: ButtonProps) {
@@ -19,6 +20,7 @@ export function Button(props: ButtonProps) {
 			$variant={props.variant}
 			$width={props.width}
 			disabled={props.disabled}
+			className={props.className}
 		>
 			{props.label}
 		</StyledButton>

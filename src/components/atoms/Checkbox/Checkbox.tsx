@@ -151,7 +151,7 @@ export const Checkbox = React.memo((props: CheckboxProps) => {
 			</StyledCheckbox>
 		);
 	return (
-		<StyledCheckbox>
+		<StyledCheckbox className="checkbox">
 			<input
 				type="checkbox"
 				defaultChecked={props.checked}

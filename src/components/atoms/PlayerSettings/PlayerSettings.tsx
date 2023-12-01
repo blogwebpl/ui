@@ -66,10 +66,10 @@ export function PlayerSettings({ devices, onLoad, onClose }: PlayerSettingsProps
 				/>
 			</FieldContainer>
 			<ButtonContainer>
-				<Button label="Zakończ" variant="primary" onClick={onClose} />
+				<Button label="Zakończ" variant="secondary" onClick={onClose} />
 				<Button
 					label="Wczytaj"
-					variant="accent"
+					variant="primary"
 					onClick={() => {
 						const vid = device?.value || '';
 						const dateFrom = dateFromRef.current!.value;

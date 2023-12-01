@@ -11,6 +11,7 @@ import { Typography } from '../atoms/Typography';
 import { Alert } from '../atoms/Alert';
 import { Language, Translations } from '../types';
 import { Select, SelectOption } from '../atoms/Select';
+import { WriteTag } from '../atoms/WriteTag';
 
 const StyledVerticalGap = styled.div`
 	height: 5.6rem;
@@ -38,6 +39,7 @@ interface EditFormProps {
 	menus?: SelectOption[];
 	saveData: (formData: Object) => Promise<boolean>;
 	width?: string;
+	writeTagFunction?: (data: any) => Promise<boolean>;
 }
 
 export function EditForm(props: EditFormProps) {
@@ -185,7 +187,7 @@ export function EditForm(props: EditFormProps) {
 		// console.log('----------------------------------');
 
 		return (
-			<FieldContainer key={fieldName} hidden={shouldHide}>
+			<FieldContainer id={fieldName} key={fieldName} hidden={shouldHide}>
 				<Select
 					label={label}
 					options={options}
@@ -266,7 +268,7 @@ export function EditForm(props: EditFormProps) {
 					case 'email':
 					case 'datetime-local':
 						return (
-							<FieldContainer key={field.field} hidden={shouldHide}>
+							<FieldContainer id={field.field} key={field.field} hidden={shouldHide}>
 								<TextField type={field.type} {...commonProps} />
 							</FieldContainer>
 						);
@@ -275,6 +277,7 @@ export function EditForm(props: EditFormProps) {
 					case 'menu': {
 						return (
 							<SpecialSelect
+								key={field.field}
 								options={options}
 								valueIds={inputValues?.[field.field] || []}
 								fieldName={field.field}
@@ -284,6 +287,16 @@ export function EditForm(props: EditFormProps) {
 							/>
 						);
 					}
+					case 'writeTag':
+						if (props.writeTagFunction !== undefined) {
+							return (
+								<WriteTag
+									writeTagFunction={props.writeTagFunction}
+									data={{ id: inputValues?.[field.field] || '' }}
+								/>
+							);
+						}
+						return null;
 					default:
 						return null;
 				}
@@ -291,7 +304,7 @@ export function EditForm(props: EditFormProps) {
 			<ButtonContainer>
 				<Button
 					label="Anuluj"
-					variant="primary"
+					variant="secondary"
 					onClick={() => {
 						navigate(-1);
 						// navigate(`/${props.collection}`);
@@ -299,7 +312,7 @@ export function EditForm(props: EditFormProps) {
 					disabled={isSaving}
 				/>
 				{props.mode !== 'view' ? (
-					<Button label="Zapisz" variant="accent" onClick={handleClickSave} disabled={isSaving} />
+					<Button label="Zapisz" variant="primary" onClick={handleClickSave} disabled={isSaving} />
 				) : null}
 			</ButtonContainer>
 		</Card>

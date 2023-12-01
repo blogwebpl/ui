@@ -52,6 +52,7 @@ const StyledButton = styled.button<{
 		transform: translate(-50%) scale(0);
 		transition: all 0.1s linear;
 		visibility: hidden;
+		z-index: 100000000;
 	}
 	&[data-label='']:before {
 		display: none;
