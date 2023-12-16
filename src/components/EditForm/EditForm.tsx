@@ -12,6 +12,7 @@ import { Alert } from '../atoms/Alert';
 import { Language, Translations } from '../types';
 import { Select, SelectOption } from '../atoms/Select';
 import { WriteTag } from '../atoms/WriteTag';
+import { MenuEditor } from '../MenuEditor';
 
 const StyledVerticalGap = styled.div`
 	height: 5.6rem;
@@ -297,6 +298,8 @@ export function EditForm(props: EditFormProps) {
 							);
 						}
 						return null;
+					case 'menuEditor':
+						return <MenuEditor items={[]} menu={[]} language={props.language} />;
 					default:
 						return null;
 				}

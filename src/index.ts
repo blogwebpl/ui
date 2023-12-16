@@ -25,3 +25,4 @@ export * from './components/atoms/Tools';
 export * from './components/EditForm';
 export * from './components/atoms/Tabs';
 export * from './components/atoms/WriteTag';
+export * from './components/MenuEditor';
