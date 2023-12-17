@@ -299,7 +299,9 @@ export function EditForm(props: EditFormProps) {
 						}
 						return null;
 					case 'menuEditor':
-						return <MenuEditor items={[]} menu={[]} language={props.language} />;
+						return (
+							<MenuEditor items={[]} menu={inputValues?.[field.field]} language={props.language} />
+						);
 					default:
 						return null;
 				}

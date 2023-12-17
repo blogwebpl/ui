@@ -37,7 +37,6 @@ export const StyledTable = styled.table`
 	width: 100%;
 	overflow: hidden;
 	border-collapse: collapse;
-	border: 0;
 	padding: 0;
 	margin: 0;
 	font-weight: 400;
@@ -84,6 +83,7 @@ export const StyledTable = styled.table`
 
 	tr {
 		border-bottom: 0.1rem solid #e0e0e0;
+		height: 5.2rem;
 	}
 
 	thead > tr {
@@ -103,7 +103,7 @@ export const StyledTable = styled.table`
 	}
 
 	tr.options td {
-		height: 4.8rem;
+		// height: 5.2rem;
 	}
 
 	tr.options td:last-child {
@@ -113,10 +113,10 @@ export const StyledTable = styled.table`
 	}
 
 	.rowGap td {
-		height: 1.5rem !important;
+		// height: 1.5rem !important;
 	}
 	.emptyRow {
-		height: 4.9rem;
+		// height: 4.9rem;
 	}
 	.emptyRow:hover {
 		background-color: inherit !important;
@@ -129,6 +129,7 @@ export const StyledTable = styled.table`
 		td {
 			white-space: nowrap;
 			text-overflow: ellipsis;
+			// height: 5.2rem;
 		}
 		th:first-child,
 		td:first-child {
@@ -163,7 +164,8 @@ export const StyledTable = styled.table`
 export const StyledFooter = styled.div`
 	display: flex;
 	justify-items: center;
-	height: 5.6rem;
+	// min-height: 5.6rem;
+	// max-height: 5.6rem;
 	color: #757575;
 	font-size: 1.2rem;
 	select {
@@ -186,7 +188,7 @@ export const StyledFooterContainer = styled.div`
 `;
 
 export const StyledFooterItem = styled.span`
-	height: 4.8rem;
+	// height: 4.8rem;
 	display: flex;
 	align-items: center;
 	select {

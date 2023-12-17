@@ -91,7 +91,7 @@ interface Menu {
 
 interface MenuEditorProps {
 	items: MenuItem[];
-	menu: Menu;
+	menu: Menu | undefined;
 	language: Language;
 }
 
@@ -118,10 +118,12 @@ export const MenuEditor = (props: MenuEditorProps) => {
 			label: item.label[props.language],
 		}));
 	const [value, setValue] = useState<SelectOption[] | SelectOption | null>(null);
-	const [menuItems, setMenuItems] = useState(props.menu.menuItems);
+	const [menuItems, setMenuItems] = useState(props.menu?.menuItems || []);
 
 	useEffect(() => {
-		setMenuItems(props.menu.menuItems);
+		if (props.menu) {
+			setMenuItems(props.menu.menuItems);
+		}
 	}, [props.menu]);
 
 	const moveItem = (direction: 'up' | 'down', itemId: string) => {
@@ -198,6 +200,8 @@ export const MenuEditor = (props: MenuEditorProps) => {
 				return IconMenu;
 		}
 	};
+	if (!props.menu) return null;
+
 	return (
 		<StyledMenuEditor>
 			<Select
