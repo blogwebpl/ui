@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { EditForm, Field } from '../components/EditForm';
 import { Main } from '../components/atoms/Main';
+import { menu, menuItems } from './MenuEditor.stories';
 
 const editFields: Field[] = [
 	{
@@ -27,8 +28,21 @@ const editFields: Field[] = [
 	},
 	{ field: 'date', type: 'date', tab: 1, required: true, label: { pl: 'Data', en: 'Date' } },
 	{ field: 'roles', type: 'roles', tab: 1, required: true, label: { pl: 'Grupy', en: 'Roles' } },
-	{ field: 'permissions', type: 'permissions', tab: 1, required: true, label: { pl: 'Uprawnienia', en: 'Permissions' } },
-	{ field: 'menu', type: 'menu', tab: 1, required: true, label: { pl: 'Menu', en: 'Menu' }}
+	{
+		field: 'permissions',
+		type: 'permissions',
+		tab: 1,
+		required: true,
+		label: { pl: 'Uprawnienia', en: 'Permissions' },
+	},
+	{ field: 'menu', type: 'menu', tab: 1, required: true, label: { pl: 'Menu', en: 'Menu' } },
+	{
+		field: 'menuE',
+		type: 'menuEditor',
+		tab: 2,
+		required: true,
+		label: { pl: 'Menu Edytor', en: 'Menu Editor' },
+	},
 ];
 
 const roles = [
@@ -36,34 +50,47 @@ const roles = [
 	{ value: 'user', label: 'User' },
 ];
 
-
 const permissions = [
 	{ value: 'perm1', label: 'Permission1' },
 	{ value: 'perm2', label: 'Permission2' },
 ];
 
-const menus = [{
-	value: 'menu',
-	label: 'Menu',
-},{
-	value: 'menu2',
-	label: 'Menu2',
-},{
-	value: 'menu3',
-	label: 'Menu3',
-}];
+const menus = [
+	{
+		value: 'menu',
+		label: 'Menu',
+	},
+	{
+		value: 'menu2',
+		label: 'Menu2',
+	},
+	{
+		value: 'menu3',
+		label: 'Menu3',
+	},
+];
 
 const Template = (props: any) => {
 	const tabs = [
 		{ pl: 'Tab1', en: 'Tab1' },
 		{ pl: 'Tab2', en: 'Tab2' },
+		{ pl: 'Tab3', en: 'Tab3' },
 	];
 	const [fields, setFields] = useState<Field[]>([]);
 	const [values, setValues] = useState({});
 
 	useEffect(() => {
 		setTimeout(() => {
-			setValues({ name: 'Tomasz', surname: 'Durałek', age: 42, date: '2023-01-01', roles: ['admin'], permissions: ['perm1'], menu: 'menu2' });
+			setValues({
+				name: 'Tomasz',
+				surname: 'Durałek',
+				age: 42,
+				date: '2023-01-01',
+				roles: ['admin'],
+				permissions: ['perm1'],
+				menu: 'menu2',
+				menuE: menu,
+			});
 		}, 300);
 	}, []);
 
@@ -86,6 +113,7 @@ const Template = (props: any) => {
 					language="en"
 					collection="test"
 					roles={roles}
+					menuItems={menuItems}
 					permissions={permissions}
 					menus={menus}
 					saveData={(data: any) => {
@@ -104,4 +132,4 @@ const Template = (props: any) => {
 
 export default { component: Template, title: 'EditForm' };
 export const Default = {};
-export const ReadOnly ={ args: { mode: 'view' }};
+export const ReadOnly = { args: { mode: 'view' } };

@@ -94,7 +94,11 @@ export const StyledTable = styled.table`
 		background-color: #eeeeee;
 	}
 	.bodyMobile td {
-		height: 4rem;
+		// height: 4rem;
+	}
+
+	.bodyMobile tr {
+		height: 4.8 rem;
 	}
 
 	.bodyMobile td:first-child {

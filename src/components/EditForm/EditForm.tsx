@@ -38,6 +38,7 @@ interface EditFormProps {
 	roles?: SelectOption[];
 	permissions?: SelectOption[];
 	menus?: SelectOption[];
+	menuItems?: SelectOption[] | SelectOption | null;
 	saveData: (formData: Object) => Promise<boolean>;
 	width?: string;
 	writeTagFunction?: (data: any) => Promise<boolean>;
@@ -255,7 +256,7 @@ export function EditForm(props: EditFormProps) {
 						options = props.permissions || [];
 						isMulti = true;
 						break;
-					case 'menu':
+					case '':
 						options = props.menus || [];
 						break;
 					default:
@@ -300,7 +301,12 @@ export function EditForm(props: EditFormProps) {
 						return null;
 					case 'menuEditor':
 						return (
-							<MenuEditor items={[]} menu={inputValues?.[field.field]} language={props.language} />
+							<MenuEditor
+								menuItems={props.menuItems}
+								menu={inputValues?.[field.field]}
+								language={props.language}
+								hidden={shouldHide}
+							/>
 						);
 					default:
 						return null;

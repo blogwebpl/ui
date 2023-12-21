@@ -73,28 +73,6 @@ const StyledIconContainer = styled.div`
 	display: inline-block;
 `;
 
-interface MenuItem {
-	_id: string;
-	label: Translations;
-	slug?: string;
-	icon?: string;
-}
-
-interface Menu {
-	_id: string;
-	name: string;
-	menuItems: Array<{
-		item: string;
-		parent?: string;
-	}>;
-}
-
-interface MenuEditorProps {
-	items: MenuItem[];
-	menu: Menu | undefined;
-	language: Language;
-}
-
 const selectLabel = {
 	en: 'Select option',
 	pl: 'Wybierz opcję',
@@ -110,13 +88,42 @@ const addChildLabel = {
 	pl: 'dodaj element/y podrzędne',
 };
 
+export interface MenuItem {
+	id: string;
+	label: Translations;
+	link?: string | null;
+	icon?: string | null;
+}
+
+export interface Menu {
+	id: string;
+	name: string;
+	menuItems: Array<{
+		item: string;
+		parent?: string;
+	}>;
+}
+
+interface MenuEditorProps {
+	menuItems: any;
+	menu: Menu | undefined;
+	language: Language;
+	hidden?: boolean;
+}
+
 export const MenuEditor = (props: MenuEditorProps) => {
-	const options = props.items
-		.sort((a, b) => a.label[props.language].localeCompare(b.label[props.language]))
-		.map((item) => ({
-			value: item._id,
-			label: item.label[props.language],
-		}));
+	const options = props.menuItems
+		? props.menuItems
+				.sort((a: any, b: any) =>
+					a.label[props.language]
+						? a.label[props.language].localeCompare(b.label[props.language])
+						: false
+				)
+				.map((item: any) => ({
+					value: item.id,
+					label: item.label[props.language],
+				}))
+		: [];
 	const [value, setValue] = useState<SelectOption[] | SelectOption | null>(null);
 	const [menuItems, setMenuItems] = useState(props.menu?.menuItems || []);
 
@@ -200,7 +207,7 @@ export const MenuEditor = (props: MenuEditorProps) => {
 				return IconMenu;
 		}
 	};
-	if (!props.menu) return null;
+	if (!props.menu || props.hidden) return null;
 
 	return (
 		<StyledMenuEditor>
@@ -217,7 +224,7 @@ export const MenuEditor = (props: MenuEditorProps) => {
 					{menuItems.map((item) => {
 						const isParent = item.parent === undefined;
 						if (isParent) {
-							const parentIcon = props.items.find((i) => i._id === item.item)?.icon;
+							const parentIcon = props.menuItems.find((i: any) => i.id === item.item)?.icon;
 							const Icon = getIcon(parentIcon);
 							return (
 								<li key={item.item}>
@@ -225,7 +232,7 @@ export const MenuEditor = (props: MenuEditorProps) => {
 										<StyledIconContainer>
 											{Icon ? <Icon size="2.4rem" /> : null}
 										</StyledIconContainer>
-										{props.items.find((i) => i._id === item.item)?.label[props.language]}
+										{props.menuItems.find((i: any) => i.id === item.item)?.label[props.language]}
 										<span>
 											&nbsp;&nbsp;&nbsp;
 											<span className="up" onClick={() => moveItem('up', item.item)}>
@@ -244,7 +251,11 @@ export const MenuEditor = (props: MenuEditorProps) => {
 											.filter((childItem) => childItem.parent === item.item)
 											.map((childItem) => (
 												<li key={childItem.item}>
-													{props.items.find((i) => i._id === childItem.item)?.label[props.language]}
+													{
+														props.menuItems.find((i: any) => i.id === childItem.item)?.label[
+															props.language
+														]
+													}
 													<span>
 														&nbsp;&nbsp;&nbsp;
 														<span className="up" onClick={() => moveItem('up', childItem.item)}>

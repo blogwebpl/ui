@@ -1,13 +1,11 @@
 {
 	"include": [
-		"src",
+		"src/**/*",
 		"custom.d.ts"
 	],
 	"exclude": [
 		"dist",
 		"node_modules",
-		"**/*.stories.tsx",
-		"stories"
 	],
 	"compilerOptions": {
 		"target": "es6",
