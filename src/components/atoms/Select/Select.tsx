@@ -1,5 +1,14 @@
-import ReactSelect, { StylesConfig, components, ThemeConfig, Theme } from 'react-select';
-import styled from 'styled-components';
+import ReactSelect, {
+	StylesConfig,
+	components,
+	ThemeConfig,
+	Theme,
+	CSSObjectWithLabel,
+	ControlProps,
+	MultiValue,
+	SingleValue,
+} from 'react-select';
+import styled, { DefaultTheme } from 'styled-components';
 
 const theme: ThemeConfig = (t: Theme) => {
 	return {
@@ -14,23 +23,20 @@ const theme: ThemeConfig = (t: Theme) => {
 	};
 };
 
-const styles: StylesConfig = {
-	control: (baseStyles: any, state: any) => {
-		const { borderColor } = baseStyles;
+const styles: StylesConfig<SelectOption, false> = {
+	control: (base: CSSObjectWithLabel, state: ControlProps<SelectOption, false>) => {
+		const { borderColor } = base;
 		return {
-			...baseStyles,
+			...base,
 			minHeight: 56,
-			// paddingLeft: state.isFocused ? 8 : 9,
 			boxShadow: 'none',
-			// borderWidth: state.isFocused ? 2 : 1,
 			outline: state.isFocused ? '0.1rem solid' : 'none',
-			outlineColor: borderColor,
+			outlineColor: borderColor as string,
 		};
 	},
-	menu: (baseStyles: any) => {
-		console.log(baseStyles);
+	menu: (base: CSSObjectWithLabel) => {
 		return {
-			...baseStyles,
+			...base,
 			zIndex: 2,
 		};
 	},
@@ -43,14 +49,16 @@ const Label = styled.label<{ $isfloating?: boolean; $hasvalue?: boolean }>`
 	position: absolute;
 	transition: 0.2s ease all;
 	z-index: 1;
-	color: ${(props: any) =>
+	color: ${(props: { $isfloating?: boolean; $hasvalue?: boolean; theme: DefaultTheme }) =>
 		props.$isfloating
 			? props.theme.palette.element.primary.default
 			: props.theme.palette.text.secondary};
-	top: ${(props: any) => (props.$isfloating || props.$hasvalue ? `-0.7rem` : `1.9rem`)};
+	top: ${(props: { $isfloating?: boolean; $hasvalue?: boolean }) =>
+		props.$isfloating || props.$hasvalue ? `-0.7rem` : `1.9rem`};
 	left: 0.8rem;
 
-	font-size: ${(props: any) => (props.$isfloating || props.$hasvalue ? `1.2rem` : `1.6rem`)};
+	font-size: ${(props: { $isfloating?: boolean; $hasvalue?: boolean }) =>
+		props.$isfloating || props.$hasvalue ? `1.2rem` : `1.6rem`};
 `;
 
 export interface SelectOption {
@@ -63,13 +71,13 @@ interface SelectProps {
 	isRequired?: boolean;
 	isClearable?: boolean;
 	label: string;
-	options: any;
-	value: SelectOption[] | SelectOption | null;
-	onChange: React.Dispatch<React.SetStateAction<any>>;
+	options: SelectOption[];
+	value: MultiValue<SelectOption> | SingleValue<SelectOption>;
+	onChange: (newValue: MultiValue<SelectOption> | SingleValue<SelectOption>) => void;
 }
 
 export function Select(props: SelectProps) {
-	const Control = (controlProps: any) => {
+	const Control = (controlProps: ControlProps<SelectOption, boolean>) => {
 		return (
 			<>
 				<Label $isfloating={controlProps.isFocused} $hasvalue={controlProps.hasValue}>

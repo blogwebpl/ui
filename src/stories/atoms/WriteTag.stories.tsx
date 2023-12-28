@@ -1,14 +1,13 @@
 import { WriteTag } from '../../components/atoms/WriteTag';
 
-
-const writeTagFunction = async (data:any): boolean => {
+const writeTagFunction = async (data: any): Promise<boolean> => {
 	console.log(data);
-	alert('WriteTagFunction');
+	// alert('WriteTagFunction');
 	return true;
-}
+};
 
 const Template = () => {
-	return <WriteTag writeTagFunction={writeTagFunction}/>;
+	return <WriteTag data={{}} writeTagFunction={writeTagFunction} />;
 };
 
 export default { title: 'atoms/WriteTag', component: Template };

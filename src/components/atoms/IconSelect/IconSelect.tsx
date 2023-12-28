@@ -1,6 +1,66 @@
-import ReactSelect, { StylesConfig, components, ThemeConfig, Theme } from 'react-select';
-import styled from 'styled-components';
+import ReactSelect, {
+	StylesConfig,
+	components,
+	ThemeConfig,
+	Theme,
+	OptionProps,
+	ControlProps,
+	CSSObjectWithLabel,
+} from 'react-select';
+import styled, { DefaultTheme } from 'styled-components';
+import {
+	MdSettings as IconSettings,
+	MdMap as IconMap,
+	MdViewList as IconRecord,
+	MdMenu as IconMenu,
+	MdOutlineInventory as IconInventory,
+	MdPerson as IconPerson,
+	MdLock as IconLock,
+	MdCreate as IconEdit,
+} from 'react-icons/md';
+import { IconType } from 'react-icons';
 import { SelectOption } from '../Select';
+
+const { Option } = components;
+
+const StyledIconOption = styled.div`
+	display: flex;
+	align-items: center;
+	span {
+		margin-left: 0.8rem;
+	}
+`;
+
+interface IconOptionProps extends OptionProps<SelectOption, false> {
+	data: SelectOption;
+}
+
+const iconComponents: { [key: string]: IconType } = {
+	Settings: IconSettings,
+	Map: IconMap,
+	Record: IconRecord,
+	Menu: IconMenu,
+	Inventory: IconInventory,
+	Person: IconPerson,
+	Lock: IconLock,
+	Edit: IconEdit,
+};
+
+export const getIconComponent = (iconName: string | undefined): IconType | null => {
+	return iconName ? iconComponents[iconName] || null : null;
+};
+
+const IconOption: React.FC<IconOptionProps> = ({ data, ...rest }) => {
+	const IconComponent = getIconComponent(data.label);
+	return (
+		<Option data={data} {...rest}>
+			<StyledIconOption>
+				{IconComponent && <IconComponent />}
+				<span>{data.label}</span>
+			</StyledIconOption>
+		</Option>
+	);
+};
 
 const theme: ThemeConfig = (t: Theme) => {
 	return {
@@ -15,23 +75,20 @@ const theme: ThemeConfig = (t: Theme) => {
 	};
 };
 
-const styles: StylesConfig = {
-	control: (baseStyles: any, state: any) => {
-		const { borderColor } = baseStyles;
+const styles: StylesConfig<SelectOption, false> = {
+	control: (base: CSSObjectWithLabel, state: ControlProps<SelectOption, false>) => {
+		const { borderColor } = base;
 		return {
-			...baseStyles,
+			...base,
 			minHeight: 56,
-			// paddingLeft: state.isFocused ? 8 : 9,
 			boxShadow: 'none',
-			// borderWidth: state.isFocused ? 2 : 1,
 			outline: state.isFocused ? '0.1rem solid' : 'none',
-			outlineColor: borderColor,
+			outlineColor: borderColor as string,
 		};
 	},
-	menu: (baseStyles: any) => {
-		console.log(baseStyles);
+	menu: (base: CSSObjectWithLabel) => {
 		return {
-			...baseStyles,
+			...base,
 			zIndex: 2,
 		};
 	},
@@ -44,28 +101,27 @@ const Label = styled.label<{ $isfloating?: boolean; $hasvalue?: boolean }>`
 	position: absolute;
 	transition: 0.2s ease all;
 	z-index: 1;
-	color: ${(props: any) =>
+	color: ${(props: { $isfloating?: boolean; $hasvalue?: boolean; theme: DefaultTheme }) =>
 		props.$isfloating
 			? props.theme.palette.element.primary.default
 			: props.theme.palette.text.secondary};
-	top: ${(props: any) => (props.$isfloating || props.$hasvalue ? `-0.7rem` : `1.9rem`)};
+	top: ${(props: { $isfloating?: boolean; $hasvalue?: boolean }) =>
+		props.$isfloating || props.$hasvalue ? `-0.7rem` : `1.9rem`};
 	left: 0.8rem;
 
-	font-size: ${(props: any) => (props.$isfloating || props.$hasvalue ? `1.2rem` : `1.6rem`)};
+	font-size: ${(props: { $isfloating?: boolean; $hasvalue?: boolean }) =>
+		props.$isfloating || props.$hasvalue ? `1.2rem` : `1.6rem`};
 `;
 
-interface SelectProps {
-	isMulti?: boolean;
+interface IconSelectProps {
 	isRequired?: boolean;
-	isClearable?: boolean;
 	label: string;
-	options: any;
 	value: SelectOption[] | SelectOption | null;
-	onChange: React.Dispatch<React.SetStateAction<any>>;
+	onChange: React.Dispatch<React.SetStateAction<SelectOption[] | SelectOption | null>>;
 }
 
-export function IconSelect(props: SelectProps) {
-	const Control = (controlProps: any) => {
+export function IconSelect(props: IconSelectProps) {
+	const Control = (controlProps: ControlProps<SelectOption, false>) => {
 		return (
 			<>
 				<Label $isfloating={controlProps.isFocused} $hasvalue={controlProps.hasValue}>
@@ -76,17 +132,28 @@ export function IconSelect(props: SelectProps) {
 		);
 	};
 
+	const options = [
+		{ value: 'Settings', label: 'Settings' },
+		{ value: 'Map', label: 'Map' },
+		{ value: 'Record', label: 'Record' },
+		{ value: 'Menu', label: 'Menu' },
+		{ value: 'Inventory', label: 'Inventory' },
+		{ value: 'Person', label: 'Person' },
+		{ value: 'Lock', label: 'Lock' },
+		{ value: 'Edit', label: 'Edit' },
+	];
+
 	return (
 		<ReactSelect
-			isClearable={props.isClearable}
+			isClearable={true}
 			theme={theme}
 			styles={styles}
 			value={props.value}
 			onChange={props.onChange}
-			options={props.options}
-			components={{ Control }}
+			options={options.sort((a, b) => (a.label > b.label ? 1 : -1))}
 			placeholder=""
-			isMulti={props.isMulti}
+			isMulti={false}
+			components={{ Control, Option: (prps) => <IconOption {...(prps as IconOptionProps)} /> }}
 		/>
 	);
 }

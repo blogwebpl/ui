@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { MultiValue, SingleValue } from 'react-select';
 import { Button } from '../atoms/Button';
 import { ButtonContainer } from '../atoms/ButtonContainer';
 import { Card } from '../atoms/Card';
@@ -13,6 +14,7 @@ import { Language, Translations } from '../types';
 import { Select, SelectOption } from '../atoms/Select';
 import { WriteTag } from '../atoms/WriteTag';
 import { MenuEditor } from '../MenuEditor';
+import { IMenuItem, MenuSchema } from '../atoms/Menu';
 
 const StyledVerticalGap = styled.div`
 	height: 5.6rem;
@@ -30,7 +32,7 @@ interface EditFormProps {
 	tabs: Translations[];
 	activeTab: number;
 	fields: Field[];
-	values: any;
+	values: Record<string, unknown>;
 	language: Language;
 	collection: string;
 	title: Translations;
@@ -38,128 +40,97 @@ interface EditFormProps {
 	roles?: SelectOption[];
 	permissions?: SelectOption[];
 	menus?: SelectOption[];
-	menuItems?: SelectOption[] | SelectOption | null;
-	saveData: (formData: Object) => Promise<boolean>;
+	menuItems?: IMenuItem[];
+	saveData: (formData: Record<string, unknown>) => Promise<boolean>;
 	width?: string;
-	writeTagFunction?: (data: any) => Promise<boolean>;
+	writeTagFunction?: (data: Record<string, unknown>) => Promise<boolean>;
 }
 
-export function EditForm(props: EditFormProps) {
-	if (props.fields.length === 0) {
+export function EditForm({
+	tabs,
+	activeTab: initialActiveTab,
+	fields,
+	values: initialValues,
+	language,
+	collection,
+	title,
+	mode,
+	roles,
+	permissions,
+	menus,
+	menuItems,
+	saveData,
+	width,
+	writeTagFunction,
+}: EditFormProps) {
+	if (fields.length === 0) {
 		return null;
 	}
 
 	const navigate = useNavigate();
 
 	const [error, setError] = useState('');
-	const [activeTab, setActiveTab] = useState(props.activeTab);
-	const [inputValues, setInputValues] = useState<any>(props.values || {});
+	const [activeTab, setActiveTab] = useState(initialActiveTab);
+	const [inputValues, setInputValues] = useState<Record<string, unknown>>(initialValues || {});
 	const [isSaving, setIsSaving] = useState(false);
 
 	useEffect(() => {
-		if (props.values !== undefined) {
-			setInputValues(props.values);
-		}
-	}, [props.values]);
+		setInputValues(initialValues || {});
+	}, [initialValues]);
 
-	// const inputRefs: { [key: string]: React.RefObject<HTMLInputElement> } = {};
-
-	const handleSetActiveTab = (e: React.MouseEvent<HTMLAnchorElement>) => {
-		setActiveTab(Number(e.currentTarget.getAttribute('data-index')));
+	const handleSetActiveTab = (index: number) => {
+		setActiveTab(index);
 	};
 
-	const validateForm = () => {
-		// return props.fields.every((field) => {
-		// 	if (field.required) {
-		// 		const inputRef = inputRefs[field.field];
-		// 		return inputRef && inputRef.current && inputRef.current.value !== '';
-		// 	}
-		// 	return true;
-		// });
-		return props.fields.every((field) => {
-			if (field.required) {
-				return inputValues[field.field] !== '';
-			}
-			return true;
-		});
-	};
-
-	// const getFormData = () => {
-	// 	const formData: { [key: string]: string } = {};
-	// 	props.fields.forEach((field) => {
-	// 		const inputRef = inputRefs[field.field];
-	// 		if (inputRef && inputRef.current) {
-	// 			formData[field.field] = inputRef.current.value;
-	// 		}
-	// 	});
-	// 	return formData;
-	// };
+	const validateForm = () =>
+		fields.every((field) => !field.required || inputValues[field.field] !== '');
 
 	const handleClickSave = async () => {
 		setIsSaving(true);
 		setError('');
-		if (validateForm() === false) {
-			if (props.language === 'pl') {
-				setError('Wypełnij wszystkie wymagane pola.');
-			} else if (props.language === 'en') {
-				setError('Fill all required fields.');
-			}
+		if (!validateForm()) {
+			setError(
+				language === 'pl' ? 'Wypełnij wszystkie wymagane pola.' : 'Fill all required fields.'
+			);
+			setIsSaving(false);
 			return;
 		}
 
-		const dataToSave: any = {};
-		props.fields.forEach((field) => {
-			dataToSave[field.field] = inputValues[field.field];
-		});
-		const resultOk = await props.saveData(dataToSave);
+		const dataToSave = fields.reduce(
+			(acc, field) => ({ ...acc, [field.field]: inputValues[field.field] }),
+			{}
+		);
+		const resultOk = await saveData(dataToSave);
 
 		setIsSaving(false);
 		if (resultOk) {
-			navigate(`/${props.collection}`);
-		} else if (props.language === 'pl') {
-			setError('Wystąpił błąd podczas zapisu danych.');
-		} else if (props.language === 'en') {
-			setError('An error occurred while saving data.');
+			navigate(`/${collection}`);
+		} else {
+			setError(
+				language === 'pl'
+					? 'Wystąpił błąd podczas zapisu danych.'
+					: 'An error occurred while saving data.'
+			);
 		}
 	};
 
-	let extTitle = '';
-	if (props.language === 'pl') {
-		switch (props.mode) {
-			case 'add':
-				extTitle = ' - dodawanie';
-				break;
-			case 'edit':
-				extTitle = ' - edycja';
-				break;
-			case 'view':
-				extTitle = ' - podgląd';
-				break;
-			default:
-		}
-	}
-	if (props.language === 'en') {
-		switch (props.mode) {
-			case 'add':
-				extTitle = ' - add';
-				break;
-			case 'edit':
-				extTitle = ' - edit';
-				break;
-			case 'view':
-				extTitle = ' - view';
-				break;
-			default:
-		}
-	}
+	const getTitleExtension = () => {
+		const extensions = {
+			pl: { add: ' - dodawanie', edit: ' - edycja', view: ' - podgląd' },
+			en: { add: ' - add', edit: ' - edit', view: ' - view' },
+		};
+		return extensions[language][mode] || '';
+	};
+
+	const extTitle = getTitleExtension();
 
 	interface SpecialSelectProps {
-		options: SelectOption[]; // All the options you can choose
-		valueIds: string | string[]; // The ids of the values that are selected
-		fieldName: string; // FieldName in the collection
-		shouldHide: boolean; // Should the select field be hidden
-		label: string; // Label of the select field
-		isMulti?: boolean; // Is the select field multi select
+		options: SelectOption[];
+		valueIds: string | string[];
+		fieldName: string;
+		shouldHide: boolean;
+		label: string;
+		isMulti?: boolean;
 	}
 
 	const SpecialSelect = ({
@@ -168,25 +139,12 @@ export function EditForm(props: EditFormProps) {
 		fieldName,
 		shouldHide,
 		label,
-		isMulti,
+		isMulti = false,
 	}: SpecialSelectProps) => {
-		let value: SelectOption | SelectOption[] = options.filter((item: SelectOption) => {
-			if (isMulti) {
-				return valueIds.includes(item.value);
-			}
-			return item.value === valueIds;
-		});
-		if (isMulti === false) {
-			// eslint-disable-next-line prefer-destructuring
-			value = value[0];
-		}
-
-		// console.log('----------------------------------');
-		// console.log('fieldName', fieldName);
-		// console.log('options', options);
-		// console.log('valueIds', valueIds);
-		// console.log('value', value);
-		// console.log('----------------------------------');
+		const selectedOptions = options.filter((option) =>
+			isMulti ? valueIds.includes(option.value) : option.value === valueIds
+		);
+		const value = isMulti ? selectedOptions : selectedOptions[0] || null;
 
 		return (
 			<FieldContainer id={fieldName} key={fieldName} hidden={shouldHide}>
@@ -194,15 +152,13 @@ export function EditForm(props: EditFormProps) {
 					label={label}
 					options={options}
 					value={value}
-					onChange={(newValue: SelectOption | SelectOption[]) => {
-						if (isMulti === false) {
-							setInputValues((v: any) => ({ ...v, [fieldName]: (newValue as SelectOption).value }));
-						} else {
-							setInputValues((v: any) => ({
-								...v,
-								[fieldName]: (newValue as SelectOption[]).map((item: SelectOption) => item.value),
-							}));
-						}
+					onChange={(newValue: MultiValue<SelectOption> | SingleValue<SelectOption>) => {
+						setInputValues((v) => ({
+							...v,
+							[fieldName]: isMulti
+								? (newValue as SelectOption[]).map((item) => item.value)
+								: (newValue as SelectOption).value,
+						}));
 					}}
 					isMulti={isMulti}
 					isClearable={false}
@@ -212,36 +168,36 @@ export function EditForm(props: EditFormProps) {
 	};
 
 	return (
-		<Card minWidth={props.width || '48rem'} padding isPending={isSaving}>
+		<Card minWidth={width || '48rem'} padding isPending={isSaving}>
 			<Typography component="h6" userSelect="none" color="#000000">
-				{props.title[props.language] + extTitle}
+				{title[language] + extTitle}
 			</Typography>
-			{props.tabs && props.tabs.length > 0 ? (
+			{tabs && tabs.length > 0 && (
 				<>
 					<Tabs
-						language={props.language}
-						tabs={props.tabs}
+						language={language}
+						tabs={tabs}
 						setActiveTab={handleSetActiveTab}
 						activeTab={activeTab}
 					/>
 					<StyledVerticalGap />
 				</>
-			) : null}
-			{error ? <Alert>{error}</Alert> : null}
+			)}
+			{error && <Alert>{error}</Alert>}
 
-			{props.fields.map((field, index) => {
+			{fields.map((field, index) => {
 				const shouldHide = activeTab !== field.tab;
-
+				const fieldKey = `${field.field}-${index}`;
 				const commonProps = {
-					label: field.label[props.language],
+					label: field.label[language],
 					required: field.required,
 					id: field.field,
 					value: inputValues?.[field.field] || '',
-					onChange: (e: any) => {
-						setInputValues((v: any) => ({ ...v, [field.field]: e.target.value }));
+					onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+						setInputValues((v) => ({ ...v, [field.field]: e.target.value }));
 					},
 					autoFocus: index === 0,
-					disabled: props.mode === 'view',
+					disabled: mode === 'view',
 					controlled: true,
 				};
 
@@ -249,15 +205,15 @@ export function EditForm(props: EditFormProps) {
 				let isMulti = false;
 				switch (field.type) {
 					case 'roles':
-						options = props.roles || [];
+						options = roles || [];
 						isMulti = true;
 						break;
 					case 'permissions':
-						options = props.permissions || [];
+						options = permissions || [];
 						isMulti = true;
 						break;
-					case '':
-						options = props.menus || [];
+					case 'menu':
+						options = menus || [];
 						break;
 					default:
 				}
@@ -270,30 +226,38 @@ export function EditForm(props: EditFormProps) {
 					case 'email':
 					case 'datetime-local':
 						return (
-							<FieldContainer id={field.field} key={field.field} hidden={shouldHide}>
-								<TextField type={field.type} {...commonProps} />
+							<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
+								<TextField
+									type={field.type}
+									{...commonProps}
+									value={inputValues?.[field.field] as string}
+								/>
 							</FieldContainer>
 						);
 					case 'roles':
 					case 'permissions':
-					case 'menu': {
+					case 'menu':
 						return (
 							<SpecialSelect
-								key={field.field}
+								key={fieldKey}
 								options={options}
-								valueIds={inputValues?.[field.field] || []}
+								valueIds={
+									isMulti
+										? (inputValues?.[field.field] as string[]) || []
+										: (inputValues?.[field.field] as string) || ''
+								}
 								fieldName={field.field}
 								shouldHide={shouldHide}
-								label={field.label[props.language]}
+								label={field.label[language]}
 								isMulti={isMulti}
 							/>
 						);
-					}
 					case 'writeTag':
-						if (props.writeTagFunction !== undefined) {
+						if (writeTagFunction) {
 							return (
 								<WriteTag
-									writeTagFunction={props.writeTagFunction}
+									key={fieldKey}
+									writeTagFunction={writeTagFunction}
 									data={{ id: inputValues?.[field.field] || '' }}
 								/>
 							);
@@ -302,9 +266,10 @@ export function EditForm(props: EditFormProps) {
 					case 'menuEditor':
 						return (
 							<MenuEditor
-								menuItems={props.menuItems}
-								menu={inputValues?.[field.field]}
-								language={props.language}
+								key={fieldKey}
+								menuItems={menuItems || []}
+								menu={inputValues?.[field.field] as MenuSchema | undefined}
+								language={language}
 								hidden={shouldHide}
 							/>
 						);
@@ -316,15 +281,12 @@ export function EditForm(props: EditFormProps) {
 				<Button
 					label="Anuluj"
 					variant="secondary"
-					onClick={() => {
-						navigate(-1);
-						// navigate(`/${props.collection}`);
-					}}
+					onClick={() => navigate(-1)}
 					disabled={isSaving}
 				/>
-				{props.mode !== 'view' ? (
+				{mode !== 'view' && (
 					<Button label="Zapisz" variant="primary" onClick={handleClickSave} disabled={isSaving} />
-				) : null}
+				)}
 			</ButtonContainer>
 		</Card>
 	);

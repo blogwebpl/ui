@@ -34,7 +34,7 @@ const StyledTabs = styled.div`
 
 interface TabsProps {
 	tabs: Translations[];
-	setActiveTab: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+	setActiveTab: (index: number) => void;
 	language: Language;
 	activeTab: number;
 }
@@ -46,7 +46,7 @@ export function Tabs({ tabs, language, activeTab, setActiveTab }: TabsProps) {
 				<a
 					data-index={index}
 					className={index === activeTab ? 'active' : ''}
-					onClick={setActiveTab}
+					onClick={() => setActiveTab(index)}
 					key={tab[language]}
 				>
 					{tab[language]}

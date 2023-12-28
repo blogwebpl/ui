@@ -1,4 +1,5 @@
-import { MenuEditor, IMenuItem, IMenu } from '../components/MenuEditor';
+import { MenuEditor } from '../components/MenuEditor';
+import { IMenuItem, MenuSchema } from '../components/atoms/Menu';
 
 export const menuItems: IMenuItem[] = [
 	{
@@ -39,7 +40,7 @@ export const menuItems: IMenuItem[] = [
 	},
 ];
 
-export const menu: IMenu = {
+export const menu: MenuSchema = {
 	id: '6502e9f8a9c5fc31bb21f455',
 	name: 'Admin menu',
 	menuItems: [

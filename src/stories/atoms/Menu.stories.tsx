@@ -1,57 +1,51 @@
-import {
-	MdSettings as IconSettings,
-	MdMap as IconMap,
-	MdViewList as IconRecord,
-} from 'react-icons/md';
-
 import { BrowserRouter as Router } from 'react-router-dom';
-import { Menu } from '../../components/atoms/Menu';
+import { MenuElement, Menu } from '../../components/atoms/Menu';
 
-export const menuItems = [
+export const menuElements: MenuElement[] = [
 	{
 		id: 'records',
-		icon: IconRecord,
+		icon: 'Record',
 		label: {
 			pl: 'Kartoteki',
 			en: 'Records',
 		},
-		slug: '',
+		link: '',
 		children: [
 			{
 				id: 'vehicles',
 				label: { pl: 'Kartoteka pojazdów', en: 'Vehicles' },
-				slug: '/vehicles',
+				link: '/vehicles',
 			},
 			{
 				id: 'users',
 				label: { pl: 'Kartoteka użytkowników', en: 'Users' },
-				slug: '/users',
+				link: '/users',
 			},
 		],
 	},
 	{
 		id: 'settings',
-		icon: IconSettings,
+		icon: 'Settings',
 		label: { pl: 'Ustawienia', en: 'Settings' },
-		slug: '',
+		link: '',
 		children: [
 			{
 				id: 'users',
-				label: 'Użytkownicy',
-				slug: '/users',
+				label: { pl: 'Użytkownicy', en: 'Users' },
+				link: '/users',
 			},
 			{
 				id: 'roles',
-				label: 'Grupy',
-				slug: '/roles',
+				label: { pl: 'Grupy', en: 'Roles' },
+				link: '/roles',
 			},
 		],
 	},
 	{
 		id: 'map',
-		icon: IconMap,
+		icon: 'Map',
 		label: { pl: 'Mapa', en: 'Map' },
-		slug: '/map',
+		link: '/map',
 		children: [],
 	},
 ];
@@ -59,7 +53,7 @@ export const menuItems = [
 const Template = () => {
 	return (
 		<Router>
-			<Menu items={menuItems} language="en" />
+			<Menu menuElements={menuElements} language="en" />
 		</Router>
 	);
 };

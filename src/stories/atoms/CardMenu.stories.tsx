@@ -1,15 +1,24 @@
 /* eslint-disable no-alert */
 
-import { MdPerson as IconPerson, MdLock as IconLock } from 'react-icons/md';
-import { CardMenu, MenuItem } from '../../components/atoms/CardMenu';
+import { CardMenu, ICardMenuItem } from '../../components/atoms/CardMenu';
 
-const items: MenuItem[] = [
-	{ id: 'person', icon: IconPerson, label: 'Person Link', onClick: () => alert('Person') },
-	{ id: 'lock', icon: IconLock, label: 'Lock Link', onClick: () => alert('Lock') },
+const items: ICardMenuItem[] = [
+	{
+		id: 'person',
+		icon: 'Person',
+		label: { en: 'Person Link', pl: 'Person Link' },
+		onClick: () => alert('Person'),
+	},
+	{
+		id: 'lock',
+		icon: 'Lock',
+		label: { en: 'Lock Link', pl: 'Lock Link' },
+		onClick: () => alert('Lock'),
+	},
 ];
 
 const Template = () => {
-	return <CardMenu items={items} />;
+	return <CardMenu items={items} language="pl" />;
 };
 
 export default {

@@ -1,10 +1,11 @@
 /* eslint-disable no-alert */
-import { MdPerson as IconPerson, MdMode as IconEdit, MdLock as IconLock } from 'react-icons/md';
+import { MdPerson as IconPerson } from 'react-icons/md';
 import styled from 'styled-components';
+import { MultiValue, SingleValue } from 'react-select';
 import { Card } from '../atoms/Card';
-import { CardMenu, MenuItem } from '../atoms/CardMenu';
+import { CardMenu, ICardMenuItem } from '../atoms/CardMenu';
 import { FieldContainer } from '../atoms/FieldContainer';
-import { Select } from '../atoms/Select';
+import { Select, SelectOption } from '../atoms/Select';
 import { Typography } from '../atoms/Typography';
 
 const StyledEmailContainer = styled.div`
@@ -27,16 +28,21 @@ interface Option {
 interface ProfileProps {
 	roles: Option[] | undefined;
 	role: Option | null | undefined;
-	onChange: (newRole: Option) => void;
+	onChange: (newValue: MultiValue<SelectOption> | SingleValue<SelectOption>) => void;
 	email: string;
 	changePassword: () => void;
 	logout: () => void;
 }
 
 export function Profile(props: ProfileProps) {
-	const menuItems: MenuItem[] = [
-		{ id: 'changePassword', icon: IconEdit, label: 'Zmień hasło', onClick: props.changePassword },
-		{ id: 'lock', icon: IconLock, label: 'Wyloguj', onClick: props.logout },
+	const menuItems: ICardMenuItem[] = [
+		{
+			id: 'changePassword',
+			icon: 'Edit',
+			label: { pl: 'Zmień hasło', en: 'Change password' },
+			onClick: props.changePassword,
+		},
+		{ id: 'lock', icon: 'Lock', label: { pl: 'Wyloguj', en: 'Sign out' }, onClick: props.logout },
 	];
 	if (!props.role) {
 		return null;
@@ -64,7 +70,7 @@ export function Profile(props: ProfileProps) {
 					isRequired={true}
 				/>
 			</FieldContainer>
-			<CardMenu items={menuItems} />
+			<CardMenu items={menuItems} language="pl" />
 		</Card>
 	);
 }

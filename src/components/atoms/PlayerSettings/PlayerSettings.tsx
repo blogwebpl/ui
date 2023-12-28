@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { MultiValue, SingleValue } from 'react-select';
 import { Button } from '../Button';
 import { ButtonContainer } from '../ButtonContainer';
 import { Card } from '../Card';
@@ -33,7 +34,13 @@ export function PlayerSettings({ devices, onLoad, onClose }: PlayerSettingsProps
 		}))
 		.sort((device1, device2) => (device1.label < device2.label ? -1 : 1));
 
-	const [device, setDevice] = useState<SelectOption | null>(options ? options[0] : null);
+	const [device, setDevice] = useState<MultiValue<SelectOption> | SingleValue<SelectOption>>(
+		options
+	);
+
+	const singleDevice = Array.isArray(device)
+		? (device[0] as SelectOption).value
+		: (device as SelectOption).value;
 
 	return (
 		<Card minWidth="46rem" padding>
@@ -71,7 +78,7 @@ export function PlayerSettings({ devices, onLoad, onClose }: PlayerSettingsProps
 					label="Wczytaj"
 					variant="primary"
 					onClick={() => {
-						const vid = device?.value || '';
+						const vid = singleDevice;
 						const dateFrom = dateFromRef.current!.value;
 						const dateTo = dateToRef.current!.value;
 						onLoad({ vid, dateFrom, dateTo });

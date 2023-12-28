@@ -2,8 +2,8 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { MdArrowRight as IconRight } from 'react-icons/md';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
-import { IconType } from 'react-icons';
 import { Language, Translations } from '../../types';
+import { getIconComponent } from '../IconSelect/IconSelect'; // Import funkcji getIconComponent
 
 const StyledMenu = styled.ul`
 	li {
@@ -12,10 +12,10 @@ const StyledMenu = styled.ul`
 	}
 `;
 
-const StyledSubmenu = styled.div<{ $isopen: boolean; $elements: number }>`
+const StyledSubmenu = styled.div<{ $isopen: boolean; $elementsLength: number }>`
 	font-size: 1.4rem;
 	height: auto;
-	max-height: ${(props) => (props.$isopen ? `${4.4 * props.$elements}rem` : '0')};
+	max-height: ${(props) => (props.$isopen ? `${4.4 * props.$elementsLength}rem` : '0')};
 	overflow: hidden;
 	a {
 		text-decoration: none;
@@ -26,10 +26,44 @@ const StyledSubmenu = styled.div<{ $isopen: boolean; $elements: number }>`
 		max-height 0.25s ease-out;
 `;
 
+export interface IMenuItem {
+	id: string;
+	icon?: string | null;
+	label: Translations;
+	link?: string | null | undefined;
+}
+
+export interface MenuElement {
+	id: string;
+	icon: string;
+	label: Translations;
+	children: IMenuItem[];
+	link?: string | null | undefined;
+}
+
+export interface MenuSchema {
+	id: string;
+	name: string;
+	menuItems: Array<{
+		item: string;
+		parent?: string;
+	}>;
+}
+
+interface MenuItemProps {
+	id: string;
+	label: string;
+	icon?: string;
+	isOpen?: boolean;
+	setOpenedItem?: (item: string) => void;
+	link: string | null | undefined;
+	isSub?: boolean;
+}
+
 interface SubmenuProps {
 	children: JSX.Element | JSX.Element[];
 	isOpen: boolean;
-	elements: number;
+	elementsLength: number;
 }
 
 const StyledItem = styled.div<{ $isopen: boolean; $issub: boolean }>`
@@ -63,41 +97,34 @@ const StyledChevronContainer = styled.div<{ $isopen: boolean }>`
 	width: 2.4rem;
 `;
 
-interface MenuItemProps {
-	id: string;
-	label: string;
-	Icon?: IconType | undefined;
-	isOpen?: boolean;
-	setOpenedItem?: any;
-	url: string | null;
-	isSub?: boolean;
-}
-
 function MenuItem({
 	id,
 	label,
-	Icon,
+	icon,
 	isOpen = false,
 	setOpenedItem = () => {},
-	url,
+	link,
 	isSub = false,
 }: MenuItemProps) {
 	const navigate: NavigateFunction = useNavigate();
+	const IconComponent = getIconComponent(icon);
 	return (
 		<StyledItem
 			$issub={isSub}
 			$isopen={isOpen}
 			onClick={() => {
-				if (url) {
-					navigate(url);
+				if (link) {
+					navigate(link);
 				} else {
 					setOpenedItem(isOpen ? '' : id);
 				}
 			}}
 		>
-			<StyledIconContainer>{Icon ? <Icon size="2.4rem" /> : null}</StyledIconContainer>
-			<StyledLabel className={url ? 'link' : ''}>{label}</StyledLabel>
-			{url ? null : (
+			<StyledIconContainer>
+				{IconComponent ? <IconComponent size="2.4rem" /> : null}
+			</StyledIconContainer>
+			<StyledLabel className={link ? 'link' : ''}>{label}</StyledLabel>
+			{link ? null : (
 				<StyledChevronContainer $isopen={isOpen}>
 					<IconRight size="2.4rem" />
 				</StyledChevronContainer>
@@ -106,44 +133,39 @@ function MenuItem({
 	);
 }
 
-export function Submenu({ children, isOpen, elements }: SubmenuProps) {
+export function Submenu({ children, isOpen, elementsLength }: SubmenuProps) {
 	return (
-		<StyledSubmenu $elements={elements} $isopen={isOpen}>
+		<StyledSubmenu $elementsLength={elementsLength} $isopen={isOpen}>
 			{children}
 		</StyledSubmenu>
 	);
 }
 
-export interface Item {
-	id: string;
-	icon: IconType;
-	label: Translations;
-	children: any;
-	slug: string;
-}
-
-export function Menu(props: { items: Item[]; language: Language }) {
+export function Menu(props: { menuElements: MenuElement[]; language: Language }) {
 	const [openedItem, setOpenedItem] = useState('');
 	return (
 		<StyledMenu className="menu">
-			{props.items.map((item: Item) => (
-				<li key={item.id}>
+			{props.menuElements.map((menuElement: MenuElement) => (
+				<li key={menuElement.id}>
 					<MenuItem
-						id={item.id}
-						Icon={item.icon}
-						isOpen={openedItem === item.id}
+						id={menuElement.id}
+						icon={menuElement.icon}
+						isOpen={openedItem === menuElement.id}
 						setOpenedItem={setOpenedItem}
-						label={item.label[props.language]}
-						url={item.children.length === 0 ? item.slug! : null}
+						label={menuElement.label[props.language]}
+						link={menuElement.children.length === 0 ? menuElement.link! : null}
 					/>
-					{item.children.length > 0 ? (
-						<Submenu elements={item.children.length} isOpen={openedItem === item.id}>
-							{item.children.map((subItem: any) => (
+					{menuElement.children.length > 0 ? (
+						<Submenu
+							elementsLength={menuElement.children.length}
+							isOpen={openedItem === menuElement.id}
+						>
+							{menuElement.children.map((subItem: IMenuItem) => (
 								<MenuItem
 									key={subItem.id}
 									id={subItem.id}
 									label={subItem.label[props.language]}
-									url={subItem.slug}
+									link={subItem.link}
 									isSub={true}
 								/>
 							))}

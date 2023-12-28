@@ -10,8 +10,10 @@ import {
 } from 'react-icons/md';
 import { RiMenuAddLine as IconAddMenu } from 'react-icons/ri';
 
+import { MultiValue, SingleValue } from 'react-select';
 import { Select, SelectOption } from '../atoms/Select';
-import { Language, Translations } from '../types';
+import { Language } from '../types';
+import { IMenuItem, MenuSchema } from '../atoms/Menu';
 
 const StyledMenuEditor = styled.div`
 	width: 100%;
@@ -88,25 +90,9 @@ const addChildLabel = {
 	pl: 'dodaj element/y podrzędne',
 };
 
-export interface IMenuItem {
-	id: string;
-	label: Translations;
-	link?: string | null;
-	icon?: string | null;
-}
-
-export interface IMenu {
-	id: string;
-	name: string;
-	menuItems: Array<{
-		item: string;
-		parent?: string;
-	}>;
-}
-
 interface MenuEditorProps {
-	menuItems: any;
-	menu: IMenu | undefined;
+	menuItems: IMenuItem[];
+	menu: MenuSchema | undefined;
 	language: Language;
 	hidden?: boolean;
 }
@@ -114,17 +100,15 @@ interface MenuEditorProps {
 export const MenuEditor = (props: MenuEditorProps) => {
 	const options = props.menuItems
 		? props.menuItems
-				.sort((a: any, b: any) =>
-					a.label[props.language]
-						? a.label[props.language].localeCompare(b.label[props.language])
-						: false
+				.sort((a: IMenuItem, b: IMenuItem) =>
+					a.label[props.language].localeCompare(b.label[props.language])
 				)
-				.map((item: any) => ({
+				.map((item) => ({
 					value: item.id,
 					label: item.label[props.language],
 				}))
 		: [];
-	const [value, setValue] = useState<SelectOption[] | SelectOption | null>(null);
+	const [value, setValue] = useState<MultiValue<SelectOption> | SingleValue<SelectOption>>(null);
 	const [menuItems, setMenuItems] = useState(props.menu?.menuItems || []);
 
 	useEffect(() => {
@@ -173,7 +157,7 @@ export const MenuEditor = (props: MenuEditorProps) => {
 
 	const addParentFromSelect = () => {
 		if (value && Array.isArray(value)) {
-			const newMenuItems = value.map((selectedItem: SelectOption) => ({
+			const newMenuItems = (value as MultiValue<SelectOption>).map((selectedItem) => ({
 				item: selectedItem.value,
 				parent: undefined,
 			}));
@@ -184,7 +168,7 @@ export const MenuEditor = (props: MenuEditorProps) => {
 
 	const addChildFromSelect = (parentId: string) => {
 		if (value && Array.isArray(value)) {
-			const newMenuItems = value.map((selectedItem: SelectOption) => ({
+			const newMenuItems = (value as MultiValue<SelectOption>).map((selectedItem) => ({
 				item: selectedItem.value,
 				parent: parentId,
 			}));
@@ -193,7 +177,7 @@ export const MenuEditor = (props: MenuEditorProps) => {
 		setValue(null);
 	};
 
-	const getIcon = (parentIcon: string | undefined) => {
+	const getIcon = (parentIcon: string | undefined | null) => {
 		switch (parentIcon) {
 			case 'settings':
 				return IconSettings;
@@ -224,7 +208,7 @@ export const MenuEditor = (props: MenuEditorProps) => {
 					{menuItems.map((item) => {
 						const isParent = item.parent === undefined;
 						if (isParent) {
-							const parentIcon = props.menuItems.find((i: any) => i.id === item.item)?.icon;
+							const parentIcon = props.menuItems.find((i) => i.id === item.item)?.icon;
 							const Icon = getIcon(parentIcon);
 							return (
 								<li key={item.item}>
@@ -232,7 +216,7 @@ export const MenuEditor = (props: MenuEditorProps) => {
 										<StyledIconContainer>
 											{Icon ? <Icon size="2.4rem" /> : null}
 										</StyledIconContainer>
-										{props.menuItems.find((i: any) => i.id === item.item)?.label[props.language]}
+										{props.menuItems.find((i) => i.id === item.item)?.label[props.language]}
 										<span>
 											&nbsp;&nbsp;&nbsp;
 											<span className="up" onClick={() => moveItem('up', item.item)}>
@@ -252,7 +236,7 @@ export const MenuEditor = (props: MenuEditorProps) => {
 											.map((childItem) => (
 												<li key={childItem.item}>
 													{
-														props.menuItems.find((i: any) => i.id === childItem.item)?.label[
+														props.menuItems.find((i) => i.id === childItem.item)?.label[
 															props.language
 														]
 													}

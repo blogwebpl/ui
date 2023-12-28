@@ -1,8 +1,10 @@
 /* eslint-disable no-alert */
 
 import { useState } from 'react';
+import { MultiValue, SingleValue } from 'react-select';
 import { Profile } from '../components/Profile';
 import { Main } from '../components/atoms/Main';
+import { SelectOption } from '../components/atoms/Select';
 
 const roles = [
 	{ value: '1', label: 'Admin' },
@@ -31,7 +33,9 @@ const Template = () => {
 			<Profile
 				roles={roles}
 				role={role}
-				onChange={handleRoleChange}
+				onChange={(newValue: MultiValue<SelectOption> | SingleValue<SelectOption>) =>
+					handleRoleChange(newValue as SelectOption)
+				}
 				email={email}
 				changePassword={handleChangePassword}
 				logout={handleLogout}

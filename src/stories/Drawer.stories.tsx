@@ -11,53 +11,7 @@ import { Drawer } from '../components/Drawer';
 // import { Item } from '../components/atoms/Menu';
 import { Main } from '../components/atoms/Main';
 import { AppBar } from '../components/atoms/AppBar';
-import { menuItems } from './atoms/Menu.stories';
-
-// const menuItems: Item[] = [
-// 	{
-// 		id: 'records',
-// 		icon: IconRecord,
-// 		label: 'Kartoteki',
-// 		slug: '',
-// 		children: [
-// 			{
-// 				id: 'vehicles',
-// 				label: 'Kartoteka pojazdów',
-// 				slug: '/vehicles',
-// 			},
-// 			{
-// 				id: 'users',
-// 				label: 'Kartoteka użytkowników',
-// 				slug: '/users',
-// 			},
-// 		],
-// 	},
-// 	{
-// 		id: 'settings',
-// 		icon: IconSettings,
-// 		label: 'Ustawienia',
-// 		slug: '',
-// 		children: [
-// 			{
-// 				id: 'users',
-// 				label: 'Użytkownicy',
-// 				slug: '/users',
-// 			},
-// 			{
-// 				id: 'roles',
-// 				label: 'Grupy',
-// 				slug: '/roles',
-// 			},
-// 		],
-// 	},
-// 	{
-// 		id: 'map',
-// 		icon: IconMap,
-// 		label: 'Mapa',
-// 		slug: '/map',
-// 		children: [],
-// 	},
-// ];
+import { menuElements } from './atoms/Menu.stories';
 
 const Template = () => {
 	const [isDrawerOpen, setIsDrawerOpen] = useState(true);
@@ -85,7 +39,7 @@ const Template = () => {
 			<Drawer
 				isDrawerOpen={isDrawerOpen}
 				closeDrawer={closeDrawer}
-				menuItems={menuItems}
+				menuElements={menuElements}
 				closeOnClick={true}
 				language="en"
 			/>

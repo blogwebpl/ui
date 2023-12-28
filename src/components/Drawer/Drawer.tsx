@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Item, Menu } from '../atoms/Menu';
+import { Menu, MenuElement } from '../atoms/Menu';
 import { Language } from '../types';
 
 const StyledDrawer = styled.div<{ $isdraweropen: boolean }>`
@@ -28,7 +28,7 @@ interface DrawerProps {
 	isDrawerOpen: boolean;
 	closeOnClick: boolean;
 	closeDrawer: () => void;
-	menuItems: Item[];
+	menuElements: MenuElement[];
 	language: Language;
 }
 
@@ -51,7 +51,7 @@ export function Drawer(props: DrawerProps) {
 				}
 			}}
 		>
-			<Menu items={props.menuItems} language={props.language} />
+			<Menu menuElements={props.menuElements} language={props.language} />
 		</StyledDrawer>
 	);
 }

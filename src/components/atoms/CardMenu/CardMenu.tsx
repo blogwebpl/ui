@@ -1,6 +1,6 @@
-// import { IconType } from 'react-icons';
 import styled from 'styled-components';
-import { IMenuItem } from '../../MenuEditor';
+import { Language, Translations } from '../../types';
+import { getIconComponent } from '../IconSelect';
 
 const StyledUl = styled.ul`
 	padding: 0;
@@ -33,28 +33,35 @@ const StyledLabelContainer = styled.span`
 	cursor: pointer;
 `;
 
-// export interface MenuItem {
-// 	id: string;
-// 	icon: IconType;
-// 	label: string;
-// 	onClick: () => void;
-// }
+export interface ICardMenuItem {
+	id: string;
+	icon?: string | null;
+	label: Translations;
+	onClick?: () => void;
+}
 
 interface CardMenuProps {
-	items: IMenuItem[];
+	items: ICardMenuItem[];
+	language: Language;
 }
 
 export function CardMenu(props: CardMenuProps) {
 	return (
 		<StyledUl>
-			{props.items.map((item: any) => (
-				<li key={item.id} onClick={item.onClick}>
-					<StyledIconContainer>
-						<item.icon size="2.4rem" />
-					</StyledIconContainer>
-					<StyledLabelContainer>{item.label}</StyledLabelContainer>
-				</li>
-			))}
+			{props.items.map((item) => {
+				if (item.icon === null) return null;
+				const IconComponent = getIconComponent(item.icon);
+				return (
+					<li key={item.id} onClick={item.onClick}>
+						{IconComponent && (
+							<StyledIconContainer>
+								<IconComponent size="2.4rem" />
+							</StyledIconContainer>
+						)}
+						<StyledLabelContainer>{item.label[props.language]}</StyledLabelContainer>
+					</li>
+				);
+			})}
 		</StyledUl>
 	);
 }
