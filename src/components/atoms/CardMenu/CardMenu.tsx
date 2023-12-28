@@ -1,5 +1,6 @@
-import { IconType } from 'react-icons';
+// import { IconType } from 'react-icons';
 import styled from 'styled-components';
+import { IMenuItem } from '../../MenuEditor';
 
 const StyledUl = styled.ul`
 	padding: 0;
@@ -32,15 +33,15 @@ const StyledLabelContainer = styled.span`
 	cursor: pointer;
 `;
 
-export interface MenuItem {
-	id: string;
-	icon: IconType;
-	label: string;
-	onClick: () => void;
-}
+// export interface MenuItem {
+// 	id: string;
+// 	icon: IconType;
+// 	label: string;
+// 	onClick: () => void;
+// }
 
 interface CardMenuProps {
-	items: MenuItem[];
+	items: IMenuItem[];
 }
 
 export function CardMenu(props: CardMenuProps) {

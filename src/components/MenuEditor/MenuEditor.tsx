@@ -88,14 +88,14 @@ const addChildLabel = {
 	pl: 'dodaj element/y podrzędne',
 };
 
-export interface MenuItem {
+export interface IMenuItem {
 	id: string;
 	label: Translations;
 	link?: string | null;
 	icon?: string | null;
 }
 
-export interface Menu {
+export interface IMenu {
 	id: string;
 	name: string;
 	menuItems: Array<{
@@ -106,7 +106,7 @@ export interface Menu {
 
 interface MenuEditorProps {
 	menuItems: any;
-	menu: Menu | undefined;
+	menu: IMenu | undefined;
 	language: Language;
 	hidden?: boolean;
 }

@@ -1,6 +1,6 @@
-import { Menu, MenuEditor, MenuItem } from '../components/MenuEditor';
+import { MenuEditor, IMenuItem, IMenu } from '../components/MenuEditor';
 
-export const menuItems: MenuItem[] = [
+export const menuItems: IMenuItem[] = [
 	{
 		id: '6502e7f2a9c5fc31bb21f453',
 		link: '/roles',
@@ -39,7 +39,7 @@ export const menuItems: MenuItem[] = [
 	},
 ];
 
-export const menu: Menu = {
+export const menu: IMenu = {
 	id: '6502e9f8a9c5fc31bb21f455',
 	name: 'Admin menu',
 	menuItems: [
