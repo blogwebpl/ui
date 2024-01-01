@@ -116,8 +116,9 @@ const Label = styled.label<{ $isfloating?: boolean; $hasvalue?: boolean }>`
 interface IconSelectProps {
 	isRequired?: boolean;
 	label: string;
-	value: SelectOption[] | SelectOption | null;
-	onChange: React.Dispatch<React.SetStateAction<SelectOption[] | SelectOption | null>>;
+	value: string;
+	onChange: (newValue: string) => void;
+	hidden?: boolean;
 }
 
 export function IconSelect(props: IconSelectProps) {
@@ -143,13 +144,15 @@ export function IconSelect(props: IconSelectProps) {
 		{ value: 'Edit', label: 'Edit' },
 	];
 
+	if (props.hidden) return null;
+
 	return (
 		<ReactSelect
 			isClearable={true}
 			theme={theme}
 			styles={styles}
-			value={props.value}
-			onChange={props.onChange}
+			value={props.value ? { value: props.value, label: props.value } : null}
+			onChange={(option) => props.onChange(option ? option.value : '')}
 			options={options.sort((a, b) => (a.label > b.label ? 1 : -1))}
 			placeholder=""
 			isMulti={false}

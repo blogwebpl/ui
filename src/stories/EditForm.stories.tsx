@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { EditForm, Field } from '../components/EditForm';
 import { Main } from '../components/atoms/Main';
-import { menu, menuItems } from './MenuEditor.stories';
+import { menuItems, menuItemsInMenu } from './MenuEditor.stories';
 
 const editFields: Field[] = [
 	{
@@ -43,6 +43,20 @@ const editFields: Field[] = [
 		required: true,
 		label: { pl: 'Menu Edytor', en: 'Menu Editor' },
 	},
+	{
+		field: 'icon',
+		type: 'icon',
+		tab: 3,
+		required: true,
+		label: { pl: 'Ikona', en: 'Icon' },
+	},
+	{
+		field: 'label',
+		type: 'labels',
+		tab: 3,
+		required: true,
+		label: { pl: 'Etykiety', en: 'Labels' },
+	},
 ];
 
 const roles = [
@@ -75,6 +89,7 @@ const Template = (props: any) => {
 		{ pl: 'Tab1', en: 'Tab1' },
 		{ pl: 'Tab2', en: 'Tab2' },
 		{ pl: 'Tab3', en: 'Tab3' },
+		{ pl: 'Tab4', en: 'Tab4' },
 	];
 	const [fields, setFields] = useState<Field[]>([]);
 	const [values, setValues] = useState({});
@@ -89,7 +104,9 @@ const Template = (props: any) => {
 				roles: ['admin'],
 				permissions: ['perm1'],
 				menu: 'menu2',
-				menuE: menu,
+				menuE: menuItemsInMenu,
+				icon: 'Settings',
+				label: { pl: 'Etykieta', en: 'Label' },
 			});
 		}, 300);
 	}, []);

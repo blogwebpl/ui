@@ -254,19 +254,19 @@ export function Table(props: TableProps) {
 	);
 
 	const sortFunction = (a: DynamicObject, b: DynamicObject, column: TableColumn) => {
-		const aValue = a[column.field];
-		const bValue = b[column.field];
+		const aValue = a[column.field] || '';
+		const bValue = b[column.field] || '';
 		if (column.type === 'text') {
 			if (column.sort === 'asc') {
-				return aValue.localeCompare(bValue, 'pl', { sensitivity: 'base' });
+				return aValue.toString().localeCompare(bValue.toString(), 'pl', { sensitivity: 'base' });
 			}
-			return bValue.localeCompare(aValue, 'pl', { sensitivity: 'base' });
+			return bValue.toString().localeCompare(aValue.toString(), 'pl', { sensitivity: 'base' });
 		}
 		if (column.type === 'number') {
 			if (column.sort === 'asc') {
-				return aValue - bValue;
+				return Number(aValue) - Number(bValue);
 			}
-			return bValue - aValue;
+			return Number(bValue) - Number(aValue);
 		}
 		return 0;
 	};
@@ -459,13 +459,14 @@ export function Table(props: TableProps) {
 								</td>
 								{columns.map((column) => {
 									const pathArray = column.field.split('.');
+									const cellValue = pathArray.reduce((obj, key) => obj && obj[key], row);
 
 									return (
 										<td
 											key={`${row.id}-${column.field}`}
 											className={column.type === 'number' ? 'number' : ''}
 										>
-											{pathArray.reduce((obj, key) => obj && obj[key], row).toString()}
+											{cellValue != null ? cellValue.toString() : ''}
 										</td>
 									);
 								})}

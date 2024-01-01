@@ -1,5 +1,5 @@
 import { MenuEditor } from '../components/MenuEditor';
-import { IMenuItem, MenuSchema } from '../components/atoms/Menu';
+import { IMenuItem } from '../components/atoms/Menu';
 
 export const menuItems: IMenuItem[] = [
 	{
@@ -40,29 +40,25 @@ export const menuItems: IMenuItem[] = [
 	},
 ];
 
-export const menu: MenuSchema = {
-	id: '6502e9f8a9c5fc31bb21f455',
-	name: 'Admin menu',
-	menuItems: [
-		{
-			item: '6502e7f2a9c5fc31bb21f451',
-		},
-		{
-			parent: '6502e7f2a9c5fc31bb21f451',
-			item: '6502e7f2a9c5fc31bb21f452',
-		},
-		{
-			parent: '6502e7f2a9c5fc31bb21f451',
-			item: '6502e7f2a9c5fc31bb21f453',
-		},
-		{
-			item: '6502e827a9c5fc31bb21f454',
-		},
-	],
-};
+export const menuItemsInMenu = [
+	{
+		item: '6502e7f2a9c5fc31bb21f451',
+	},
+	{
+		parent: '6502e7f2a9c5fc31bb21f451',
+		item: '6502e7f2a9c5fc31bb21f452',
+	},
+	{
+		parent: '6502e7f2a9c5fc31bb21f451',
+		item: '6502e7f2a9c5fc31bb21f453',
+	},
+	{
+		item: '6502e827a9c5fc31bb21f454',
+	},
+];
 
 const Template = () => {
-	return <MenuEditor menuItems={menuItems} menu={menu} language="pl" />;
+	return <MenuEditor menuItems={menuItems} menuItemsInMenu={menuItemsInMenu} language="pl" />;
 };
 
 export default { component: Template, title: 'MenuEditor' };

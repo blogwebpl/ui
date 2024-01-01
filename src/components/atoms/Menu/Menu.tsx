@@ -41,13 +41,15 @@ export interface MenuElement {
 	link?: string | null | undefined;
 }
 
+export interface MenuItemsSchema {
+	item: string;
+	parent?: string;
+}
+
 export interface MenuSchema {
 	id: string;
 	name: string;
-	menuItems: Array<{
-		item: string;
-		parent?: string;
-	}>;
+	menuItems: Array<MenuItemsSchema>;
 }
 
 interface MenuItemProps {

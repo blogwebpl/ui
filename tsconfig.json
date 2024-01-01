@@ -28,7 +28,7 @@
 		"outDir": "./dist/esm",
 		"rootDir": "./src",
 		"skipLibCheck": true,
-		"sourceMap": false,
+		"sourceMap": true,
 		"strict": true,
 	}
 }

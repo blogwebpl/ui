@@ -1,5 +1,6 @@
 {
   "sourceType": "unambiguous",
+  "sourceMaps": true,
   "presets": [
     [
       "@babel/preset-env",

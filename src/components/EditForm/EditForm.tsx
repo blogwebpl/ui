@@ -14,7 +14,9 @@ import { Language, Translations } from '../types';
 import { Select, SelectOption } from '../atoms/Select';
 import { WriteTag } from '../atoms/WriteTag';
 import { MenuEditor } from '../MenuEditor';
-import { IMenuItem, MenuSchema } from '../atoms/Menu';
+import { IMenuItem, MenuItemsSchema } from '../atoms/Menu';
+import { IconSelect } from '../atoms/IconSelect';
+import { Labels } from '../atoms/Labels';
 
 const StyledVerticalGap = styled.div`
 	height: 5.6rem;
@@ -268,10 +270,36 @@ export function EditForm({
 							<MenuEditor
 								key={fieldKey}
 								menuItems={menuItems || []}
-								menu={inputValues?.[field.field] as MenuSchema | undefined}
+								menuItemsInMenu={inputValues?.[field.field] as MenuItemsSchema[]}
 								language={language}
 								hidden={shouldHide}
 							/>
+						);
+					case 'icon':
+						return (
+							<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
+								<IconSelect
+									key={fieldKey}
+									hidden={shouldHide}
+									label={field.label[language]}
+									value={(inputValues?.[field.field] as string) || ''}
+									onChange={(newValue) =>
+										setInputValues({ ...inputValues, [field.field]: newValue })
+									}
+								/>
+							</FieldContainer>
+						);
+					case 'labels':
+						return (
+							<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
+								<Labels
+									value={inputValues?.[field.field] as Translations}
+									onChange={(newValue) =>
+										setInputValues({ ...inputValues, [field.field]: newValue })
+									}
+									label={field.label[language]}
+								/>
+							</FieldContainer>
 						);
 					default:
 						return null;

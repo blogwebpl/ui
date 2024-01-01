@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import {
 	MdSettings as IconSettings,
@@ -13,67 +12,8 @@ import { RiMenuAddLine as IconAddMenu } from 'react-icons/ri';
 import { MultiValue, SingleValue } from 'react-select';
 import { Select, SelectOption } from '../atoms/Select';
 import { Language } from '../types';
-import { IMenuItem, MenuSchema } from '../atoms/Menu';
-
-const StyledMenuEditor = styled.div`
-	width: 100%;
-	max-width: 56rem;
-	border: 1px solid #ccc;
-	padding: 0.8rem;
-	border-radius: ${(props) => props.theme.borderRadius};
-	li {
-		padding: 0.8rem;
-		user-select: none;
-	}
-	li > div {
-		display: flex;
-		align-items: center;
-	}
-	li > ul {
-		padding-top: 1rem;
-		padding-left: 3.2rem;
-	}
-	li:last-child {
-		opacity: 0.6;
-		cursor: pointer;
-	}
-	.up,
-	.down,
-	.remove {
-		cursor: pointer;
-	}
-	.parent > li:nth-last-child(2) > div > span > .down {
-		pointer-events: none;
-		opacity: 0.5;
-		cursor: not-allowed;
-	}
-	.parent > li:first-child > div > span > .up {
-		pointer-events: none;
-		opacity: 0.5;
-		cursor: not-allowed;
-	}
-	li > ul > li:first-child .up {
-		pointer-events: none;
-		opacity: 0.5;
-		cursor: not-allowed;
-	}
-	li > ul > li:nth-last-child(2) .down {
-		pointer-events: none;
-		opacity: 0.5;
-		cursor: not-allowed;
-	}
-`;
-
-const StyledMenuContainer = styled.div`
-	padding: 1.2rem;
-`;
-
-const StyledIconContainer = styled.div`
-	height: 2.4rem;
-	margin-right: 0.8rem;
-	width: 2.4rem;
-	display: inline-block;
-`;
+import { IMenuItem, MenuItemsSchema } from '../atoms/Menu';
+import { StyledIconContainer, StyledMenuContainer, StyledMenuEditor } from './menuEditorStyles';
 
 const selectLabel = {
 	en: 'Select option',
@@ -92,33 +32,23 @@ const addChildLabel = {
 
 interface MenuEditorProps {
 	menuItems: IMenuItem[];
-	menu: MenuSchema | undefined;
+	menuItemsInMenu: MenuItemsSchema[];
 	language: Language;
 	hidden?: boolean;
 }
 
 export const MenuEditor = (props: MenuEditorProps) => {
-	const options = props.menuItems
-		? props.menuItems
-				.sort((a: IMenuItem, b: IMenuItem) =>
-					a.label[props.language].localeCompare(b.label[props.language])
-				)
-				.map((item) => ({
-					value: item.id,
-					label: item.label[props.language],
-				}))
-		: [];
 	const [value, setValue] = useState<MultiValue<SelectOption> | SingleValue<SelectOption>>(null);
-	const [menuItems, setMenuItems] = useState(props.menu?.menuItems || []);
+	const [menuItemsInMenu, setMenuItemsInMenu] = useState(props.menuItemsInMenu || []);
 
 	useEffect(() => {
-		if (props.menu) {
-			setMenuItems(props.menu.menuItems);
+		if (props.menuItemsInMenu) {
+			setMenuItemsInMenu(props.menuItemsInMenu);
 		}
-	}, [props.menu]);
+	}, [props.menuItemsInMenu]);
 
 	const moveItem = (direction: 'up' | 'down', itemId: string) => {
-		setMenuItems((prevItems) => {
+		setMenuItemsInMenu((prevItems) => {
 			const itemIndex = prevItems.findIndex((item) => item.item === itemId);
 			if (itemIndex === -1) return prevItems;
 			const itemToMove = prevItems[itemIndex];
@@ -147,7 +77,7 @@ export const MenuEditor = (props: MenuEditorProps) => {
 	};
 
 	const removeItem = (itemId: string) => {
-		setMenuItems((prevItems) => {
+		setMenuItemsInMenu((prevItems) => {
 			const itemToRemoveIndex = prevItems.findIndex((item) => item.item === itemId);
 			if (itemToRemoveIndex === -1) return prevItems;
 			const newItems = prevItems.filter((item) => item.item !== itemId && item.parent !== itemId);
@@ -161,7 +91,7 @@ export const MenuEditor = (props: MenuEditorProps) => {
 				item: selectedItem.value,
 				parent: undefined,
 			}));
-			setMenuItems((prevItems) => [...prevItems, ...newMenuItems]);
+			setMenuItemsInMenu((prevItems) => [...prevItems, ...newMenuItems]);
 		}
 		setValue(null);
 	};
@@ -172,7 +102,7 @@ export const MenuEditor = (props: MenuEditorProps) => {
 				item: selectedItem.value,
 				parent: parentId,
 			}));
-			setMenuItems((prevItems) => [...prevItems, ...newMenuItems]);
+			setMenuItemsInMenu((prevItems) => [...prevItems, ...newMenuItems]);
 		}
 		setValue(null);
 	};
@@ -191,7 +121,19 @@ export const MenuEditor = (props: MenuEditorProps) => {
 				return IconMenu;
 		}
 	};
-	if (!props.menu || props.hidden) return null;
+	if (!props.menuItemsInMenu || props.hidden) return null;
+
+	const potentialMenuItems = props.menuItems
+		? props.menuItems
+				.sort(
+					(a: IMenuItem, b: IMenuItem) =>
+						a.label[props.language]?.localeCompare(b.label[props.language])
+				)
+				.map((item: IMenuItem) => ({
+					value: item.id,
+					label: item.label[props.language] || '',
+				}))
+		: [];
 
 	return (
 		<StyledMenuEditor>
@@ -199,13 +141,13 @@ export const MenuEditor = (props: MenuEditorProps) => {
 				isMulti={true}
 				label={selectLabel[props.language]}
 				isRequired={true}
-				options={options}
+				options={potentialMenuItems}
 				value={value}
 				onChange={setValue}
 			/>
 			<StyledMenuContainer>
 				<ul className="parent">
-					{menuItems.map((item) => {
+					{menuItemsInMenu?.map((item) => {
 						const isParent = item.parent === undefined;
 						if (isParent) {
 							const parentIcon = props.menuItems.find((i) => i.id === item.item)?.icon;
@@ -216,7 +158,7 @@ export const MenuEditor = (props: MenuEditorProps) => {
 										<StyledIconContainer>
 											{Icon ? <Icon size="2.4rem" /> : null}
 										</StyledIconContainer>
-										{props.menuItems.find((i) => i.id === item.item)?.label[props.language]}
+										{props.menuItems.find((i) => i.id === item.item)?.label[props.language] || ''}
 										<span>
 											&nbsp;&nbsp;&nbsp;
 											<span className="up" onClick={() => moveItem('up', item.item)}>
@@ -231,15 +173,13 @@ export const MenuEditor = (props: MenuEditorProps) => {
 										</span>
 									</div>
 									<ul className="child">
-										{menuItems
+										{menuItemsInMenu
 											.filter((childItem) => childItem.parent === item.item)
 											.map((childItem) => (
 												<li key={childItem.item}>
-													{
-														props.menuItems.find((i) => i.id === childItem.item)?.label[
-															props.language
-														]
-													}
+													{props.menuItems.find((i) => i.id === childItem.item)?.label[
+														props.language
+													] || ''}
 													<span>
 														&nbsp;&nbsp;&nbsp;
 														<span className="up" onClick={() => moveItem('up', childItem.item)}>
@@ -266,7 +206,7 @@ export const MenuEditor = (props: MenuEditorProps) => {
 								</li>
 							);
 						}
-						return null; // Ensure a value is returned for non-parent items
+						return null;
 					})}
 					<li>
 						<div onClick={addParentFromSelect}>
