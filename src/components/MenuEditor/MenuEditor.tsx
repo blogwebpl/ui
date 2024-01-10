@@ -35,17 +35,26 @@ interface MenuEditorProps {
 	menuItemsInMenu: MenuItemsSchema[];
 	language: Language;
 	hidden?: boolean;
+	onChange: (menuItems: MenuItemsSchema[]) => void;
+	label: string;
 }
 
 export const MenuEditor = (props: MenuEditorProps) => {
 	const [value, setValue] = useState<MultiValue<SelectOption> | SingleValue<SelectOption>>(null);
-	const [menuItemsInMenu, setMenuItemsInMenu] = useState(props.menuItemsInMenu || []);
+	const [menuItemsInMenu, setMenuItemsInMenu] = useState<MenuItemsSchema[]>(
+		props.menuItemsInMenu || []
+	);
 
 	useEffect(() => {
 		if (props.menuItemsInMenu) {
 			setMenuItemsInMenu(props.menuItemsInMenu);
 		}
 	}, [props.menuItemsInMenu]);
+
+	useEffect(() => {
+		props.onChange(menuItemsInMenu);
+		// console.log('menuItemsInMenu', menuItemsInMenu);
+	}, [menuItemsInMenu]);
 
 	const moveItem = (direction: 'up' | 'down', itemId: string) => {
 		setMenuItemsInMenu((prevItems) => {
@@ -137,6 +146,8 @@ export const MenuEditor = (props: MenuEditorProps) => {
 
 	return (
 		<StyledMenuEditor>
+			<label>{props.label}</label>
+
 			<Select
 				isMulti={true}
 				label={selectLabel[props.language]}
@@ -145,69 +156,74 @@ export const MenuEditor = (props: MenuEditorProps) => {
 				value={value}
 				onChange={setValue}
 			/>
+
 			<StyledMenuContainer>
 				<ul className="parent">
-					{menuItemsInMenu?.map((item) => {
-						const isParent = item.parent === undefined;
-						if (isParent) {
-							const parentIcon = props.menuItems.find((i) => i.id === item.item)?.icon;
-							const Icon = getIcon(parentIcon);
-							return (
-								<li key={item.item}>
-									<div>
-										<StyledIconContainer>
-											{Icon ? <Icon size="2.4rem" /> : null}
-										</StyledIconContainer>
-										{props.menuItems.find((i) => i.id === item.item)?.label[props.language] || ''}
-										<span>
-											&nbsp;&nbsp;&nbsp;
-											<span className="up" onClick={() => moveItem('up', item.item)}>
-												[ ⬆ ]
-											</span>{' '}
-											<span className="down" onClick={() => moveItem('down', item.item)}>
-												[ ⬇ ]
-											</span>{' '}
-											<span className="remove" onClick={() => removeItem(item.item)}>
-												[ x ]
+					{Array.isArray(menuItemsInMenu) &&
+						menuItemsInMenu.map((item) => {
+							const isParent = item.parent === undefined;
+							if (isParent) {
+								const parentIcon = props.menuItems.find((i) => i.id === item.item)?.icon;
+								const Icon = getIcon(parentIcon);
+								return (
+									<li key={item.item}>
+										<div>
+											<StyledIconContainer>
+												{Icon ? <Icon size="2.4rem" /> : null}
+											</StyledIconContainer>
+											{props.menuItems.find((i) => i.id === item.item)?.label[props.language] || ''}
+											<span>
+												&nbsp;&nbsp;&nbsp;
+												<span className="up" onClick={() => moveItem('up', item.item)}>
+													[ ⬆ ]
+												</span>{' '}
+												<span className="down" onClick={() => moveItem('down', item.item)}>
+													[ ⬇ ]
+												</span>{' '}
+												<span className="remove" onClick={() => removeItem(item.item)}>
+													[ x ]
+												</span>
 											</span>
-										</span>
-									</div>
-									<ul className="child">
-										{menuItemsInMenu
-											.filter((childItem) => childItem.parent === item.item)
-											.map((childItem) => (
-												<li key={childItem.item}>
-													{props.menuItems.find((i) => i.id === childItem.item)?.label[
-														props.language
-													] || ''}
-													<span>
-														&nbsp;&nbsp;&nbsp;
-														<span className="up" onClick={() => moveItem('up', childItem.item)}>
-															[ ⬆ ]
-														</span>{' '}
-														<span className="down" onClick={() => moveItem('down', childItem.item)}>
-															[ ⬇ ]
-														</span>{' '}
-														<span className="remove" onClick={() => removeItem(childItem.item)}>
-															[ x ]
+										</div>
+										<ul className="child">
+											{menuItemsInMenu
+												.filter((childItem) => childItem.parent === item.item)
+												.map((childItem) => (
+													<li key={childItem.item}>
+														{props.menuItems.find((i) => i.id === childItem.item)?.label[
+															props.language
+														] || ''}
+														<span>
+															&nbsp;&nbsp;&nbsp;
+															<span className="up" onClick={() => moveItem('up', childItem.item)}>
+																[ ⬆ ]
+															</span>{' '}
+															<span
+																className="down"
+																onClick={() => moveItem('down', childItem.item)}
+															>
+																[ ⬇ ]
+															</span>{' '}
+															<span className="remove" onClick={() => removeItem(childItem.item)}>
+																[ x ]
+															</span>
 														</span>
-													</span>
-												</li>
-											))}
-										<li>
-											<div onClick={() => addChildFromSelect(item.item)}>
-												<StyledIconContainer>
-													<IconAddMenu size="2.4rem" />
-												</StyledIconContainer>
-												[ {addChildLabel[props.language]} ]
-											</div>
-										</li>
-									</ul>
-								</li>
-							);
-						}
-						return null;
-					})}
+													</li>
+												))}
+											<li>
+												<div onClick={() => addChildFromSelect(item.item)}>
+													<StyledIconContainer>
+														<IconAddMenu size="2.4rem" />
+													</StyledIconContainer>
+													[ {addChildLabel[props.language]} ]
+												</div>
+											</li>
+										</ul>
+									</li>
+								);
+							}
+							return null;
+						})}
 					<li>
 						<div onClick={addParentFromSelect}>
 							<StyledIconContainer>

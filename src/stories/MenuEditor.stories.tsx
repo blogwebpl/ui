@@ -58,7 +58,16 @@ export const menuItemsInMenu = [
 ];
 
 const Template = () => {
-	return <MenuEditor menuItems={menuItems} menuItemsInMenu={menuItemsInMenu} language="pl" />;
+	return (
+		<MenuEditor
+			menuItems={menuItems}
+			menuItemsInMenu={menuItemsInMenu}
+			language="pl"
+			onChange={(val: any) => {
+				console.log('val', val);
+			}}
+		/>
+	);
 };
 
 export default { component: Template, title: 'MenuEditor' };

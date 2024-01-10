@@ -42,6 +42,7 @@ export function Labels(props: LabelsProps) {
 						onChange={(e) =>
 							props.onChange && props.onChange({ ...props.value, [language]: e.target.value })
 						}
+						controlled
 					/>
 				);
 			})}

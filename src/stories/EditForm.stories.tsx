@@ -11,6 +11,7 @@ const editFields: Field[] = [
 		tab: 0,
 		required: true,
 		label: { pl: 'Imię', en: 'First name' },
+		defaultValue: '',
 	},
 	{
 		field: 'surname',
@@ -18,6 +19,7 @@ const editFields: Field[] = [
 		tab: 0,
 		required: false,
 		label: { pl: 'Nazwisko', en: 'Last name' },
+		defaultValue: '',
 	},
 	{
 		field: 'age',
@@ -25,23 +27,47 @@ const editFields: Field[] = [
 		tab: 0,
 		required: false,
 		label: { pl: 'Wiek', en: 'Age' },
+		defaultValue: 0,
 	},
-	{ field: 'date', type: 'date', tab: 1, required: true, label: { pl: 'Data', en: 'Date' } },
-	{ field: 'roles', type: 'roles', tab: 1, required: true, label: { pl: 'Grupy', en: 'Roles' } },
+	{
+		field: 'date',
+		type: 'date',
+		tab: 1,
+		required: true,
+		label: { pl: 'Data', en: 'Date' },
+		defaultValue: '',
+	},
+	{
+		field: 'roles',
+		type: 'roles',
+		tab: 1,
+		required: true,
+		label: { pl: 'Grupy', en: 'Roles' },
+		defaultValue: [],
+	},
 	{
 		field: 'permissions',
 		type: 'permissions',
 		tab: 1,
 		required: true,
 		label: { pl: 'Uprawnienia', en: 'Permissions' },
+		defaultValue: [],
 	},
-	{ field: 'menu', type: 'menu', tab: 1, required: true, label: { pl: 'Menu', en: 'Menu' } },
+	{
+		field: 'menu',
+		type: 'menu',
+		tab: 1,
+		required: true,
+		label: { pl: 'Menu', en: 'Menu' },
+		defaultValue: {},
+	},
 	{
 		field: 'menuE',
 		type: 'menuEditor',
 		tab: 2,
 		required: true,
 		label: { pl: 'Menu Edytor', en: 'Menu Editor' },
+		defaultValue: {},
 	},
 	{
 		field: 'icon',
@@ -49,6 +75,7 @@ const editFields: Field[] = [
 		tab: 3,
 		required: true,
 		label: { pl: 'Ikona', en: 'Icon' },
+		defaultValue: '',
 	},
 	{
 		field: 'label',
@@ -56,6 +83,7 @@ const editFields: Field[] = [
 		tab: 3,
 		required: true,
 		label: { pl: 'Etykiety', en: 'Labels' },
+		defaultValue: { pl: '', en: '' },
 	},
 ];
 

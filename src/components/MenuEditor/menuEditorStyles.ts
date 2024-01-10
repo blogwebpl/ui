@@ -1,10 +1,23 @@
 import styled from 'styled-components';
 
 export const StyledMenuEditor = styled.div`
+	label:first-child {
+		padding: 0.6rem 0.4rem;
+		background-color: white;
+		top: -1.3rem;
+		left: -0.2rem;
+		position: relative;
+		font-size: 1.2rem;
+		color: #00000080;
+		display: inline-block;
+		width: fit-content;
+	}
+	margin-top: 1rem;
 	width: 100%;
 	max-width: 56rem;
 	border: 1px solid #ccc;
-	padding: 0.8rem;
+	border-radius: 0.4rem;
+	padding: 0rem 1.4rem 1rem 1.4rem;
 	border-radius: ${(props) => props.theme.borderRadius};
 	li {
 		padding: 0.8rem;
@@ -50,7 +63,9 @@ export const StyledMenuEditor = styled.div`
 `;
 
 export const StyledMenuContainer = styled.div`
-	padding: 1.2rem;
+	height: 40rem;
+	overflow-y: auto;
+	margin-top: 2rem;
 `;
 
 export const StyledIconContainer = styled.div`

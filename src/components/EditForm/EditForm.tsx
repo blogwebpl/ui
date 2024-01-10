@@ -10,7 +10,7 @@ import { Tabs } from '../atoms/Tabs';
 import { TextField } from '../atoms/TextField';
 import { Typography } from '../atoms/Typography';
 import { Alert } from '../atoms/Alert';
-import { Language, Translations } from '../types';
+import { Language, Translations, labelsDefault } from '../types';
 import { Select, SelectOption } from '../atoms/Select';
 import { WriteTag } from '../atoms/WriteTag';
 import { MenuEditor } from '../MenuEditor';
@@ -28,6 +28,8 @@ export interface Field {
 	tab: number;
 	required: boolean;
 	label: Translations;
+	defaultValue: unknown;
+	// hidden: boolean;
 }
 
 interface EditFormProps {
@@ -98,10 +100,11 @@ export function EditForm({
 			return;
 		}
 
-		const dataToSave = fields.reduce(
-			(acc, field) => ({ ...acc, [field.field]: inputValues[field.field] }),
-			{}
+		const dataToSave = Object.assign(
+			{},
+			...fields.map((field) => ({ [field.field]: inputValues[field.field] }))
 		);
+
 		const resultOk = await saveData(dataToSave);
 
 		setIsSaving(false);
@@ -273,6 +276,10 @@ export function EditForm({
 								menuItemsInMenu={inputValues?.[field.field] as MenuItemsSchema[]}
 								language={language}
 								hidden={shouldHide}
+								onChange={(newValue) => {
+									setInputValues((values) => ({ ...values, [field.field]: newValue }));
+								}}
+								label={field.label[language]}
 							/>
 						);
 					case 'icon':
@@ -284,7 +291,7 @@ export function EditForm({
 									label={field.label[language]}
 									value={(inputValues?.[field.field] as string) || ''}
 									onChange={(newValue) =>
-										setInputValues({ ...inputValues, [field.field]: newValue })
+										setInputValues((values) => ({ ...values, [field.field]: newValue }))
 									}
 								/>
 							</FieldContainer>
@@ -293,10 +300,10 @@ export function EditForm({
 						return (
 							<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
 								<Labels
-									value={inputValues?.[field.field] as Translations}
-									onChange={(newValue) =>
-										setInputValues({ ...inputValues, [field.field]: newValue })
-									}
+									value={(inputValues?.[field.field] as Translations) || { ...labelsDefault }}
+									onChange={(newValue) => {
+										setInputValues((values) => ({ ...values, [field.field]: newValue }));
+									}}
 									label={field.label[language]}
 								/>
 							</FieldContainer>
