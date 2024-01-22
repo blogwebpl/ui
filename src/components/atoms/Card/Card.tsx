@@ -21,10 +21,11 @@ const StyledCard = styled.div<StyledCardProps>`
 	animation: ${fadeIn} 300ms linear;
 	box-shadow: ${(props) => props.theme.shadows[2]};
 	color: ${(props) => props.theme.palette.element.primary.textDark};
-	// display: inline-block;
 	padding: ${(props) => (props.$padding ? '1.6rem' : '0')};
-	// max-width: min(100%, ${(props) => props.$minwidth});
 	width: 100%;
+	min-width: 36rem;
+	overflow-y: hidden;
+	overflow-x: auto;
 	margin-inline: auto;
 	margin: 0 0.4rem;
 	box-sizing: border-box;

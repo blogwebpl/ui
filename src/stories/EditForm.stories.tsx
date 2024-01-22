@@ -3,6 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { EditForm, Field } from '../components/EditForm';
 import { Main } from '../components/atoms/Main';
 import { menuItems, menuItemsInMenu } from './MenuEditor.stories';
+import { exampleInventoryItems } from './atoms/InventoryItems.data';
 
 const editFields: Field[] = [
 	{
@@ -85,6 +86,14 @@ const editFields: Field[] = [
 		label: { pl: 'Etykiety', en: 'Labels' },
 		defaultValue: { pl: '', en: '' },
 	},
+	{
+		field: 'inventoryItems',
+		type: 'inventoryItems',
+		tab: 4,
+		required: true,
+		label: { pl: 'Przedmioty', en: 'Items' },
+		defaultValue: [],
+	},
 ];
 
 const roles = [
@@ -118,6 +127,7 @@ const Template = (props: any) => {
 		{ pl: 'Tab2', en: 'Tab2' },
 		{ pl: 'Tab3', en: 'Tab3' },
 		{ pl: 'Tab4', en: 'Tab4' },
+		{ pl: 'Tab5', en: 'Tab5' },
 	];
 	const [fields, setFields] = useState<Field[]>([]);
 	const [values, setValues] = useState({});
@@ -169,6 +179,8 @@ const Template = (props: any) => {
 							}, 1000);
 						});
 					}}
+					inventoryItems={exampleInventoryItems}
+					width="90rem"
 				/>
 			</Main>
 		</Router>

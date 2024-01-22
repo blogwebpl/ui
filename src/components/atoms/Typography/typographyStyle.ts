@@ -5,6 +5,7 @@ export const StyledTypography = styled.div<{
 	$userselect?: string;
 	$width?: string;
 	$color?: string;
+	$background?: string;
 }>`
 	font-size: 1.6rem;
 	@media (min-width: ${(props) => props.theme.breakpoints.sm}) {
@@ -14,6 +15,7 @@ export const StyledTypography = styled.div<{
 	letter-spacing: ${(props) => props.theme.typography[props.$component].letterSpacing};
 	user-select: ${(props) => props.$userselect || 'auto'};
 	color: ${(props) => props.$color || props.theme.palette.element.primary.text};
+	background-color: ${(props) => props.$background || 'transparent'};
 	display: inline-block;
 	margin: 0;
 	padding: 0;

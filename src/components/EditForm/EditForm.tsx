@@ -17,9 +17,17 @@ import { MenuEditor } from '../MenuEditor';
 import { IMenuItem, MenuItemsSchema } from '../atoms/Menu';
 import { IconSelect } from '../atoms/IconSelect';
 import { Labels } from '../atoms/Labels';
+import { IInventoryItem, InventoryItems } from '../atoms/InventoryItems';
 
 const StyledVerticalGap = styled.div`
 	height: 5.6rem;
+`;
+
+const StyledTitle = styled.div`
+	background-color: #3f51b5;
+	margin: -1.6rem;
+	padding: 1.6rem;
+	margin-bottom: 0;
 `;
 
 export interface Field {
@@ -45,6 +53,7 @@ interface EditFormProps {
 	permissions?: SelectOption[];
 	menus?: SelectOption[];
 	menuItems?: IMenuItem[];
+	inventoryItems?: IInventoryItem[];
 	saveData: (formData: Record<string, unknown>) => Promise<boolean>;
 	width?: string;
 	writeTagFunction?: (data: Record<string, unknown>) => Promise<boolean>;
@@ -66,6 +75,7 @@ export function EditForm({
 	saveData,
 	width,
 	writeTagFunction,
+	inventoryItems,
 }: EditFormProps) {
 	if (fields.length === 0) {
 		return null;
@@ -174,9 +184,11 @@ export function EditForm({
 
 	return (
 		<Card minWidth={width || '48rem'} padding isPending={isSaving}>
-			<Typography component="h6" userSelect="none" color="#000000">
-				{title[language] + extTitle}
-			</Typography>
+			<StyledTitle>
+				<Typography component="h6" userSelect="none" color="#eee">
+					{title[language] + extTitle}
+				</Typography>
+			</StyledTitle>
 			{tabs && tabs.length > 0 && (
 				<>
 					<Tabs
@@ -256,6 +268,20 @@ export function EditForm({
 								label={field.label[language]}
 								isMulti={isMulti}
 							/>
+						);
+					case 'inventoryItems':
+						return (
+							<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
+								<InventoryItems
+									items={inventoryItems || []}
+									setSelectedItems={(newValue: number[]) => {
+										setInputValues((values) => ({ ...values, [field.field]: newValue }));
+									}}
+									language={'en'}
+									{...commonProps}
+									selectedItems={(inputValues?.[field.field] as number[]) || []}
+								/>
+							</FieldContainer>
 						);
 					case 'writeTag':
 						if (writeTagFunction) {

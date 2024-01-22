@@ -5,6 +5,9 @@ export const StyledContainer = styled.div`
 	margin: 0;
 	padding: 1.6rem 0 0.8rem 0;
 	display: ${(props) => (props.hidden ? 'none' : 'block')};
+	min-width: 32rem;
+	overflow-x: auto;
+	overflow-y: hidden;
 `;
 
 export const StyledMultiContainer = styled.div<{ hidden?: boolean }>`
@@ -13,4 +16,7 @@ export const StyledMultiContainer = styled.div<{ hidden?: boolean }>`
 	display: ${(props) => (props.hidden ? 'none' : 'grid')};
 	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 	gap: 2.4rem;
+	min-width: 32rem;
+	overflow-x: auto;
+	overflow-y: hidden;
 `;

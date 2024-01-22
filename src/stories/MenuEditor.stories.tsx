@@ -66,6 +66,7 @@ const Template = () => {
 			onChange={(val: any) => {
 				console.log('val', val);
 			}}
+			label="Menu Editor"
 		/>
 	);
 };

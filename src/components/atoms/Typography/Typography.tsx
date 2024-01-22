@@ -6,6 +6,7 @@ interface TypographyProps {
 	userSelect?: string;
 	color?: string;
 	width?: string;
+	background?: string;
 }
 
 export function Typography(props: TypographyProps) {
@@ -15,6 +16,7 @@ export function Typography(props: TypographyProps) {
 			$userselect={props.userSelect}
 			$color={props.color}
 			$width={props.width}
+			$background={props.background}
 		>
 			{props.children}
 		</StyledTypography>
