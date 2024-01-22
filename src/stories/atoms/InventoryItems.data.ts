@@ -1,3 +1,5 @@
+import { IInventoryItem } from '../../components/atoms/InventoryItems';
+
 export const exampleInventoryItems: IInventoryItem[] = [
 	{
 		id: '1',

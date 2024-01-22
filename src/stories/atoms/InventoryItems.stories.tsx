@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { IInventoryItem, InventoryItems } from '../../components/atoms/InventoryItems';
+import { InventoryItems } from '../../components/atoms/InventoryItems';
 import { exampleInventoryItems } from './InventoryItems.data';
 
 export default {

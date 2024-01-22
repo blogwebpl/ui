@@ -23,9 +23,6 @@ const StyledCard = styled.div<StyledCardProps>`
 	color: ${(props) => props.theme.palette.element.primary.textDark};
 	padding: ${(props) => (props.$padding ? '1.6rem' : '0')};
 	width: 100%;
-	min-width: 36rem;
-	overflow-y: hidden;
-	overflow-x: auto;
 	margin-inline: auto;
 	margin: 0 0.4rem;
 	box-sizing: border-box;
