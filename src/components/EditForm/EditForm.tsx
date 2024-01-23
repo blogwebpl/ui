@@ -277,9 +277,9 @@ export function EditForm({
 									setSelectedItems={(newValue: number[]) => {
 										setInputValues((values) => ({ ...values, [field.field]: newValue }));
 									}}
-									language={'en'}
 									{...commonProps}
 									selectedItems={(inputValues?.[field.field] as number[]) || []}
+									language={language}
 								/>
 							</FieldContainer>
 						);
