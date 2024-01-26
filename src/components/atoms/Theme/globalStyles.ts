@@ -45,6 +45,7 @@ export const GlobalStyles = createGlobalStyle<{ theme?: typeof defaultTheme }>`
 		font-weight: ${(props) => props.theme.typography.fontWeightRegular};
 		margin: 0 !important;
 		padding: 0 !important;
+		overflow-y: scroll !important;
 	}
 	h6 {
 		display: inline-block;
@@ -65,5 +66,12 @@ export const GlobalStyles = createGlobalStyle<{ theme?: typeof defaultTheme }>`
 	}
 	ul {
 		list-style: none;
+	}
+	#swal2-html-container {
+		font-size: 1.6rem;
+		margin: 1rem 0 2rem 0;
+	}
+	.swal2-confirm, .swal2-cancel {
+		font-size: 1.6rem !important;
 	}
 `;

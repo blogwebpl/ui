@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { MultiValue, SingleValue } from 'react-select';
@@ -37,7 +37,6 @@ export interface Field {
 	required: boolean;
 	label: Translations;
 	defaultValue: unknown;
-	// hidden: boolean;
 }
 
 interface EditFormProps {
@@ -92,14 +91,16 @@ export function EditForm({
 		setInputValues(initialValues || {});
 	}, [initialValues]);
 
-	const handleSetActiveTab = (index: number) => {
+	const handleSetActiveTab = useCallback((index: number) => {
 		setActiveTab(index);
-	};
+	}, []);
 
-	const validateForm = () =>
-		fields.every((field) => !field.required || inputValues[field.field] !== '');
+	const validateForm = useCallback(
+		() => fields.every((field) => !field.required || inputValues[field.field] !== ''),
+		[fields, inputValues]
+	);
 
-	const handleClickSave = async () => {
+	const handleClickSave = useCallback(async () => {
 		setIsSaving(true);
 		setError('');
 		if (!validateForm()) {
@@ -127,15 +128,15 @@ export function EditForm({
 					: 'An error occurred while saving data.'
 			);
 		}
-	};
+	}, [validateForm, fields, inputValues, saveData, collection, navigate, language]);
 
-	const getTitleExtension = () => {
+	const getTitleExtension = useCallback(() => {
 		const extensions = {
 			pl: { add: ' - dodawanie', edit: ' - edycja', view: ' - podgląd' },
 			en: { add: ' - add', edit: ' - edit', view: ' - view' },
 		};
 		return extensions[language][mode] || '';
-	};
+	}, [language, mode]);
 
 	const extTitle = getTitleExtension();
 
@@ -148,39 +149,189 @@ export function EditForm({
 		isMulti?: boolean;
 	}
 
-	const SpecialSelect = ({
-		options,
-		valueIds,
-		fieldName,
-		shouldHide,
-		label,
-		isMulti = false,
-	}: SpecialSelectProps) => {
-		const selectedOptions = options.filter((option) =>
-			isMulti ? valueIds.includes(option.value) : option.value === valueIds
-		);
-		const value = isMulti ? selectedOptions : selectedOptions[0] || null;
+	const SpecialSelect = useCallback(
+		({ options, valueIds, fieldName, shouldHide, label, isMulti = false }: SpecialSelectProps) => {
+			const selectedOptions = options.filter((option) =>
+				isMulti ? valueIds.includes(option.value) : option.value === valueIds
+			);
+			const value = isMulti ? selectedOptions : selectedOptions[0] || null;
 
-		return (
-			<FieldContainer id={fieldName} key={fieldName} hidden={shouldHide}>
-				<Select
-					label={label}
-					options={options}
-					value={value}
-					onChange={(newValue: MultiValue<SelectOption> | SingleValue<SelectOption>) => {
-						setInputValues((v) => ({
-							...v,
-							[fieldName]: isMulti
-								? (newValue as SelectOption[]).map((item) => item.value)
-								: (newValue as SelectOption).value,
-						}));
-					}}
-					isMulti={isMulti}
-					isClearable={false}
-				/>
-			</FieldContainer>
-		);
-	};
+			return (
+				<FieldContainer id={fieldName} key={fieldName} hidden={shouldHide}>
+					<Select
+						label={label}
+						options={options}
+						value={value}
+						onChange={(newValue: MultiValue<SelectOption> | SingleValue<SelectOption>) => {
+							setInputValues((v) => ({
+								...v,
+								[fieldName]: isMulti
+									? (newValue as SelectOption[]).map((item) => item.value)
+									: (newValue as SelectOption).value,
+							}));
+						}}
+						isMulti={isMulti}
+						isClearable={false}
+					/>
+				</FieldContainer>
+			);
+		},
+		[setInputValues]
+	);
+
+	const renderField = useCallback(
+		(field: Field, index: number) => {
+			const shouldHide = activeTab !== field.tab;
+			const fieldKey = `${field.field}-${index}`;
+			const commonProps = {
+				label: field.label[language],
+				required: field.required,
+				id: field.field,
+				value: inputValues?.[field.field] || '',
+				onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+					setInputValues((v) => ({ ...v, [field.field]: e.target.value }));
+				},
+				autoFocus: index === 0,
+				disabled: mode === 'view',
+				controlled: true,
+			};
+
+			let options: SelectOption[] = [];
+			let isMulti = false;
+			switch (field.type) {
+				case 'roles':
+					options = roles || [];
+					isMulti = true;
+					break;
+				case 'permissions':
+					options = permissions || [];
+					isMulti = true;
+					break;
+				case 'menu':
+					options = menus || [];
+					break;
+				default:
+			}
+
+			switch (field.type) {
+				case 'text':
+				case 'number':
+				case 'date':
+				case 'password':
+				case 'email':
+				case 'datetime-local':
+					return (
+						<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
+							<TextField
+								type={field.type}
+								{...commonProps}
+								value={inputValues?.[field.field] as string}
+							/>
+						</FieldContainer>
+					);
+				case 'roles':
+				case 'permissions':
+				case 'menu':
+					return (
+						<SpecialSelect
+							key={fieldKey}
+							options={options}
+							valueIds={
+								isMulti
+									? (inputValues?.[field.field] as string[]) || []
+									: (inputValues?.[field.field] as string) || ''
+							}
+							fieldName={field.field}
+							shouldHide={shouldHide}
+							label={field.label[language]}
+							isMulti={isMulti}
+						/>
+					);
+				case 'inventoryItems':
+					return (
+						<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
+							<InventoryItems
+								items={inventoryItems || []}
+								setSelectedItems={(newValue: number[]) => {
+									setInputValues((values) => ({ ...values, [field.field]: newValue }));
+								}}
+								{...commonProps}
+								selectedItems={(inputValues?.[field.field] as number[]) || []}
+								language={language}
+							/>
+						</FieldContainer>
+					);
+				case 'writeTag':
+					if (writeTagFunction) {
+						return (
+							<WriteTag
+								key={fieldKey}
+								writeTagFunction={writeTagFunction}
+								data={{ id: inputValues?.[field.field] || '' }}
+							/>
+						);
+					}
+					return null;
+				case 'menuEditor':
+					return (
+						<MenuEditor
+							key={fieldKey}
+							menuItems={menuItems || []}
+							menuItemsInMenu={inputValues?.[field.field] as MenuItemsSchema[]}
+							language={language}
+							hidden={shouldHide}
+							onChange={(newValue) => {
+								setInputValues((values) => ({ ...values, [field.field]: newValue }));
+							}}
+							label={field.label[language]}
+						/>
+					);
+				case 'icon':
+					return (
+						<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
+							<IconSelect
+								key={fieldKey}
+								hidden={shouldHide}
+								label={field.label[language]}
+								value={(inputValues?.[field.field] as string) || ''}
+								onChange={(newValue) =>
+									setInputValues((values) => ({ ...values, [field.field]: newValue }))
+								}
+							/>
+						</FieldContainer>
+					);
+				case 'labels':
+					return (
+						<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
+							<Labels
+								value={(inputValues?.[field.field] as Translations) || { ...labelsDefault }}
+								onChange={(newValue) => {
+									setInputValues((values) => ({ ...values, [field.field]: newValue }));
+								}}
+								label={field.label[language]}
+							/>
+						</FieldContainer>
+					);
+				default:
+					return null;
+			}
+		},
+		[
+			activeTab,
+			inputValues,
+			language,
+			mode,
+			roles,
+			permissions,
+			menus,
+			menuItems,
+			setInputValues,
+			writeTagFunction,
+			inventoryItems,
+		]
+	);
+
+	const renderedFields = useMemo(() => fields.map(renderField), [fields, renderField]);
 
 	return (
 		<Card minWidth={width || '48rem'} padding isPending={isSaving}>
@@ -202,142 +353,7 @@ export function EditForm({
 			)}
 			{error && <Alert>{error}</Alert>}
 
-			{fields.map((field, index) => {
-				const shouldHide = activeTab !== field.tab;
-				const fieldKey = `${field.field}-${index}`;
-				const commonProps = {
-					label: field.label[language],
-					required: field.required,
-					id: field.field,
-					value: inputValues?.[field.field] || '',
-					onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-						setInputValues((v) => ({ ...v, [field.field]: e.target.value }));
-					},
-					autoFocus: index === 0,
-					disabled: mode === 'view',
-					controlled: true,
-				};
-
-				let options: SelectOption[] = [];
-				let isMulti = false;
-				switch (field.type) {
-					case 'roles':
-						options = roles || [];
-						isMulti = true;
-						break;
-					case 'permissions':
-						options = permissions || [];
-						isMulti = true;
-						break;
-					case 'menu':
-						options = menus || [];
-						break;
-					default:
-				}
-
-				switch (field.type) {
-					case 'text':
-					case 'number':
-					case 'date':
-					case 'password':
-					case 'email':
-					case 'datetime-local':
-						return (
-							<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
-								<TextField
-									type={field.type}
-									{...commonProps}
-									value={inputValues?.[field.field] as string}
-								/>
-							</FieldContainer>
-						);
-					case 'roles':
-					case 'permissions':
-					case 'menu':
-						return (
-							<SpecialSelect
-								key={fieldKey}
-								options={options}
-								valueIds={
-									isMulti
-										? (inputValues?.[field.field] as string[]) || []
-										: (inputValues?.[field.field] as string) || ''
-								}
-								fieldName={field.field}
-								shouldHide={shouldHide}
-								label={field.label[language]}
-								isMulti={isMulti}
-							/>
-						);
-					case 'inventoryItems':
-						return (
-							<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
-								<InventoryItems
-									items={inventoryItems || []}
-									setSelectedItems={(newValue: number[]) => {
-										setInputValues((values) => ({ ...values, [field.field]: newValue }));
-									}}
-									{...commonProps}
-									selectedItems={(inputValues?.[field.field] as number[]) || []}
-									language={language}
-								/>
-							</FieldContainer>
-						);
-					case 'writeTag':
-						if (writeTagFunction) {
-							return (
-								<WriteTag
-									key={fieldKey}
-									writeTagFunction={writeTagFunction}
-									data={{ id: inputValues?.[field.field] || '' }}
-								/>
-							);
-						}
-						return null;
-					case 'menuEditor':
-						return (
-							<MenuEditor
-								key={fieldKey}
-								menuItems={menuItems || []}
-								menuItemsInMenu={inputValues?.[field.field] as MenuItemsSchema[]}
-								language={language}
-								hidden={shouldHide}
-								onChange={(newValue) => {
-									setInputValues((values) => ({ ...values, [field.field]: newValue }));
-								}}
-								label={field.label[language]}
-							/>
-						);
-					case 'icon':
-						return (
-							<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
-								<IconSelect
-									key={fieldKey}
-									hidden={shouldHide}
-									label={field.label[language]}
-									value={(inputValues?.[field.field] as string) || ''}
-									onChange={(newValue) =>
-										setInputValues((values) => ({ ...values, [field.field]: newValue }))
-									}
-								/>
-							</FieldContainer>
-						);
-					case 'labels':
-						return (
-							<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
-								<Labels
-									value={(inputValues?.[field.field] as Translations) || { ...labelsDefault }}
-									onChange={(newValue) => {
-										setInputValues((values) => ({ ...values, [field.field]: newValue }));
-									}}
-									label={field.label[language]}
-								/>
-							</FieldContainer>
-						);
-					default:
-						return null;
-				}
-			})}
+			{renderedFields}
 			<ButtonContainer>
 				<Button
 					label="Anuluj"

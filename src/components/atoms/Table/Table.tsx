@@ -1,6 +1,8 @@
 /* eslint-disable no-alert */
 import '@total-typescript/ts-reset';
 import { IconType } from 'react-icons';
+import Swal, { SweetAlertResult } from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -67,6 +69,7 @@ export interface TableProps {
 	crud: number;
 	collection: string;
 	mobileWidth?: number;
+	deleteAction?: (ids: string[]) => Promise<boolean>;
 }
 
 function getFontSizeFromBody(): number {
@@ -126,10 +129,50 @@ export function Table(props: TableProps) {
 	const [searchTextForInput, setSearchTextForInput] = useState<string>(searchParam || '');
 	const [searchDelayTimer, setSearchDelayTimer] = useState<NodeJS.Timeout | null>(null);
 	const [checkedRows, setCheckedRows] = useState<{ [key: string]: boolean }>({});
+	const [allChecked, setAllChecked] = useState(false);
+
+	const numberOfCheckedRows = Object.values(checkedRows).filter((checked) => checked).length;
 
 	useEffect(() => {
 		setColumns(mergedColumns);
 	}, [props.columns]);
+
+	const filteredData = useMemo(() => {
+		if (searchText.length > 0) {
+			return data.filter((item) =>
+				Object.entries(item).some(([key, value]) => {
+					if (key === 'id') {
+						return false;
+					}
+
+					if (typeof value === 'object') {
+						return Object.entries(value).some(([objKey, objValue]) => {
+							const isKeyInColumns = columns.some((column) => column.field === `${key}.${objKey}`);
+							if (!isKeyInColumns) {
+								return false;
+							}
+
+							return String(objValue).toLowerCase().includes(searchText.toLowerCase());
+						});
+					}
+					if (typeof value === 'number') {
+						return String(value).includes(searchText);
+					}
+
+					return value.toLowerCase().includes(searchText.toLowerCase());
+				})
+			);
+		}
+		return data;
+	}, [data, columns, searchText]);
+
+	useEffect(() => {
+		if (numberOfCheckedRows === 0) {
+			setAllChecked(false);
+		}
+		const numberOfRow = filteredData.length;
+		setAllChecked(numberOfCheckedRows === numberOfRow && numberOfRow > 0);
+	}, [checkedRows]);
 
 	useEffect(() => {
 		let debounceTimer: NodeJS.Timeout;
@@ -176,6 +219,22 @@ export function Table(props: TableProps) {
 		}));
 	};
 
+	const handleAllCheckboxChange = () => {
+		setAllChecked((prevAllChecked) => {
+			const newAllChecked = !prevAllChecked;
+			if (newAllChecked) {
+				const newCheckedRows: { [key: string]: boolean } = {};
+				data.forEach((row) => {
+					newCheckedRows[row.id] = true;
+				});
+				setCheckedRows(newCheckedRows);
+			} else {
+				setCheckedRows({});
+			}
+			return newAllChecked;
+		});
+	};
+
 	const changeSortOrder = (id: number | string) => {
 		const column = columns.find((col) => col.field === id);
 		if (column) {
@@ -202,34 +261,6 @@ export function Table(props: TableProps) {
 
 	const startIndex = (pageNumber - 1) * computedRowsPerPage;
 	const endIndex = startIndex + computedRowsPerPage;
-	const filteredData = useMemo(() => {
-		if (searchText.length > 0) {
-			return data.filter((item) =>
-				Object.entries(item).some(([key, value]) => {
-					if (key === 'id') {
-						return false;
-					}
-
-					if (typeof value === 'object') {
-						return Object.entries(value).some(([objKey, objValue]) => {
-							const isKeyInColumns = columns.some((column) => column.field === `${key}.${objKey}`);
-							if (!isKeyInColumns) {
-								return false;
-							}
-
-							return String(objValue).toLowerCase().includes(searchText.toLowerCase());
-						});
-					}
-					if (typeof value === 'number') {
-						return String(value).includes(searchText);
-					}
-
-					return value.toLowerCase().includes(searchText.toLowerCase());
-				})
-			);
-		}
-		return data;
-	}, [data, columns, searchText]);
 
 	const transformData = useCallback(
 		(dataToTransform: any[]): any[] => {
@@ -315,8 +346,6 @@ export function Table(props: TableProps) {
 
 	let tableActions = props.actions;
 
-	const numberOfCheckedRows = Object.values(checkedRows).filter((checked) => checked).length;
-
 	const canDelete: boolean = (props.crud & 1) !== 0;
 	const canUpdate: boolean = (props.crud & 2) !== 0;
 	const canRead: boolean = (props.crud & 4) !== 0;
@@ -331,7 +360,25 @@ export function Table(props: TableProps) {
 					hint: 'usuń',
 					disabled: false,
 					onClick: () => {
-						// alert('usuń');
+						Swal.fire({
+							title: 'Pytanie',
+							html:
+								numberOfCheckedRows > 1
+									? 'Czy chcesz usunąć wybrane wiersze?'
+									: 'Czy chcesz usunąć wybrany wiersz?',
+
+							icon: 'question',
+							showCancelButton: true,
+							confirmButtonColor: '#e91e63',
+							cancelButtonColor: '#3f51b5',
+							confirmButtonText: 'Tak',
+							cancelButtonText: 'Nie',
+						}).then(async (result: SweetAlertResult) => {
+							if (result.isConfirmed && props.deleteAction) {
+								await props.deleteAction(Object.keys(checkedRows));
+								setCheckedRows({});
+							}
+						});
 					},
 				};
 				return a;
@@ -415,7 +462,12 @@ export function Table(props: TableProps) {
 					<thead>
 						<tr>
 							<th>
-								<Checkbox />
+								<Checkbox
+									id="checkAll"
+									checked={allChecked}
+									onChange={handleAllCheckboxChange}
+									controlled
+								/>
 							</th>
 							{mergedColumns.map((column) => (
 								<th
