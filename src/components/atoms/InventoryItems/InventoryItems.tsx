@@ -58,7 +58,7 @@ const StyledContent = styled.ul`
 const StyledItemsList = styled.div`
 	overflow-x: hidden;
 	overflow-y: scroll;
-	height: 30rem;
+	height: calc(100vh - 55rem);
 `;
 
 export interface IInventoryItem {
@@ -146,6 +146,7 @@ export function InventoryItems({
 			filterTypeUnselected,
 			filterTextUnselected
 		);
+		console.log(filteredUnselected.map((item) => item.dgId));
 		setSelectedItems([...selectedItems, ...filteredUnselected.map((item) => item.dgId)]);
 	};
 
@@ -163,7 +164,7 @@ export function InventoryItems({
 	return (
 		<StyledInventoryItems>
 			<StyledSelectedItems>
-				<StyledTitle>{language === 'en' ? 'Selected Items' : 'Wybrane przedmioty'}</StyledTitle>
+				<StyledTitle>{language === 'en' ? 'Selecteds Items' : 'Wybrane przedmioty'}</StyledTitle>
 				<StyledAppBar>
 					<TextField
 						label={language === 'en' ? 'Filter' : 'Filtr'}
@@ -178,6 +179,7 @@ export function InventoryItems({
 						options={filterOptions}
 						value={filterTypeSelected}
 						onChange={(selectedOption) => setFilterTypeSelected(selectedOption as SelectOption)}
+						isClearable={true}
 					/>
 				</StyledAppBar>
 				<StyledItemsList>
@@ -218,6 +220,7 @@ export function InventoryItems({
 						options={filterOptions}
 						value={filterTypeUnselected}
 						onChange={(selectedOption) => setFilterTypeUnselected(selectedOption as SelectOption)}
+						isClearable={true}
 					/>
 				</StyledAppBar>
 				<StyledItemsList>

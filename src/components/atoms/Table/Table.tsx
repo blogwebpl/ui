@@ -263,7 +263,7 @@ export function Table(props: TableProps) {
 	const endIndex = startIndex + computedRowsPerPage;
 
 	const transformData = useCallback(
-		(dataToTransform: any[]): any[] => {
+		(dataToTransform: DynamicObject[]): DynamicObject[] => {
 			return dataToTransform.map((row) => {
 				const transformedRow = { ...row };
 
