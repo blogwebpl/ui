@@ -299,6 +299,13 @@ export function Table(props: TableProps) {
 			}
 			return Number(bValue) - Number(aValue);
 		}
+		if (column.type === 'boolean') {
+			if (column.sort === 'asc') {
+				return aValue ? -1 : 1;
+			}
+			return !aValue ? -1 : 1;
+		}
+
 		return 0;
 	};
 

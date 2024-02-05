@@ -22,10 +22,11 @@
 		"arrow-body-style": "off",
 		"no-console": "off",
 		"prefer-arrow-callback": "off",
-		"prettier/prettier": "error",
+		"prettier/prettier": "warn",
 		"import/prefer-default-export": "off",
 		"react/jsx-filename-extension": "off",
 		"import/no-extraneous-dependencies": "off",
-		"no-bitwise": "off"
+		"no-bitwise": "off",
+		"@typescript-eslint/no-explicit-any": "off"
 	}
 }

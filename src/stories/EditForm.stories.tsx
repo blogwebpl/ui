@@ -4,6 +4,7 @@ import { EditForm, Field } from '../components/EditForm';
 import { Main } from '../components/atoms/Main';
 import { menuItems, menuItemsInMenu } from './MenuEditor.stories';
 import { exampleInventoryItems } from './atoms/InventoryItems.data';
+import { users } from './atoms/UserSelect.stories';
 
 const editFields: Field[] = [
 	{
@@ -29,6 +30,14 @@ const editFields: Field[] = [
 		required: false,
 		label: { pl: 'Wiek', en: 'Age' },
 		defaultValue: 0,
+	},
+	{
+		field: 'bool',
+		type: 'checkbox',
+		tab: 0,
+		required: false,
+		label: { pl: 'Boolean', en: 'Boolean' },
+		defaultValue: false,
 	},
 	{
 		field: 'date',
@@ -94,6 +103,14 @@ const editFields: Field[] = [
 		label: { pl: 'Przedmioty', en: 'Items' },
 		defaultValue: [],
 	},
+	{
+		field: 'users',
+		type: 'users',
+		tab: 5,
+		required: true,
+		label: { pl: 'Użytkownicy', en: 'Users' },
+		defaultValue: [],
+	},
 ];
 
 const roles = [
@@ -128,6 +145,7 @@ const Template = (props: any) => {
 		{ pl: 'Tab3', en: 'Tab3' },
 		{ pl: 'Tab4', en: 'Tab4' },
 		{ pl: 'Tab5', en: 'Tab5' },
+		{ pl: 'Tab6', en: 'Tab6' },
 	];
 	const [fields, setFields] = useState<Field[]>([]);
 	const [values, setValues] = useState({});
@@ -181,6 +199,7 @@ const Template = (props: any) => {
 					}}
 					inventoryItems={exampleInventoryItems}
 					width="90rem"
+					users={users}
 				/>
 			</Main>
 		</Router>

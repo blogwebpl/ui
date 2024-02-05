@@ -140,9 +140,10 @@ export const Checkbox = React.memo((props: CheckboxProps) => {
 				<input
 					type="checkbox"
 					checked={props.checked}
-					onChange={(e: React.ChangeEvent<HTMLInputElement>) => props.onChange(e.target.value)}
+					onChange={(e: any) => {
+						props.onChange(e.target.checked);
+					}}
 					ref={props.forwardedRef}
-					readOnly
 					onClick={(e: React.MouseEvent<HTMLInputElement>) => {
 						e.stopPropagation();
 					}}

@@ -18,6 +18,8 @@ import { IMenuItem, MenuItemsSchema } from '../atoms/Menu';
 import { IconSelect } from '../atoms/IconSelect';
 import { Labels } from '../atoms/Labels';
 import { IInventoryItem, InventoryItems } from '../atoms/InventoryItems';
+import { UserSelect } from '../atoms/UserSelect';
+import { Checkbox } from '../atoms/Checkbox';
 
 const StyledVerticalGap = styled.div`
 	height: 5.6rem;
@@ -56,6 +58,7 @@ interface EditFormProps {
 	saveData: (formData: Record<string, unknown>) => Promise<boolean>;
 	width?: string;
 	writeTagFunction?: (data: Record<string, unknown>) => Promise<boolean>;
+	users?: { id: string; name: string }[];
 }
 
 export function EditForm({
@@ -75,6 +78,7 @@ export function EditForm({
 	width,
 	writeTagFunction,
 	inventoryItems,
+	users,
 }: EditFormProps) {
 	if (fields.length === 0) {
 		return null;
@@ -300,6 +304,21 @@ export function EditForm({
 							/>
 						</FieldContainer>
 					);
+				case 'users':
+					return (
+						<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
+							<UserSelect
+								key={fieldKey}
+								hidden={shouldHide}
+								label={field.label[language]}
+								value={inputValues?.[field.field] as string[]}
+								onChange={(newValue) =>
+									setInputValues((values) => ({ ...values, [field.field]: newValue }))
+								}
+								users={users || []}
+							/>
+						</FieldContainer>
+					);
 				case 'labels':
 					return (
 						<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
@@ -309,6 +328,22 @@ export function EditForm({
 									setInputValues((values) => ({ ...values, [field.field]: newValue }));
 								}}
 								label={field.label[language]}
+							/>
+						</FieldContainer>
+					);
+				case 'checkbox':
+					return (
+						<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
+							<Checkbox
+								checked={inputValues?.[field.field] as boolean}
+								onChange={(newValue: boolean) => {
+									setInputValues((values) => ({
+										...values,
+										[field.field]: newValue,
+									}));
+								}}
+								label={field.label[language]}
+								controlled
 							/>
 						</FieldContainer>
 					);
