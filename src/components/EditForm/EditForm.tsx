@@ -226,11 +226,7 @@ export function EditForm({
 				case 'datetime-local':
 					return (
 						<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
-							<TextField
-								type={field.type}
-								{...commonProps}
-								value={inputValues?.[field.field] as string}
-							/>
+							<TextField type={field.type} {...commonProps} value={inputValues?.[field.field]} />
 						</FieldContainer>
 					);
 				case 'roles':

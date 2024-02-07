@@ -7,7 +7,7 @@ export interface TextFieldProps {
 	label: string;
 	required?: boolean;
 	type: string;
-	value?: string | number | readonly string[] | undefined;
+	value?: any;
 	setValue?: any;
 	forwardedRef?: LegacyRef<HTMLInputElement>;
 	onKeyPress?: KeyboardEventHandler<HTMLInputElement>;
