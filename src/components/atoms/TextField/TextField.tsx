@@ -32,8 +32,12 @@ export function TextField(props: TextFieldProps) {
 						props.onChange
 							? props.onChange
 							: (e) => {
-									props.setValue(e.target.value);
-							  }
+									if (props.type === 'number') {
+										props.setValue(Number(e.target.value));
+									} else {
+										props.setValue(e.target.value);
+									}
+								}
 					}
 					required={props.required}
 					ref={props.forwardedRef}
