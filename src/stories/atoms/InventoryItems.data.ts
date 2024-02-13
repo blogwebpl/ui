@@ -18,6 +18,8 @@ export const exampleInventoryItems: IInventoryItem[] = [
 		owner: 'RET',
 		status: 50,
 		inventoryNumber: 'RET/2/2021',
+		quantity: 1,
+		unitMeasure: 'szt.',
 	},
 	{
 		id: '3',
@@ -26,6 +28,8 @@ export const exampleInventoryItems: IInventoryItem[] = [
 		owner: 'REA',
 		status: 50,
 		inventoryNumber: 'REA/1/2021',
+		quantity: 1,
+		unitMeasure: 'szt.',
 	},
 	{
 		id: '4',
@@ -34,6 +38,8 @@ export const exampleInventoryItems: IInventoryItem[] = [
 		owner: 'REA',
 		status: 50,
 		inventoryNumber: 'REA/2/2021',
+		quantity: 1,
+		unitMeasure: 'szt.',
 	},
 	{
 		id: '5',
@@ -42,6 +48,8 @@ export const exampleInventoryItems: IInventoryItem[] = [
 		owner: 'REA',
 		status: 80,
 		inventoryNumber: 'REA/3/2021',
+		quantity: 1,
+		unitMeasure: 'szt.',
 	},
 	{
 		id: '6',
@@ -50,6 +58,8 @@ export const exampleInventoryItems: IInventoryItem[] = [
 		owner: 'REA',
 		status: 50,
 		inventoryNumber: 'REA/4/2021',
+		quantity: 1,
+		unitMeasure: 'szt.',
 	},
 	{
 		id: '7',
@@ -58,6 +68,8 @@ export const exampleInventoryItems: IInventoryItem[] = [
 		owner: 'REA',
 		status: 50,
 		inventoryNumber: 'REA/5/2021',
+		quantity: 1,
+		unitMeasure: 'szt.',
 	},
 	{
 		id: '8',
@@ -66,6 +78,8 @@ export const exampleInventoryItems: IInventoryItem[] = [
 		owner: 'REA',
 		status: 50,
 		inventoryNumber: 'REA/6/2021',
+		quantity: 1,
+		unitMeasure: 'szt.',
 	},
 	{
 		id: '9',
@@ -74,6 +88,8 @@ export const exampleInventoryItems: IInventoryItem[] = [
 		owner: 'REA',
 		status: 50,
 		inventoryNumber: 'REA/7/2021',
+		quantity: 1,
+		unitMeasure: 'szt.',
 	},
 	{
 		id: '10',
@@ -82,6 +98,8 @@ export const exampleInventoryItems: IInventoryItem[] = [
 		owner: 'REA',
 		status: 50,
 		inventoryNumber: 'REA/8/2021',
+		quantity: 1,
+		unitMeasure: 'szt.',
 	},
 	{
 		id: '11',
@@ -90,6 +108,8 @@ export const exampleInventoryItems: IInventoryItem[] = [
 		owner: 'REA',
 		status: 50,
 		inventoryNumber: 'REA/9/2021',
+		quantity: 3,
+		unitMeasure: 'szt.',
 	},
 	{
 		id: '12',
@@ -98,6 +118,8 @@ export const exampleInventoryItems: IInventoryItem[] = [
 		owner: 'REA',
 		status: 50,
 		inventoryNumber: 'REA/10/2021',
+		quantity: 10,
+		unitMeasure: 'szt.',
 	},
 	{
 		id: '13',
@@ -106,6 +128,8 @@ export const exampleInventoryItems: IInventoryItem[] = [
 		owner: 'REA',
 		status: 50,
 		inventoryNumber: 'REA/11/2021',
+		quantity: 5,
+		unitMeasure: 'szt.',
 	},
 	{
 		id: '14',
@@ -114,6 +138,8 @@ export const exampleInventoryItems: IInventoryItem[] = [
 		owner: 'REA',
 		status: 50,
 		inventoryNumber: 'REA/12/2021',
+		quantity: 2,
+		unitMeasure: 'szt.',
 	},
 	{
 		id: '15',
@@ -122,6 +148,8 @@ export const exampleInventoryItems: IInventoryItem[] = [
 		owner: 'REA',
 		status: 50,
 		inventoryNumber: 'REA/13/2021',
+		quantity: 1,
+		unitMeasure: 'szt.',
 	},
 	{
 		id: '16',
@@ -130,6 +158,8 @@ export const exampleInventoryItems: IInventoryItem[] = [
 		owner: 'REA',
 		status: 50,
 		inventoryNumber: 'REA/14/2021',
+		quantity: 1,
+		unitMeasure: 'szt.',
 	},
 	{
 		id: '17',
@@ -138,6 +168,8 @@ export const exampleInventoryItems: IInventoryItem[] = [
 		owner: 'REA',
 		status: 50,
 		inventoryNumber: 'REA/15/2021',
+		quantity: 1,
+		unitMeasure: 'szt.',
 	},
 	{
 		id: '18',
@@ -146,6 +178,8 @@ export const exampleInventoryItems: IInventoryItem[] = [
 		owner: 'REA',
 		status: 50,
 		inventoryNumber: 'REA/16/2021',
+		quantity: 1,
+		unitMeasure: 'szt.',
 	},
 	{
 		id: '19',
@@ -154,6 +188,8 @@ export const exampleInventoryItems: IInventoryItem[] = [
 		owner: 'REA',
 		status: 50,
 		inventoryNumber: 'REA/17/2021',
+		quantity: 1,
+		unitMeasure: 'szt.',
 	},
 	{
 		id: '20',
@@ -162,5 +198,7 @@ export const exampleInventoryItems: IInventoryItem[] = [
 		owner: 'REA',
 		status: 50,
 		inventoryNumber: 'REA/18/2021',
+		quantity: 3,
+		unitMeasure: 'szt.',
 	},
 ];

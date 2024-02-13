@@ -191,9 +191,10 @@ export function EditForm({
 				label: field.label[language],
 				required: field.required,
 				id: field.field,
-				value: inputValues?.[field.field] || '',
+				value: inputValues?.[field.field],
 				onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-					setInputValues((v) => ({ ...v, [field.field]: e.target.value }));
+					const value = field.type === 'number' ? parseFloat(e.target.value) : e.target.value;
+					setInputValues((v) => ({ ...v, [field.field]: value }));
 				},
 				autoFocus: index === 0,
 				disabled: mode === 'view',

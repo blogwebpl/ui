@@ -47,6 +47,15 @@ interface CardProps {
 	isPending?: boolean;
 }
 
+/**
+ * Renders a styled card component with optional padding, opacity, and pending state.
+ * @param {string} minWidth - The minimum width of the card.
+ * @param {boolean} [padding] - Determines if the card should have padding.
+ * @param {boolean} [opacity] - Determines if the card should have reduced opacity.
+ * @param {boolean} [isPending] - Determines if the card should show a waiting cursor.
+ * @returns {JSX.Element} The styled card component.
+ */
+
 export function Card(props: CardProps) {
 	return (
 		<StyledCard
