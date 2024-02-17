@@ -5,6 +5,7 @@ export const StyledContainer = styled.div`
 	margin: 0;
 	padding: 1.6rem 0 0.8rem 0;
 	display: ${(props) => (props.hidden ? 'none' : 'block')};
+	position: relative;
 `;
 
 export const StyledMultiContainer = styled.div<{ hidden?: boolean }>`

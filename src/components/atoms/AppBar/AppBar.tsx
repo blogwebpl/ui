@@ -14,7 +14,7 @@ interface AppBarProps {
 	/**
 	 * Action on 'Profile Icon' click.
 	 */
-	handleProfileClick: () => void;
+	handleProfileClick?: () => void;
 	/**
 	 * Action on 'Action Icon' click.
 	 */
@@ -22,23 +22,23 @@ interface AppBarProps {
 	/**
 	 * Drawer state: true - open; false - close.
 	 */
-	isDrawerOpen: boolean;
+	isDrawerOpen?: boolean;
 	/**
 	 * Menu on the right - state: true - open; false - close.
 	 */
-	isSidebarOpen: boolean;
+	isSidebarOpen?: boolean;
 	/**
 	 * Is user sign in ?
 	 */
-	isLoggedIn: boolean;
+	isLoggedIn?: boolean;
 	/**
 	 * Set Drawer state:  true - open; false - close.
 	 */
-	setIsDrawerOpen: (isDrawerOpen: boolean) => void;
+	setIsDrawerOpen?: (isDrawerOpen: boolean) => void;
 	/**
 	 * Set menu od the right state:  true - open; false - close.
 	 */
-	setIsSidebarOpen: (isSidebarOpen: boolean) => void;
+	setIsSidebarOpen?: (isSidebarOpen: boolean) => void;
 	/**
 	 *  Icon - control for sidbar
 	 */
@@ -55,12 +55,12 @@ interface AppBarProps {
 
 export function AppBar(props: AppBarProps) {
 	const handleMenuIconClick = () => {
-		if (props.isLoggedIn) {
+		if (props.isLoggedIn && props.setIsDrawerOpen) {
 			props.setIsDrawerOpen(!props.isDrawerOpen);
 		}
 	};
 	const handleSidebarIconClick = () => {
-		if (props.isLoggedIn) {
+		if (props.isLoggedIn && props.setIsSidebarOpen) {
 			props.setIsSidebarOpen(!props.isSidebarOpen);
 		}
 	};
@@ -87,7 +87,7 @@ export function AppBar(props: AppBarProps) {
 					ariaLabel="profile"
 					disabled={!props.isLoggedIn}
 					isLightColor={true}
-					onClick={props.handleProfileClick}
+					onClick={props.handleProfileClick || (() => {})}
 				>
 					{props.isLoggedIn ? <PersonIcon size="2.4rem" /> : <LockIcon size="2.4rem" />}
 				</IconButton>
