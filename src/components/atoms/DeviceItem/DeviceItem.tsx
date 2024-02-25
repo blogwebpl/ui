@@ -152,7 +152,12 @@ export function DeviceItem(props: DeviceItemProps) {
 			<StyledIOContainer>
 				<IconBattery />
 				&nbsp;
-				{battery && (Math.round(battery[1] / 10) / 100).toFixed(2)} V
+				{battery &&
+					(Math.round(battery[1] / 10) < 100
+						? Math.round(battery[1] / 10)
+						: Math.round(battery[1] / 10) / 100
+					).toFixed(2)}{' '}
+				V
 			</StyledIOContainer>
 		</StyledItem>
 	);

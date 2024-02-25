@@ -29,3 +29,4 @@ export * from './components/MenuEditor';
 export * from './components/Profile';
 export * from './components/atoms/UserSelect';
 export * from './components/atoms/FreeItems';
+export * from './components/PermissionEditor';
