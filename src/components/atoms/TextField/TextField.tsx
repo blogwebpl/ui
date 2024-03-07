@@ -1,4 +1,4 @@
-import { KeyboardEventHandler, LegacyRef } from 'react';
+import { KeyboardEventHandler, LegacyRef, FocusEventHandler } from 'react';
 import { IconType } from 'react-icons';
 import { StyledContainer } from './textFieldStyle';
 
@@ -12,12 +12,15 @@ export interface TextFieldProps {
 	forwardedRef?: LegacyRef<HTMLInputElement>;
 	onKeyPress?: KeyboardEventHandler<HTMLInputElement>;
 	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	onFocus?: FocusEventHandler<HTMLInputElement>;
+	onBlur?: FocusEventHandler<HTMLInputElement>;
 	autoComplete?: string;
 	autoFocus?: boolean;
 	disabled?: boolean;
 	controlled?: boolean;
 	icon?: IconType;
 	slim?: boolean;
+	min?: string;
 }
 
 export function TextField(props: TextFieldProps) {
@@ -42,11 +45,14 @@ export function TextField(props: TextFieldProps) {
 					required={props.required}
 					ref={props.forwardedRef}
 					onKeyPress={props.onKeyPress}
+					onFocus={props.onFocus}
+					onBlur={props.onBlur}
 					autoComplete={props.autoComplete}
 					autoFocus={props.autoFocus}
 					disabled={props.disabled}
 					placeholder=" "
 					spellCheck="false"
+					min={props.min}
 				/>
 				<label htmlFor={props.id}>
 					{props.label}
@@ -65,11 +71,14 @@ export function TextField(props: TextFieldProps) {
 				required={props.required}
 				ref={props.forwardedRef}
 				onKeyPress={props.onKeyPress}
+				onFocus={props.onFocus}
+				onBlur={props.onBlur}
 				autoComplete={props.autoComplete}
 				autoFocus={props.autoFocus}
 				disabled={props.disabled}
 				placeholder=" "
 				spellCheck="false"
+				min={props.min}
 			/>
 			<label htmlFor={props.id}>
 				{props.label}

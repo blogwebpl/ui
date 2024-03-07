@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const StyledButtonContainer = styled.div`
-	margin-top: 1.6rem;
+	margin-top: 1.2rem;
 	margin-bottom: 0.8rem;
 	display: flex;
 	column-gap: 1.6rem;

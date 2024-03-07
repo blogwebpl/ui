@@ -23,7 +23,7 @@
 		"moduleResolution": "node",
 		"noFallthroughCasesInSwitch": true,
 		"noImplicitReturns": true,
-		"noUnusedLocals": true,
+		"noUnusedLocals": false,
 		"noUnusedParameters": true,
 		"outDir": "./dist/esm",
 		"rootDir": "./src",

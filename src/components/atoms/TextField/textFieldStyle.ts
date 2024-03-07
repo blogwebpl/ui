@@ -81,13 +81,24 @@ export const StyledContainer = styled.fieldset<{ $icon: boolean; $slim?: boolean
 	input:focus ~ label,
 	input:not(:placeholder-shown) ~ label {
 		outline: 0;
-		transform: translate(0.2rem, -0.9rem) scale(0.75);
+		transform: translate(0.6rem, -0.7rem) scale(0.75);
 		transition: all linear 0.2s;
+		transform-origin: 0 0;
 	}
 
 	.icon {
 		position: absolute;
 		right: 1rem;
 		color: ${(props) => props.theme.palette.text.secondary};
+	}
+	input[type='number'] {
+		-moz-appearance: textfield; /* Firefox */
+		appearance: textfield; /* Chrome, Safari, Edge, Opera */
+	}
+
+	input[type='number']::-webkit-inner-spin-button,
+	input[type='number']::-webkit-outer-spin-button {
+		-webkit-appearance: none; /* Chrome, Safari, Edge, Opera */
+		margin: 0;
 	}
 `;

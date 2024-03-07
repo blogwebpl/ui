@@ -1,5 +1,5 @@
 import { MdNfc } from 'react-icons/md';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { useState, useEffect, useMemo } from 'react';
 import { ImBarcode } from 'react-icons/im';
 import { debounce } from 'lodash';
@@ -11,12 +11,60 @@ import { IInventoryItem } from '../InventoryItems';
 import { ButtonContainer } from '../ButtonContainer';
 import { Button } from '../Button';
 
+const StyledCardContainer = styled.div`
+	max-height: 100vh;
+	overflow-y: auto;
+	max-width: 36rem;
+	padding: 0.8rem;
+	@media (orientation: landscape) {
+		margin-top: 4.8rem;
+	}
+	@media (orientation: portrait) {
+		margin-top: 5.6rem;
+	}
+	@media (min-width: ${(props) => props.theme.breakpoints.sm}) {
+		margin-top: 6.4rem;
+	}
+	display: flex;
+	align-items: center;
+	justify-content: center;
+`;
+
+const fadeIn = keyframes`
+	0% {
+		opacity: 0.0;
+	}
+	100% {
+		opacity: 1
+	}
+`;
+
+interface StyledDivProps {
+	$isPending?: boolean;
+}
+
+const StyledDiv = styled.div<StyledDivProps>`
+	animation: ${fadeIn} 300ms linear;
+	box-shadow: ${(props) => props.theme.shadows[2]};
+	color: ${(props) => props.theme.palette.element.primary.textDark};
+	width: calc(100vw - 1.6rem);
+	margin-inline: auto;
+	box-sizing: border-box;
+	background-color: white;
+	@media (min-width: 26rem) {
+		border-radius: ${(props) => props.theme.shape.borderRadious};
+	}
+	cursor: ${(props) => (props.$isPending ? 'wait' : 'default')};
+	padding: 1.6rem 0.8rem;
+`;
+
 const StyledHeader = styled.h1`
 	font-size: 1.6rem;
 	font-weight: 700;
 	display: flex;
 	align-items: center;
 	gap: 2rem;
+	height: 4.8rem;
 `;
 
 const StyledContainer = styled.div`
@@ -25,19 +73,25 @@ const StyledContainer = styled.div`
 	gap: 2rem;
 `;
 
-const StyledList = styled.ul`
+interface StyledListProps {
+	isSelected: boolean;
+}
+
+const StyledList = styled.ul<StyledListProps>`
 	list-style: none;
-	padding: 1rem;
+	padding: 0.5rem;
 	margin: -1rem 0 -1rem 0;
 	border: 1px solid ${(props) => props.theme.palette.border};
 	border-radius: 0.4rem;
 	overflow-y: auto;
-	max-height: calc(100vh - 46rem);
-	min-height: 20rem;
+	max-height: ${(props) => (props.isSelected ? 'auto' : 'calc(100vh - 46rem)')};
+	min-height: ${(props) => (props.isSelected ? '10rem' : '20rem')};
 	font-size: 1.4rem;
 	li {
 		padding: 1rem;
-		border-bottom: 1px solid ${(props) => props.theme.palette.border};
+		&:not(:last-child) {
+			border-bottom: 1px solid ${(props) => props.theme.palette.border};
+		}
 		line-height: 1.5;
 		cursor: pointer;
 		user-select: none;
@@ -58,6 +112,14 @@ const StyledInvisibleButton = styled.button`
 	right: 0;
 `;
 
+const StyledMiniContainer = styled.div`
+	display: flex;
+	gap: 1rem;
+	flex-direction: column;
+	margin-top: 0.8rem;
+	margin-bottom: -1.4rem;
+`;
+
 export interface ITags {
 	id: string;
 	dgId: number;
@@ -72,20 +134,24 @@ interface FreeItemsProps {
 	tags: ITags[];
 	cancelFunction: () => void;
 	scanFunction: () => void;
+	assignFunction: (tag: ITags) => void;
 	searchText?: string;
 	itemNumber?: number;
+	tagId: string;
 }
 
 export function FreeItems(props: FreeItemsProps) {
-	console.log('FreeItems', new Date().toISOString());
+	// console.log('FreeItems', new Date().toISOString());
 	const [searchText, setSearchText] = useState(props.searchText || '');
 	const [itemNumber, setItemNumber] = useState(props.itemNumber || 1);
 	const [selectedItem, setSelectedItem] = useState<IInventoryItem | null>(null);
-	const [showAdvancedOptions, setShowAdvancedOptions] = useState(true);
+	// const [showAdvancedOptions, setShowAdvancedOptions] = useState(true);
 	const [filteredItems, setFilteredItems] = useState<IInventoryItem[]>(props.items);
+	const [note, setNote] = useState('');
+	// const [noteFieldFocused, setNoteFieldFocused] = useState(false);
 
 	const tagsUsageMap = useMemo(() => {
-		console.log('TagsUsageMap', new Date().toISOString());
+		// console.log('TagsUsageMap', new Date().toISOString());
 		const map = new Map<number, number>();
 		props.tags.forEach((tag) => {
 			map.set(tag.dgId, (map.get(tag.dgId) || 0) + 1);
@@ -93,14 +159,14 @@ export function FreeItems(props: FreeItemsProps) {
 		return map;
 	}, [props.tags]);
 
-	useEffect(() => {
-		const checkCardHeight = () => {
-			setShowAdvancedOptions(window.innerHeight > 450);
-		};
-		checkCardHeight();
-		window.addEventListener('resize', checkCardHeight);
-		return () => window.removeEventListener('resize', checkCardHeight);
-	}, []);
+	// useEffect(() => {
+	// 	const checkCardHeight = () => {
+	// 		setShowAdvancedOptions(window.innerHeight > 450);
+	// 	};
+	// 	checkCardHeight();
+	// 	window.addEventListener('resize', checkCardHeight);
+	// 	return () => window.removeEventListener('resize', checkCardHeight);
+	// }, []);
 
 	useEffect(() => {
 		setItemNumber(props.itemNumber || 1);
@@ -111,7 +177,7 @@ export function FreeItems(props: FreeItemsProps) {
 	}, [props.items]);
 
 	const filterItems = (queryText: string) => {
-		console.log('Filter start', new Date().toISOString());
+		// console.log('Filter start', new Date().toISOString());
 		const lowerCaseSearchText = queryText.toLowerCase();
 		const newFilteredItems = props.items.filter((item) => {
 			const isItemUsed = (tagsUsageMap.get(item.dgId) || 0) >= (item.quantity || 1);
@@ -129,7 +195,7 @@ export function FreeItems(props: FreeItemsProps) {
 		} else {
 			setSelectedItem(null);
 		}
-		console.log('Filter end', new Date().toISOString());
+		// console.log('Filter end', new Date().toISOString());
 	};
 
 	const debouncedFilterItems = useMemo(() => debounce(filterItems, 300), [filterItems]);
@@ -147,7 +213,11 @@ export function FreeItems(props: FreeItemsProps) {
 	}, [props.searchText]);
 
 	const handleSelectItem = (item: IInventoryItem) => {
-		setSelectedItem(item);
+		if (selectedItem?.id === item.id) {
+			setSelectedItem(null);
+		} else {
+			setSelectedItem(item);
+		}
 	};
 
 	const renderItemUsage = useMemo(() => {
@@ -162,61 +232,78 @@ export function FreeItems(props: FreeItemsProps) {
 		};
 	}, [props.tags]);
 
-	console.log('rendering', new Date().toISOString());
+	// console.log('rendering', new Date().toISOString());
+
+	const itemsToDisplay = selectedItem ? [selectedItem] : filteredItems;
+
 	return (
-		<Card minWidth="32rem" padding>
-			<StyledHeader>
-				<MdNfc size="4.8rem" color="#8BC34A" />
-				{props.language === 'en' ? 'ASSIGN TAG' : 'PRZYPISZ TAG'}
-			</StyledHeader>
-			<StyledContainer>
-				<FieldContainer>
-					<TextField
-						label={props.language === 'en' ? 'Search' : 'Szukaj'}
-						type="text"
-						value={searchText}
-						onChange={handleSearchTextChange}
-						controlled
-						autoFocus
-						icon={ImBarcode}
-					/>
-					<StyledInvisibleButton onClick={props.scanFunction} />
-				</FieldContainer>
-				{filteredItems.length > 0 && (
-					<>
-						<StyledList>
-							{filteredItems.map((item) => (
-								<li
-									key={item.id}
-									onClick={() => handleSelectItem(item)}
-									style={{
-										color: selectedItem?.id === item.id ? 'white' : 'black',
-										backgroundColor: selectedItem?.id === item.id ? '#E91E63' : 'transparent',
-									}}
-								>
-									<b>{item.inventoryNumber}</b>
-									<br />
-									{item.itemName} - {item.owner}
-									<br />
-									{renderItemUsage(item)} {item.unitMeasure}
-								</li>
-							))}
-						</StyledList>
-						{showAdvancedOptions && (
-							<FieldContainer>
+		<StyledCardContainer>
+			<StyledDiv>
+				<StyledHeader>
+					<MdNfc size="4.8rem" color="#8BC34A" />
+					{props.language === 'en' ? 'ASSIGN TAG' : 'PRZYPISZ TAG'}
+				</StyledHeader>
+				<StyledContainer>
+					{!selectedItem && (
+						<FieldContainer>
+							<TextField
+								label={props.language === 'en' ? 'Search' : 'Szukaj'}
+								type="text"
+								value={searchText}
+								onChange={handleSearchTextChange}
+								controlled
+								autoFocus
+								icon={ImBarcode}
+							/>
+							<StyledInvisibleButton onClick={props.scanFunction} />
+						</FieldContainer>
+					)}
+					{selectedItem && <p></p>}
+					{itemsToDisplay.length > 0 && (
+						<>
+							<StyledList isSelected={selectedItem !== null}>
+								{itemsToDisplay.map((item) => {
+									return (
+										<li
+											key={item.id}
+											onClick={() => handleSelectItem(item)}
+											style={{
+												color: selectedItem?.id === item.id ? 'white' : 'black',
+												backgroundColor: selectedItem?.id === item.id ? '#E91E63' : 'transparent',
+											}}
+										>
+											<b>{item.inventoryNumber}</b>
+											<br />
+											{item.itemName}
+											<br />
+											{item.owner} - {renderItemUsage(item)} {item.unitMeasure}
+										</li>
+									);
+								})}
+							</StyledList>
+							<StyledMiniContainer>
 								<TextField
-									label={props.language === 'en' ? 'Numer kolejny' : 'Item number'}
+									label={props.language === 'en' ? 'Item number' : 'Numer przedmiotu'}
 									type="number"
 									value={itemNumber}
 									onChange={(e) => setItemNumber(parseInt(e.target.value, 10))}
+									min="1"
 									controlled
 								/>
-							</FieldContainer>
-						)}
-					</>
-				)}
-				{filteredItems.length === 0 && <span>Nie znaleziono przedmiotu</span>}
-				{showAdvancedOptions && (
+								<TextField
+									label={props.language === 'en' ? 'Note' : 'Notatka'}
+									type="text"
+									value={note}
+									onChange={(e) => setNote(e.target.value)}
+									// onFocus={() => setNoteFieldFocused(true)}
+									// onBlur={() => setNoteFieldFocused(false)}
+									controlled
+								/>
+							</StyledMiniContainer>
+						</>
+					)}
+					{filteredItems.length === 0 && <span>Nie znaleziono przedmiotu</span>}
+
 					<ButtonContainer>
 						<Button
 							label={props.language === 'en' ? 'Cancel' : 'Anuluj'}
@@ -227,10 +314,20 @@ export function FreeItems(props: FreeItemsProps) {
 							label={props.language === 'en' ? 'Assign' : 'Przypisz'}
 							variant="primary"
 							disabled={selectedItem === null}
+							onClick={() => {
+								props.assignFunction({
+									id: '',
+									dgId: selectedItem?.dgId || 0,
+									tagId: props.tagId,
+									itemNumber,
+									note,
+								});
+								props.cancelFunction();
+							}}
 						/>
 					</ButtonContainer>
-				)}
-			</StyledContainer>
-		</Card>
+				</StyledContainer>
+			</StyledDiv>
+		</StyledCardContainer>
 	);
 }
