@@ -1,0 +1,1 @@
+{"version":3,"file":"Inventory.stories.js","sourceRoot":"","sources":["../../../src/stories/Inventory.stories.tsx"],"names":[],"mappings":";AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAEpD,MAAM,QAAQ,GAAG,GAAG,EAAE;IACrB,OAAO,KAAC,SAAS,KAAG,CAAC;AACtB,CAAC,CAAC;AAEF,eAAe,EAAE,SAAS,EAAE,QAAQ,EAAE,KAAK,EAAE,WAAW,EAAE,CAAC;AAC3D,MAAM,CAAC,MAAM,OAAO,GAAG,EAAE,IAAI,EAAE,EAAE,EAAE,CAAC"}

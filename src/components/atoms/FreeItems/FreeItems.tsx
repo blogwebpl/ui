@@ -12,18 +12,25 @@ import { ButtonContainer } from '../ButtonContainer';
 import { Button } from '../Button';
 
 const StyledCardContainer = styled.div`
-	max-height: 100vh;
-	overflow-y: auto;
-	max-width: 36rem;
-	padding: 0.8rem;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	overflow-y: hidden;
+	max-width: 48rem;
+	width: 100%;
+	padding: 1.6rem;
+	margin-bottom: 0.8rem;
 	@media (orientation: landscape) {
-		margin-top: 4.8rem;
+		height: calc(100vh - 5.6rem - 0.8rem);
+		margin-top: 5.6rem;
 	}
 	@media (orientation: portrait) {
 		margin-top: 5.6rem;
+		height: calc(100vh - 5.6rem - 0.8rem);
 	}
 	@media (min-width: ${(props) => props.theme.breakpoints.sm}) {
-		margin-top: 6.4rem;
+		height: calc(100vh - 7.2rem - 0.8rem);
+		margin-top: 7.2rem;
 	}
 	display: flex;
 	align-items: center;
@@ -85,7 +92,7 @@ const StyledList = styled.ul<StyledListProps>`
 	border-radius: 0.4rem;
 	overflow-y: auto;
 	max-height: ${(props) => (props.isSelected ? 'auto' : 'calc(100vh - 46rem)')};
-	min-height: ${(props) => (props.isSelected ? '10rem' : '20rem')};
+	min-height: 10rem;
 	font-size: 1.4rem;
 	li {
 		padding: 1rem;
