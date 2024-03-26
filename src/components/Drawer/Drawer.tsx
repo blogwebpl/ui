@@ -22,6 +22,7 @@ const StyledDrawer = styled.div<{ $isdraweropen: boolean }>`
 	@media (min-width: ${(props) => props.theme.breakpoints.sm}) {
 		top: 6.4rem;
 	}
+	z-index: 10000;
 `;
 
 interface DrawerProps {

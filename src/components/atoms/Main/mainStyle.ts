@@ -5,20 +5,29 @@ export const StyledMain = styled.main<{
 	$iscovered: boolean;
 	$background?: string;
 }>`
-	overflow: auto;
-	left: 0;
-	position: fixed;
-	right: 0;
-	bottom: 0;
+
+	overflow: hidden;
+	// left: 0;
+	position: relative;
+	// right: 0;
+	// bottom: 0;
+	height: 100vh;
 	@media (orientation: landscape) {
-		top: 4.8rem;
+		// top: 4.8rem;
+		padding-top: 4.8rem;
+		
 	}
 	@media (orientation: portrait) {
-		top: 5.6rem;
+		// top: 5.6rem;
+		padding-top: 5.6rem;
+		
 	}
 	@media (min-width: ${(props) => props.theme.breakpoints.sm}) {
-		left: ${(props) => (props.$isdraweropen && !props.$iscovered ? '32rem' : '0')};
-		top: 6.4rem;
+		// left: ${(props) => (props.$isdraweropen && !props.$iscovered ? '32rem' : '0')};
+		// top: 6.4rem;
+		margin-left: ${(props) => (props.$isdraweropen && !props.$iscovered ? '32rem' : '0')};
+		padding-top: 6.4rem;
+		
 	}
 	background-color: ${(props) => props.theme.palette.background.paper};
 	background-image: url(${(props) => props.$background});
@@ -26,6 +35,7 @@ export const StyledMain = styled.main<{
 	align-items: center;
 	display: flex;
 	justify-content: center;
+
 
 	transition: all linear 0.25s;
 	&:after {

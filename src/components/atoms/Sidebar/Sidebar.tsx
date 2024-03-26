@@ -11,6 +11,7 @@ const StyledSidebar = styled.div<{ $issidebaropen: boolean }>`
 	transform: ${(props) => (props.$issidebaropen ? 'translate(0)' : 'translate(101%)')};
 	transition: transform 0.25s ease-in-out 0s;
 	width: 32rem;
+	z-index: 10000;
 	@media (orientation: landscape) {
 		top: 4.8rem;
 	}

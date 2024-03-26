@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react'; // Import useEffect
 import { MultiValue, SingleValue } from 'react-select';
 import { Button } from '../Button';
 import { ButtonContainer } from '../ButtonContainer';
@@ -11,7 +11,7 @@ import { Typography } from '../Typography';
 
 interface PlayerSettingsProps {
 	devices: Device[];
-	onLoad: ({ vid, dateFrom, dateTo }: { vid: string; dateFrom: string; dateTo: string }) => void;
+	onLoad: ({ deviceId, dateFrom, dateTo }: { deviceId: string; dateFrom: string; dateTo: string }) => void;
 	onClose: () => void;
 }
 
@@ -34,13 +34,24 @@ export function PlayerSettings({ devices, onLoad, onClose }: PlayerSettingsProps
 		}))
 		.sort((device1, device2) => (device1.label < device2.label ? -1 : 1));
 
-	const [device, setDevice] = useState<MultiValue<SelectOption> | SingleValue<SelectOption>>(
-		options
-	);
+	// Ustawienie domyślnego urządzenia, jeśli lista urządzeń nie jest pusta
+	const [device, setDevice] = useState<SelectOption | null>(options[0] ? options[0] : null);
+
+	// Aktualizacja stanu urządzenia, gdy lista urządzeń się zmienia
+	useEffect(() => {
+		const isCurrentDeviceAvailable = options.find(option => option.value === device?.value);
+		if (!isCurrentDeviceAvailable && options.length > 0) {
+			setDevice(options[0]);
+		} else if (options.length === 0) {
+			setDevice(null);
+		}
+	}, [devices]); 
 
 	const singleDevice = Array.isArray(device)
-		? (device[0] as SelectOption).value
+		? device.length > 0 ? (device[0] as SelectOption).value : null
 		: (device as SelectOption).value;
+
+	if (!device) return null;
 
 	return (
 		<Card minWidth="46rem" padding>
@@ -66,7 +77,11 @@ export function PlayerSettings({ devices, onLoad, onClose }: PlayerSettingsProps
 					label="Pojazd"
 					options={options}
 					value={device}
-					onChange={setDevice}
+					onChange={(newValue: MultiValue<SelectOption> | SingleValue<SelectOption>) => {
+					    if (!Array.isArray(newValue)) {
+					        setDevice(newValue as SelectOption | null);
+					    } 
+					}}
 					isMulti={false}
 					isClearable={false}
 					isRequired={true}
@@ -78,10 +93,14 @@ export function PlayerSettings({ devices, onLoad, onClose }: PlayerSettingsProps
 					label="Wczytaj"
 					variant="primary"
 					onClick={() => {
-						const vid = singleDevice;
-						const dateFrom = dateFromRef.current!.value;
-						const dateTo = dateToRef.current!.value;
-						onLoad({ vid, dateFrom, dateTo });
+						const deviceId = singleDevice;
+						const dateFrom = dateFromRef.current ? dateFromRef.current.value : null;
+						const dateTo = dateToRef.current ? dateToRef.current.value : null;
+						if (deviceId && dateFrom && dateTo) {
+							onLoad({ deviceId, dateFrom, dateTo });
+						} else {
+							console.error("Nie wszystkie wymagane dane są dostępne.");
+						}
 					}}
 				/>
 			</ButtonContainer>

@@ -425,14 +425,14 @@ export function Table(props: TableProps) {
 
 	return (
 		<Card minWidth={props.width} padding={false}>
-			<StyledHeader>
-				<StyledTitleContainer>
+			<StyledHeader className='header'>
+				<StyledTitleContainer className='title'>
 					<Typography component="h6" color="#000000" userSelect="none">
 						{props.title[props.language]}
 					</Typography>
 				</StyledTitleContainer>
 				{isMobile ? null : (
-					<StyledFilterContainer>
+					<StyledFilterContainer className='filter'>
 						<TextField
 							id="search"
 							label=""
@@ -449,7 +449,7 @@ export function Table(props: TableProps) {
 						/>
 					</StyledFilterContainer>
 				)}
-				<StyledIconContainer>
+				<StyledIconContainer className='icon-container'>
 					{isMobile ? (
 						<>
 							<IconButton isLightColor={false} onClick={() => {}} color="#757575" label={'Menu'}>
@@ -464,7 +464,7 @@ export function Table(props: TableProps) {
 					)}
 				</StyledIconContainer>
 			</StyledHeader>
-			<StyledTable className={isMobile ? 'mobile' : 'desktop'}>
+			<StyledTable className={isMobile ? 'mobile table' : 'desktop table'}>
 				{isMobile ? null : (
 					<thead>
 						<tr>
@@ -494,7 +494,7 @@ export function Table(props: TableProps) {
 					</thead>
 				)}
 				{!isMobile ? (
-					<tbody className="tableBody">
+					<tbody className="table-body">
 						{dataForPage.map((row: DynamicObject) => (
 							<tr
 								key={row.id}

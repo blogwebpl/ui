@@ -90,15 +90,20 @@ export const StyledTable = styled.table`
 		height: 5.6rem;
 	}
 
-	tbody.tableBody > tr:hover {
-		background-color: #eeeeee;
+	// tbody.tableBody > tr:hover {
+	// 	background-color: #eeeeee;
+	// }
+
+	&.desktop tbody tr:hover {
+		background-color: #f7f7f7; 
 	}
+
 	.bodyMobile td {
 		// height: 4rem;
 	}
 
 	.bodyMobile tr {
-		height: 4.8 rem;
+		height: 4.8rem;
 	}
 
 	.bodyMobile td:first-child {
