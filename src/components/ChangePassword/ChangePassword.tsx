@@ -45,7 +45,7 @@ export function ChangePassword(props: ChangePasswordProps) {
 	};
 
 	return (
-		<Card padding minWidth="32rem" isPending={isPending}>
+		<Card padding minWidth="32rem" width='32rem' isPending={isPending}>
 			<Typography component="h6" userSelect="none" color="#000000">
 				Zmiana hasła
 			</Typography>

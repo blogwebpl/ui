@@ -16,7 +16,7 @@ const StyledInventoryContainer = styled.div`
 
 const StyledAppBar = styled.div`
 	margin-top: 1rem;
-	padding: 0.5rem;
+	// padding: 0.5rem;
 `;
 
 const StyledItemsList = styled.ul`
@@ -112,7 +112,7 @@ export function Inventory({ items, language, inventory }: InventoryProps) {
 	}, [items, filterTypeSelected, filterTextSelected, inventory.dgIds]);
 
 	return (
-		<Card minWidth="32rem" padding>
+		<Card minWidth="32rem" width='64rem' padding>
 			<StyledInventoryContainer>
 				<Typography component="h6" userSelect="none" color="#000">
 					Inwentaryzacja

@@ -51,7 +51,7 @@ export function Profile(props: ProfileProps) {
 	const value = props.role || null;
 
 	return (
-		<Card padding minWidth="32rem">
+		<Card padding minWidth="32rem" width="32rem">
 			<Typography component="h6" userSelect="none" color="#000000">
 				Profil użytkownika
 			</Typography>

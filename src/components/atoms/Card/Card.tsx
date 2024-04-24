@@ -5,6 +5,7 @@ interface StyledCardProps {
 	$minwidth: string;
 	$opacity?: boolean;
 	$isPending?: boolean;
+	$width?: string;
 }
 
 const fadeIn = keyframes`
@@ -30,11 +31,10 @@ const StyledCard = styled.div<StyledCardProps>`
 	background-color: ${(props) =>
 		props.$opacity ? 'rgba(255, 255, 255, 0.9)' : props.theme.palette.background.default};
 	backdrop-filter: ${(props) => (props.$opacity ? 'blur(1.5rem)' : 'none')};
-	@media (min-width: 26rem) {
+	@media (min-width:  '24rem') {
 		border-radius: ${(props) => props.theme.shape.borderRadious};
 		margin: 0.8rem 1.6rem;
-		max-width: min(calc(100% - 3.2rem - 3.2rem), ${(props) => props.$minwidth});
-		width: 100%;
+		max-width: min(calc(100% - 3.2rem - 3.2rem), ${(props) => props.$width});
 	}
 	cursor: ${(props) => (props.$isPending ? 'wait' : 'default')};
 `;
@@ -45,11 +45,13 @@ interface CardProps {
 	padding?: boolean;
 	opacity?: boolean;
 	isPending?: boolean;
+	width?: string;
 }
 
 /**
  * Renders a styled card component with optional padding, opacity, and pending state.
  * @param {string} minWidth - The minimum width of the card.
+ * @param {string} [width] - The width of the card.
  * @param {boolean} [padding] - Determines if the card should have padding.
  * @param {boolean} [opacity] - Determines if the card should have reduced opacity.
  * @param {boolean} [isPending] - Determines if the card should show a waiting cursor.
@@ -64,6 +66,7 @@ export function Card(props: CardProps) {
 			$minwidth={props.minWidth}
 			$opacity={props.opacity}
 			$isPending={props.isPending}
+			$width={props.width}
 		>
 			{props.children}
 		</StyledCard>
