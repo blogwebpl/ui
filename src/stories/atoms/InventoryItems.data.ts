@@ -1,4 +1,4 @@
-import { IInventoryItem } from '../../components/atoms/InventoryItems';
+import { IInventoryItem } from '../../components/types';
 
 export const exampleInventoryItems: IInventoryItem[] = [
 	{
@@ -178,7 +178,7 @@ export const exampleInventoryItems: IInventoryItem[] = [
 		owner: 'REA',
 		status: 50,
 		inventoryNumber: 'REA/16/2021',
-		quantity: 1,
+		quantity: 2,
 		unitMeasure: 'szt.',
 	},
 	{
@@ -188,7 +188,7 @@ export const exampleInventoryItems: IInventoryItem[] = [
 		owner: 'REA',
 		status: 50,
 		inventoryNumber: 'REA/17/2021',
-		quantity: 1,
+		quantity: 3,
 		unitMeasure: 'szt.',
 	},
 	{

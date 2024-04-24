@@ -3,11 +3,10 @@ import styled, { keyframes } from 'styled-components';
 import { useState, useEffect, useMemo } from 'react';
 import { ImBarcode } from 'react-icons/im';
 import { debounce } from 'lodash';
-import { Card } from '../Card';
 import { Language } from '../../types';
 import { TextField } from '../TextField';
 import { FieldContainer } from '../FieldContainer';
-import { IInventoryItem } from '../InventoryItems';
+import { IInventoryItem } from '../../types';
 import { ButtonContainer } from '../ButtonContainer';
 import { Button } from '../Button';
 
@@ -153,7 +152,9 @@ export function FreeItems(props: FreeItemsProps) {
 	const [itemNumber, setItemNumber] = useState(props.itemNumber || 1);
 	const [selectedItem, setSelectedItem] = useState<IInventoryItem | null>(null);
 	// const [showAdvancedOptions, setShowAdvancedOptions] = useState(true);
-	const [filteredItems, setFilteredItems] = useState<IInventoryItem[]>(props.items);
+	const [filteredItems, setFilteredItems] = useState<IInventoryItem[]>(
+		props.items
+	);
 	const [note, setNote] = useState('');
 	// const [noteFieldFocused, setNoteFieldFocused] = useState(false);
 
@@ -187,7 +188,8 @@ export function FreeItems(props: FreeItemsProps) {
 		// console.log('Filter start', new Date().toISOString());
 		const lowerCaseSearchText = queryText.toLowerCase();
 		const newFilteredItems = props.items.filter((item) => {
-			const isItemUsed = (tagsUsageMap.get(item.dgId) || 0) >= (item.quantity || 1);
+			const isItemUsed =
+				(tagsUsageMap.get(item.dgId) || 0) >= (item.quantity || 1);
 			return queryText === ''
 				? !isItemUsed
 				: !isItemUsed &&
@@ -205,7 +207,10 @@ export function FreeItems(props: FreeItemsProps) {
 		// console.log('Filter end', new Date().toISOString());
 	};
 
-	const debouncedFilterItems = useMemo(() => debounce(filterItems, 300), [filterItems]);
+	const debouncedFilterItems = useMemo(
+		() => debounce(filterItems, 300),
+		[filterItems]
+	);
 
 	const handleSearchTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const newSearchText = e.target.value;
@@ -276,7 +281,10 @@ export function FreeItems(props: FreeItemsProps) {
 											onClick={() => handleSelectItem(item)}
 											style={{
 												color: selectedItem?.id === item.id ? 'white' : 'black',
-												backgroundColor: selectedItem?.id === item.id ? '#E91E63' : 'transparent',
+												backgroundColor:
+													selectedItem?.id === item.id
+														? '#E91E63'
+														: 'transparent',
 											}}
 										>
 											<b>{item.inventoryNumber}</b>
@@ -290,7 +298,9 @@ export function FreeItems(props: FreeItemsProps) {
 							</StyledList>
 							<StyledMiniContainer>
 								<TextField
-									label={props.language === 'en' ? 'Item number' : 'Numer przedmiotu'}
+									label={
+										props.language === 'en' ? 'Item number' : 'Numer przedmiotu'
+									}
 									type="number"
 									value={itemNumber}
 									onChange={(e) => setItemNumber(parseInt(e.target.value, 10))}

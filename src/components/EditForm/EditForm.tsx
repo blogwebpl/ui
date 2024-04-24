@@ -17,7 +17,8 @@ import { MenuEditor } from '../MenuEditor';
 import { IMenuItem, MenuItemsSchema } from '../atoms/Menu';
 import { IconSelect } from '../atoms/IconSelect';
 import { Labels } from '../atoms/Labels';
-import { IInventoryItem, InventoryItems } from '../atoms/InventoryItems';
+import { IInventoryItem } from '../types';
+import { InventoryItems } from '../atoms/InventoryItems';
 import { UserSelect } from '../atoms/UserSelect';
 import { Checkbox } from '../atoms/Checkbox';
 
@@ -88,7 +89,9 @@ export function EditForm({
 
 	const [error, setError] = useState('');
 	const [activeTab, setActiveTab] = useState(initialActiveTab);
-	const [inputValues, setInputValues] = useState<Record<string, unknown>>(initialValues || {});
+	const [inputValues, setInputValues] = useState<Record<string, unknown>>(
+		initialValues || {}
+	);
 	const [isSaving, setIsSaving] = useState(false);
 
 	useEffect(() => {
@@ -100,7 +103,10 @@ export function EditForm({
 	}, []);
 
 	const validateForm = useCallback(
-		() => fields.every((field) => !field.required || inputValues[field.field] !== ''),
+		() =>
+			fields.every(
+				(field) => !field.required || inputValues[field.field] !== ''
+			),
 		[fields, inputValues]
 	);
 
@@ -109,7 +115,9 @@ export function EditForm({
 		setError('');
 		if (!validateForm()) {
 			setError(
-				language === 'pl' ? 'Wypełnij wszystkie wymagane pola.' : 'Fill all required fields.'
+				language === 'pl'
+					? 'Wypełnij wszystkie wymagane pola.'
+					: 'Fill all required fields.'
 			);
 			setIsSaving(false);
 			return;
@@ -132,7 +140,15 @@ export function EditForm({
 					: 'An error occurred while saving data.'
 			);
 		}
-	}, [validateForm, fields, inputValues, saveData, collection, navigate, language]);
+	}, [
+		validateForm,
+		fields,
+		inputValues,
+		saveData,
+		collection,
+		navigate,
+		language,
+	]);
 
 	const getTitleExtension = useCallback(() => {
 		const extensions = {
@@ -154,7 +170,14 @@ export function EditForm({
 	}
 
 	const SpecialSelect = useCallback(
-		({ options, valueIds, fieldName, shouldHide, label, isMulti = false }: SpecialSelectProps) => {
+		({
+			options,
+			valueIds,
+			fieldName,
+			shouldHide,
+			label,
+			isMulti = false,
+		}: SpecialSelectProps) => {
 			const selectedOptions = options.filter((option) =>
 				isMulti ? valueIds.includes(option.value) : option.value === valueIds
 			);
@@ -166,7 +189,9 @@ export function EditForm({
 						label={label}
 						options={options}
 						value={value}
-						onChange={(newValue: MultiValue<SelectOption> | SingleValue<SelectOption>) => {
+						onChange={(
+							newValue: MultiValue<SelectOption> | SingleValue<SelectOption>
+						) => {
 							setInputValues((v) => ({
 								...v,
 								[fieldName]: isMulti
@@ -193,7 +218,10 @@ export function EditForm({
 				id: field.field,
 				value: inputValues?.[field.field],
 				onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-					const value = field.type === 'number' ? parseFloat(e.target.value) : e.target.value;
+					const value =
+						field.type === 'number'
+							? parseFloat(e.target.value)
+							: e.target.value;
 					setInputValues((v) => ({ ...v, [field.field]: value }));
 				},
 				autoFocus: index === 0,
@@ -227,7 +255,11 @@ export function EditForm({
 				case 'datetime-local':
 					return (
 						<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
-							<TextField type={field.type} {...commonProps} value={inputValues?.[field.field]} />
+							<TextField
+								type={field.type}
+								{...commonProps}
+								value={inputValues?.[field.field]}
+							/>
 						</FieldContainer>
 					);
 				case 'roles':
@@ -254,7 +286,10 @@ export function EditForm({
 							<InventoryItems
 								items={inventoryItems || []}
 								setSelectedItems={(newValue: number[]) => {
-									setInputValues((values) => ({ ...values, [field.field]: newValue }));
+									setInputValues((values) => ({
+										...values,
+										[field.field]: newValue,
+									}));
 								}}
 								{...commonProps}
 								selectedItems={(inputValues?.[field.field] as number[]) || []}
@@ -282,7 +317,10 @@ export function EditForm({
 							language={language}
 							hidden={shouldHide}
 							onChange={(newValue) => {
-								setInputValues((values) => ({ ...values, [field.field]: newValue }));
+								setInputValues((values) => ({
+									...values,
+									[field.field]: newValue,
+								}));
 							}}
 							label={field.label[language]}
 						/>
@@ -296,7 +334,10 @@ export function EditForm({
 								label={field.label[language]}
 								value={(inputValues?.[field.field] as string) || ''}
 								onChange={(newValue) =>
-									setInputValues((values) => ({ ...values, [field.field]: newValue }))
+									setInputValues((values) => ({
+										...values,
+										[field.field]: newValue,
+									}))
 								}
 							/>
 						</FieldContainer>
@@ -310,7 +351,10 @@ export function EditForm({
 								label={field.label[language]}
 								value={inputValues?.[field.field] as string[]}
 								onChange={(newValue) =>
-									setInputValues((values) => ({ ...values, [field.field]: newValue }))
+									setInputValues((values) => ({
+										...values,
+										[field.field]: newValue,
+									}))
 								}
 								users={users || []}
 							/>
@@ -320,9 +364,16 @@ export function EditForm({
 					return (
 						<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
 							<Labels
-								value={(inputValues?.[field.field] as Translations) || { ...labelsDefault }}
+								value={
+									(inputValues?.[field.field] as Translations) || {
+										...labelsDefault,
+									}
+								}
 								onChange={(newValue) => {
-									setInputValues((values) => ({ ...values, [field.field]: newValue }));
+									setInputValues((values) => ({
+										...values,
+										[field.field]: newValue,
+									}));
 								}}
 								label={field.label[language]}
 							/>
@@ -363,7 +414,10 @@ export function EditForm({
 		]
 	);
 
-	const renderedFields = useMemo(() => fields.map(renderField), [fields, renderField]);
+	const renderedFields = useMemo(
+		() => fields.map(renderField),
+		[fields, renderField]
+	);
 
 	return (
 		<Card minWidth={width || '48rem'} padding isPending={isSaving}>
@@ -394,7 +448,12 @@ export function EditForm({
 					disabled={isSaving}
 				/>
 				{mode !== 'view' && (
-					<Button label="Zapisz" variant="primary" onClick={handleClickSave} disabled={isSaving} />
+					<Button
+						label="Zapisz"
+						variant="primary"
+						onClick={handleClickSave}
+						disabled={isSaving}
+					/>
 				)}
 			</ButtonContainer>
 		</Card>
