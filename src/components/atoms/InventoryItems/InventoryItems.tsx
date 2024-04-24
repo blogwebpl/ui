@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { debounce } from 'lodash';
 import { TextField } from '../TextField';
 import { Button } from '../Button';
-import { Language } from '../../types';
+import { IInventoryItem, Language } from '../../types';
 import { Select, SelectOption } from '../Select';
 
 const StyledInventoryItems = styled.div`
@@ -61,19 +61,6 @@ const StyledItemsList = styled.div`
 	height: calc(100vh - 55rem);
 `;
 
-export interface IInventoryItem {
-	id: string;
-	dgId: number;
-	inventoryNumber: string;
-	itemName: string;
-	leadPerson?: string;
-	owner: string;
-	quantity?: number;
-	unitMeasure?: string;
-	status: number;
-	notes?: string;
-}
-
 interface InventoryItemsProps {
 	items: IInventoryItem[];
 	selectedItems: number[];
@@ -88,18 +75,23 @@ export function InventoryItems({
 	language,
 }: InventoryItemsProps) {
 	const unselectedItems = useMemo(
-		() => items.map((item) => item.dgId).filter((dgId) => !selectedItems.includes(dgId)),
+		() =>
+			items
+				.map((item) => item.dgId)
+				.filter((dgId) => !selectedItems.includes(dgId)),
 		[items, selectedItems]
 	);
 
-	const [filterTypeSelected, setFilterTypeSelected] = useState<SelectOption | null>({
-		value: 'none',
-		label: language === 'en' ? 'None' : 'Brak',
-	});
-	const [filterTypeUnselected, setFilterTypeUnselected] = useState<SelectOption | null>({
-		value: 'none',
-		label: language === 'en' ? 'None' : 'Brak',
-	});
+	const [filterTypeSelected, setFilterTypeSelected] =
+		useState<SelectOption | null>({
+			value: 'none',
+			label: language === 'en' ? 'None' : 'Brak',
+		});
+	const [filterTypeUnselected, setFilterTypeUnselected] =
+		useState<SelectOption | null>({
+			value: 'none',
+			label: language === 'en' ? 'None' : 'Brak',
+		});
 	const [filterTextSelected, setFilterTextSelected] = useState('');
 	const [filterTextUnselected, setFilterTextUnselected] = useState('');
 
@@ -111,11 +103,17 @@ export function InventoryItems({
 		if (!filterType || filterType.value === 'none') return i;
 		const lowerCaseFilterText = filterText.toLowerCase();
 		if (filterType.value === 'name')
-			return i.filter((item) => item.itemName.toLowerCase().includes(lowerCaseFilterText));
+			return i.filter((item) =>
+				item.itemName.toLowerCase().includes(lowerCaseFilterText)
+			);
 		if (filterType.value === 'owner')
-			return i.filter((item) => item.owner.toLowerCase().includes(lowerCaseFilterText));
+			return i.filter((item) =>
+				item.owner.toLowerCase().includes(lowerCaseFilterText)
+			);
 		if (filterType.value === 'inventoryNumber')
-			return i.filter((item) => item.inventoryNumber.toLowerCase().includes(lowerCaseFilterText));
+			return i.filter((item) =>
+				item.inventoryNumber.toLowerCase().includes(lowerCaseFilterText)
+			);
 		return i;
 	};
 
@@ -147,7 +145,10 @@ export function InventoryItems({
 			filterTextUnselected
 		);
 		console.log(filteredUnselected.map((item) => item.dgId));
-		setSelectedItems([...selectedItems, ...filteredUnselected.map((item) => item.dgId)]);
+		setSelectedItems([
+			...selectedItems,
+			...filteredUnselected.map((item) => item.dgId),
+		]);
 	};
 
 	const handleRemoveFromSelected = () => {
@@ -157,14 +158,18 @@ export function InventoryItems({
 			filterTextSelected
 		);
 		setSelectedItems(
-			selectedItems.filter((id) => !filteredSelected.map((item) => item.dgId).includes(id))
+			selectedItems.filter(
+				(id) => !filteredSelected.map((item) => item.dgId).includes(id)
+			)
 		);
 	};
 
 	return (
 		<StyledInventoryItems>
 			<StyledSelectedItems>
-				<StyledTitle>{language === 'en' ? 'Selecteds Items' : 'Wybrane przedmioty'}</StyledTitle>
+				<StyledTitle>
+					{language === 'en' ? 'Selecteds Items' : 'Wybrane przedmioty'}
+				</StyledTitle>
 				<StyledAppBar>
 					<TextField
 						label={language === 'en' ? 'Filter' : 'Filtr'}
@@ -178,7 +183,9 @@ export function InventoryItems({
 						label={language === 'en' ? 'Filter Type' : 'Typ Filtra'}
 						options={filterOptions}
 						value={filterTypeSelected}
-						onChange={(selectedOption) => setFilterTypeSelected(selectedOption as SelectOption)}
+						onChange={(selectedOption) =>
+							setFilterTypeSelected(selectedOption as SelectOption)
+						}
 						isClearable={true}
 					/>
 				</StyledAppBar>
@@ -190,7 +197,8 @@ export function InventoryItems({
 							filterTextSelected
 						).map((item) => (
 							<li key={item.id}>
-								{item.itemName} {item.quantity && `- ${item.quantity} ${item.unitMeasure}`}
+								{item.itemName}{' '}
+								{item.quantity && `- ${item.quantity} ${item.unitMeasure}`}
 								<br />
 								{item.owner} - {item.inventoryNumber}
 							</li>
@@ -199,8 +207,16 @@ export function InventoryItems({
 				</StyledItemsList>
 			</StyledSelectedItems>
 			<StyledOptions>
-				<Button label={'<<<'} variant={'primary'} onClick={handleAddToSelected}></Button>
-				<Button label={'>>>'} variant={'primary'} onClick={handleRemoveFromSelected}></Button>
+				<Button
+					label={'<<<'}
+					variant={'primary'}
+					onClick={handleAddToSelected}
+				></Button>
+				<Button
+					label={'>>>'}
+					variant={'primary'}
+					onClick={handleRemoveFromSelected}
+				></Button>
 			</StyledOptions>
 			<StyledUnselectedItems>
 				<StyledTitle>
@@ -219,7 +235,9 @@ export function InventoryItems({
 						label={language === 'en' ? 'Filter Type' : 'Typ Filtra'}
 						options={filterOptions}
 						value={filterTypeUnselected}
-						onChange={(selectedOption) => setFilterTypeUnselected(selectedOption as SelectOption)}
+						onChange={(selectedOption) =>
+							setFilterTypeUnselected(selectedOption as SelectOption)
+						}
 						isClearable={true}
 					/>
 				</StyledAppBar>
@@ -231,7 +249,8 @@ export function InventoryItems({
 							filterTextUnselected
 						).map((item) => (
 							<li key={item.id}>
-								{item.itemName} {item.quantity && `- ${item.quantity} ${item.unitMeasure}`}
+								{item.itemName}{' '}
+								{item.quantity && `- ${item.quantity} ${item.unitMeasure}`}
 								<br />
 								{item.owner} - {item.inventoryNumber}
 							</li>
