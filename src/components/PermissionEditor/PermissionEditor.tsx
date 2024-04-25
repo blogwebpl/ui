@@ -1,7 +1,7 @@
 import { Card } from '../atoms/Card';
 
 export function PermissionEditor() {
-	return <Card minWidth="32rem">Permission Editor</Card>;
+	return <Card width="32rem">Permission Editor</Card>;
 }
 
 // "collection" : "tags",

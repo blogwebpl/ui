@@ -2,7 +2,6 @@ import styled, { keyframes } from 'styled-components';
 
 interface StyledCardProps {
 	$padding?: boolean;
-	$minwidth: string;
 	$opacity?: boolean;
 	$isPending?: boolean;
 	$width?: string;
@@ -31,7 +30,7 @@ const StyledCard = styled.div<StyledCardProps>`
 	background-color: ${(props) =>
 		props.$opacity ? 'rgba(255, 255, 255, 0.9)' : props.theme.palette.background.default};
 	backdrop-filter: ${(props) => (props.$opacity ? 'blur(1.5rem)' : 'none')};
-	@media (min-width:  '24rem') {
+	@media (min-width: 24rem) {
 		border-radius: ${(props) => props.theme.shape.borderRadious};
 		margin: 0.8rem 1.6rem;
 		max-width: min(calc(100% - 3.2rem - 3.2rem), ${(props) => props.$width});
@@ -41,7 +40,6 @@ const StyledCard = styled.div<StyledCardProps>`
 
 interface CardProps {
 	children: React.ReactNode;
-	minWidth: string;
 	padding?: boolean;
 	opacity?: boolean;
 	isPending?: boolean;
@@ -50,7 +48,6 @@ interface CardProps {
 
 /**
  * Renders a styled card component with optional padding, opacity, and pending state.
- * @param {string} minWidth - The minimum width of the card.
  * @param {string} [width] - The width of the card.
  * @param {boolean} [padding] - Determines if the card should have padding.
  * @param {boolean} [opacity] - Determines if the card should have reduced opacity.
@@ -63,7 +60,6 @@ export function Card(props: CardProps) {
 		<StyledCard
 			className='card'
 			$padding={props.padding}
-			$minwidth={props.minWidth}
 			$opacity={props.opacity}
 			$isPending={props.isPending}
 			$width={props.width}

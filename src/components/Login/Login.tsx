@@ -52,7 +52,7 @@ export function Login(props: LoginProps) {
 	};
 
 	return (
-		<Card padding minWidth="32rem" width='32rem' opacity={true}>
+		<Card padding width="32rem" opacity={true}>
 			{props.logo && (
 				<Logo
 					src={props.logo}

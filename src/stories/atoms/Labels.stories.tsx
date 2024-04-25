@@ -9,7 +9,7 @@ const Template = (args: any) => {
 	const [value, setValue] = useState<Translations>({ pl: 'Użytownik', en: 'User' });
 	return (
 		<Main isCovered={false} isDrawerOpen={false} setIsDrawerOpen={undefined}>
-			<Card minWidth="42rem" padding={true}>
+			<Card width="42rem" padding={true}>
 				<Labels {...args} value={value || args.value} onChange={setValue} label="Labels" />
 			</Card>
 		</Main>

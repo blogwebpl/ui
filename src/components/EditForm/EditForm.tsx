@@ -420,7 +420,7 @@ export function EditForm({
 	);
 
 	return (
-		<Card minWidth='32rem' width={width || '48rem'} padding isPending={isSaving}>
+		<Card width={width || '48rem'} padding isPending={isSaving}>
 			<StyledTitle>
 				<Typography component="h6" userSelect="none" color="#eee">
 					{title[language] + extTitle}

@@ -11,7 +11,7 @@ const Template = (args: any) => {
 	const [value, setValue] = useState('');
 	return (
 		<Main isCovered={false} isDrawerOpen={false} setIsDrawerOpen={undefined}>
-			<Card minWidth="42rem" padding={true}>
+			<Card width="42rem" padding={true}>
 				<TextField {...args} value={value || args.value} setValue={setValue} />
 			</Card>
 		</Main>

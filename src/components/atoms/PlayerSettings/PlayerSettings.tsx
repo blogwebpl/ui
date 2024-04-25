@@ -24,6 +24,8 @@ const todayEnd = new Date(
 );
 
 export function PlayerSettings({ devices, onLoad, onClose }: PlayerSettingsProps) {
+	if (!devices || devices.length === 0) return null;
+
 	const dateFromRef = useRef<HTMLInputElement>(null);
 	const dateToRef = useRef<HTMLInputElement>(null);
 
@@ -34,10 +36,8 @@ export function PlayerSettings({ devices, onLoad, onClose }: PlayerSettingsProps
 		}))
 		.sort((device1, device2) => (device1.label < device2.label ? -1 : 1));
 
-	// Ustawienie domyślnego urządzenia, jeśli lista urządzeń nie jest pusta
 	const [device, setDevice] = useState<SelectOption | null>(options[0] ? options[0] : null);
 
-	// Aktualizacja stanu urządzenia, gdy lista urządzeń się zmienia
 	useEffect(() => {
 		const isCurrentDeviceAvailable = options.find(option => option.value === device?.value);
 		if (!isCurrentDeviceAvailable && options.length > 0) {
@@ -54,7 +54,7 @@ export function PlayerSettings({ devices, onLoad, onClose }: PlayerSettingsProps
 	if (!device) return null;
 
 	return (
-		<Card minWidth="46rem" padding>
+		<Card width="46rem" padding>
 			<Typography component="h6" userSelect="none" color="#000000">
 				Ustawienia trasy
 			</Typography>

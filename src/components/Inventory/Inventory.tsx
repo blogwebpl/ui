@@ -112,7 +112,7 @@ export function Inventory({ items, language, inventory }: InventoryProps) {
 	}, [items, filterTypeSelected, filterTextSelected, inventory.dgIds]);
 
 	return (
-		<Card minWidth="32rem" width='64rem' padding>
+		<Card width='64rem' padding>
 			<StyledInventoryContainer>
 				<Typography component="h6" userSelect="none" color="#000">
 					Inwentaryzacja

@@ -424,7 +424,7 @@ export function Table(props: TableProps) {
 	};
 
 	return (
-		<Card minWidth={props.width} padding={false}>
+		<Card width={props.width} padding={false}>
 			<StyledHeader className='header'>
 				<StyledTitleContainer className='title'>
 					<Typography component="h6" color="#000000" userSelect="none">
