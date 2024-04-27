@@ -11,7 +11,7 @@ export const StyledMain = styled.main<{
 	position: relative;
 	// right: 0;
 	// bottom: 0;
-	height: 100vh;
+	min-height: 100vh;
 	@media (orientation: landscape) {
 		// top: 4.8rem;
 		padding-top: 4.8rem;

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const StyledMenuEditor = styled.div`
 	label:first-child {
 		padding: 0.6rem 0.4rem;
-		background-color: white;
+		// background-color: white;
 		top: -1.3rem;
 		left: -0.2rem;
 		position: relative;
@@ -11,6 +11,18 @@ export const StyledMenuEditor = styled.div`
 		color: #00000080;
 		display: inline-block;
 		width: fit-content;
+		z-index: 1;
+	}
+	label:first-child::before {
+		content: ''; 
+		position: absolute;
+		left: 0; 
+		right: 0; 
+		height: 0.1rem;
+		background-color: white;
+		top: 50%; 
+		transform: translateY(-50%);
+		z-index: -1; // Ensure the ::before content is behind the label
 	}
 	margin-top: 1rem;
 	width: 100%;

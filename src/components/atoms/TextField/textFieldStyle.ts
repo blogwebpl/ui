@@ -53,7 +53,7 @@ export const StyledContainer = styled.fieldset<{ $icon: boolean; $slim?: boolean
 			`}
 	}
 	label {
-		background-color: ${(props) => props.theme.palette.background.default};
+		// background-color: ${(props) => props.theme.palette.background.default};
 		font-family: ${(props) => props.theme.typography.fontFamily};
 		font-size: ${(props) => props.theme.typography.fontSize.normal};
 		font-weight: ${(props) => props.theme.typography.fontWeightRegular};
@@ -63,6 +63,17 @@ export const StyledContainer = styled.fieldset<{ $icon: boolean; $slim?: boolean
 		position: absolute;
 		top: 0;
 		user-select: none;
+	}
+	label::before {
+		content: ''; 
+		position: absolute;
+		left: 0; 
+		right: 0; 
+		height: 0.3rem;
+		background-color: white;
+		top: 50%; 
+		transform: translateY(-50%);
+		z-index: -1; 
 	}
 	input ~ label {
 		color: ${(props) => props.theme.palette.text.secondary};
