@@ -6,7 +6,7 @@ export const StyledMain = styled.main<{
 	$background?: string;
 }>`
 
-	overflow: hidden;
+	overflow: auto;
 	// left: 0;
 	position: relative;
 	// right: 0;
