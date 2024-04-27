@@ -10,6 +10,7 @@ export const tableData = [
 			test2: 7,
 			test3: 3,
 		},
+		testb: true,
 	},
 	{
 		id: 2,
@@ -22,6 +23,7 @@ export const tableData = [
 			test2: 4,
 			test3: 3,
 		},
+		testb: false,
 	},
 	{
 		id: 3,
@@ -34,6 +36,7 @@ export const tableData = [
 			test2: 1,
 			test3: 3,
 		},
+		testb: true,
 	},
 	{
 		id: 4,
@@ -46,6 +49,7 @@ export const tableData = [
 			test2: 2,
 			test3: 3,
 		},
+		testb: false,
 	},
 	{
 		id: 5,
@@ -58,6 +62,7 @@ export const tableData = [
 			test2: 9,
 			test3: 3,
 		},
+		testb: true,
 	},
 	{
 		id: 6,
@@ -70,6 +75,7 @@ export const tableData = [
 			test2: 8,
 			test3: 3,
 		},
+		testb: false,
 	},
 	{
 		id: 7,
@@ -82,6 +88,7 @@ export const tableData = [
 			test2: 2,
 			test3: 3,
 		},
+		testb: true,
 	},
 	{
 		id: 8,
@@ -94,6 +101,7 @@ export const tableData = [
 			test2: 2,
 			test3: 3,
 		},
+		testb: false,
 	},
 	{
 		id: 9,
@@ -106,6 +114,7 @@ export const tableData = [
 			test2: 2,
 			test3: 3,
 		},
+		testb: true,
 	},
 	{
 		id: 10,
@@ -118,6 +127,7 @@ export const tableData = [
 			test2: 2,
 			test3: 3,
 		},
+		testb: false,
 	},
 	{
 		id: 11,
@@ -130,6 +140,7 @@ export const tableData = [
 			test2: 2,
 			test3: 3,
 		},
+		testb: true,
 	},
 	{
 		id: 12,
@@ -142,6 +153,7 @@ export const tableData = [
 			test2: 2,
 			test3: 3,
 		},
+		testb: false,
 	},
 	{
 		id: 13,
@@ -154,6 +166,7 @@ export const tableData = [
 			test2: 2,
 			test3: 3,
 		},
+		testb: true,
 	},
 	{
 		id: 14,
@@ -166,6 +179,7 @@ export const tableData = [
 			test2: 2,
 			test3: 3,
 		},
+		testb: false,
 	},
 	{
 		id: 15,
@@ -178,6 +192,7 @@ export const tableData = [
 			test2: 2,
 			test3: 3,
 		},
+		testb: true,
 	},
 	{
 		id: 16,
@@ -190,6 +205,7 @@ export const tableData = [
 			test2: 2,
 			test3: 3,
 		},
+		testb: false,
 	},
 	{
 		id: 17,
@@ -202,6 +218,7 @@ export const tableData = [
 			test2: 2,
 			test3: 3,
 		},
+		testb: true,
 	},
 	{
 		id: 18,
@@ -214,6 +231,7 @@ export const tableData = [
 			test2: 2,
 			test3: 3,
 		},
+		testb: false,
 	},
 	{
 		id: 19,
@@ -226,6 +244,7 @@ export const tableData = [
 			test2: 2,
 			test3: 3,
 		},
+		testb: true,
 	},
 	{
 		id: 20,
@@ -238,6 +257,7 @@ export const tableData = [
 			test2: 2,
 			test3: 3,
 		},
+		testb: true,
 	},
 	{
 		id: 21,
@@ -250,6 +270,7 @@ export const tableData = [
 			test2: 2,
 			test3: 3,
 		},
+		testb: true
 	},
 	{
 		id: 22,
@@ -262,6 +283,7 @@ export const tableData = [
 			test2: 2,
 			test3: 3,
 		},
+		testb: false
 	},
 	{
 		id: 23,
@@ -274,6 +296,7 @@ export const tableData = [
 			test2: 2,
 			test3: 3,
 		},
+		testb: true
 	},
 	{
 		id: 24,
@@ -286,6 +309,7 @@ export const tableData = [
 			test2: 2,
 			test3: 3,
 		},
+		testb: false
 	},
 	{
 		id: 25,

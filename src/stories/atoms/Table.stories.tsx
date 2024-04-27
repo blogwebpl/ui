@@ -87,6 +87,14 @@ const tableColumns: TableColumn[] = [
 		sortOrder: 4,
 		type: 'number',
 	},
+	{
+		field: 'testb',
+		label: { pl: 'TestB', en: 'TestB' },
+		width: '10rem',
+		sort: 'desc',
+		sortOrder: 5,
+		type: 'boolean',
+	},
 ];
 
 const Template = () => {

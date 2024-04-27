@@ -520,12 +520,12 @@ export function Table(props: TableProps) {
 									const pathArray = column.field.split('.');
 									const cellValue = pathArray.reduce((obj, key) => obj && obj[key], row);
 
-									return (
-										<td
+										return (
+											<td
 											key={`${row.id}-${column.field}`}
 											className={column.type === 'number' ? 'number' : ''}
 										>
-											{cellValue != null ? cellValue.toString() : ''}
+											{cellValue != null ? (typeof cellValue === 'boolean' ? (cellValue ? 'TAK' : 'NIE') : cellValue.toString()) : ''}
 										</td>
 									);
 								})}
