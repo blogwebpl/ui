@@ -525,7 +525,7 @@ export function Table(props: TableProps) {
 											key={`${row.id}-${column.field}`}
 											className={column.type === 'number' ? 'number' : ''}
 										>
-											{cellValue != null ? (typeof cellValue === 'boolean' ? (cellValue ? 'TAK' : 'NIE') : cellValue.toString()) : ''}
+											{typeof cellValue !== 'undefined' ? (typeof cellValue === 'boolean' ? (cellValue ? 'TAK' : 'NIE') : cellValue.toString()) : ''}
 										</td>
 									);
 								})}
@@ -558,6 +558,7 @@ export function Table(props: TableProps) {
 							<tbody key={`${row.id}-tbody`} className="bodyMobile">
 								{mergedColumns.map((column: TableColumn, index: number) => {
 									const pathArray = column.field.split('.');
+									const cellValue = pathArray.reduce((obj, key) => obj && obj[key], row);
 
 									return (
 										<tr key={`${row.id}-tr-${index}`} className="innerRow">
@@ -569,7 +570,7 @@ export function Table(props: TableProps) {
 												<span className={column.sort === 'asc' ? 'asc' : 'desc'}>▲</span>&nbsp;
 												<span>{column.label[props.language]}:</span>
 											</td>
-											<td>{pathArray.reduce((obj, key) => obj && obj[key], row).toString()}</td>
+											<td>{typeof cellValue !== 'undefined' ? (typeof cellValue === 'boolean' ? (cellValue ? 'TAK' : 'NIE') : cellValue.toString()) : ''}</td>
 										</tr>
 									);
 								})}
