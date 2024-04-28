@@ -3,11 +3,15 @@ import { MdPerson as IconPerson } from 'react-icons/md';
 import styled from 'styled-components';
 import { MultiValue, SingleValue } from 'react-select';
 import { Card } from '../atoms/Card';
-import { CardMenu, ICardMenuItem } from '../atoms/CardMenu';
+import { CardMenu } from '../atoms/CardMenu';
 import { FieldContainer } from '../atoms/FieldContainer';
 import { Select, SelectOption } from '../atoms/Select';
 import { Typography } from '../atoms/Typography';
-
+import { Action } from '../atoms/Tools';
+import {
+	MdCreate as EditIcon,
+	MdLock as LockIcon
+} from 'react-icons/md';
 const StyledEmailContainer = styled.div`
 	color: ${(props) => props.theme.palette.text.secondary};
 	display: flex;
@@ -35,14 +39,14 @@ interface ProfileProps {
 }
 
 export function Profile(props: ProfileProps) {
-	const menuItems: ICardMenuItem[] = [
+	const menuItems: Action[] = [
 		{
 			id: 'changePassword',
-			icon: 'Edit',
-			label: { pl: 'Zmień hasło', en: 'Change password' },
+			icon: EditIcon,
+			hint: { pl: 'Zmień hasło', en: 'Change password' },
 			onClick: props.changePassword,
 		},
-		{ id: 'lock', icon: 'Lock', label: { pl: 'Wyloguj', en: 'Sign out' }, onClick: props.logout },
+		{ id: 'lock', icon: LockIcon, hint: { pl: 'Wyloguj', en: 'Sign out' }, onClick: props.logout },
 	];
 	if (!props.role) {
 		return null;

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Language, Translations } from '../../types';
 import { getIconComponent } from '../IconSelect';
+import { Action } from '../Tools';
 
 const StyledUl = styled.ul`
 	padding: 0;
@@ -40,8 +41,9 @@ export interface ICardMenuItem {
 	onClick?: () => void;
 }
 
+
 interface CardMenuProps {
-	items: ICardMenuItem[];
+	items: Action[];
 	language: Language;
 }
 
@@ -50,7 +52,8 @@ export function CardMenu(props: CardMenuProps) {
 		<StyledUl>
 			{props.items.map((item) => {
 				if (item.icon === null) return null;
-				const IconComponent = getIconComponent(item.icon);
+				// const IconComponent = getIconComponent(item.icon);
+				const IconComponent = item.icon;
 				return (
 					<li key={item.id} onClick={item.onClick}>
 						{IconComponent && (
@@ -58,7 +61,7 @@ export function CardMenu(props: CardMenuProps) {
 								<IconComponent size="2.4rem" />
 							</StyledIconContainer>
 						)}
-						<StyledLabelContainer>{item.label[props.language]}</StyledLabelContainer>
+						<StyledLabelContainer>{item.hint[props.language]}</StyledLabelContainer>
 					</li>
 				);
 			})}

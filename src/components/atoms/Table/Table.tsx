@@ -14,13 +14,14 @@ import {
 	MdOutlineChevronRight as NextIcon,
 	MdOutlineChevronLeft as PrevIcon,
 	MdDelete as TrashIcon,
+	MdClear
 } from 'react-icons/md';
 
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { Card } from '../Card';
 import { TextField } from '../TextField';
 import { Typography } from '../Typography';
-import { Tools } from '../Tools';
+import { Action, Tools } from '../Tools';
 import { IconButton } from '../IconButton';
 import { Checkbox } from '../Checkbox';
 import {
@@ -34,14 +35,9 @@ import {
 	StyledFooterItem,
 } from './tableStyle';
 import { Language, Translations } from '../../types';
+import styled from 'styled-components';
+import { CardMenu } from '../CardMenu';
 
-export interface TableAction {
-	id: string;
-	icon: IconType;
-	hint: string;
-	disabled?: boolean;
-	onClick: () => void;
-}
 
 export interface TableColumn {
 	field: string;
@@ -58,7 +54,7 @@ interface DynamicObject {
 
 export interface TableProps {
 	title: Translations;
-	actions: TableAction[];
+	actions: Action[];
 	width: string;
 	columns: TableColumn[];
 	data: DynamicObject[];
@@ -71,6 +67,18 @@ export interface TableProps {
 	mobileWidth?: number;
 	deleteAction?: (ids: string[]) => Promise<boolean>;
 }
+
+const StyledMenu = styled.div`
+	position: absolute;
+	padding: 1rem;
+	top: 4.8rem;
+	right: 0;
+	min-width:50%;
+	max-width: 75%;
+	height: auto;
+	background-color: #eee;
+	z-index: 1000;
+`;
 
 function getFontSizeFromBody(): number {
 	const bodyElement = document.body;
@@ -130,6 +138,7 @@ export function Table(props: TableProps) {
 	const [searchDelayTimer, setSearchDelayTimer] = useState<NodeJS.Timeout | null>(null);
 	const [checkedRows, setCheckedRows] = useState<{ [key: string]: boolean }>({});
 	const [allChecked, setAllChecked] = useState(false);
+	const [showMiniMenu, setShowMiniMenu] = useState(false);
 
 	const numberOfCheckedRows = Object.values(checkedRows).filter((checked) => checked).length;
 
@@ -361,10 +370,10 @@ export function Table(props: TableProps) {
 	if (numberOfCheckedRows && canDelete) {
 		tableActions = props.actions.map((action) => {
 			if (action.id === 'add') {
-				const a: TableAction = {
+				const a: Action = {
 					id: 'del',
 					icon: TrashIcon,
-					hint: 'usuń',
+					hint: { pl: 'usuń', en: 'delete' },
 					disabled: false,
 					onClick: () => {
 						Swal.fire({
@@ -397,7 +406,7 @@ export function Table(props: TableProps) {
 	if (!canCreate) {
 		tableActions = props.actions.map((action) => {
 			if (action.id === 'add') {
-				const a: TableAction = {
+				const a: Action = {
 					...action,
 					onClick: () => {
 						alert('Brak uprawnień do dodawania');
@@ -421,6 +430,10 @@ export function Table(props: TableProps) {
 		} else {
 			navigate(`/${props.collection}/edit/${id}`);
 		}
+	};
+
+	const MiniMenu = () => {
+		return <StyledMenu><CardMenu items={tableActions} language={props.language} /></StyledMenu>
 	};
 
 	return (
@@ -455,12 +468,15 @@ export function Table(props: TableProps) {
 							<IconButton isLightColor={false} onClick={() => {}} color="#757575" label={'Menu'}>
 								<SearchIcon size="2.4rem" color="#757575" />
 							</IconButton>
-							<IconButton isLightColor={false} onClick={() => {}} color="#757575" label={'Menu'}>
-								<DotsIcon size="2.4rem" color="#757575" />
+							<IconButton isLightColor={false} onClick={() => {
+								setShowMiniMenu((state)=>!state);
+							}} color="#757575" label={'Menu'}>
+								{showMiniMenu ? <MdClear size="2.4rem" color="#757575" /> : <DotsIcon size="2.4rem" color="#757575" />}
 							</IconButton>
+							{showMiniMenu && isMobile ? <MiniMenu /> : null}
 						</>
-					) : (
-						<Tools actions={tableActions} />
+					) : (	
+						<Tools actions={tableActions} language={props.language} />
 					)}
 				</StyledIconContainer>
 			</StyledHeader>

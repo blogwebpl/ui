@@ -9,14 +9,15 @@ import { FaFileExcel as ExcelIcon } from 'react-icons/fa';
 
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { Table, TableAction, TableColumn } from '../../components/atoms/Table';
+import { Table, TableColumn } from '../../components/atoms/Table';
 import { tableData } from './table.data';
+import { Action } from '../../components/atoms/Tools';
 
-const actions: TableAction[] = [
+const actions: Action[] = [
 	{
 		id: 'sort',
 		icon: SortIcon,
-		hint: 'kol.sort.',
+		hint: { pl: 'kol.sort.', en: 'sort' },
 		disabled: false,
 		onClick: () => {
 			alert('kolejnosc sortowania');
@@ -25,7 +26,7 @@ const actions: TableAction[] = [
 	{
 		id: 'print',
 		icon: PrintIcon,
-		hint: 'drukuj',
+		hint: { pl: 'drukuj', en: 'print' },
 		disabled: false,
 		onClick: () => {
 			alert('drukuj');
@@ -34,7 +35,7 @@ const actions: TableAction[] = [
 	{
 		id: 'excel',
 		icon: ExcelIcon,
-		hint: 'do excela',
+		hint: { pl: 'do excela', en: 'to excel' },
 		disabled: false,
 		onClick: () => {
 			alert('excel');
@@ -43,7 +44,7 @@ const actions: TableAction[] = [
 	{
 		id: 'add',
 		icon: AddIcon,
-		hint: 'dodaj',
+		hint: { pl: 'dodaj', en: 'add' },
 		disabled: false,
 		onClick: () => {
 			alert('dodaj');

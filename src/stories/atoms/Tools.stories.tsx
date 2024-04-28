@@ -12,7 +12,7 @@ const actions: Action[] = [
 	{
 		id: 'sort',
 		icon: SortIcon,
-		hint: 'kol.sort.',
+		hint: { pl: 'kol.sort.', en: 'sort' },
 		disabled: false,
 		onClick: () => {
 			alert('kolejnosc sortowania');
@@ -21,7 +21,7 @@ const actions: Action[] = [
 	{
 		id: 'print',
 		icon: PrintIcon,
-		hint: 'drukuj',
+		hint: { pl: 'drukuj', en: 'print' },
 		disabled: false,
 		onClick: () => {
 			alert('drukuj');
@@ -30,7 +30,7 @@ const actions: Action[] = [
 	{
 		id: 'excel',
 		icon: ExcelIcon,
-		hint: 'do excela',
+		hint: { pl: 'do excela', en: 'to excel' },
 		disabled: false,
 		onClick: () => {
 			alert('excel');
@@ -39,7 +39,7 @@ const actions: Action[] = [
 	{
 		id: 'add',
 		icon: AddIcon,
-		hint: 'dodaj',
+		hint: { pl: 'dodaj', en: 'add' },
 		disabled: false,
 		onClick: () => {
 			alert('dodaj');
@@ -48,7 +48,7 @@ const actions: Action[] = [
 ];
 
 const Template = () => {
-	return <Tools actions={actions} />;
+	return <Tools actions={actions} language="pl" />;
 };
 
 export default { component: Template, title: 'Atoms/Tools' };

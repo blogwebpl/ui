@@ -1,18 +1,23 @@
 /* eslint-disable no-alert */
 
-import { CardMenu, ICardMenuItem } from '../../components/atoms/CardMenu';
+import { CardMenu } from '../../components/atoms/CardMenu';
+import { Action } from '../../components/atoms/Tools';
+import {
+	MdPerson as IconPerson,
+	MdLock as IconLock,
+} from 'react-icons/md';
 
-const items: ICardMenuItem[] = [
+const items: Action[] = [
 	{
 		id: 'person',
-		icon: 'Person',
-		label: { en: 'Person Link', pl: 'Person Link' },
+		icon: IconPerson,
+		hint: { en: 'Person Link', pl: 'Person Link' },
 		onClick: () => alert('Person'),
 	},
 	{
 		id: 'lock',
-		icon: 'Lock',
-		label: { en: 'Lock Link', pl: 'Lock Link' },
+		icon: IconLock,
+		hint: { en: 'Lock Link', pl: 'Lock Link' },
 		onClick: () => alert('Lock'),
 	},
 ];
