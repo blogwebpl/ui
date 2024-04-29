@@ -21,6 +21,9 @@ export const StyledFilterContainer = styled.div`
 	align-items: center;
 	flex: 0 0 100%;
 	max-width: 18rem;
+	&.mobile {
+		max-width: 100%;
+	}
 `;
 export const StyledIconContainer = styled.div`
 	flex: 0;

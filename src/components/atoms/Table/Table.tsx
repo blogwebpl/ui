@@ -139,40 +139,42 @@ export function Table(props: TableProps) {
 	const [checkedRows, setCheckedRows] = useState<{ [key: string]: boolean }>({});
 	const [allChecked, setAllChecked] = useState(false);
 	const [showMiniMenu, setShowMiniMenu] = useState(false);
+	const [showSearch, setShowSearch] = useState(false);
 
 	const numberOfCheckedRows = Object.values(checkedRows).filter((checked) => checked).length;
-
+	// Update columns when props.columns changes
 	useEffect(() => {
 		setColumns(mergedColumns);
 	}, [props.columns]);
 
+	// Compute filtered data based on search text
 	const filteredData = useMemo(() => {
-		if (searchText.length > 0) {
+		if (searchText && searchText.length > 0) {
 			return data.filter((item) =>
 				Object.entries(item).some(([key, value]) => {
 					if (key === 'id') {
-						return false;
+						return false; // Skip 'id' field
 					}
 
-					if (typeof value === 'object') {
+					if (value && typeof value === 'object') {
 						return Object.entries(value).some(([objKey, objValue]) => {
 							const isKeyInColumns = columns.some((column) => column.field === `${key}.${objKey}`);
 							if (!isKeyInColumns) {
-								return false;
+								return false; // Skip if key is not in columns
 							}
 
-							return String(objValue).toLowerCase().includes(searchText.toLowerCase());
+							return objValue !== null && String(objValue).toLowerCase().includes(searchText.toLowerCase());
 						});
 					}
 					if (typeof value === 'number') {
-						return String(value).includes(searchText);
+						return String(value).includes(searchText); // Check if number includes search text
 					}
 
-					return value.toLowerCase().includes(searchText.toLowerCase());
+					return value && typeof value === 'string' && value.toLowerCase().includes(searchText.toLowerCase()); // Check if string includes search text
 				})
 			);
 		}
-		return data;
+		return data; // Return original data if no search text
 	}, [data, columns, searchText]);
 
 	useEffect(() => {
@@ -436,6 +438,24 @@ export function Table(props: TableProps) {
 		return <StyledMenu><CardMenu items={tableActions} language={props.language} /></StyledMenu>
 	};
 
+	const SearchContainer = () => {
+		return <StyledFilterContainer className={'filter ' + (isMobile ? 'mobile' : 'desktop')}>
+		<TextField
+			id="search"
+			label=""
+			type="text"
+			icon={SearchIcon}
+			slim={true}
+			autoFocus
+			onChange={(e: ChangeEvent<HTMLInputElement>) => {
+				handleSearchTextChange(e.target.value);
+				setSearchTextForInput(e.target.value);
+			}}
+			value={searchTextForInput}
+			controlled
+		/>
+	</StyledFilterContainer>
+	}
 	return (
 		<Card width={props.width} padding={false}>
 			<StyledHeader className='header'>
@@ -445,27 +465,14 @@ export function Table(props: TableProps) {
 					</Typography>
 				</StyledTitleContainer>
 				{isMobile ? null : (
-					<StyledFilterContainer className='filter'>
-						<TextField
-							id="search"
-							label=""
-							type="text"
-							icon={SearchIcon}
-							slim={true}
-							autoFocus
-							onChange={(e: ChangeEvent<HTMLInputElement>) => {
-								handleSearchTextChange(e.target.value);
-								setSearchTextForInput(e.target.value);
-							}}
-							value={searchTextForInput}
-							controlled
-						/>
-					</StyledFilterContainer>
+					<SearchContainer />
 				)}
 				<StyledIconContainer className='icon-container'>
 					{isMobile ? (
 						<>
-							<IconButton isLightColor={false} onClick={() => {}} color="#757575" label={'Menu'}>
+							<IconButton isLightColor={false} onClick={() => {
+								setShowSearch((state)=>!state);
+							}} color="#757575" label={'Menu'}>
 								<SearchIcon size="2.4rem" color="#757575" />
 							</IconButton>
 							<IconButton isLightColor={false} onClick={() => {
@@ -480,6 +487,7 @@ export function Table(props: TableProps) {
 					)}
 				</StyledIconContainer>
 			</StyledHeader>
+			{showSearch ? <SearchContainer /> : null}
 			<StyledTable className={isMobile ? 'mobile table' : 'desktop table'}>
 				{isMobile ? null : (
 					<thead>

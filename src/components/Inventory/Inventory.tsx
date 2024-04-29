@@ -153,12 +153,13 @@ export function Inventory({ items, language, inventory }: InventoryProps) {
 
 						return (
 							<li key={item.id} className={itemClass}>
+								<a href={`/inventory/edit/${item.id}`}>
 								<p>{item.itemName}</p>
 								<p>
 									{item.owner} - {item.inventoryNumber}{' '}
 									{item.quantity &&
 										`${sumQuantity} / ${item.quantity} - ${item.unitMeasure}`}
-								</p>
+								</p></a>
 							</li>
 						);
 					})}
