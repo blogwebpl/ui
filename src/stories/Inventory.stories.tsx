@@ -1,10 +1,12 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { Inventory } from '../components/Inventory';
 import { exampleInventoryItems } from './atoms/InventoryItems.data';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 const meta: Meta<typeof Inventory> = {
 	title: 'Inventory',
 	component: Inventory,
+	decorators: [(Story) => <Router>{Story()}</Router>],
 };
 
 export default meta;

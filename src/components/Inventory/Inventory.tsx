@@ -4,7 +4,8 @@ import { Card } from '../atoms/Card';
 import { Typography } from '../atoms/Typography';
 import { TextField } from '../atoms/TextField';
 import { Select, SelectOption } from '../atoms/Select';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const StyledInventoryContainer = styled.div`
 	max-width: 64rem;
@@ -16,6 +17,7 @@ const StyledInventoryContainer = styled.div`
 
 const StyledAppBar = styled.div`
 	margin-top: 1rem;
+	padding: 0 0.1rem;
 	// padding: 0.5rem;
 `;
 
@@ -25,6 +27,8 @@ const StyledItemsList = styled.ul`
 	overflow-y: scroll;
 	height: calc(100vh - 31rem);
 	user-select: none;
+	border-top-left-radius: 0.4rem;
+	border-bottom-left-radius: 0.4rem;
 	li {
 		background: #fdf5e6;
 		margin: 0.4rem;
@@ -39,6 +43,9 @@ const StyledItemsList = styled.ul`
 		}
 		&.under {
 			background: #ffa07a !important;
+		}
+		&:hover {
+			cursor: pointer;
 		}
 	}
 
@@ -64,6 +71,8 @@ interface InventoryProps {
 }
 
 export function Inventory({ items, language, inventory }: InventoryProps) {
+	const navigate = useNavigate();
+	const filterInputRef = useRef<HTMLInputElement>(null);
 	const [filterTextSelected, setFilterTextSelected] = useState('');
 	const filterOptions: SelectOption[] = [
 		{ value: 'none', label: language === 'en' ? 'None' : 'Brak' },
@@ -76,8 +85,8 @@ export function Inventory({ items, language, inventory }: InventoryProps) {
 	];
 	const [filterTypeSelected, setFilterTypeSelected] =
 		useState<SelectOption | null>({
-			value: 'none',
-			label: language === 'en' ? 'None' : 'Brak',
+			value: 'name',
+			label: language === 'en' ? 'Name' : 'Nazwa',
 		});
 
 	const sumScannedItems = useMemo(() => {
@@ -124,15 +133,18 @@ export function Inventory({ items, language, inventory }: InventoryProps) {
 						value={filterTextSelected}
 						onChange={(e) => setFilterTextSelected(e.target.value)}
 						controlled
+						autoFocus
+						forwardedRef={filterInputRef} // Use useRef instead of this
 					/>
 					<br />
 					<Select
 						label={language === 'en' ? 'Filter Type' : 'Typ Filtra'}
 						options={filterOptions}
 						value={filterTypeSelected}
-						onChange={(selectedOption) =>
-							setFilterTypeSelected(selectedOption as SelectOption)
-						}
+						onChange={(selectedOption) => {
+							setFilterTypeSelected(selectedOption as SelectOption);
+							filterInputRef.current && filterInputRef.current.focus(); // Set focus back to the TextField
+						}}
 						isClearable={true}
 					/>
 				</StyledAppBar>
@@ -152,14 +164,14 @@ export function Inventory({ items, language, inventory }: InventoryProps) {
 						}
 
 						return (
-							<li key={item.id} className={itemClass}>
-								<a href={`/inventory/edit/${item.id}`}>
+							<li key={item.id} className={itemClass} onClick={() => navigate(`/inventory/edit/${item.id}`)}>
+								
 								<p>{item.itemName}</p>
 								<p>
 									{item.owner} - {item.inventoryNumber}{' '}
 									{item.quantity &&
 										`${sumQuantity} / ${item.quantity} - ${item.unitMeasure}`}
-								</p></a>
+								</p>
 							</li>
 						);
 					})}

@@ -69,7 +69,7 @@ export const StyledContainer = styled.fieldset<{ $icon: boolean; $slim?: boolean
 		position: absolute;
 		left: 0; 
 		right: 0; 
-		height: 0.4rem;
+		height: 0.5rem;
 		background-color: white;
 		top: 50%; 
 		transform: translateY(-50%);
