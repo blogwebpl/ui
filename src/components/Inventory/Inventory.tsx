@@ -134,7 +134,7 @@ export function Inventory({ items, language, inventory }: InventoryProps) {
 						onChange={(e) => setFilterTextSelected(e.target.value)}
 						controlled
 						autoFocus
-						forwardedRef={filterInputRef} // Use useRef instead of this
+						forwardedRef={filterInputRef} 
 					/>
 					<br />
 					<Select
@@ -143,7 +143,7 @@ export function Inventory({ items, language, inventory }: InventoryProps) {
 						value={filterTypeSelected}
 						onChange={(selectedOption) => {
 							setFilterTypeSelected(selectedOption as SelectOption);
-							filterInputRef.current && filterInputRef.current.focus(); // Set focus back to the TextField
+							filterInputRef.current && filterInputRef.current.focus();
 						}}
 						isClearable={true}
 					/>
