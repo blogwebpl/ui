@@ -1,104 +1,134 @@
-import { IInventoryItem } from "../../types";
-import styled from "styled-components";
-import { Card } from "../Card";
-import { MdOutlineNoteAlt } from "react-icons/md";
-import { ButtonContainer } from "../ButtonContainer";
-import { Button } from "../Button";
-import { TextField } from "../TextField";
-import { ChangeEvent } from "react";
-
+import { IInventoryItem } from '../../types';
+import styled from 'styled-components';
+import { Card } from '../Card';
+import { MdOutlineNoteAlt } from 'react-icons/md';
+import { ButtonContainer } from '../ButtonContainer';
+import { Button } from '../Button';
+import { TextField } from '../TextField';
+import { ChangeEvent, useMemo } from 'react';
+import { Typography } from '../Typography';
+import { useNavigate } from 'react-router-dom';
+const navigate = useNavigate();
 const InventoryDetailsContainer = styled.div`
-display: flex;
-  li {
-    display: flex;
-    justify-content: space-between; // Changed to space-between for better alignment
-    align-items: center;
-    margin: 0.5rem;
-    gap: 1rem;
-    height: 5rem;
+	display: flex;
+	flex-direction: column;
+	padding: 0;
+	@media (min-width: 24rem) {
+		padding: 0 1rem;
+	}
+	li {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin: 0.5rem;
+		gap: 1rem;
+		height: 5rem;
+    border-radius: 0.5rem;
+    background: #efefef;
+	}
+  li.checked {
+    background: #b0e57c;
   }
-  li:nth-child(even) {
-    background: #ddd;
-  }
-  li:nth-child(odd) {
-    background: #eee;
-  }
-  .number {   
-    width: 4rem;
-    display: flex;
-    overflow: hidden;
-    justify-content: flex-end; // Aligned to the right
-  }
-
+	
+	.number {
+		width: 4rem;
+		display: flex;
+		overflow: hidden;
+		justify-content: flex-end;
+	}
 `;
 
-const StyledHeaderContainer = styled.div``;
+const StyledHeaderContainer = styled.div`
+	padding: 1rem 0;
+	height: 12rem;
+	p {
+		padding: 0.5rem 0;
+	}
+  div {
+    padding: 0.5rem;
+  }
+`;
 
 const StyledListContainer = styled.div``;
 
 export interface InventoryDetailsProps {
-  inventoryItem: IInventoryItem;
+	inventoryItem: IInventoryItem;
+  scannedItems: { dgId: number; itemNumber: number }[];
 }
 
-export function InventoryDetails({ inventoryItem }: InventoryDetailsProps) { // Destructured props added
-  return
-    <Card width="48rem"> <InventoryDetailsContainer>
-      <StyledHeaderContainer>
-        <p>Name:</p> // Displaying name from inventoryItem
-        <p>Department - Inventory Number: </p> // Displaying department and inventory number
-        <p>x / y units</p> // Displaying units
-        <p>
-          <TextField
-            id="search"
-            label=""
-            type="text"
-            icon={MdOutlineNoteAlt}
-            slim={true}
-            autoFocus
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            
+export function InventoryDetails({ inventoryItem, scannedItems }: InventoryDetailsProps) {
+	const checkedItems = useMemo(() => new Set(scannedItems.map(item => item.itemNumber)), [scannedItems]);
+
+	return (
+		<Card width="48rem">
+			<InventoryDetailsContainer>
+				<Typography component="h6" userSelect="none" color="#000000">
+					{inventoryItem.itemName}
+				</Typography>
+				<StyledHeaderContainer>
+					<p>
+						{inventoryItem.owner} - {inventoryItem.inventoryNumber}
+					</p>
+					<p>            
+						{scannedItems.length} / {inventoryItem.quantity} {inventoryItem.unitMeasure}
+					</p>
+					<div>
+						<TextField
+							id="search"
+							label="Notatka"
+							type="text"
+							icon={MdOutlineNoteAlt}
+							slim={true}
+							autoFocus
+							onChange={(e: ChangeEvent<HTMLInputElement>) => {
+								console.log(e.target.value);
+							}}
+							value={''}
+							controlled
+						/>
+					</div>
+				</StyledHeaderContainer>
+				<StyledListContainer>
+					<ul>
+						{Array.from({length: inventoryItem.quantity || 0}, (_, i) => (
+							<li key={i} className={checkedItems.has(i + 1) ? 'checked' : ''} onContextMenu={(e) => {
+                                e.preventDefault();
+                                alert('dlugie klikniecie');
+                            }}>
+								<span className="number">{i + 1}</span>
+								<span className="note">
+									<TextField
+										label="Notatka"
+										type="text"
+										icon={MdOutlineNoteAlt}
+										slim={true}
+										autoFocus
+										onChange={(e: ChangeEvent<HTMLInputElement>) => {
+											console.log(e.target.value);
+										}}
+										value={''}
+										controlled
+									/>
+								</span>
+							</li>
+						))}
+					
+					</ul>
+				</StyledListContainer>
+				<ButtonContainer>
+					<Button
+						label="WRÓĆ"
+						variant="primary"
+						type="button"
+						disabled={false}
+            onClick={() => {
+              
+              navigate(-1)
             }}
-            value={''}
-            controlled
-		    />
-      </p>
-      </StyledHeaderContainer>
-      <StyledListContainer>
-        <ul>
-          <li>
-            <span className="number">1</span><span className="note"><TextField            
-            label="Notatka"
-            type="text"
-            icon={MdOutlineNoteAlt}
-            slim={true}
-            autoFocus
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            
-            }}
-            value={''}
-            controlled
-		    /></span>
-          </li>
-          <li>
-            <span className="number">1000</span><span className="note"><TextField            
-            label="Notatka"
-            type="text"
-            icon={MdOutlineNoteAlt}
-            slim={true}
-            autoFocus
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            
-            }}
-            value={''}
-            controlled
-		    /></span>
-          </li>
-        </ul>
-      </StyledListContainer>
-        <ButtonContainer >
-					<Button label="WRÓĆ" variant="primary" type="button" disabled={false} />
+					/>
 				</ButtonContainer>
-  </InventoryDetailsContainer>;
-    </Card>
+			</InventoryDetailsContainer>
+		</Card>
+	);
 }
 
