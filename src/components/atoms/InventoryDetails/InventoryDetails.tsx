@@ -8,7 +8,7 @@ import { TextField } from '../TextField';
 import { ChangeEvent, useMemo } from 'react';
 import { Typography } from '../Typography';
 import { useNavigate } from 'react-router-dom';
-const navigate = useNavigate();
+
 const InventoryDetailsContainer = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -58,7 +58,7 @@ export interface InventoryDetailsProps {
 
 export function InventoryDetails({ inventoryItem, scannedItems }: InventoryDetailsProps) {
 	const checkedItems = useMemo(() => new Set(scannedItems.map(item => item.itemNumber)), [scannedItems]);
-
+	const navigate = useNavigate();
 	return (
 		<Card width="48rem">
 			<InventoryDetailsContainer>
