@@ -12,9 +12,9 @@ import { useNavigate } from 'react-router-dom';
 const InventoryDetailsContainer = styled.div`
 	display: flex;
 	flex-direction: column;
-	padding: 0;
+	padding: 0.5rem 0;
 	@media (min-width: 24rem) {
-		padding: 0 1rem;
+		padding: 1rem 1rem;
 	}
 	li {
 		display: flex;
@@ -35,6 +35,9 @@ const InventoryDetailsContainer = styled.div`
 		display: flex;
 		overflow: hidden;
 		justify-content: flex-end;
+	}
+	p {
+		font-size: 1.4rem;
 	}
 `;
 
@@ -67,11 +70,9 @@ export function InventoryDetails({ inventoryItem, scannedItems }: InventoryDetai
 				</Typography>
 				<StyledHeaderContainer>
 					<p>
-						{inventoryItem.owner} - {inventoryItem.inventoryNumber}
+						{inventoryItem.owner} - {inventoryItem.inventoryNumber}, Ilość: {scannedItems.length} / {inventoryItem.quantity} {inventoryItem.unitMeasure}
 					</p>
-					<p>            
-						{scannedItems.length} / {inventoryItem.quantity} {inventoryItem.unitMeasure}
-					</p>
+					
 					<div>
 						<TextField
 							id="search"

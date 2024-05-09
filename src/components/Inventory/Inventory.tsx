@@ -163,6 +163,7 @@ export function Inventory({ items, language, inventory }: InventoryProps) {
 							itemClass = 'under';
 						}
 
+						if (item.quantity)
 						return (
 							<li key={item.id} className={itemClass} onClick={() => navigate(`/inventory/edit/${item.id}`)}>
 								
