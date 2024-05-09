@@ -136,12 +136,12 @@ export function Table(props: TableProps) {
 	const [searchText, setSearchText] = useState<string>(searchParam || '');
 	const [searchTextForInput, setSearchTextForInput] = useState<string>(searchParam || '');
 	const [searchDelayTimer, setSearchDelayTimer] = useState<NodeJS.Timeout | null>(null);
-	const [checkedRows, setCheckedRows] = useState<{ [key: string]: boolean }>({});
+	const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
 	const [allChecked, setAllChecked] = useState(false);
 	const [showMiniMenu, setShowMiniMenu] = useState(false);
 	const [showSearch, setShowSearch] = useState(false);
 
-	const numberOfCheckedRows = Object.values(checkedRows).filter((checked) => checked).length;
+	const numberOfCheckedRows = checkedRows.size;
 	// Update columns when props.columns changes
 	useEffect(() => {
 		setColumns(mergedColumns);
@@ -224,23 +224,28 @@ export function Table(props: TableProps) {
 	);
 
 	const handleCheckboxChange = (rowId: string | number) => {
-		setCheckedRows((prevCheckedRows) => ({
-			...prevCheckedRows,
-			[rowId]: !prevCheckedRows[rowId] || false,
-		}));
+		setCheckedRows((prevCheckedRows) => {
+			const newCheckedRows = new Set(prevCheckedRows);
+			if (newCheckedRows.has(rowId.toString())) {
+				newCheckedRows.delete(rowId.toString());
+			} else {
+				newCheckedRows.add(rowId.toString());
+			}
+			return newCheckedRows;
+		});
 	};
 
 	const handleAllCheckboxChange = () => {
 		setAllChecked((prevAllChecked) => {
 			const newAllChecked = !prevAllChecked;
 			if (newAllChecked) {
-				const newCheckedRows: { [key: string]: boolean } = {};
+				const newCheckedRows = new Set<string>();
 				data.forEach((row) => {
-					newCheckedRows[row.id] = true;
+					newCheckedRows.add(row.id.toString());
 				});
 				setCheckedRows(newCheckedRows);
 			} else {
-				setCheckedRows({});
+				setCheckedRows(new Set<string>());
 			}
 			return newAllChecked;
 		});
@@ -393,8 +398,8 @@ export function Table(props: TableProps) {
 							cancelButtonText: 'Nie',
 						}).then(async (result: SweetAlertResult) => {
 							if (result.isConfirmed && props.deleteAction) {
-								await props.deleteAction(Object.keys(checkedRows));
-								setCheckedRows({});
+								await props.deleteAction(Array.from(checkedRows));
+								setCheckedRows(new Set<string>());
 							}
 						});
 					},
@@ -533,7 +538,7 @@ export function Table(props: TableProps) {
 							>
 								<td className="first-td">
 									<Checkbox
-										checked={checkedRows[row.id] || false}
+										checked={checkedRows.has(row.id.toString())}
 										onChange={() => {
 											handleCheckboxChange(row.id);
 										}}
@@ -602,7 +607,7 @@ export function Table(props: TableProps) {
 									<td>Opcje:</td>
 									<td className="options">
 										<Checkbox
-											checked={checkedRows[row.id] || false}
+											checked={checkedRows.has(row.id.toString())}
 											onChange={() => handleCheckboxChange(row.id)}
 											controlled
 										/>

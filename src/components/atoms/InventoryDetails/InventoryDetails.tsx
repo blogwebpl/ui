@@ -24,10 +24,10 @@ const InventoryDetailsContainer = styled.div`
 		gap: 1rem;
 		height: 5rem;
     border-radius: 0.5rem;
-    background: #efefef;
+    background: #fdf5e6;
 	}
   li.checked {
-    background: #b0e57c;
+    background: #8fbc8f;
   }
 	
 	.number {
@@ -43,7 +43,7 @@ const InventoryDetailsContainer = styled.div`
 
 const StyledHeaderContainer = styled.div`
 	padding: 1rem 0;
-	height: 12rem;
+	height: 10rem;
 	p {
 		padding: 0.5rem 0;
 	}
@@ -103,7 +103,6 @@ export function InventoryDetails({ inventoryItem, scannedItems }: InventoryDetai
 										type="text"
 										icon={MdOutlineNoteAlt}
 										slim={true}
-										autoFocus
 										onChange={(e: ChangeEvent<HTMLInputElement>) => {
 											console.log(e.target.value);
 										}}

@@ -174,7 +174,8 @@ export function Inventory({ items, language, inventory }: InventoryProps) {
 										`${sumQuantity} / ${item.quantity} - ${item.unitMeasure}`}
 								</p>
 							</li>
-						);
+						); else return null
+						;
 					})}
 				</StyledItemsList>
 			</StyledInventoryContainer>
