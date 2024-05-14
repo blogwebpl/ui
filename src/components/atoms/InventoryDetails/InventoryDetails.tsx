@@ -56,10 +56,14 @@ const StyledListContainer = styled.div``;
 
 export interface InventoryDetailsProps {
 	inventoryItem: IInventoryItem;
-  scannedItems: { dgId: number; itemNumber: number }[];
+	scannedItems: { dgId: number; itemNumber: number }[];
 }
 
-export function InventoryDetails({ inventoryItem, scannedItems }: InventoryDetailsProps) {
+
+	export function InventoryDetails({ inventoryItem, scannedItems }: InventoryDetailsProps) {
+	const maxItemNumber = Math.max(...scannedItems.map(item => item.itemNumber));
+	const maxQuantity = Math.max(inventoryItem.quantity || 0, maxItemNumber);
+	
 	const checkedItems = useMemo(() => new Set(scannedItems.map(item => item.itemNumber)), [scannedItems]);
 	const navigate = useNavigate();
 	return (
@@ -91,7 +95,7 @@ export function InventoryDetails({ inventoryItem, scannedItems }: InventoryDetai
 				</StyledHeaderContainer>
 				<StyledListContainer>
 					<ul>
-						{Array.from({length: inventoryItem.quantity || 0}, (_, i) => (
+						{Array.from({length: maxQuantity || 0}, (_, i) => (
 							<li key={i} className={checkedItems.has(i + 1) ? 'checked' : ''} onContextMenu={(e) => {
                                 e.preventDefault();
                                 alert('dlugie klikniecie');
