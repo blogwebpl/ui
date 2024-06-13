@@ -115,7 +115,7 @@ export const StyledTable = styled.table`
 	}
 
 	tr.options td {
-		// height: 5.2rem;
+		height: 5.2rem;
 	}
 
 	tr.options td:last-child {
