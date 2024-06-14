@@ -54,16 +54,24 @@ interface AppBarProps {
 }
 
 export function AppBar(props: AppBarProps) {
+	let lastMenuIconClickTime = 0;
+
 	const handleMenuIconClick = () => {
-		if (props.isLoggedIn && props.setIsDrawerOpen) {
+		const now = Date.now();
+		if (props.isLoggedIn && props.setIsDrawerOpen && now - lastMenuIconClickTime >= 250) {
 			props.setIsDrawerOpen(!props.isDrawerOpen);
+			lastMenuIconClickTime = now;
 		}
 	};
-	const handleSidebarIconClick = () => {
-		if (props.isLoggedIn && props.setIsSidebarOpen) {
-			props.setIsSidebarOpen(!props.isSidebarOpen);
-		}
-	};
+let lastSidebarIconClickTime = 0;
+
+const handleSidebarIconClick = () => {
+	const now = Date.now();
+	if (props.isLoggedIn && props.setIsSidebarOpen && now - lastSidebarIconClickTime >= 250) {
+		props.setIsSidebarOpen(!props.isSidebarOpen);
+		lastSidebarIconClickTime = now;
+	}
+};
 	return (
 		<StyledAppBar>
 			<IconButton

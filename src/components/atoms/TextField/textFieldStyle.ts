@@ -1,4 +1,19 @@
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
+
+const outlineFadeOut = keyframes`
+  0% {
+    outline-width: 0.1rem;
+    outline-style: solid;
+	border-color: #3f51b5;
+	outline-color: #3f51b5;
+  }
+  100% {
+    outline-width: 0;
+    outline-style: none;
+	border-color: rgba(0, 0, 0, 0.38);
+	olnie-color:rgba(0, 0, 0, 0.38);
+  }
+`;
 
 export const StyledContainer = styled.fieldset<{ $icon: boolean; $slim?: boolean }>`
 	width: 100%;
@@ -36,22 +51,22 @@ export const StyledContainer = styled.fieldset<{ $icon: boolean; $slim?: boolean
 	input:hover {
 		border-color: ${(props) => props.theme.palette.text.primary};
 	}
-	input:focus {
-		border-color: ${(props) => props.theme.palette.element.primary.default};
-		outline: 0.1rem solid;
-		outline-color: ${(props) => props.theme.palette.element.primary.default};
-		${(props) =>
-			props.$slim &&
-			css`
-				padding: 0.9rem 1.2rem;
-				height: auto;
-			`}
-		${(props) =>
-			props.$icon &&
-			css`
-				padding-right: 4rem;
-			`}
+	input:hover {
+		border-color: ${(props) => props.theme.palette.text.primary};
 	}
+	input:focus,
+	input:focus-within,
+	input:focus-visible {
+		border-color: ${(props) => props.theme.palette.element.primary.default};
+		outline-width: 0.1rem;
+		outline-style: solid;
+		outline-color: ${(props) => props.theme.palette.element.primary.default};
+
+	}
+	input:not(:focus) {
+		animation: ${outlineFadeOut} 0.40s forwards;
+	}
+
 	label {
 		// background-color: ${(props) => props.theme.palette.background.default};
 		font-family: ${(props) => props.theme.typography.fontFamily};
@@ -70,7 +85,7 @@ export const StyledContainer = styled.fieldset<{ $icon: boolean; $slim?: boolean
 		left: 0; 
 		right: 0; 
 		height: 0.5rem;
-		background-color: white;
+		background-color: rgba(255, 255, 255, 0.95); 
 		top: 50%; 
 		transform: translateY(-50%);
 		z-index: -1; 
@@ -91,7 +106,9 @@ export const StyledContainer = styled.fieldset<{ $icon: boolean; $slim?: boolean
 	}
 	input:focus ~ label,
 	input:not(:placeholder-shown) ~ label {
-		outline: 0;
+		// outline-width: 0;
+		// outline-style: none;
+		// outline-color: none;
 		transform: translate(0.6rem, -0.7rem) scale(0.75);
 		transition: all linear 0.2s;
 		transform-origin: 0 0;

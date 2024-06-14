@@ -223,17 +223,26 @@ export function Table(props: TableProps) {
 		[props.collection, searchDelayTimer]
 	);
 
-	const handleCheckboxChange = (rowId: string | number) => {
-		setCheckedRows((prevCheckedRows) => {
-			const newCheckedRows = new Set(prevCheckedRows);
-			if (newCheckedRows.has(rowId.toString())) {
-				newCheckedRows.delete(rowId.toString());
-			} else {
-				newCheckedRows.add(rowId.toString());
-			}
-			return newCheckedRows;
-		});
-	};
+	const handleCheckboxChange = (() => {
+		let lastChangeTime = 0;
+	
+		return (rowId: string | number) => {
+			const now = Date.now();
+			if (now - lastChangeTime < 500) return; // Ignore changes within 0.5s
+	
+			lastChangeTime = now;
+	
+			setCheckedRows((prevCheckedRows) => {
+				const newCheckedRows = new Set(prevCheckedRows);
+				if (newCheckedRows.has(rowId.toString())) {
+					newCheckedRows.delete(rowId.toString());
+				} else {
+					newCheckedRows.add(rowId.toString());
+				}
+				return newCheckedRows;
+			});
+		};
+	})();
 
 	const handleAllCheckboxChange = () => {
 		setAllChecked((prevAllChecked) => {
@@ -262,15 +271,27 @@ export function Table(props: TableProps) {
 
 	let computedRowsPerPage = rowsPerPage;
 
-	if (rowsPerPage === 0 && !isMobile) {
+	if (rowsPerPage === 0 && !isMobile) {		
 		const headerHeight = 7.5 * fontSize;
 		const footerHeight = 3 * fontSize;
-		const rowHeight = 3.25 * fontSize;
+		const rowHeight = 3.2525 * fontSize;
 		const appbarHeight = 4 * fontSize;
+	
 		computedRowsPerPage = Math.floor(
-			(viewportHeight - headerHeight - footerHeight - appbarHeight - 8) / rowHeight
+			(viewportHeight - headerHeight - footerHeight - appbarHeight - fontSize) / rowHeight
 		);
 		computedRowsPerPage = Math.max(computedRowsPerPage, 0);
+		console.log({
+			headerHeight,
+			footerHeight,
+			rowHeight,
+			appbarHeight,
+			fontSize,
+			viewportHeight,			
+			computedRowsPerPage,
+
+		
+		})	
 	}
 
 	if (isMobile) computedRowsPerPage = Math.min(25, data.length); // 25 or data.length;

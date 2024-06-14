@@ -54,10 +54,12 @@ export function TextField(props: TextFieldProps) {
 					spellCheck="false"
 					min={props.min}
 				/>
-				<label htmlFor={props.id}>
-					{props.label}
-					{props.required ? ' *' : null}
-				</label>
+				{props.label && (
+					<label htmlFor={props.id}>
+						{props.label}
+						{props.required ? ' *' : null}
+					</label>
+				)}
 				{props.icon && <props.icon size="2.4rem" className="icon" />}
 			</StyledContainer>
 		);
@@ -80,10 +82,12 @@ export function TextField(props: TextFieldProps) {
 				spellCheck="false"
 				min={props.min}
 			/>
-			<label htmlFor={props.id}>
-				{props.label}
-				{props.required ? ' *' : null}
-			</label>
+			{props.label && (
+				<label htmlFor={props.id}>
+					{props.label}
+					{props.required ? ' *' : null}
+				</label>
+			)}
 			{props.icon && <props.icon size="2.4rem" className="icon" />}
 		</StyledContainer>
 	);

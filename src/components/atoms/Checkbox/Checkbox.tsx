@@ -7,7 +7,7 @@ const StyledCheckbox = styled.label`
 	display: inline-block;
 	color: ${(props) => props.theme.palette.text.secondary};
 	font-size: ${(props) => props.theme.typography.fontSize.normal};
-	line-height: 1.6;
+	// line-height: 1.6;
 	& > input {
 		appearance: none;
 		z-index: -1;
@@ -134,14 +134,18 @@ interface CheckboxProps {
 }
 
 export const Checkbox = React.memo((props: CheckboxProps) => {
-	if (props.controlled)
+	if (props.controlled) {
+
 		return (
 			<StyledCheckbox className="checkbox">
 				<input
 					type="checkbox"
 					checked={props.checked}
 					onChange={(e: any) => {
-						props.onChange(e.target.checked);
+					
+							props.onChange(e.target.checked);
+			
+						
 					}}
 					ref={props.forwardedRef}
 					onClick={(e: React.MouseEvent<HTMLInputElement>) => {
@@ -151,6 +155,7 @@ export const Checkbox = React.memo((props: CheckboxProps) => {
 				<span>{props.label}</span>
 			</StyledCheckbox>
 		);
+	}
 	return (
 		<StyledCheckbox className="checkbox">
 			<input

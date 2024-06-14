@@ -4,7 +4,7 @@ import { Card } from '../atoms/Card';
 import { Typography } from '../atoms/Typography';
 import { TextField } from '../atoms/TextField';
 import { Select, SelectOption } from '../atoms/Select';
-import { useMemo, useState, useRef } from 'react';
+import { useMemo, useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const StyledInventoryContainer = styled.div`
@@ -68,11 +68,14 @@ interface InventoryProps {
 	items: IInventoryItem[];
 	inventory: IInventory;
 	language: Language;
+	scrollPosition: number;
+	setScrollPosition: (scrollPosition: number) => void;
 }
 
-export function Inventory({ items, language, inventory }: InventoryProps) {
+export function Inventory({ items, language, inventory, scrollPosition = 0, setScrollPosition }: InventoryProps) {
 	const navigate = useNavigate();
 	const filterInputRef = useRef<HTMLInputElement>(null);
+	const listRef = useRef<HTMLUListElement>(null);
 	const [filterTextSelected, setFilterTextSelected] = useState('');
 	const filterOptions: SelectOption[] = [
 		{ value: 'none', label: language === 'en' ? 'None' : 'Brak' },
@@ -120,6 +123,28 @@ export function Inventory({ items, language, inventory }: InventoryProps) {
 		return itemsInInventory;
 	}, [items, filterTypeSelected, filterTextSelected, inventory.dgIds]);
 
+	useEffect(() => {
+		if (listRef.current) {
+			listRef.current.scrollTop = scrollPosition;
+		}
+	}, [scrollPosition]);
+
+	useEffect(() => {
+		const handleScroll = () => {
+			if (listRef.current) {
+				setScrollPosition(listRef.current.scrollTop);
+			}
+		};
+		if (listRef.current) {
+			listRef.current.addEventListener('scroll', handleScroll);
+		}
+		return () => {
+			if (listRef.current) {
+				listRef.current.removeEventListener('scroll', handleScroll);
+			}
+		};
+	}, [setScrollPosition]);
+
 	return (
 		<Card width='64rem' padding>
 			<StyledInventoryContainer>
@@ -148,7 +173,7 @@ export function Inventory({ items, language, inventory }: InventoryProps) {
 						isClearable={true}
 					/>
 				</StyledAppBar>
-				<StyledItemsList>
+				<StyledItemsList ref={listRef}>
 					{filteredItems.map((item) => {
 						const sumQuantity = sumScannedItems[item.dgId] || 0;
 

@@ -35,6 +35,7 @@ const InventoryDetailsContainer = styled.div`
 		display: flex;
 		overflow: hidden;
 		justify-content: flex-end;
+		user-select: none;
 	}
 	p {
 		font-size: 1.4rem;
@@ -100,7 +101,7 @@ export interface InventoryDetailsProps {
                                 e.preventDefault();
                                 alert('dlugie klikniecie');
                             }}>
-								<span className="number">{i + 1}</span>
+								<span className="number">{i + 1 > (inventoryItem.quantity || 0) ? `[${i + 1}]` : `${i + 1}`}</span>
 								<span className="note">
 									<TextField
 										label="Notatka"

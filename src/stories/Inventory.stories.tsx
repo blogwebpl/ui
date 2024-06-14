@@ -29,10 +29,18 @@ const exampleInventory = {
 	],
 };
 
+let rememberedScrollPosition = 0;
+
 export const Default: StoryObj<typeof Inventory> = {
 	args: {
 		items: exampleInventoryItems,
 		inventory: exampleInventory,
 		language: 'en',
+		setScrollPosition: (scrollPosition: number) => {
+			console.log(scrollPosition);
+			rememberedScrollPosition = scrollPosition;
+		},
+		scrollPosition: rememberedScrollPosition,
 	},
 };
+
