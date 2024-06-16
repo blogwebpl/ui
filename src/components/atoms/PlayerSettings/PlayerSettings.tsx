@@ -11,7 +11,15 @@ import { Typography } from '../Typography';
 
 interface PlayerSettingsProps {
 	devices: Device[];
-	onLoad: ({ deviceId, dateFrom, dateTo }: { deviceId: string; dateFrom: string; dateTo: string }) => void;
+	onLoad: ({
+		deviceId,
+		dateFrom,
+		dateTo,
+	}: {
+		deviceId: string;
+		dateFrom: string;
+		dateTo: string;
+	}) => void;
 	onClose: () => void;
 }
 
@@ -23,7 +31,11 @@ const todayEnd = new Date(
 	Date.UTC(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59)
 );
 
-export function PlayerSettings({ devices, onLoad, onClose }: PlayerSettingsProps) {
+export function PlayerSettings({
+	devices,
+	onLoad,
+	onClose,
+}: PlayerSettingsProps) {
 	if (!devices || devices.length === 0) return null;
 
 	const dateFromRef = useRef<HTMLInputElement>(null);
@@ -36,19 +48,25 @@ export function PlayerSettings({ devices, onLoad, onClose }: PlayerSettingsProps
 		}))
 		.sort((device1, device2) => (device1.label < device2.label ? -1 : 1));
 
-	const [device, setDevice] = useState<SelectOption | null>(options[0] ? options[0] : null);
+	const [device, setDevice] = useState<SelectOption | null>(
+		options[0] ? options[0] : null
+	);
 
 	useEffect(() => {
-		const isCurrentDeviceAvailable = options.find(option => option.value === device?.value);
+		const isCurrentDeviceAvailable = options.find(
+			(option) => option.value === device?.value
+		);
 		if (!isCurrentDeviceAvailable && options.length > 0) {
 			setDevice(options[0]);
 		} else if (options.length === 0) {
 			setDevice(null);
 		}
-	}, [devices]); 
+	}, [devices]);
 
 	const singleDevice = Array.isArray(device)
-		? device.length > 0 ? (device[0] as SelectOption).value : null
+		? device.length > 0
+			? (device[0] as SelectOption).value
+			: null
 		: (device as SelectOption).value;
 
 	if (!device) return null;
@@ -58,6 +76,23 @@ export function PlayerSettings({ devices, onLoad, onClose }: PlayerSettingsProps
 			<Typography component="h6" userSelect="none" color="#000000">
 				Ustawienia trasy
 			</Typography>
+			<FieldContainer>
+				<Select
+					label="Pojazd"
+					options={options}
+					value={device}
+					onChange={(
+						newValue: MultiValue<SelectOption> | SingleValue<SelectOption>
+					) => {
+						if (!Array.isArray(newValue)) {
+							setDevice(newValue as SelectOption | null);
+						}
+					}}
+					isMulti={false}
+					isClearable={false}
+					isRequired={true}
+				/>
+			</FieldContainer>
 			<FieldContainer isMulti>
 				<TextField
 					label="Od:"
@@ -72,21 +107,6 @@ export function PlayerSettings({ devices, onLoad, onClose }: PlayerSettingsProps
 					forwardedRef={dateToRef}
 				/>
 			</FieldContainer>
-			<FieldContainer>
-				<Select
-					label="Pojazd"
-					options={options}
-					value={device}
-					onChange={(newValue: MultiValue<SelectOption> | SingleValue<SelectOption>) => {
-					    if (!Array.isArray(newValue)) {
-					        setDevice(newValue as SelectOption | null);
-					    } 
-					}}
-					isMulti={false}
-					isClearable={false}
-					isRequired={true}
-				/>
-			</FieldContainer>
 			<ButtonContainer>
 				<Button label="Zakończ" variant="secondary" onClick={onClose} />
 				<Button
@@ -94,12 +114,14 @@ export function PlayerSettings({ devices, onLoad, onClose }: PlayerSettingsProps
 					variant="primary"
 					onClick={() => {
 						const deviceId = singleDevice;
-						const dateFrom = dateFromRef.current ? dateFromRef.current.value : null;
+						const dateFrom = dateFromRef.current
+							? dateFromRef.current.value
+							: null;
 						const dateTo = dateToRef.current ? dateToRef.current.value : null;
 						if (deviceId && dateFrom && dateTo) {
 							onLoad({ deviceId, dateFrom, dateTo });
 						} else {
-							console.error("Nie wszystkie wymagane dane są dostępne.");
+							console.error('Nie wszystkie wymagane dane są dostępne.');
 						}
 					}}
 				/>
