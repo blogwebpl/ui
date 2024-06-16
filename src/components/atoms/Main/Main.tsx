@@ -16,11 +16,11 @@ interface MainProps {
 	/**
 	 * Set the drawer open state.
 	 */
-	setIsDrawerOpen: any;
+	setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	/**
 	 * Background image
 	 */
-	background?: any;
+	background?: string;
 }
 
 /**
