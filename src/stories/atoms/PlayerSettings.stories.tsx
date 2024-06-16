@@ -5,7 +5,7 @@ import { PlayerSettings } from '../../components/atoms/PlayerSettings';
 
 const Template = () => {
 	return (
-		<Main isCovered={false} isDrawerOpen={false} setIsDrawerOpen={undefined}>
+		<Main isCovered={false} isDrawerOpen={false} setIsDrawerOpen={null}>
 			<PlayerSettings
 				devices={devicesList}
 				onLoad={() => {

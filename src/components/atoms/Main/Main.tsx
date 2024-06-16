@@ -16,7 +16,7 @@ interface MainProps {
 	/**
 	 * Set the drawer open state.
 	 */
-	setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	setIsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>> | null;
 	/**
 	 * Background image
 	 */
@@ -35,7 +35,9 @@ export function Main(props: MainProps) {
 			$iscovered={props.isCovered}
 			onClick={() => {
 				if (props.isDrawerOpen && props.isCovered) {
-					props.setIsDrawerOpen(false);
+					if (props.setIsDrawerOpen) {
+						props.setIsDrawerOpen(false);
+					}
 				}
 			}}
 		>

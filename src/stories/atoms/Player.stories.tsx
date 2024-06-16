@@ -61,7 +61,7 @@ const Template = (args: any) => {
 	};
 
 	return (
-		<Main isCovered={false} isDrawerOpen={false} setIsDrawerOpen={undefined}>
+		<Main isCovered={false} isDrawerOpen={false} setIsDrawerOpen={null}>
 			<Player
 				{...args}
 				position={position}

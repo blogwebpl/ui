@@ -24,7 +24,10 @@ const theme: ThemeConfig = (t: Theme) => {
 };
 
 const styles: StylesConfig<SelectOption, true> = {
-	control: (base: CSSObjectWithLabel, state: ControlProps<SelectOption, true>) => {
+	control: (
+		base: CSSObjectWithLabel,
+		state: ControlProps<SelectOption, true>
+	) => {
 		const { borderColor } = base;
 		return {
 			...base,
@@ -49,7 +52,11 @@ const Label = styled.label<{ $isfloating?: boolean; $hasvalue?: boolean }>`
 	position: absolute;
 	transition: 0.2s ease all;
 	z-index: 1;
-	color: ${(props: { $isfloating?: boolean; $hasvalue?: boolean; theme: DefaultTheme }) =>
+	color: ${(props: {
+		$isfloating?: boolean;
+		$hasvalue?: boolean;
+		theme: DefaultTheme;
+	}) =>
 		props.$isfloating
 			? props.theme.palette.element.primary.default
 			: props.theme.palette.text.secondary};
@@ -74,7 +81,10 @@ export function UserSelect(props: UserSelectProps) {
 	const Control = (controlProps: ControlProps<SelectOption, true>) => {
 		return (
 			<>
-				<Label $isfloating={controlProps.isFocused} $hasvalue={controlProps.hasValue}>
+				<Label
+					$isfloating={controlProps.isFocused}
+					$hasvalue={controlProps.hasValue}
+				>
 					{props.label} {props.isRequired ? '*' : ''}
 				</Label>
 				<components.Control {...controlProps} />
@@ -82,7 +92,10 @@ export function UserSelect(props: UserSelectProps) {
 		);
 	};
 
-	const options = props.users.map((user) => ({ value: user.id, label: user.name }));
+	const options = props.users.map((user) => ({
+		value: user.id,
+		label: user.name,
+	}));
 
 	if (props.hidden) return null;
 
@@ -100,7 +113,9 @@ export function UserSelect(props: UserSelectProps) {
 					: null
 			}
 			onChange={(o) => {
-				props.onChange((o as SelectOption[]).map((user: SelectOption) => user.value));
+				props.onChange(
+					(o as SelectOption[]).map((user: SelectOption) => user.value)
+				);
 			}}
 			options={options.sort((a, b) => (a.label > b.label ? 1 : -1))}
 			placeholder=""

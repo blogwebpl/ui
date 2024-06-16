@@ -5,17 +5,24 @@ import { Main } from '../../components/atoms/Main';
 import { Labels } from '../../components/atoms/Labels';
 import { Translations } from '../../components/types';
 
-const Template = (args: any) => {
-	const [value, setValue] = useState<Translations>({ pl: 'Użytownik', en: 'User' });
+const Template = (args: Record<string, unknown>) => {
+	const [value, setValue] = useState<Translations>({
+		pl: 'Użytownik',
+		en: 'User',
+	});
 	return (
-		<Main isCovered={false} isDrawerOpen={false} setIsDrawerOpen={undefined}>
+		<Main isCovered={false} isDrawerOpen={false} setIsDrawerOpen={null}>
 			<Card width="42rem" padding={true}>
-				<Labels {...args} value={value || args.value} onChange={setValue} label="Labels" />
+				<Labels
+					{...args}
+					value={value || args.value}
+					onChange={setValue}
+					label="Labels"
+				/>
 			</Card>
 		</Main>
 	);
 };
-
 export default {
 	title: 'atoms/Labels',
 	component: Template,

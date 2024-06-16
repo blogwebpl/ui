@@ -21,7 +21,7 @@ export const users = [
 const Template = (args: any) => {
 	const [value, setValue] = useState(null);
 	return (
-		<Main isCovered={false} isDrawerOpen={false} setIsDrawerOpen={undefined}>
+		<Main isCovered={false} isDrawerOpen={false} setIsDrawerOpen={null}>
 			<Card width="42rem" padding={true}>
 				<br />
 				<br />

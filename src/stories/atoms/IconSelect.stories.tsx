@@ -3,10 +3,10 @@ import { Card } from '../../components/atoms/Card';
 import { Main } from '../../components/atoms/Main';
 import { IconSelect } from '../../components/atoms/IconSelect';
 
-const Template = (args: any) => {
-	const [value, setValue] = useState(null);
+const Template = (args: Record<string, unknown>) => {
+	const [value, setValue] = useState<string | null>(null);
 	return (
-		<Main isCovered={false} isDrawerOpen={false} setIsDrawerOpen={undefined}>
+		<Main isCovered={false} isDrawerOpen={false} setIsDrawerOpen={null}>
 			<Card width="42rem" padding={true}>
 				<br />
 				<br />
@@ -14,8 +14,8 @@ const Template = (args: any) => {
 					{...args}
 					label="Select Icon"
 					isRequired={true}
-					value={value}
-					onChange={setValue}
+					value={value ?? ''}
+					onChange={(newValue: string) => setValue(newValue)}
 				/>
 				<br />
 				<br />
