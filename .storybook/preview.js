@@ -2,7 +2,7 @@
 import { ThemeProvider } from 'styled-components';
 import { defaultTheme } from '../src/components/atoms/Theme/themes';
 import { GlobalStyles } from '../src/components/atoms/Theme/globalStyles';
-import { withThemeFromJSXProvider } from '@storybook/addon-styling';
+import { withThemeFromJSXProvider } from '@storybook/addon-themes';
 
 const preview = {
   parameters: {
