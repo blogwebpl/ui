@@ -4,6 +4,7 @@ import { ButtonContainer } from '../ButtonContainer';
 import { Button } from '../Button';
 import { Typography } from '../Typography';
 import { useNavigate } from 'react-router-dom';
+import { IInventoryItem } from '../../types';
 
 const InventoryDetailsContainer = styled.div`
 	display: flex;
@@ -38,22 +39,20 @@ const InventoryDetailsContainer = styled.div`
 	}
 `;
 
-const StyledHeaderContainer = styled.div`
+const StyledContainer = styled.div`
 	padding: 1rem 0;
-	height: 10rem;
-	p {
-		padding: 0.5rem 0;
-	}
-	div {
-		padding: 0.5rem;
-	}
 `;
 
-const StyledListContainer = styled.div``;
+export interface InventoryDetailsProps {
+	inventoryItem: IInventoryItem;
+	itemDetails: {
+		itemNumber: number;
+		date?: string;
+		note?: string;
+	};
+}
 
-export interface InventoryDetailsProps {}
-
-export function InventoryDetails() {
+export function InventoryDetails({ inventoryItem }: InventoryDetailsProps) {
 	const navigate = useNavigate();
 	return (
 		<Card width="48rem">
@@ -61,10 +60,11 @@ export function InventoryDetails() {
 				<Typography component="h6" userSelect="none" color="#000000">
 					Inventory details
 				</Typography>
-				<StyledHeaderContainer>
-					{/* Add your content here */}
-				</StyledHeaderContainer>
-				<StyledListContainer>{/* Add your content here */}</StyledListContainer>
+				<StyledContainer>
+					<p>{inventoryItem.itemName}</p>
+					<p>{inventoryItem.inventoryNumber}</p>
+					<p>{inventoryItem.quantity}</p>
+				</StyledContainer>
 				<ButtonContainer>
 					<Button
 						label="WRÓĆ"
