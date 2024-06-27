@@ -10,33 +10,32 @@ const InventoryDetailsContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	padding: 0.5rem 0;
-	@media (min-width: 24rem) {
-		padding: 1rem 1rem;
-	}
-	li {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin: 0.5rem;
-		gap: 1rem;
-		height: 5rem;
-		border-radius: 0.5rem;
-		background: #fdf5e6;
-	}
-	li.checked {
-		background: #8fbc8f;
-	}
 
-	.number {
-		width: 4rem;
-		display: flex;
-		overflow: hidden;
-		justify-content: flex-end;
-		user-select: none;
-	}
 	p {
 		font-size: 1.4rem;
+		line-height: 2.5rem;
 	}
+	span.status {
+		display: inline-block;
+		width: auto;
+		height: 2rem;
+		padding: 0.5rem;
+		line-height: 1rem;
+		margin: 1rem;
+	}
+	span.status.ok {
+		background: #4caf50; /* Nice green color */
+		color: #ffffff; /* Contrasting text color */
+	}
+	span.status.error {
+		background: #ff0000;
+		color: #ffffff;
+	}
+	span.status.warning {
+		background: #ffa500;
+		color: #000;
+	}
+	user-select: none;
 `;
 
 const StyledContainer = styled.div`
@@ -52,18 +51,30 @@ export interface InventoryDetailsProps {
 	};
 }
 
-export function InventoryDetails({ inventoryItem }: InventoryDetailsProps) {
+export function InventoryDetails({
+	inventoryItem,
+	itemDetails,
+}: InventoryDetailsProps) {
 	const navigate = useNavigate();
+	const quantity = inventoryItem.quantity || 0;
 	return (
-		<Card width="48rem">
+		<Card width="32rem" padding>
 			<InventoryDetailsContainer>
 				<Typography component="h6" userSelect="none" color="#000000">
-					Inventory details
+					{inventoryItem.itemName}
 				</Typography>
 				<StyledContainer>
-					<p>{inventoryItem.itemName}</p>
-					<p>{inventoryItem.inventoryNumber}</p>
-					<p>{inventoryItem.quantity}</p>
+					<p>Numer inw.: {inventoryItem.inventoryNumber}</p>
+					<p>Numer porządkowy: {inventoryItem.quantity}</p>
+					<p>
+						Status:{' '}
+						<span
+							className={`status ${!itemDetails.date ? 'error' : itemDetails.itemNumber <= quantity ? 'ok' : 'warning'}`}
+						>
+							{!itemDetails.date ? 'NIEPOTWIERDZONY' : 'POTWIERDZONY'}
+						</span>
+					</p>
+					{itemDetails.date && <p>Data odczytu: {itemDetails.date}</p>}
 				</StyledContainer>
 				<ButtonContainer>
 					<Button
