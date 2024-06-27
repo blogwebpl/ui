@@ -65,7 +65,7 @@ export function InventoryDetails({
 				</Typography>
 				<StyledContainer>
 					<p>Numer inw.: {inventoryItem.inventoryNumber}</p>
-					<p>Numer porządkowy: {inventoryItem.quantity}</p>
+					<p>Numer porządkowy: {itemDetails.itemNumber}</p>
 					<p>
 						Status:{' '}
 						<span
