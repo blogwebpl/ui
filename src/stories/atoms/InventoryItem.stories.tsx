@@ -1,23 +1,18 @@
 import React from 'react';
 import { StoryFn as Story, Meta } from '@storybook/react'; // Corrected import for Story
-import { InventoryDetails, InventoryDetailsProps } from '../../components/atoms/InventoryDetails'; // Corrected import to named export and added InventoryDetailsProps
+import { InventoryItem, InventoryItemProps } from '../../components/atoms/InventoryItem'; // Corrected import to named export and added InventoryItemProps
 import { BrowserRouter as Router } from 'react-router-dom';
 
 export default {
-  title: 'Atoms/InventoryDetails',
-  component: InventoryDetails,
+  title: 'Atoms/InventoryItem',
+  component: InventoryItem,
 } as Meta;
 
-const Template: Story<InventoryDetailsProps> = (args) => (
+const Template: Story<InventoryItemProps> = (args) => (
   <Router>
-    <InventoryDetails {...args} />
+    <InventoryItem {...args} />
   </Router>
 );
-
-// export const Default = Template.bind({});
-// Default.args = {
-//   // Add default props here
-// };
 
 export const Default = Template.bind({});
 Default.args = {

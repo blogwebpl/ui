@@ -1,11 +1,7 @@
-import { IInventoryItem } from '../../types';
 import styled from 'styled-components';
 import { Card } from '../Card';
-import { MdOutlineNoteAlt } from 'react-icons/md';
 import { ButtonContainer } from '../ButtonContainer';
 import { Button } from '../Button';
-import { TextField } from '../TextField';
-import { ChangeEvent, useMemo } from 'react';
 import { Typography } from '../Typography';
 import { useNavigate } from 'react-router-dom';
 
@@ -23,13 +19,13 @@ const InventoryDetailsContainer = styled.div`
 		margin: 0.5rem;
 		gap: 1rem;
 		height: 5rem;
-    border-radius: 0.5rem;
-    background: #fdf5e6;
+		border-radius: 0.5rem;
+		background: #fdf5e6;
 	}
-  li.checked {
-    background: #8fbc8f;
-  }
-	
+	li.checked {
+		background: #8fbc8f;
+	}
+
 	.number {
 		width: 4rem;
 		display: flex;
@@ -48,92 +44,39 @@ const StyledHeaderContainer = styled.div`
 	p {
 		padding: 0.5rem 0;
 	}
-  div {
-    padding: 0.5rem;
-  }
+	div {
+		padding: 0.5rem;
+	}
 `;
 
 const StyledListContainer = styled.div``;
 
-export interface InventoryDetailsProps {
-	inventoryItem: IInventoryItem;
-	scannedItems: { dgId: number; itemNumber: number }[];
-}
+export interface InventoryDetailsProps {}
 
-
-	export function InventoryDetails({ inventoryItem, scannedItems }: InventoryDetailsProps) {
-	const maxItemNumber = Math.max(...scannedItems.map(item => item.itemNumber));
-	const maxQuantity = Math.max(inventoryItem.quantity || 0, maxItemNumber);
-	
-	const checkedItems = useMemo(() => new Set(scannedItems.map(item => item.itemNumber)), [scannedItems]);
+export function InventoryDetails() {
 	const navigate = useNavigate();
 	return (
 		<Card width="48rem">
 			<InventoryDetailsContainer>
 				<Typography component="h6" userSelect="none" color="#000000">
-					{inventoryItem.itemName}
+					Inventory details
 				</Typography>
 				<StyledHeaderContainer>
-					<p>
-						{inventoryItem.owner} - {inventoryItem.inventoryNumber}, Ilość: {scannedItems.length} / {inventoryItem.quantity} {inventoryItem.unitMeasure}
-					</p>
-					
-					<div>
-						<TextField
-							id="search"
-							label="Notatka"
-							type="text"
-							icon={MdOutlineNoteAlt}
-							slim={true}
-							autoFocus
-							onChange={(e: ChangeEvent<HTMLInputElement>) => {
-								console.log(e.target.value);
-							}}
-							value={''}
-							controlled
-						/>
-					</div>
+					{/* Add your content here */}
 				</StyledHeaderContainer>
-				<StyledListContainer>
-					<ul>
-						{Array.from({length: maxQuantity || 0}, (_, i) => (
-							<li key={i} className={checkedItems.has(i + 1) ? 'checked' : ''} onContextMenu={(e) => {
-                                e.preventDefault();
-                                alert('dlugie klikniecie');
-                            }}>
-								<span className="number">{i + 1 > (inventoryItem.quantity || 0) ? `[${i + 1}]` : `${i + 1}`}</span>
-								<span className="note">
-									<TextField
-										label="Notatka"
-										type="text"
-										icon={MdOutlineNoteAlt}
-										slim={true}
-										onChange={(e: ChangeEvent<HTMLInputElement>) => {
-											console.log(e.target.value);
-										}}
-										value={''}
-										controlled
-									/>
-								</span>
-							</li>
-						))}
-					
-					</ul>
-				</StyledListContainer>
+				<StyledListContainer>{/* Add your content here */}</StyledListContainer>
 				<ButtonContainer>
 					<Button
 						label="WRÓĆ"
 						variant="primary"
 						type="button"
 						disabled={false}
-            onClick={() => {
-              
-              navigate(-1)
-            }}
+						onClick={() => {
+							navigate(-1);
+						}}
 					/>
 				</ButtonContainer>
 			</InventoryDetailsContainer>
 		</Card>
 	);
 }
-
