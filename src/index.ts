@@ -31,5 +31,5 @@ export * from './components/Login';
 export * from './components/MenuEditor';
 export * from './components/PermissionEditor';
 export * from './components/Profile';
-export * from './components/atoms/InventoryDetails';
+export * from './components/atoms/ItemDetails';
 export * from './components/atoms/InventoryItem';

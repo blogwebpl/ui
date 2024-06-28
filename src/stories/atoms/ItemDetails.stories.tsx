@@ -1,19 +1,19 @@
 import React from 'react';
 import { StoryFn as Story, Meta } from '@storybook/react'; // Corrected import for Story
 import {
-	InventoryDetails,
-	InventoryDetailsProps,
-} from '../../components/atoms/InventoryDetails'; // Corrected import to named export and added InventoryDetailsProps
+	ItemDetails,
+	ItemDetailsProps,
+} from '../../components/atoms/ItemDetails'; // Corrected import to named export and added ItemDetailsProps
 import { BrowserRouter as Router } from 'react-router-dom';
 
 export default {
-	title: 'Atoms/InventoryDetails',
-	component: InventoryDetails,
+	title: 'Atoms/ItemDetails',
+	component: ItemDetails,
 } as Meta;
 
-const Template: Story<InventoryDetailsProps> = (args) => (
+const Template: Story<ItemDetailsProps> = (args) => (
 	<Router>
-		<InventoryDetails {...args} />
+		<ItemDetails {...args} />
 	</Router>
 );
 

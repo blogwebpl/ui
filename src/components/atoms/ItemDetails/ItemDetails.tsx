@@ -6,7 +6,7 @@ import { Typography } from '../Typography';
 import { useNavigate } from 'react-router-dom';
 import { IInventoryItem } from '../../types';
 
-const InventoryDetailsContainer = styled.div`
+const ItemDetailsContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	padding: 0.5rem 0;
@@ -42,7 +42,7 @@ const StyledContainer = styled.div`
 	padding: 1rem 0;
 `;
 
-export interface InventoryDetailsProps {
+export interface ItemDetailsProps {
 	inventoryItem: IInventoryItem;
 	itemDetails: {
 		itemNumber: number;
@@ -51,15 +51,12 @@ export interface InventoryDetailsProps {
 	};
 }
 
-export function InventoryDetails({
-	inventoryItem,
-	itemDetails,
-}: InventoryDetailsProps) {
+export function ItemDetails({ inventoryItem, itemDetails }: ItemDetailsProps) {
 	const navigate = useNavigate();
 	const quantity = inventoryItem.quantity || 0;
 	return (
 		<Card width="32rem" padding>
-			<InventoryDetailsContainer>
+			<ItemDetailsContainer>
 				<Typography component="h6" userSelect="none" color="#000000">
 					{inventoryItem.itemName}
 				</Typography>
@@ -87,7 +84,7 @@ export function InventoryDetails({
 						}}
 					/>
 				</ButtonContainer>
-			</InventoryDetailsContainer>
+			</ItemDetailsContainer>
 		</Card>
 	);
 }
