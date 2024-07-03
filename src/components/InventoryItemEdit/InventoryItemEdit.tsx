@@ -1,12 +1,12 @@
-import { IInventoryItem } from '../../types';
+import { IInventoryItem } from '../types';
 import styled from 'styled-components';
-import { Card } from '../Card';
+import { Card } from '../atoms/Card';
 import { MdOutlineNoteAlt } from 'react-icons/md';
-import { ButtonContainer } from '../ButtonContainer';
-import { Button } from '../Button';
-import { TextField } from '../TextField';
+import { ButtonContainer } from '../atoms/ButtonContainer';
+import { Button } from '../atoms/Button';
+import { TextField } from '../atoms/TextField';
 import { ChangeEvent, useMemo } from 'react';
-import { Typography } from '../Typography';
+import { Typography } from '../atoms/Typography';
 import { useNavigate } from 'react-router-dom';
 
 const InventoryItemContainer = styled.div`
@@ -55,15 +55,15 @@ const StyledHeaderContainer = styled.div`
 
 const StyledListContainer = styled.div``;
 
-export interface InventoryItemProps {
+export interface InventoryItemEditProps {
 	inventoryItem: IInventoryItem;
 	scannedItems: { dgId: number; itemNumber: number }[];
 }
 
-export function InventoryItem({
+export function InventoryItemEdit({
 	inventoryItem,
 	scannedItems,
-}: InventoryItemProps) {
+}: InventoryItemEditProps) {
 	const maxItemNumber = Math.max(
 		...scannedItems.map((item) => item.itemNumber)
 	);
@@ -112,8 +112,16 @@ export function InventoryItem({
 								onContextMenu={(e) => {
 									e.preventDefault();
 									navigate(
-										`/inventory/detail/${inventoryItem.id}/item/${i + 1}`
+										`/inventory/item/${inventoryItem.id}/subitem/${i + 1}`
 									);
+								}}
+								onClick={(e) => {
+									if (!('ontouchstart' in window)) {
+										e.preventDefault();
+										navigate(
+											`/inventory/item/${inventoryItem.id}/subitem/${i + 1}`
+										);
+									}
 								}}
 							>
 								<span className="number">

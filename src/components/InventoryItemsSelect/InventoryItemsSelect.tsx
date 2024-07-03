@@ -1,12 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { debounce } from 'lodash';
-import { TextField } from '../TextField';
-import { Button } from '../Button';
-import { IInventoryItem, Language } from '../../types';
-import { Select, SelectOption } from '../Select';
+import { TextField } from '../atoms/TextField';
+import { Button } from '../atoms/Button';
+import { IInventoryItem, Language } from '../types';
+import { Select, SelectOption } from '../atoms/Select';
 
-const StyledInventoryItems = styled.div`
+const StyledInventoryItemsSelect = styled.div`
 	display: grid;
 	grid-template-columns: 1fr 7rem 1fr;
 	overflow: hidden;
@@ -61,19 +61,19 @@ const StyledItemsList = styled.div`
 	height: calc(100vh - 55rem);
 `;
 
-interface InventoryItemsProps {
+interface InventoryItemsSelectProps {
 	items: IInventoryItem[];
 	selectedItems: number[];
 	setSelectedItems: (selectedItems: number[]) => void;
 	language: Language;
 }
 
-export function InventoryItems({
+export function InventoryItemsSelect({
 	selectedItems,
 	items,
 	setSelectedItems,
 	language,
-}: InventoryItemsProps) {
+}: InventoryItemsSelectProps) {
 	const unselectedItems = useMemo(
 		() =>
 			items
@@ -165,7 +165,7 @@ export function InventoryItems({
 	};
 
 	return (
-		<StyledInventoryItems>
+		<StyledInventoryItemsSelect>
 			<StyledSelectedItems>
 				<StyledTitle>
 					{language === 'en' ? 'Selecteds Items' : 'Wybrane przedmioty'}
@@ -258,6 +258,6 @@ export function InventoryItems({
 					</StyledContent>
 				</StyledItemsList>
 			</StyledUnselectedItems>
-		</StyledInventoryItems>
+		</StyledInventoryItemsSelect>
 	);
 }

@@ -1,17 +1,17 @@
 import { useState } from 'react';
-import { InventoryItems } from '../../components/atoms/InventoryItems';
-import { exampleInventoryItems } from './InventoryItems.data';
+import { InventoryItemsSelect } from '../components/InventoryItemsSelect';
+import { exampleInventoryItems } from './atoms/InventoryItems.data';
 
 export default {
 	title: 'Atoms/InventoryItems',
-	component: InventoryItems,
+	component: InventoryItemsSelect,
 };
 
 export const Default = () => {
 	const [selectedItems, setSelectedItems] = useState([1]);
 
 	return (
-		<InventoryItems
+		<InventoryItemsSelect
 			items={exampleInventoryItems}
 			selectedItems={selectedItems}
 			setSelectedItems={setSelectedItems}

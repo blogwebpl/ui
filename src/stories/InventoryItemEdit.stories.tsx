@@ -1,19 +1,19 @@
 import React from 'react';
 import { StoryFn as Story, Meta } from '@storybook/react'; // Corrected import for Story
 import {
-	ItemDetails,
-	ItemDetailsProps,
-} from '../../components/atoms/ItemDetails'; // Corrected import to named export and added ItemDetailsProps
+	InventoryItemEdit,
+	InventoryItemEditProps,
+} from '../components/InventoryItemEdit'; // Corrected import to named export and added InventoryItemProps
 import { BrowserRouter as Router } from 'react-router-dom';
 
 export default {
-	title: 'Atoms/ItemDetails',
-	component: ItemDetails,
+	title: 'InventoryItemEdit',
+	component: InventoryItemEdit,
 } as Meta;
 
-const Template: Story<ItemDetailsProps> = (args) => (
+const Template: Story<InventoryItemEditProps> = (args) => (
 	<Router>
-		<ItemDetails {...args} />
+		<InventoryItemEdit {...args} />
 	</Router>
 );
 
@@ -29,9 +29,14 @@ Default.args = {
 		quantity: 3,
 		unitMeasure: 'szt.',
 	},
-	itemDetails: {
-		itemNumber: 1,
-		date: '2021-01-01',
-		note: 'Notatka',
-	},
+	scannedItems: [
+		{
+			dgId: 11,
+			itemNumber: 1,
+		},
+		{
+			dgId: 11,
+			itemNumber: 3,
+		},
+	],
 };

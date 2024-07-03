@@ -18,7 +18,7 @@ import { IMenuItem, MenuItemsSchema } from '../atoms/Menu';
 import { IconSelect } from '../atoms/IconSelect';
 import { Labels } from '../atoms/Labels';
 import { IInventoryItem } from '../types';
-import { InventoryItems } from '../atoms/InventoryItems';
+import { InventoryItemsSelect } from '../InventoryItemsSelect';
 import { UserSelect } from '../atoms/UserSelect';
 import { Checkbox } from '../atoms/Checkbox';
 
@@ -283,7 +283,7 @@ export function EditForm({
 				case 'inventoryItems':
 					return (
 						<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
-							<InventoryItems
+							<InventoryItemsSelect
 								items={inventoryItems || []}
 								setSelectedItems={(newValue: number[]) => {
 									setInputValues((values) => ({

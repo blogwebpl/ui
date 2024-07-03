@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import { Card } from '../Card';
-import { ButtonContainer } from '../ButtonContainer';
-import { Button } from '../Button';
-import { Typography } from '../Typography';
+import { Card } from '../atoms/Card';
+import { ButtonContainer } from '../atoms/ButtonContainer';
+import { Button } from '../atoms/Button';
+import { Typography } from '../atoms/Typography';
 import { useNavigate } from 'react-router-dom';
-import { IInventoryItem } from '../../types';
+import { IInventoryItem } from '../types';
 
-const ItemDetailsContainer = styled.div`
+const InventorySubitemEditContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	padding: 0.5rem 0;
@@ -42,38 +42,56 @@ const StyledContainer = styled.div`
 	padding: 1rem 0;
 `;
 
-export interface ItemDetailsProps {
+export interface InventorySubitemEditProps {
 	inventoryItem: IInventoryItem;
-	itemDetails: {
+	inventorySubitem: {
 		itemNumber: number;
 		date?: string;
 		note?: string;
 	};
+	changeStatus: (status: boolean) => void;
 }
 
-export function ItemDetails({ inventoryItem, itemDetails }: ItemDetailsProps) {
+export function InventorySubitemEdit({
+	inventoryItem,
+	inventorySubitem,
+	changeStatus,
+}: InventorySubitemEditProps) {
 	const navigate = useNavigate();
 	const quantity = inventoryItem.quantity || 0;
+	const statusConfirmed = !!inventorySubitem.date;
+
 	return (
-		<Card width="32rem" padding>
-			<ItemDetailsContainer>
+		<Card width="36rem" padding>
+			<InventorySubitemEditContainer>
 				<Typography component="h6" userSelect="none" color="#000000">
 					{inventoryItem.itemName}
 				</Typography>
 				<StyledContainer>
 					<p>Numer inw.: {inventoryItem.inventoryNumber}</p>
-					<p>Numer porządkowy: {itemDetails.itemNumber}</p>
+					<p>Numer porządkowy: {inventorySubitem.itemNumber}</p>
 					<p>
 						Status:{' '}
 						<span
-							className={`status ${!itemDetails.date ? 'error' : itemDetails.itemNumber <= quantity ? 'ok' : 'warning'}`}
+							className={`status ${statusConfirmed ? (inventorySubitem.itemNumber <= quantity ? 'ok' : 'warning') : 'error'}`}
 						>
-							{!itemDetails.date ? 'NIEPOTWIERDZONY' : 'POTWIERDZONY'}
+							{statusConfirmed ? 'POTWIERDZONY' : 'NIEPOTWIERDZONY'}
 						</span>
 					</p>
-					{itemDetails.date && <p>Data odczytu: {itemDetails.date}</p>}
+					{inventorySubitem.date && (
+						<p>Data odczytu: {inventorySubitem.date}</p>
+					)}
 				</StyledContainer>
 				<ButtonContainer>
+					<Button
+						label="ZMIEŃ STATUS"
+						variant="accent"
+						type="button"
+						disabled={false}
+						onClick={() => {
+							changeStatus(statusConfirmed);
+						}}
+					/>
 					<Button
 						label="WRÓĆ"
 						variant="primary"
@@ -84,7 +102,7 @@ export function ItemDetails({ inventoryItem, itemDetails }: ItemDetailsProps) {
 						}}
 					/>
 				</ButtonContainer>
-			</ItemDetailsContainer>
+			</InventorySubitemEditContainer>
 		</Card>
 	);
 }
