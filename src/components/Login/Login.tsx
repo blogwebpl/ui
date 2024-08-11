@@ -91,7 +91,11 @@ export function Login(props: LoginProps) {
 					/>
 				</FieldContainer>
 				<FieldContainer>
-					<Checkbox id="checkbox" label="Zapamiętaj e-mail" forwardedRef={rememberEmailRef} />
+					<Checkbox
+						id="checkbox"
+						label="Zapamiętaj e-mail"
+						forwardedRef={rememberEmailRef}
+					/>
 				</FieldContainer>
 				<ButtonContainer>
 					<Button

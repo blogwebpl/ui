@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledAlert = styled.div`
+export const StyledAlert = styled.div<{ centerText?: boolean }>`
 	font-size: 0.9em;
 	font-weight: ${(props) => props.theme.typography.fontWeightBold};
 	box-sizing: border-box;
@@ -11,5 +11,19 @@ export const StyledAlert = styled.div`
 	display: inline-block;
 	padding: 1.6rem;
 	width: 100%;
+	z-index: 100000;
 	margin: 1.6em 0 0.8rem 0;
+	text-align: ${(props) => (props.centerText ? 'center' : 'left')};
+	position: relative; /* Added to position the close button */
+`;
+
+export const CloseButton = styled.button`
+	position: absolute;
+	top: 1.2rem;
+	right: 1rem;
+	background: none;
+	border: none;
+	font-size: 2rem;
+	cursor: pointer;
+	color: ${(props) => props.theme.palette.text.alert};
 `;

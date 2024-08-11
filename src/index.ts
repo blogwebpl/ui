@@ -28,6 +28,7 @@ export * from './components/Drawer';
 export * from './components/EditForm';
 export * from './components/Inventory';
 export * from './components/Login';
+export * from './components/LoginModern';
 export * from './components/MenuEditor';
 export * from './components/PermissionEditor';
 export * from './components/Profile';

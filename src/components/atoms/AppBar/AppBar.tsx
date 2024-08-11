@@ -8,7 +8,11 @@ import {
 import { IconButton } from '../IconButton';
 
 import { Typography } from '../Typography';
-import { StyledAppBar, StyledIconContainer, StyledTitleContainer } from './appBarStyle';
+import {
+	StyledAppBar,
+	StyledIconContainer,
+	StyledTitleContainer,
+} from './appBarStyle';
 
 interface AppBarProps {
 	/**
@@ -58,20 +62,28 @@ export function AppBar(props: AppBarProps) {
 
 	const handleMenuIconClick = () => {
 		const now = Date.now();
-		if (props.isLoggedIn && props.setIsDrawerOpen && now - lastMenuIconClickTime >= 250) {
+		if (
+			props.isLoggedIn &&
+			props.setIsDrawerOpen &&
+			now - lastMenuIconClickTime >= 250
+		) {
 			props.setIsDrawerOpen(!props.isDrawerOpen);
 			lastMenuIconClickTime = now;
 		}
 	};
-let lastSidebarIconClickTime = 0;
+	let lastSidebarIconClickTime = 0;
 
-const handleSidebarIconClick = () => {
-	const now = Date.now();
-	if (props.isLoggedIn && props.setIsSidebarOpen && now - lastSidebarIconClickTime >= 250) {
-		props.setIsSidebarOpen(!props.isSidebarOpen);
-		lastSidebarIconClickTime = now;
-	}
-};
+	const handleSidebarIconClick = () => {
+		const now = Date.now();
+		if (
+			props.isLoggedIn &&
+			props.setIsSidebarOpen &&
+			now - lastSidebarIconClickTime >= 250
+		) {
+			props.setIsSidebarOpen(!props.isSidebarOpen);
+			lastSidebarIconClickTime = now;
+		}
+	};
 	return (
 		<StyledAppBar>
 			<IconButton
@@ -82,7 +94,11 @@ const handleSidebarIconClick = () => {
 				onClick={handleMenuIconClick}
 				disabled={!props.isLoggedIn}
 			>
-				{props.isDrawerOpen ? <CloseIcon size="2.4rem" /> : <MenuIcon size="2.4rem" />}
+				{props.isDrawerOpen ? (
+					<CloseIcon size="2.4rem" />
+				) : (
+					<MenuIcon size="2.4rem" />
+				)}
 			</IconButton>
 			<StyledTitleContainer>
 				<Typography component="h6" userSelect="none">
@@ -97,7 +113,11 @@ const handleSidebarIconClick = () => {
 					isLightColor={true}
 					onClick={props.handleProfileClick || (() => {})}
 				>
-					{props.isLoggedIn ? <PersonIcon size="2.4rem" /> : <LockIcon size="2.4rem" />}
+					{props.isLoggedIn ? (
+						<PersonIcon size="2.4rem" />
+					) : (
+						<LockIcon size="2.4rem" />
+					)}
 				</IconButton>
 
 				{props.isLoggedIn && props.ActionIcon && (
