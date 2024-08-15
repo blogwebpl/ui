@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledAlert = styled.div<{ centerText?: boolean }>`
+export const StyledAlert = styled.div<{ $centerText?: boolean }>`
 	font-size: 0.9em;
 	font-weight: ${(props) => props.theme.typography.fontWeightBold};
 	box-sizing: border-box;
@@ -13,7 +13,7 @@ export const StyledAlert = styled.div<{ centerText?: boolean }>`
 	width: 100%;
 	z-index: 100000;
 	margin: 1.6em 0 0.8rem 0;
-	text-align: ${(props) => (props.centerText ? 'center' : 'left')};
+	text-align: ${(props) => (props.$centerText ? 'center' : 'left')};
 	position: relative; /* Added to position the close button */
 `;
 

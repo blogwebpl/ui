@@ -28,7 +28,9 @@ const StyledCard = styled.div<StyledCardProps>`
 	box-sizing: border-box;
 	opacity: ${(props) => (props.$opacity ? '0.95' : '1')};
 	background-color: ${(props) =>
-		props.$opacity ? 'rgba(255, 255, 255, 0.9)' : props.theme.palette.background.default};
+		props.$opacity
+			? 'rgba(255, 255, 255, 0.9)'
+			: props.theme.palette.background.default};
 	backdrop-filter: ${(props) => (props.$opacity ? 'blur(1.5rem)' : 'none')};
 	@media (min-width: 24rem) {
 		border-radius: ${(props) => props.theme.shape.borderRadious};
@@ -58,7 +60,7 @@ interface CardProps {
 export function Card(props: CardProps) {
 	return (
 		<StyledCard
-			className='card'
+			className="card"
 			$padding={props.padding}
 			$opacity={props.opacity}
 			$isPending={props.isPending}

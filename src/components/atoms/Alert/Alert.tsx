@@ -8,7 +8,7 @@ interface AlertProps {
 
 export function Alert({ children, centerText = false, onClose }: AlertProps) {
 	return (
-		<StyledAlert centerText={centerText}>
+		<StyledAlert $centerText={centerText}>
 			{children}
 			{onClose && <CloseButton onClick={onClose}>X</CloseButton>}
 		</StyledAlert>

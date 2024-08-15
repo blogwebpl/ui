@@ -9,20 +9,34 @@ import {
 
 import { FaXTwitter } from 'react-icons/fa6';
 import styled from 'styled-components';
-import { LoginFormData } from '../Login/Login';
+import { SigninFormData } from '../Login/Login';
 import { Checkbox } from '../atoms/Checkbox';
 import { Alert } from '../atoms/Alert';
 
+export interface SignupFormData {
+	email: string;
+	password: string;
+	repeatPassword: string;
+}
+
 interface LoginModernProps {
 	logo: string;
-	handleSubmit: ({ email, password }: LoginFormData) => void;
+	handleSignin: ({ email, password }: SigninFormData) => void;
+	handleSignup: ({ email, password, repeatPassword }: SignupFormData) => void;
 	isPending: boolean;
 	error: string;
+	onClose: () => void;
 }
 
 const Logo = styled.div`
+	user-select: none;
 	margin-bottom: 1.8rem;
-	width: 95%;
+	width: 110%;
+
+	@media (max-width: 55rem) {
+		width: 90%;
+	}
+
 	@media (max-width: 48rem) {
 		width: 100%;
 	}
@@ -39,7 +53,9 @@ const AlertContainer = styled.div`
 	z-index: 100000;
 `;
 
-const Container = styled.div`
+const Container = styled.div<{ $isPending: boolean }>`
+	user-select: none;
+	cursor: ${(props) => (props.$isPending ? 'wait' : 'default')};
 	position: relative;
 	width: 70vw;
 	height: 80vh;
@@ -189,6 +205,10 @@ const InputField = styled.div`
 	display: flex;
 	align-items: center;
 
+	&:focus-within {
+		border-color: #f44336;
+	}
+
 	i {
 		flex: 1;
 		text-align: center;
@@ -223,6 +243,10 @@ const Button = styled.button`
 
 	&:hover {
 		background: #3f51b5;
+	}
+
+	&:active {
+		background: #5c6bc0;
 	}
 `;
 
@@ -332,18 +356,13 @@ const CheckboxContainer = styled.div`
 
 export function LoginModern(props: LoginModernProps) {
 	const emailRef = useRef<HTMLInputElement>(null);
+	const emailRef2 = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
 	const rememberEmailRef = useRef<HTMLInputElement>(null);
 	const [isSignUpMode, setIsSignUpMode] = useState(false);
 	const [isSignUpMode2, setIsSignUpMode2] = useState(false);
 
-	const [err, setErr] = useState(props.error);
-
 	const storedEmail = localStorage.getItem('email');
-
-	useEffect(() => {
-		setErr(props.error);
-	}, [props.error]);
 
 	useEffect(() => {
 		if (storedEmail) {
@@ -353,157 +372,204 @@ export function LoginModern(props: LoginModernProps) {
 		} else {
 			if (emailRef.current) emailRef.current.focus();
 		}
-	}, [storedEmail]);
+		if (emailRef2.current) emailRef2.current.focus();
+	}, [storedEmail, isSignUpMode, isSignUpMode2]);
 
 	return (
 		<Container
-			className={`${isSignUpMode ? 'sign-up-mode' : ''} ${isSignUpMode2 ? 'sign-up-mode2' : ''}`}
+			$isPending={props.isPending}
+			className={`container ${isSignUpMode ? 'sign-up-mode' : ''} ${isSignUpMode2 ? 'sign-up-mode2' : ''}`}
 		>
-			{err ? (
+			{props.error ? (
 				<AlertContainer>
-					<Alert centerText onClose={() => setErr('')}>
-						{err}
+					<Alert centerText onClose={props.onClose}>
+						{props.error}
 					</Alert>
 				</AlertContainer>
 			) : null}
-			<SignInSignUp>
-				<Form
-					className="sign-in-form"
-					onSubmit={(e) => {
-						e.preventDefault();
-						props.handleSubmit({
-							email: emailRef.current?.value || '',
-							password: passwordRef.current?.value || '',
-						});
-					}}
-				>
-					<Logo>
-						<img src={props.logo} alt="logo" />
-					</Logo>
-					<Title>Logowanie</Title>
-					<InputField>
-						<i>
-							<FaUser />
-						</i>
-						<input type="text" placeholder="e-mail" ref={emailRef} />
-					</InputField>
-					<InputField>
-						<i>
-							<FaLock />
-						</i>
-						<input type="password" placeholder="hasło" ref={passwordRef} />
-					</InputField>
-					<CheckboxContainer>
-						<Checkbox
-							id="checkbox"
-							label="Zapamiętaj e-mail"
-							forwardedRef={rememberEmailRef}
-						/>
-					</CheckboxContainer>
-					<Button type="submit">Zaloguj się</Button>
-					<SocialText>Lub zaloguj się przez:</SocialText>
-					<SocialMedia>
-						<SocialIcon href="#" className="social-icon">
-							<FaFacebook />
-						</SocialIcon>
-						<SocialIcon href="" className="social-icon">
-							<FaXTwitter />
-						</SocialIcon>
-						<SocialIcon href="" className="social-icon">
-							<FaGoogle />
-						</SocialIcon>
-						<SocialIcon href="" className="social-icon">
-							<FaLinkedinIn />
-						</SocialIcon>
-					</SocialMedia>
-					<AccountText>
-						Nie masz konta ?{' '}
-						<a
-							href="#"
-							id="sign-up-btn2"
-							onClick={() => setIsSignUpMode2(true)}
-						>
-							Zarejestruj&nbsp;się
-						</a>
-					</AccountText>
-				</Form>
-				<Form className="sign-up-form">
-					<Title>Rejestracja</Title>
-					<InputField>
-						<i>
-							<FaUser />
-						</i>
-						<input type="text" placeholder="e-mail" />
-					</InputField>
-					<InputField>
-						<i>
-							<FaLock />
-						</i>
-						<input type="password" placeholder="hasło" />
-					</InputField>
-					<InputField>
-						<i>
-							<FaLock />
-						</i>
-						<input type="password" placeholder="powtórz hasło" />
-					</InputField>
-					<Button>Zarejestruj się</Button>
-					<SocialText>Lub zarejestruj&nbsp;się przez:</SocialText>
-					<SocialMedia>
-						<SocialIcon href="#" className="social-icon">
-							<FaFacebook />
-						</SocialIcon>
-						<SocialIcon href="" className="social-icon">
-							<FaXTwitter />
-						</SocialIcon>
-						<SocialIcon href="" className="social-icon">
-							<FaGoogle />
-						</SocialIcon>
-						<SocialIcon href="" className="social-icon">
-							<FaLinkedinIn />
-						</SocialIcon>
-					</SocialMedia>
-					<AccountText>
-						Masz już konto ?{' '}
-						<a
-							href="#"
-							id="sign-in-btn2"
-							onClick={() => setIsSignUpMode2(false)}
-						>
-							Zaloguj&nbsp;się
-						</a>
-					</AccountText>
-				</Form>
+			<SignInSignUp className="signin-signup">
+				{isSignUpMode ? (
+					<Form className="form sign-in-form"></Form>
+				) : (
+					<Form
+						className="form sign-in-form"
+						onSubmit={(e) => {
+							e.preventDefault();
+							props.handleSignin({
+								email: emailRef.current?.value || '',
+								password: passwordRef.current?.value || '',
+							});
+						}}
+					>
+						<Logo>
+							<img src={props.logo} alt="logo" />
+						</Logo>
+						<Title>Logowanie</Title>
+						<InputField>
+							<i>
+								<FaUser />
+							</i>
+							<input
+								type="email"
+								required
+								placeholder="e-mail"
+								ref={emailRef}
+							/>
+						</InputField>
+						<InputField>
+							<i>
+								<FaLock />
+							</i>
+							<input
+								type="password"
+								required
+								placeholder="hasło"
+								ref={passwordRef}
+							/>
+						</InputField>
+						<CheckboxContainer>
+							<Checkbox
+								id="checkbox"
+								label="Zapamiętaj e-mail"
+								forwardedRef={rememberEmailRef}
+							/>
+						</CheckboxContainer>
+						<Button type="submit" disabled={props.isPending}>
+							Zaloguj się
+						</Button>
+						<SocialText>Lub zaloguj się przez:</SocialText>
+						<SocialMedia>
+							<SocialIcon href="#" className="social-icon">
+								<FaFacebook />
+							</SocialIcon>
+							<SocialIcon href="" className="social-icon">
+								<FaXTwitter />
+							</SocialIcon>
+							<SocialIcon href="" className="social-icon">
+								<FaGoogle />
+							</SocialIcon>
+							<SocialIcon href="" className="social-icon">
+								<FaLinkedinIn />
+							</SocialIcon>
+						</SocialMedia>
+						<AccountText>
+							Nie masz konta ?{' '}
+							<a
+								href="#"
+								id="sign-up-btn2"
+								onClick={() => setIsSignUpMode2(true)}
+							>
+								Zarejestruj&nbsp;się
+							</a>
+						</AccountText>
+					</Form>
+				)}
+				{!isSignUpMode && !isSignUpMode2 ? (
+					<Form className="form sign-up-form"></Form>
+				) : (
+					<Form
+						className="form sign-up-form"
+						onSubmit={(e) => {
+							e.preventDefault();
+							props.handleSignup({
+								email: emailRef.current?.value || '',
+								password: passwordRef.current?.value || '',
+								repeatPassword: passwordRef.current?.value || '',
+							});
+						}}
+					>
+						<Title>Rejestracja</Title>
+						<InputField>
+							<i>
+								<FaUser />
+							</i>
+							<input
+								type="email"
+								required
+								placeholder="e-mail"
+								ref={emailRef2}
+							/>
+						</InputField>
+						<InputField>
+							<i>
+								<FaLock />
+							</i>
+							<input type="password" required placeholder="hasło" />
+						</InputField>
+						<InputField>
+							<i>
+								<FaLock />
+							</i>
+							<input type="password" required placeholder="powtórz hasło" />
+						</InputField>
+						<Button type="submit" disabled={props.isPending}>
+							Zarejestruj się
+						</Button>
+						<SocialText>Lub zarejestruj&nbsp;się przez:</SocialText>
+						<SocialMedia>
+							<SocialIcon href="#" className="social-icon">
+								<FaFacebook />
+							</SocialIcon>
+							<SocialIcon href="" className="social-icon">
+								<FaXTwitter />
+							</SocialIcon>
+							<SocialIcon href="" className="social-icon">
+								<FaGoogle />
+							</SocialIcon>
+							<SocialIcon href="" className="social-icon">
+								<FaLinkedinIn />
+							</SocialIcon>
+						</SocialMedia>
+						<AccountText>
+							Masz już konto ?{' '}
+							<a
+								href="#"
+								id="sign-in-btn2"
+								onClick={() => setIsSignUpMode2(false)}
+							>
+								Zaloguj&nbsp;się
+							</a>
+						</AccountText>
+					</Form>
+				)}
 			</SignInSignUp>
 			<PanelsContainer className="panels-container">
-				<Panel className="left-panel">
-					<div className="content">
-						<h3>Masz już konto&nbsp;?</h3>
-						<p>Możesz się zalogować</p>
-						<Button
-							className="btn"
-							id="sign-in-btn"
-							onClick={() => setIsSignUpMode(false)}
-						>
-							Zaloguj&nbsp;się
-						</Button>
-					</div>
-					<img src="signin.svg" alt="" className="image" />
-				</Panel>
-				<Panel className="right-panel">
-					<div className="content">
-						<h3>Nie masz konta&nbsp;?</h3>
-						<p>Możesz zarejestrować&nbsp;się za&nbsp;darmo</p>
-						<Button
-							id="sign-up-btn"
-							className="btn"
-							onClick={() => setIsSignUpMode(true)}
-						>
-							Zarejestruj&nbsp;się
-						</Button>
-					</div>
-					<img src="signup.svg" alt="" className="image" />
-				</Panel>
+				{!isSignUpMode ? (
+					<Panel className="panel left-panel"></Panel>
+				) : (
+					<Panel className="panel left-panel">
+						<div className="content">
+							<h3>Masz już konto&nbsp;?</h3>
+							<p>Możesz się zalogować</p>
+							<Button
+								className="btn"
+								id="sign-in-btn"
+								onClick={() => setIsSignUpMode(false)}
+							>
+								Zaloguj&nbsp;się
+							</Button>
+						</div>
+						<img src="signin.svg" alt="" className="image" />
+					</Panel>
+				)}
+				{isSignUpMode ? (
+					<Panel className="panel right-panel"></Panel>
+				) : (
+					<Panel className="panel right-panel">
+						<div className="content">
+							<h3>Nie masz konta&nbsp;?</h3>
+							<p>Możesz zarejestrować&nbsp;się za&nbsp;darmo</p>
+							<Button
+								id="sign-up-btn"
+								className="btn"
+								onClick={() => setIsSignUpMode(true)}
+							>
+								Zarejestruj&nbsp;się
+							</Button>
+						</div>
+						<img src="signup.svg" alt="" className="image" />
+					</Panel>
+				)}
 			</PanelsContainer>
 		</Container>
 	);

@@ -9,14 +9,14 @@ import { Logo } from '../atoms/Logo';
 import { TextField } from '../atoms/TextField';
 import { Typography } from '../atoms/Typography';
 
-export interface LoginFormData {
+export interface SigninFormData {
 	email: string;
 	password: string;
 }
 
 interface LoginProps {
 	logo?: string;
-	handleSubmit: ({ email, password }: LoginFormData) => void;
+	handleSubmit: ({ email, password }: SigninFormData) => void;
 	isPending: boolean;
 	error: string;
 	logoheight?: string;
