@@ -358,6 +358,8 @@ export function LoginModern(props: LoginModernProps) {
 	const emailRef = useRef<HTMLInputElement>(null);
 	const emailRef2 = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
+	const passwordRef2 = useRef<HTMLInputElement>(null);
+	const repeatPasswordRef = useRef<HTMLInputElement>(null);
 	const rememberEmailRef = useRef<HTMLInputElement>(null);
 	const [isSignUpMode, setIsSignUpMode] = useState(false);
 	const [isSignUpMode2, setIsSignUpMode2] = useState(false);
@@ -472,9 +474,9 @@ export function LoginModern(props: LoginModernProps) {
 						onSubmit={(e) => {
 							e.preventDefault();
 							props.handleSignup({
-								email: emailRef.current?.value || '',
-								password: passwordRef.current?.value || '',
-								repeatPassword: passwordRef.current?.value || '',
+								email: emailRef2.current?.value || '',
+								password: passwordRef2.current?.value || '',
+								repeatPassword: repeatPasswordRef.current?.value || '',
 							});
 						}}
 					>
@@ -494,13 +496,23 @@ export function LoginModern(props: LoginModernProps) {
 							<i>
 								<FaLock />
 							</i>
-							<input type="password" required placeholder="hasło" />
+							<input
+								type="password"
+								required
+								placeholder="hasło"
+								ref={passwordRef2}
+							/>
 						</InputField>
 						<InputField>
 							<i>
 								<FaLock />
 							</i>
-							<input type="password" required placeholder="powtórz hasło" />
+							<input
+								type="password"
+								required
+								placeholder="powtórz hasło"
+								ref={repeatPasswordRef}
+							/>
 						</InputField>
 						<Button type="submit" disabled={props.isPending}>
 							Zarejestruj się
