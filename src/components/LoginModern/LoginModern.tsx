@@ -397,6 +397,7 @@ export function LoginModern(props: LoginModernProps) {
 						className="form sign-in-form"
 						onSubmit={(e) => {
 							e.preventDefault();
+							localStorage.setItem('email', emailRef.current?.value || '');
 							props.handleSignin({
 								email: emailRef.current?.value || '',
 								password: passwordRef.current?.value || '',

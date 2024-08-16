@@ -14,7 +14,7 @@ import {
 	MdOutlineChevronRight as NextIcon,
 	MdOutlineChevronLeft as PrevIcon,
 	MdDelete as TrashIcon,
-	MdClear
+	MdClear,
 } from 'react-icons/md';
 
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
@@ -37,7 +37,6 @@ import {
 import { Language, Translations } from '../../types';
 import styled from 'styled-components';
 import { CardMenu } from '../CardMenu';
-
 
 export interface TableColumn {
 	field: string;
@@ -73,7 +72,7 @@ const StyledMenu = styled.div`
 	padding: 1rem;
 	top: 4.8rem;
 	right: 0;
-	min-width:50%;
+	min-width: 50%;
 	max-width: 75%;
 	height: auto;
 	background-color: #eee;
@@ -95,10 +94,17 @@ interface MergeColumnsProps {
 	collection: string;
 }
 
-const mergeColumns = ({ columns, collection }: MergeColumnsProps): TableColumn[] => {
-	const collectionColumns = localStorage.getItem(`collection-${collection}-columns`);
+const mergeColumns = ({
+	columns,
+	collection,
+}: MergeColumnsProps): TableColumn[] => {
+	const collectionColumns = localStorage.getItem(
+		`collection-${collection}-columns`
+	);
 	if (collectionColumns) {
-		const userColumns: TableColumn[] = JSON.parse(collectionColumns) as TableColumn[];
+		const userColumns: TableColumn[] = JSON.parse(
+			collectionColumns
+		) as TableColumn[];
 		const userColumnsMap = new Map(userColumns.map((uc) => [uc.field, uc]));
 
 		return columns.map((column) => {
@@ -124,18 +130,28 @@ export function Table(props: TableProps) {
 	const params = new URLSearchParams(location.search);
 	const searchParam = params.get('search');
 
-	const mergedColumns = mergeColumns({ columns: props.columns, collection: props.collection });
+	const mergedColumns = mergeColumns({
+		columns: props.columns,
+		collection: props.collection,
+	});
 
 	const { data } = props;
 	const [columns, setColumns] = useState(mergedColumns);
-	const [isMobile, setIsMobile] = useState(window.innerWidth <= (props.mobileWidth || 416));
+	const [isMobile, setIsMobile] = useState(
+		window.innerWidth <= (props.mobileWidth || 416)
+	);
 	const [fontSize, setFontSize] = useState<number>(getFontSizeFromBody());
 	const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
-	const [rowsPerPage, setRowsPerPage] = useState<number>(props.rowsPerPage || 0);
+	const [rowsPerPage, setRowsPerPage] = useState<number>(
+		props.rowsPerPage || 0
+	);
 	const [pageNumber, setPageNumber] = useState<number>(props.pageNumber || 1);
 	const [searchText, setSearchText] = useState<string>(searchParam || '');
-	const [searchTextForInput, setSearchTextForInput] = useState<string>(searchParam || '');
-	const [searchDelayTimer, setSearchDelayTimer] = useState<NodeJS.Timeout | null>(null);
+	const [searchTextForInput, setSearchTextForInput] = useState<string>(
+		searchParam || ''
+	);
+	const [searchDelayTimer, setSearchDelayTimer] =
+		useState<NodeJS.Timeout | null>(null);
 	const [checkedRows, setCheckedRows] = useState<Set<string>>(new Set());
 	const [allChecked, setAllChecked] = useState(false);
 	const [showMiniMenu, setShowMiniMenu] = useState(false);
@@ -158,19 +174,30 @@ export function Table(props: TableProps) {
 
 					if (value && typeof value === 'object') {
 						return Object.entries(value).some(([objKey, objValue]) => {
-							const isKeyInColumns = columns.some((column) => column.field === `${key}.${objKey}`);
+							const isKeyInColumns = columns.some(
+								(column) => column.field === `${key}.${objKey}`
+							);
 							if (!isKeyInColumns) {
 								return false; // Skip if key is not in columns
 							}
 
-							return objValue !== null && String(objValue).toLowerCase().includes(searchText.toLowerCase());
+							return (
+								objValue !== null &&
+								String(objValue)
+									.toLowerCase()
+									.includes(searchText.toLowerCase())
+							);
 						});
 					}
 					if (typeof value === 'number') {
 						return String(value).includes(searchText); // Check if number includes search text
 					}
 
-					return value && typeof value === 'string' && value.toLowerCase().includes(searchText.toLowerCase()); // Check if string includes search text
+					return (
+						value &&
+						typeof value === 'string' &&
+						value.toLowerCase().includes(searchText.toLowerCase())
+					); // Check if string includes search text
 				})
 			);
 		}
@@ -213,9 +240,12 @@ export function Table(props: TableProps) {
 			setSearchDelayTimer(
 				setTimeout(() => {
 					setPageNumber(1);
-					navigate(`/${props.collection}/page/1?search=${encodeURIComponent(text)}`, {
-						replace: true,
-					});
+					navigate(
+						`/${props.collection}/page/1?search=${encodeURIComponent(text)}`,
+						{
+							replace: true,
+						}
+					);
 					setSearchText(text);
 				}, 450)
 			);
@@ -225,13 +255,13 @@ export function Table(props: TableProps) {
 
 	const handleCheckboxChange = (() => {
 		let lastChangeTime = 0;
-	
+
 		return (rowId: string | number) => {
 			const now = Date.now();
 			if (now - lastChangeTime < 500) return; // Ignore changes within 0.5s
-	
+
 			lastChangeTime = now;
-	
+
 			setCheckedRows((prevCheckedRows) => {
 				const newCheckedRows = new Set(prevCheckedRows);
 				if (newCheckedRows.has(rowId.toString())) {
@@ -264,21 +294,27 @@ export function Table(props: TableProps) {
 		const column = columns.find((col) => col.field === id);
 		if (column) {
 			column.sort = column.sort === 'asc' ? 'desc' : 'asc';
-			setColumns((prevColumns) => prevColumns.map((col) => (col.field === id ? column : col)));
-			localStorage.setItem(`collection-${props.collection}-columns`, JSON.stringify(columns));
+			setColumns((prevColumns) =>
+				prevColumns.map((col) => (col.field === id ? column : col))
+			);
+			localStorage.setItem(
+				`collection-${props.collection}-columns`,
+				JSON.stringify(columns)
+			);
 		}
 	};
 
 	let computedRowsPerPage = rowsPerPage;
 
-	if (rowsPerPage === 0 && !isMobile) {		
+	if (rowsPerPage === 0 && !isMobile) {
 		const headerHeight = 7.5 * fontSize;
 		const footerHeight = 3 * fontSize;
 		const rowHeight = 3.2525 * fontSize;
 		const appbarHeight = 4 * fontSize;
-	
+
 		computedRowsPerPage = Math.floor(
-			(viewportHeight - headerHeight - footerHeight - appbarHeight - fontSize) / rowHeight
+			(viewportHeight - headerHeight - footerHeight - appbarHeight - fontSize) /
+				rowHeight
 		);
 		computedRowsPerPage = Math.max(computedRowsPerPage, 0);
 		console.log({
@@ -287,11 +323,9 @@ export function Table(props: TableProps) {
 			rowHeight,
 			appbarHeight,
 			fontSize,
-			viewportHeight,			
+			viewportHeight,
 			computedRowsPerPage,
-
-		
-		})	
+		});
 	}
 
 	if (isMobile) computedRowsPerPage = Math.min(25, data.length); // 25 or data.length;
@@ -309,7 +343,9 @@ export function Table(props: TableProps) {
 						const keys = column.field.split('.');
 
 						const currentNode = keys.reduce((current, key) => {
-							return Object.prototype.hasOwnProperty.call(current, key) ? current[key] : current;
+							return Object.prototype.hasOwnProperty.call(current, key)
+								? current[key]
+								: current;
 						}, transformedRow);
 
 						transformedRow[column.field] = currentNode;
@@ -321,14 +357,22 @@ export function Table(props: TableProps) {
 		[columns]
 	);
 
-	const sortFunction = (a: DynamicObject, b: DynamicObject, column: TableColumn) => {
+	const sortFunction = (
+		a: DynamicObject,
+		b: DynamicObject,
+		column: TableColumn
+	) => {
 		const aValue = a[column.field] || '';
 		const bValue = b[column.field] || '';
 		if (column.type === 'text') {
 			if (column.sort === 'asc') {
-				return aValue.toString().localeCompare(bValue.toString(), 'pl', { sensitivity: 'base' });
+				return aValue
+					.toString()
+					.localeCompare(bValue.toString(), 'pl', { sensitivity: 'base' });
 			}
-			return bValue.toString().localeCompare(aValue.toString(), 'pl', { sensitivity: 'base' });
+			return bValue
+				.toString()
+				.localeCompare(aValue.toString(), 'pl', { sensitivity: 'base' });
 		}
 		if (column.type === 'number') {
 			if (column.sort === 'asc') {
@@ -461,54 +505,74 @@ export function Table(props: TableProps) {
 	};
 
 	const MiniMenu = () => {
-		return <StyledMenu><CardMenu items={tableActions} language={props.language} /></StyledMenu>
+		return (
+			<StyledMenu>
+				<CardMenu items={tableActions} language={props.language} />
+			</StyledMenu>
+		);
 	};
 
 	const SearchContainer = () => {
-		return <StyledFilterContainer className={'filter ' + (isMobile ? 'mobile' : 'desktop')}>
-		<TextField
-			id="search"
-			label=""
-			type="text"
-			icon={SearchIcon}
-			slim={true}
-			autoFocus
-			onChange={(e: ChangeEvent<HTMLInputElement>) => {
-				handleSearchTextChange(e.target.value);
-				setSearchTextForInput(e.target.value);
-			}}
-			value={searchTextForInput}
-			controlled
-		/>
-	</StyledFilterContainer>
-	}
+		return (
+			<StyledFilterContainer
+				className={'filter ' + (isMobile ? 'mobile' : 'desktop')}
+			>
+				<TextField
+					id="search"
+					label=""
+					type="text"
+					icon={SearchIcon}
+					slim={true}
+					autoFocus
+					onChange={(e: ChangeEvent<HTMLInputElement>) => {
+						handleSearchTextChange(e.target.value);
+						setSearchTextForInput(e.target.value);
+					}}
+					value={searchTextForInput}
+					controlled
+				/>
+			</StyledFilterContainer>
+		);
+	};
 	return (
 		<Card width={props.width} padding={false}>
-			<StyledHeader className='header'>
-				<StyledTitleContainer className='title'>
+			<StyledHeader className="header">
+				<StyledTitleContainer className="title">
 					<Typography component="h6" color="#000000" userSelect="none">
 						{props.title[props.language]}
 					</Typography>
 				</StyledTitleContainer>
-				{isMobile ? null : (
-					<SearchContainer />
-				)}
-				<StyledIconContainer className='icon-container'>
+				{isMobile ? null : <SearchContainer />}
+				<StyledIconContainer className="icon-container">
 					{isMobile ? (
 						<>
-							<IconButton isLightColor={false} onClick={() => {
-								setShowSearch((state)=>!state);
-							}} color="#757575" label={'Menu'}>
+							<IconButton
+								isLightColor={false}
+								onClick={() => {
+									setShowSearch((state) => !state);
+								}}
+								color="#757575"
+								label={'Menu'}
+							>
 								<SearchIcon size="2.4rem" color="#757575" />
 							</IconButton>
-							<IconButton isLightColor={false} onClick={() => {
-								setShowMiniMenu((state)=>!state);
-							}} color="#757575" label={'Menu'}>
-								{showMiniMenu ? <MdClear size="2.4rem" color="#757575" /> : <DotsIcon size="2.4rem" color="#757575" />}
+							<IconButton
+								isLightColor={false}
+								onClick={() => {
+									setShowMiniMenu((state) => !state);
+								}}
+								color="#757575"
+								label={'Menu'}
+							>
+								{showMiniMenu ? (
+									<MdClear size="2.4rem" color="#757575" />
+								) : (
+									<DotsIcon size="2.4rem" color="#757575" />
+								)}
 							</IconButton>
 							{showMiniMenu && isMobile ? <MiniMenu /> : null}
 						</>
-					) : (	
+					) : (
 						<Tools actions={tableActions} language={props.language} />
 					)}
 				</StyledIconContainer>
@@ -536,7 +600,9 @@ export function Table(props: TableProps) {
 								>
 									<span>{column.label[props.language]}&nbsp;&nbsp;</span>
 
-									<span className={column.sort === 'asc' ? 'asc' : 'desc'}>▲</span>
+									<span className={column.sort === 'asc' ? 'asc' : 'desc'}>
+										▲
+									</span>
 								</th>
 							))}
 							<th>&nbsp;</th>
@@ -550,7 +616,9 @@ export function Table(props: TableProps) {
 								key={row.id}
 								onClick={(event) => {
 									if (
-										!(event.target as HTMLElement).classList.contains('first-td') &&
+										!(event.target as HTMLElement).classList.contains(
+											'first-td'
+										) &&
 										(event.target as HTMLElement).tagName === 'TD'
 									) {
 										navigateToRow(row.id);
@@ -568,14 +636,23 @@ export function Table(props: TableProps) {
 								</td>
 								{columns.map((column) => {
 									const pathArray = column.field.split('.');
-									const cellValue = pathArray.reduce((obj, key) => obj && obj[key], row);
+									const cellValue = pathArray.reduce(
+										(obj, key) => obj && obj[key],
+										row
+									);
 
-										return (
-											<td
+									return (
+										<td
 											key={`${row.id}-${column.field}`}
 											className={column.type === 'number' ? 'number' : ''}
 										>
-											{typeof cellValue !== 'undefined' ? (typeof cellValue === 'boolean' ? (cellValue ? 'TAK' : 'NIE') : cellValue.toString()) : ''}
+											{typeof cellValue !== 'undefined'
+												? typeof cellValue === 'boolean'
+													? cellValue
+														? 'TAK'
+														: 'NIE'
+													: cellValue.toString()
+												: ''}
 										</td>
 									);
 								})}
@@ -608,7 +685,10 @@ export function Table(props: TableProps) {
 							<tbody key={`${row.id}-tbody`} className="bodyMobile">
 								{mergedColumns.map((column: TableColumn, index: number) => {
 									const pathArray = column.field.split('.');
-									const cellValue = pathArray.reduce((obj, key) => obj && obj[key], row);
+									const cellValue = pathArray.reduce(
+										(obj, key) => obj && obj[key],
+										row
+									);
 
 									return (
 										<tr key={`${row.id}-tr-${index}`} className="innerRow">
@@ -617,10 +697,23 @@ export function Table(props: TableProps) {
 													changeSortOrder(column.field);
 												}}
 											>
-												<span className={column.sort === 'asc' ? 'asc' : 'desc'}>▲</span>&nbsp;
+												<span
+													className={column.sort === 'asc' ? 'asc' : 'desc'}
+												>
+													▲
+												</span>
+												&nbsp;
 												<span>{column.label[props.language]}:</span>
 											</td>
-											<td>{typeof cellValue !== 'undefined' ? (typeof cellValue === 'boolean' ? (cellValue ? 'TAK' : 'NIE') : cellValue.toString()) : ''}</td>
+											<td>
+												{typeof cellValue !== 'undefined'
+													? typeof cellValue === 'boolean'
+														? cellValue
+															? 'TAK'
+															: 'NIE'
+														: cellValue.toString()
+													: ''}
+											</td>
 										</tr>
 									);
 								})}
@@ -687,7 +780,9 @@ export function Table(props: TableProps) {
 							</select>
 						</StyledFooterItem>
 						<StyledFooterItem className="w100">
-							{toRow > 0 ? `${fromRow} - ${toRow} / ${filteredData.length}  ` : null}
+							{toRow > 0
+								? `${fromRow} - ${toRow} / ${filteredData.length}  `
+								: null}
 						</StyledFooterItem>
 						<StyledFooterItem>
 							<IconButton
@@ -718,7 +813,9 @@ export function Table(props: TableProps) {
 								onClick={() => {
 									setPageNumber((pn) => {
 										const newPn =
-											Math.ceil(filteredData.length / computedRowsPerPage) > pn ? pn + 1 : pn;
+											Math.ceil(filteredData.length / computedRowsPerPage) > pn
+												? pn + 1
+												: pn;
 
 										navigate(
 											`/${props.collection}/page/${newPn}?search=${encodeURIComponent(searchText)}`,
