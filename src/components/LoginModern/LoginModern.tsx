@@ -24,7 +24,9 @@ interface LoginModernProps {
 	handleSignin: ({ email, password }: SigninFormData) => void;
 	handleSignup: ({ email, password, repeatPassword }: SignupFormData) => void;
 	isPending: boolean;
-	error: string;
+	signInError: string;
+	signUpInfo: string;
+	signUpError: string;
 	onClose: () => void;
 }
 
@@ -45,13 +47,13 @@ const Logo = styled.div`
 	}
 `;
 
-const AlertContainer = styled.div`
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	z-index: 100000;
-`;
+// const AlertContainer = styled.div`
+// 	position: fixed;
+// 	bottom: 0;
+// 	left: 0;
+// 	width: 100%;
+// 	z-index: 100000;
+// `;
 
 const Container = styled.div<{ $isPending: boolean }>`
 	user-select: none;
@@ -193,6 +195,29 @@ const Title = styled.h2`
 	font-size: 3.5rem;
 	color: #3f51b5;
 	margin-bottom: 1rem;
+	display: block;
+	width: 100%;
+	height: 5rem;
+	text-align: center;
+`;
+
+const MessageBox = styled.div`
+	font-size: 1.5rem;
+	color: #fff;
+	width: 100%;
+	height: 5rem;
+	margin-bottom: 1rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.4rem;
+	border-radius: 0.5rem;
+	&.error {
+		background-color: #b00020;
+	}
+	&.info {
+		background-color: #00c853;
+	}
 `;
 
 const InputField = styled.div`
@@ -382,13 +407,6 @@ export function LoginModern(props: LoginModernProps) {
 			$isPending={props.isPending}
 			className={`container ${isSignUpMode ? 'sign-up-mode' : ''} ${isSignUpMode2 ? 'sign-up-mode2' : ''}`}
 		>
-			{props.error ? (
-				<AlertContainer>
-					<Alert centerText onClose={props.onClose}>
-						{props.error}
-					</Alert>
-				</AlertContainer>
-			) : null}
 			<SignInSignUp className="signin-signup">
 				{isSignUpMode ? (
 					<Form className="form sign-in-form"></Form>
@@ -407,7 +425,11 @@ export function LoginModern(props: LoginModernProps) {
 						<Logo>
 							<img src={props.logo} alt="logo" />
 						</Logo>
-						<Title>Logowanie</Title>
+						{props.signInError ? (
+							<MessageBox className="error">{props.signInError}</MessageBox>
+						) : (
+							<Title>Logowanie</Title>
+						)}
 						<InputField>
 							<i>
 								<FaUser />
@@ -481,7 +503,13 @@ export function LoginModern(props: LoginModernProps) {
 							});
 						}}
 					>
-						<Title>Rejestracja</Title>
+						{props.signUpError ? (
+							<MessageBox className="error">{props.signUpError}</MessageBox>
+						) : props.signUpInfo ? (
+							<MessageBox className="info">{props.signUpInfo}</MessageBox>
+						) : (
+							<Title>Rejestracja</Title>
+						)}
 						<InputField>
 							<i>
 								<FaUser />

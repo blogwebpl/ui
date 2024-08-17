@@ -28,6 +28,6 @@ export const WithAlert = {
 		logo,
 		handleSubmit,
 		isPending: false,
-		error: 'Brak komunikacji z serwerem.',
+		signInError: 'Podano nieprawidłowy e-mail lub hasło.',
 	},
 };
