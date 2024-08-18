@@ -1,6 +1,5 @@
 /* eslint-disable no-alert */
 import '@total-typescript/ts-reset';
-import { IconType } from 'react-icons';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 
@@ -48,6 +47,7 @@ export interface TableColumn {
 }
 
 interface DynamicObject {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	[key: string]: any;
 }
 
@@ -57,8 +57,8 @@ export interface TableProps {
 	width: string;
 	columns: TableColumn[];
 	data: DynamicObject[];
-	rowsPerPage: number;
-	pageNumber: number;
+	rowsPerPage?: number;
+	pageNumber?: number;
 	readOnly?: boolean;
 	language: Language;
 	crud: number;
@@ -123,7 +123,21 @@ const mergeColumns = ({
 	return columns;
 };
 
-export function Table(props: TableProps) {
+export function Table({
+	title,
+	actions,
+	width,
+	columns,
+	data,
+	rowsPerPage = 0,
+	pageNumber = 1,
+	readOnly = false,
+	language,
+	crud,
+	collection,
+	mobileWidth = 768,
+	deleteAction,
+}: TableProps) {
 	const location = useLocation();
 	const navigate = useNavigate();
 
@@ -131,21 +145,16 @@ export function Table(props: TableProps) {
 	const searchParam = params.get('search');
 
 	const mergedColumns = mergeColumns({
-		columns: props.columns,
-		collection: props.collection,
+		columns,
+		collection,
 	});
 
-	const { data } = props;
-	const [columns, setColumns] = useState(mergedColumns);
-	const [isMobile, setIsMobile] = useState(
-		window.innerWidth <= (props.mobileWidth || 416)
-	);
+	const [columnsState, setColumns] = useState(mergedColumns);
+	const [isMobile, setIsMobile] = useState(window.innerWidth <= mobileWidth);
 	const [fontSize, setFontSize] = useState<number>(getFontSizeFromBody());
 	const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
-	const [rowsPerPage, setRowsPerPage] = useState<number>(
-		props.rowsPerPage || 0
-	);
-	const [pageNumber, setPageNumber] = useState<number>(props.pageNumber || 1);
+	const [rowsPerPageState, setRowsPerPage] = useState<number>(rowsPerPage);
+	const [pageNumberState, setPageNumber] = useState<number>(pageNumber);
 	const [searchText, setSearchText] = useState<string>(searchParam || '');
 	const [searchTextForInput, setSearchTextForInput] = useState<string>(
 		searchParam || ''
@@ -161,7 +170,7 @@ export function Table(props: TableProps) {
 	// Update columns when props.columns changes
 	useEffect(() => {
 		setColumns(mergedColumns);
-	}, [props.columns]);
+	}, [columns]);
 
 	// Compute filtered data based on search text
 	const filteredData = useMemo(() => {
@@ -174,7 +183,7 @@ export function Table(props: TableProps) {
 
 					if (value && typeof value === 'object') {
 						return Object.entries(value).some(([objKey, objValue]) => {
-							const isKeyInColumns = columns.some(
+							const isKeyInColumns = columnsState.some(
 								(column) => column.field === `${key}.${objKey}`
 							);
 							if (!isKeyInColumns) {
@@ -202,7 +211,7 @@ export function Table(props: TableProps) {
 			);
 		}
 		return data; // Return original data if no search text
-	}, [data, columns, searchText]);
+	}, [data, columnsState, searchText]);
 
 	useEffect(() => {
 		if (numberOfCheckedRows === 0) {
@@ -217,7 +226,7 @@ export function Table(props: TableProps) {
 		function handleResize() {
 			clearTimeout(debounceTimer);
 			debounceTimer = setTimeout(() => {
-				setIsMobile(window.innerWidth <= (props.mobileWidth || 416));
+				setIsMobile(window.innerWidth <= mobileWidth);
 				setViewportHeight(window.innerHeight);
 				setFontSize(() => getFontSizeFromBody());
 			}, 200);
@@ -230,7 +239,7 @@ export function Table(props: TableProps) {
 				clearTimeout(debounceTimer);
 			}
 		};
-	}, [props.mobileWidth]);
+	}, [mobileWidth]);
 
 	const handleSearchTextChange = useCallback(
 		(text: string) => {
@@ -240,17 +249,14 @@ export function Table(props: TableProps) {
 			setSearchDelayTimer(
 				setTimeout(() => {
 					setPageNumber(1);
-					navigate(
-						`/${props.collection}/page/1?search=${encodeURIComponent(text)}`,
-						{
-							replace: true,
-						}
-					);
+					navigate(`/${collection}/page/1?search=${encodeURIComponent(text)}`, {
+						replace: true,
+					});
 					setSearchText(text);
 				}, 450)
 			);
 		},
-		[props.collection, searchDelayTimer]
+		[collection, searchDelayTimer]
 	);
 
 	const handleCheckboxChange = (() => {
@@ -291,22 +297,22 @@ export function Table(props: TableProps) {
 	};
 
 	const changeSortOrder = (id: number | string) => {
-		const column = columns.find((col) => col.field === id);
+		const column = columnsState.find((col) => col.field === id);
 		if (column) {
 			column.sort = column.sort === 'asc' ? 'desc' : 'asc';
 			setColumns((prevColumns) =>
 				prevColumns.map((col) => (col.field === id ? column : col))
 			);
 			localStorage.setItem(
-				`collection-${props.collection}-columns`,
-				JSON.stringify(columns)
+				`collection-${collection}-columns`,
+				JSON.stringify(columnsState)
 			);
 		}
 	};
 
-	let computedRowsPerPage = rowsPerPage;
+	let computedRowsPerPage = rowsPerPageState;
 
-	if (rowsPerPage === 0 && !isMobile) {
+	if (rowsPerPageState === 0 && !isMobile) {
 		const headerHeight = 7.5 * fontSize;
 		const footerHeight = 3 * fontSize;
 		const rowHeight = 3.2525 * fontSize;
@@ -317,44 +323,37 @@ export function Table(props: TableProps) {
 				rowHeight
 		);
 		computedRowsPerPage = Math.max(computedRowsPerPage, 0);
-		console.log({
-			headerHeight,
-			footerHeight,
-			rowHeight,
-			appbarHeight,
-			fontSize,
-			viewportHeight,
-			computedRowsPerPage,
-		});
 	}
 
 	if (isMobile) computedRowsPerPage = Math.min(25, data.length); // 25 or data.length;
 
-	const startIndex = (pageNumber - 1) * computedRowsPerPage;
+	const startIndex = (pageNumberState - 1) * computedRowsPerPage;
 	const endIndex = startIndex + computedRowsPerPage;
 
 	const transformData = useCallback(
 		(dataToTransform: DynamicObject[]): DynamicObject[] => {
-			return dataToTransform.map((row) => {
-				const transformedRow = { ...row };
+			return dataToTransform
+				? dataToTransform.map((row) => {
+						const transformedRow = { ...row };
 
-				columns.forEach((column) => {
-					if (column.field.includes('.')) {
-						const keys = column.field.split('.');
+						columnsState.forEach((column) => {
+							if (column.field.includes('.')) {
+								const keys = column.field.split('.');
 
-						const currentNode = keys.reduce((current, key) => {
-							return Object.prototype.hasOwnProperty.call(current, key)
-								? current[key]
-								: current;
-						}, transformedRow);
+								const currentNode = keys.reduce((current, key) => {
+									return Object.prototype.hasOwnProperty.call(current, key)
+										? current[key]
+										: current;
+								}, transformedRow);
 
-						transformedRow[column.field] = currentNode;
-					}
-				});
-				return transformedRow;
-			});
+								transformedRow[column.field] = currentNode;
+							}
+						});
+						return transformedRow;
+					})
+				: [];
 		},
-		[columns]
+		[columnsState]
 	);
 
 	const sortFunction = (
@@ -391,7 +390,7 @@ export function Table(props: TableProps) {
 	};
 
 	const multiSortFunction = (a: DynamicObject, b: DynamicObject) => {
-		const primarySortColumn = columns.find((col) => col.sortOrder === 1);
+		const primarySortColumn = columnsState.find((col) => col.sortOrder === 1);
 
 		if (primarySortColumn) {
 			const primarySortResult = sortFunction(a, b, primarySortColumn);
@@ -399,7 +398,7 @@ export function Table(props: TableProps) {
 				return primarySortResult;
 			}
 		}
-		return columns
+		return columnsState
 			.filter((col) => col.sortOrder > 1)
 			.sort((col1, col2) => col1.sortOrder - col2.sortOrder)
 			.reduce((result, column) => {
@@ -418,13 +417,13 @@ export function Table(props: TableProps) {
 		return [...transformedData].sort((a: DynamicObject, b: DynamicObject) => {
 			return multiSortFunction(a, b);
 		});
-	}, [transformedData, columns]);
+	}, [transformedData, columnsState]);
 
 	const dataForPage = sortedData.slice(startIndex, endIndex);
 
-	const fromRow = (pageNumber - 1) * computedRowsPerPage + 1;
+	const fromRow = (pageNumberState - 1) * computedRowsPerPage + 1;
 	const toRow = Math.min(
-		(pageNumber - 1) * computedRowsPerPage + computedRowsPerPage,
+		(pageNumberState - 1) * computedRowsPerPage + computedRowsPerPage,
 		filteredData.length
 	);
 	const trArray = Array.from(
@@ -432,15 +431,15 @@ export function Table(props: TableProps) {
 		(_, index) => index
 	);
 
-	let tableActions = props.actions;
+	let tableActions = actions;
 
-	const canDelete: boolean = (props.crud & 1) !== 0;
-	const canUpdate: boolean = (props.crud & 2) !== 0;
-	const canRead: boolean = (props.crud & 4) !== 0;
-	const canCreate: boolean = (props.crud & 8) !== 0;
+	const canDelete: boolean = (crud & 1) !== 0;
+	const canUpdate: boolean = (crud & 2) !== 0;
+	const canRead: boolean = (crud & 4) !== 0;
+	const canCreate: boolean = (crud & 8) !== 0;
 
 	if (numberOfCheckedRows && canDelete) {
-		tableActions = props.actions.map((action) => {
+		tableActions = actions.map((action) => {
 			if (action.id === 'add') {
 				const a: Action = {
 					id: 'del',
@@ -462,8 +461,8 @@ export function Table(props: TableProps) {
 							confirmButtonText: 'Tak',
 							cancelButtonText: 'Nie',
 						}).then(async (result: SweetAlertResult) => {
-							if (result.isConfirmed && props.deleteAction) {
-								await props.deleteAction(Array.from(checkedRows));
+							if (result.isConfirmed && deleteAction) {
+								await deleteAction(Array.from(checkedRows));
 								setCheckedRows(new Set<string>());
 							}
 						});
@@ -476,7 +475,7 @@ export function Table(props: TableProps) {
 	}
 
 	if (!canCreate) {
-		tableActions = props.actions.map((action) => {
+		tableActions = actions.map((action) => {
 			if (action.id === 'add') {
 				const a: Action = {
 					...action,
@@ -490,24 +489,24 @@ export function Table(props: TableProps) {
 		});
 	}
 
-	if (columns.length === 0) {
+	if (columnsState.length === 0) {
 		return null;
 	}
 
 	if (!canRead) return null;
 
 	const navigateToRow = (id: string) => {
-		if (props.readOnly || !canUpdate) {
-			navigate(`/${props.collection}/view/${id}`);
+		if (readOnly || !canUpdate) {
+			navigate(`/${collection}/view/${id}`);
 		} else {
-			navigate(`/${props.collection}/edit/${id}`);
+			navigate(`/${collection}/edit/${id}`);
 		}
 	};
 
 	const MiniMenu = () => {
 		return (
 			<StyledMenu>
-				<CardMenu items={tableActions} language={props.language} />
+				<CardMenu items={tableActions} language={language} />
 			</StyledMenu>
 		);
 	};
@@ -535,11 +534,11 @@ export function Table(props: TableProps) {
 		);
 	};
 	return (
-		<Card width={props.width} padding={false}>
+		<Card width={width} padding={false}>
 			<StyledHeader className="header">
 				<StyledTitleContainer className="title">
 					<Typography component="h6" color="#000000" userSelect="none">
-						{props.title[props.language]}
+						{title[language]}
 					</Typography>
 				</StyledTitleContainer>
 				{isMobile ? null : <SearchContainer />}
@@ -573,7 +572,7 @@ export function Table(props: TableProps) {
 							{showMiniMenu && isMobile ? <MiniMenu /> : null}
 						</>
 					) : (
-						<Tools actions={tableActions} language={props.language} />
+						<Tools actions={tableActions} language={language} />
 					)}
 				</StyledIconContainer>
 			</StyledHeader>
@@ -590,7 +589,7 @@ export function Table(props: TableProps) {
 									controlled
 								/>
 							</th>
-							{mergedColumns.map((column) => (
+							{columnsState.map((column) => (
 								<th
 									style={{ width: column.width }}
 									key={column.field}
@@ -598,7 +597,7 @@ export function Table(props: TableProps) {
 										changeSortOrder(column.field);
 									}}
 								>
-									<span>{column.label[props.language]}&nbsp;&nbsp;</span>
+									<span>{column.label[language]}&nbsp;&nbsp;</span>
 
 									<span className={column.sort === 'asc' ? 'asc' : 'desc'}>
 										▲
@@ -634,7 +633,7 @@ export function Table(props: TableProps) {
 										controlled
 									/>
 								</td>
-								{columns.map((column) => {
+								{columnsState.map((column) => {
 									const pathArray = column.field.split('.');
 									const cellValue = pathArray.reduce(
 										(obj, key) => obj && obj[key],
@@ -663,7 +662,7 @@ export function Table(props: TableProps) {
 										color="#757575"
 										label=""
 									>
-										{props.readOnly || !canUpdate ? (
+										{readOnly || !canUpdate ? (
 											<ViewIcon size="2.4rem" color="#757575" />
 										) : (
 											<EditIcon size="2.4rem" color="#757575" />
@@ -675,7 +674,7 @@ export function Table(props: TableProps) {
 
 						{trArray.map((_, index) => (
 							<tr key={`empty${index}`} className="emptyRow">
-								<td colSpan={mergedColumns.length + 2}>&nbsp;</td>
+								<td colSpan={columnsState.length + 2}>&nbsp;</td>
 							</tr>
 						))}
 					</tbody>
@@ -683,7 +682,7 @@ export function Table(props: TableProps) {
 					<>
 						{dataForPage.map((row: DynamicObject) => (
 							<tbody key={`${row.id}-tbody`} className="bodyMobile">
-								{mergedColumns.map((column: TableColumn, index: number) => {
+								{columnsState.map((column: TableColumn, index: number) => {
 									const pathArray = column.field.split('.');
 									const cellValue = pathArray.reduce(
 										(obj, key) => obj && obj[key],
@@ -703,7 +702,7 @@ export function Table(props: TableProps) {
 													▲
 												</span>
 												&nbsp;
-												<span>{column.label[props.language]}:</span>
+												<span>{column.label[language]}:</span>
 											</td>
 											<td>
 												{typeof cellValue !== 'undefined'
@@ -732,7 +731,7 @@ export function Table(props: TableProps) {
 											color="#757575"
 											label=""
 										>
-											{props.readOnly || !canUpdate ? (
+											{readOnly || !canUpdate ? (
 												<ViewIcon size="2.4rem" color="#757575" />
 											) : (
 												<EditIcon size="2.4rem" color="#757575" />
@@ -755,7 +754,7 @@ export function Table(props: TableProps) {
 						<StyledFooterItem>Wierszy na stronę:</StyledFooterItem>
 						<StyledFooterItem>
 							<select
-								value={rowsPerPage}
+								value={rowsPerPageState}
 								onChange={(e) => {
 									setRowsPerPage(Number(e.target.value));
 								}}
@@ -791,7 +790,7 @@ export function Table(props: TableProps) {
 									setPageNumber((pn) => {
 										const newPn = pn > 1 ? pn - 1 : 1;
 										navigate(
-											`/${props.collection}/page/${newPn}?search=${encodeURIComponent(searchText)}`,
+											`/${collection}/page/${newPn}?search=${encodeURIComponent(searchText)}`,
 											{
 												replace: true,
 											}
@@ -818,7 +817,7 @@ export function Table(props: TableProps) {
 												: pn;
 
 										navigate(
-											`/${props.collection}/page/${newPn}?search=${encodeURIComponent(searchText)}`,
+											`/${collection}/page/${newPn}?search=${encodeURIComponent(searchText)}`,
 											{
 												replace: true,
 											}
@@ -840,8 +839,3 @@ export function Table(props: TableProps) {
 		</Card>
 	);
 }
-
-Table.defaultProps = {
-	readOnly: false,
-	mobileWidth: 768,
-};

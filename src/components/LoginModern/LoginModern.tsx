@@ -11,7 +11,6 @@ import { FaXTwitter } from 'react-icons/fa6';
 import styled from 'styled-components';
 import { SigninFormData } from '../Login/Login';
 import { Checkbox } from '../atoms/Checkbox';
-import { Alert } from '../atoms/Alert';
 
 export interface SignupFormData {
 	email: string;
@@ -27,7 +26,7 @@ interface LoginModernProps {
 	signInError: string;
 	signUpInfo: string;
 	signUpError: string;
-	onClose: () => void;
+	moveToSignIn: boolean;
 }
 
 const Logo = styled.div`
@@ -390,6 +389,16 @@ export function LoginModern(props: LoginModernProps) {
 	const [isSignUpMode2, setIsSignUpMode2] = useState(false);
 
 	const storedEmail = localStorage.getItem('email');
+
+	useEffect(() => {
+		if (props.moveToSignIn && isSignUpMode) {
+			if (emailRef2.current?.value) {
+				localStorage.setItem('email', emailRef2.current.value);
+			}
+			console.log('przechodze do logowania');
+			setIsSignUpMode(false);
+		}
+	}, [props.moveToSignIn]);
 
 	useEffect(() => {
 		if (storedEmail) {
