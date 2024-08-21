@@ -1,13 +1,14 @@
 import { IInventoryItem } from '../types';
 import styled from 'styled-components';
 import { Card } from '../atoms/Card';
-import { MdOutlineNoteAlt } from 'react-icons/md';
+
 import { ButtonContainer } from '../atoms/ButtonContainer';
 import { Button } from '../atoms/Button';
-import { TextField } from '../atoms/TextField';
-import { ChangeEvent, useMemo } from 'react';
+
 import { Typography } from '../atoms/Typography';
 import { useNavigate } from 'react-router-dom';
+import { Alert } from '../atoms/Alert';
+import { useMemo } from 'react';
 
 const InventoryItemContainer = styled.div`
 	display: flex;
@@ -44,7 +45,7 @@ const InventoryItemContainer = styled.div`
 
 const StyledHeaderContainer = styled.div`
 	padding: 1rem 0;
-	height: 10rem;
+	height: 3.8rem;
 	p {
 		padding: 0.5rem 0;
 	}
@@ -53,11 +54,20 @@ const StyledHeaderContainer = styled.div`
 	}
 `;
 
-const StyledListContainer = styled.div``;
+const StyledListContainer = styled.div`
+	ul {
+		li {
+			.note {
+				font-size: 1.4rem;
+				padding: 0.5rem;
+			}
+		}
+	}
+`;
 
 export interface InventoryItemEditProps {
 	inventoryItem: IInventoryItem;
-	scannedItems: { dgId: number; itemNumber: number }[];
+	scannedItems: { dgId: number; itemNumber: number; date: Date }[];
 }
 
 export function InventoryItemEdit({
@@ -86,24 +96,12 @@ export function InventoryItemEdit({
 						{scannedItems.length} / {inventoryItem.quantity}{' '}
 						{inventoryItem.unitMeasure}
 					</p>
-
-					<div>
-						<TextField
-							id="search"
-							label="Notatka"
-							type="text"
-							icon={MdOutlineNoteAlt}
-							slim={true}
-							autoFocus
-							onChange={(e: ChangeEvent<HTMLInputElement>) => {
-								console.log(e.target.value);
-							}}
-							value={''}
-							controlled
-						/>
-					</div>
 				</StyledHeaderContainer>
 				<StyledListContainer>
+					{inventoryItem.notes && (
+						<Alert variant="info">{inventoryItem.notes}</Alert>
+					)}
+
 					<ul>
 						{Array.from({ length: maxQuantity || 0 }, (_, i) => (
 							<li
@@ -129,7 +127,14 @@ export function InventoryItemEdit({
 										? `[${i + 1}]`
 										: `${i + 1}`}
 								</span>
-								<span className="note">note...</span>
+								<span className="note">
+									{scannedItems
+										.find((item) => item.itemNumber === i + 1)
+										?.date.toLocaleString('pl-PL', {
+											dateStyle: 'short',
+											timeStyle: 'short',
+										})}
+								</span>
 							</li>
 						))}
 					</ul>

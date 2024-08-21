@@ -16,11 +16,16 @@ const InventorySubitemEditContainer = styled.div`
 		line-height: 2.5rem;
 	}
 	span.status {
-		display: inline-block;
+		// display: inline-block;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		width: auto;
-		height: 2rem;
-		padding: 0.5rem;
-		line-height: 1rem;
+		height: 3rem;
+		// padding: 0.5rem;
+		border-radius: 1rem;
+		// line-height: 3rem;
+		font-size: 1.4rem;
 		margin: 1rem;
 	}
 	span.status.ok {
@@ -69,7 +74,10 @@ export function InventorySubitemEdit({
 				</Typography>
 				<StyledContainer>
 					<p>Numer inw.: {inventoryItem.inventoryNumber}</p>
-					<p>Numer porządkowy: {inventorySubitem.itemNumber}</p>
+					<p>
+						Numer porządkowy: {inventorySubitem.itemNumber}
+						{inventorySubitem.itemNumber > quantity ? ' (poza zakresem)' : ''}
+					</p>
 					<p>
 						Status:{' '}
 						<span

@@ -28,15 +28,18 @@ Default.args = {
 		inventoryNumber: 'REA/9/2021',
 		quantity: 3,
 		unitMeasure: 'szt.',
+		notes: 'Notatka',
 	},
 	scannedItems: [
 		{
 			dgId: 11,
 			itemNumber: 1,
+			date: new Date(),
 		},
 		{
 			dgId: 11,
 			itemNumber: 3,
+			date: new Date(),
 		},
 	],
 };
