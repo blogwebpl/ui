@@ -45,6 +45,22 @@ const InventorySubitemEditContainer = styled.div`
 
 const StyledContainer = styled.div`
 	padding: 1rem 0;
+	span.inventoryNumber {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 2rem;
+		font-weight: 700;
+		color: #1a237e;
+	}
+	span.itemNumber {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 1.8rem;
+		font-weight: 700;
+		color: #1a237e;
+	}
 `;
 
 export interface InventorySubitemEditProps {
@@ -73,9 +89,15 @@ export function InventorySubitemEdit({
 					{inventoryItem.itemName}
 				</Typography>
 				<StyledContainer>
-					<p>Numer inw.: {inventoryItem.inventoryNumber}</p>
 					<p>
-						Numer porządkowy: {inventorySubitem.itemNumber}
+						Numer inwentarzowy:{' '}
+						<span className="inventoryNumber">
+							{inventoryItem.inventoryNumber}
+						</span>
+					</p>
+					<p>
+						Numer porządkowy:{' '}
+						<span className="itemNumber">{inventorySubitem.itemNumber}</span>
 						{inventorySubitem.itemNumber > quantity ? ' (poza zakresem)' : ''}
 					</p>
 					<p>
@@ -87,7 +109,9 @@ export function InventorySubitemEdit({
 						</span>
 					</p>
 					{inventorySubitem.date && (
-						<p>Data odczytu: {inventorySubitem.date}</p>
+						<p>
+							Data odczytu: <b>{inventorySubitem.date}</b>
+						</p>
 					)}
 				</StyledContainer>
 				<ButtonContainer>
