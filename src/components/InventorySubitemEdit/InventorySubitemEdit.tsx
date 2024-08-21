@@ -82,6 +82,10 @@ export function InventorySubitemEdit({
 	const quantity = inventoryItem.quantity || 0;
 	const statusConfirmed = !!inventorySubitem.date;
 
+	if (!inventoryItem || !inventorySubitem) {
+		return <div>Nie znaleziono elementu</div>;
+	}
+
 	return (
 		<Card width="36rem" padding>
 			<InventorySubitemEditContainer>
