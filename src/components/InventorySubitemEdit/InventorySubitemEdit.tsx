@@ -83,6 +83,7 @@ export function InventorySubitemEdit({
 	const statusConfirmed = !!inventorySubitem.date;
 
 	if (!inventoryItem || !inventorySubitem) {
+		console.log({ inventoryItem, inventorySubitem });
 		return <div>Nie znaleziono elementu</div>;
 	}
 
@@ -112,11 +113,10 @@ export function InventorySubitemEdit({
 							{statusConfirmed ? 'POTWIERDZONY' : 'NIEPOTWIERDZONY'}
 						</span>
 					</p>
-					{inventorySubitem.date && (
-						<p>
-							Data odczytu: <b>{inventorySubitem.date}</b>
-						</p>
-					)}
+
+					<p>
+						Data odczytu: <b>{inventorySubitem.date || 'brak'}</b>
+					</p>
 				</StyledContainer>
 				<ButtonContainer>
 					<Button
