@@ -144,7 +144,7 @@ export function InventoryItemsSelect({
 			filterTypeUnselected,
 			filterTextUnselected
 		);
-		console.log(filteredUnselected.map((item) => item.dgId));
+		// console.log(filteredUnselected.map((item) => item.dgId));
 		setSelectedItems([
 			...selectedItems,
 			...filteredUnselected.map((item) => item.dgId),

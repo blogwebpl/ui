@@ -185,16 +185,16 @@ export function EditForm({
 			const selectedOptions = options.filter((option) =>
 				isMulti ? valueIds.includes(option.value) : option.value === valueIds
 			);
-			console.log('Uruchamiam SpecialSelect');
-			console.log({
-				options,
-				valueIds,
-				fieldName,
-				shouldHide,
-				label,
-				isMulti,
-				selectedOptions,
-			});
+			// console.log('Uruchamiam SpecialSelect');
+			// console.log({
+			// 	options,
+			// 	valueIds,
+			// 	fieldName,
+			// 	shouldHide,
+			// 	label,
+			// 	isMulti,
+			// 	selectedOptions,
+			// });
 
 			const value = isMulti ? selectedOptions : selectedOptions[0] || null;
 

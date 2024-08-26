@@ -83,7 +83,7 @@ export function InventorySubitemEdit({
 	const statusConfirmed = !!inventorySubitem.date;
 
 	if (!inventoryItem || !inventorySubitem) {
-		console.log({ inventoryItem, inventorySubitem });
+		// console.log({ inventoryItem, inventorySubitem });
 		return <div>Nie znaleziono elementu</div>;
 	}
 
