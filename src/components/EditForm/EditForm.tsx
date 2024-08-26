@@ -33,6 +33,10 @@ const StyledTitle = styled.div`
 	margin-bottom: 0;
 `;
 
+const Capitalize = styled.div`
+	text-transform: capitalize;
+`;
+
 export interface Field {
 	field: string;
 	type: string;
@@ -181,27 +185,40 @@ export function EditForm({
 			const selectedOptions = options.filter((option) =>
 				isMulti ? valueIds.includes(option.value) : option.value === valueIds
 			);
+			console.log('Uruchamiam SpecialSelect');
+			console.log({
+				options,
+				valueIds,
+				fieldName,
+				shouldHide,
+				label,
+				isMulti,
+				selectedOptions,
+			});
+
 			const value = isMulti ? selectedOptions : selectedOptions[0] || null;
 
 			return (
 				<FieldContainer id={fieldName} key={fieldName} hidden={shouldHide}>
-					<Select
-						label={label}
-						options={options}
-						value={value}
-						onChange={(
-							newValue: MultiValue<SelectOption> | SingleValue<SelectOption>
-						) => {
-							setInputValues((v) => ({
-								...v,
-								[fieldName]: isMulti
-									? (newValue as SelectOption[]).map((item) => item.value)
-									: (newValue as SelectOption).value,
-							}));
-						}}
-						isMulti={isMulti}
-						isClearable={false}
-					/>
+					<Capitalize>
+						<Select
+							label={label}
+							options={options}
+							value={value}
+							onChange={(
+								newValue: MultiValue<SelectOption> | SingleValue<SelectOption>
+							) => {
+								setInputValues((v) => ({
+									...v,
+									[fieldName]: isMulti
+										? (newValue as SelectOption[]).map((item) => item.value)
+										: (newValue as SelectOption).value,
+								}));
+							}}
+							isMulti={isMulti}
+							isClearable={false}
+						/>
+					</Capitalize>
 				</FieldContainer>
 			);
 		},

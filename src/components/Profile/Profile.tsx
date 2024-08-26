@@ -1,17 +1,14 @@
 /* eslint-disable no-alert */
 import { MdPerson as IconPerson } from 'react-icons/md';
 import styled from 'styled-components';
-import { MultiValue, SingleValue } from 'react-select';
 import { Card } from '../atoms/Card';
 import { CardMenu } from '../atoms/CardMenu';
 import { FieldContainer } from '../atoms/FieldContainer';
 import { Select, SelectOption } from '../atoms/Select';
 import { Typography } from '../atoms/Typography';
 import { Action } from '../atoms/Tools';
-import {
-	MdCreate as EditIcon,
-	MdLock as LockIcon
-} from 'react-icons/md';
+import { MdCreate as EditIcon, MdLock as LockIcon } from 'react-icons/md';
+
 const StyledEmailContainer = styled.div`
 	color: ${(props) => props.theme.palette.text.secondary};
 	display: flex;
@@ -24,6 +21,10 @@ const StyledEmailContainer = styled.div`
 	}
 `;
 
+const Capitalize = styled.div`
+	text-transform: capitalize;
+`;
+
 interface Option {
 	value: string;
 	label: string;
@@ -32,7 +33,7 @@ interface Option {
 interface ProfileProps {
 	roles: Option[] | undefined;
 	role: Option | null | undefined;
-	onChange: (newValue: MultiValue<SelectOption> | SingleValue<SelectOption>) => void;
+	onChange: ({ value, label }: SelectOption) => void;
 	email: string;
 	changePassword: () => void;
 	logout: () => void;
@@ -46,7 +47,12 @@ export function Profile(props: ProfileProps) {
 			hint: { pl: 'Zmień hasło', en: 'Change password' },
 			onClick: props.changePassword,
 		},
-		{ id: 'lock', icon: LockIcon, hint: { pl: 'Wyloguj', en: 'Sign out' }, onClick: props.logout },
+		{
+			id: 'lock',
+			icon: LockIcon,
+			hint: { pl: 'Wyloguj', en: 'Sign out' },
+			onClick: props.logout,
+		},
 	];
 	if (!props.role) {
 		return null;
@@ -64,15 +70,18 @@ export function Profile(props: ProfileProps) {
 				<span>{props.email}</span>
 			</StyledEmailContainer>
 			<FieldContainer>
-				<Select
-					label="Aktywna grupa"
-					options={options}
-					value={value}
-					onChange={props.onChange}
-					isMulti={false}
-					isClearable={false}
-					isRequired={true}
-				/>
+				<Capitalize>
+					<Select
+						label="Aktywna grupa"
+						options={options}
+						value={value}
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
+						onChange={props.onChange as any}
+						isMulti={false}
+						isClearable={false}
+						isRequired={true}
+					/>
+				</Capitalize>
 			</FieldContainer>
 			<CardMenu items={menuItems} language="pl" />
 		</Card>
