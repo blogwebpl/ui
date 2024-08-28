@@ -24,7 +24,10 @@ const theme: ThemeConfig = (t: Theme) => {
 };
 
 const styles: StylesConfig<SelectOption, false> = {
-	control: (base: CSSObjectWithLabel, state: ControlProps<SelectOption, false>) => {
+	control: (
+		base: CSSObjectWithLabel,
+		state: ControlProps<SelectOption, false>
+	) => {
 		const { borderColor } = base;
 		return {
 			...base,
@@ -49,7 +52,11 @@ const Label = styled.label<{ $isfloating?: boolean; $hasvalue?: boolean }>`
 	position: absolute;
 	transition: 0.2s ease all;
 	z-index: 1;
-	color: ${(props: { $isfloating?: boolean; $hasvalue?: boolean; theme: DefaultTheme }) =>
+	color: ${(props: {
+		$isfloating?: boolean;
+		$hasvalue?: boolean;
+		theme: DefaultTheme;
+	}) =>
 		props.$isfloating
 			? props.theme.palette.element.primary.default
 			: props.theme.palette.text.secondary};
@@ -60,6 +67,14 @@ const Label = styled.label<{ $isfloating?: boolean; $hasvalue?: boolean }>`
 	font-size: ${(props: { $isfloating?: boolean; $hasvalue?: boolean }) =>
 		props.$isfloating || props.$hasvalue ? `1.2rem` : `1.6rem`};
 `;
+
+const NoOptionsMessage = (props: any) => {
+	return (
+		<components.NoOptionsMessage {...props}>
+			Brak opcji
+		</components.NoOptionsMessage>
+	);
+};
 
 export interface SelectOption {
 	value: string;
@@ -73,14 +88,19 @@ interface SelectProps {
 	label: string;
 	options: SelectOption[];
 	value: MultiValue<SelectOption> | SingleValue<SelectOption>;
-	onChange: (newValue: MultiValue<SelectOption> | SingleValue<SelectOption>) => void;
+	onChange: (
+		newValue: MultiValue<SelectOption> | SingleValue<SelectOption>
+	) => void;
 }
 
 export function Select(props: SelectProps) {
 	const Control = (controlProps: ControlProps<SelectOption, boolean>) => {
 		return (
 			<>
-				<Label $isfloating={controlProps.isFocused} $hasvalue={controlProps.hasValue}>
+				<Label
+					$isfloating={controlProps.isFocused}
+					$hasvalue={controlProps.hasValue}
+				>
 					{props.label} {props.isRequired ? '*' : ''}
 				</Label>
 				<components.Control {...controlProps} />
@@ -96,7 +116,7 @@ export function Select(props: SelectProps) {
 			value={props.value}
 			onChange={props.onChange}
 			options={props.options}
-			components={{ Control }}
+			components={{ Control, NoOptionsMessage }} // Dodano NoOptionsMessage
 			placeholder=""
 			isMulti={props.isMulti}
 		/>

@@ -129,7 +129,19 @@ export function EditForm({
 
 		const dataToSave = Object.assign(
 			{},
-			...fields.map((field) => ({ [field.field]: inputValues[field.field] }))
+			...fields.map((field) => {
+				if (
+					(field.type === 'roles' ||
+						field.type === 'permissions' ||
+						field.type === 'users') &&
+					!Array.isArray(inputValues[field.field])
+				) {
+					return {
+						[field.field]: [],
+					};
+				}
+				return { [field.field]: inputValues[field.field] };
+			})
 		);
 
 		const resultOk = await saveData(dataToSave);
