@@ -17,7 +17,14 @@ import {
 	MdPerson as IconPerson,
 	MdLock as IconLock,
 	MdCreate as IconEdit,
+	MdDirectionsCar as IconCar,
+	MdOutlineMan as IconMan,
+	MdOutlineWoman as IconWoman,
+	MdElderly as IconOldMan,
+	MdElderlyWoman as IconOldWoman,
 } from 'react-icons/md';
+import { BiSolidDog as IconDog } from 'react-icons/bi';
+import { FaCat as IconCat } from 'react-icons/fa';
 import { IconType } from 'react-icons';
 import { SelectOption } from '../Select';
 
@@ -35,7 +42,7 @@ interface IconOptionProps extends OptionProps<SelectOption, false> {
 	data: SelectOption;
 }
 
-const iconComponents: { [key: string]: IconType } = {
+export const iconComponents: { [key: string]: IconType } = {
 	Settings: IconSettings,
 	Map: IconMap,
 	Record: IconRecord,
@@ -44,9 +51,18 @@ const iconComponents: { [key: string]: IconType } = {
 	Person: IconPerson,
 	Lock: IconLock,
 	Edit: IconEdit,
+	Car: IconCar,
+	Man: IconMan,
+	Woman: IconWoman,
+	OldMan: IconOldMan,
+	OldWoman: IconOldWoman,
+	Dog: IconDog,
+	Cat: IconCat,
 };
 
-export const getIconComponent = (iconName: string | undefined): IconType | null => {
+export const getIconComponent = (
+	iconName: string | undefined
+): IconType | null => {
 	return iconName ? iconComponents[iconName] || null : null;
 };
 
@@ -76,7 +92,10 @@ const theme: ThemeConfig = (t: Theme) => {
 };
 
 const styles: StylesConfig<SelectOption, false> = {
-	control: (base: CSSObjectWithLabel, state: ControlProps<SelectOption, false>) => {
+	control: (
+		base: CSSObjectWithLabel,
+		state: ControlProps<SelectOption, false>
+	) => {
 		const { borderColor } = base;
 		return {
 			...base,
@@ -101,7 +120,11 @@ const Label = styled.label<{ $isfloating?: boolean; $hasvalue?: boolean }>`
 	position: absolute;
 	transition: 0.2s ease all;
 	z-index: 1;
-	color: ${(props: { $isfloating?: boolean; $hasvalue?: boolean; theme: DefaultTheme }) =>
+	color: ${(props: {
+		$isfloating?: boolean;
+		$hasvalue?: boolean;
+		theme: DefaultTheme;
+	}) =>
 		props.$isfloating
 			? props.theme.palette.element.primary.default
 			: props.theme.palette.text.secondary};
@@ -125,7 +148,10 @@ export function IconSelect(props: IconSelectProps) {
 	const Control = (controlProps: ControlProps<SelectOption, false>) => {
 		return (
 			<>
-				<Label $isfloating={controlProps.isFocused} $hasvalue={controlProps.hasValue}>
+				<Label
+					$isfloating={controlProps.isFocused}
+					$hasvalue={controlProps.hasValue}
+				>
 					{props.label} {props.isRequired ? '*' : ''}
 				</Label>
 				<components.Control {...controlProps} />
@@ -142,6 +168,13 @@ export function IconSelect(props: IconSelectProps) {
 		{ value: 'Person', label: 'Person' },
 		{ value: 'Lock', label: 'Lock' },
 		{ value: 'Edit', label: 'Edit' },
+		{ value: 'Car', label: 'Car' },
+		{ value: 'Man', label: 'Man' },
+		{ value: 'Woman', label: 'Woman' },
+		{ value: 'OldMan', label: 'OldMan' },
+		{ value: 'OldWoman', label: 'OldWoman' },
+		{ value: 'Dog', label: 'Dog' },
+		{ value: 'Cat', label: 'Cat' },
 	];
 
 	if (props.hidden) return null;
@@ -156,7 +189,10 @@ export function IconSelect(props: IconSelectProps) {
 			options={options.sort((a, b) => (a.label > b.label ? 1 : -1))}
 			placeholder=""
 			isMulti={false}
-			components={{ Control, Option: (prps) => <IconOption {...(prps as IconOptionProps)} /> }}
+			components={{
+				Control,
+				Option: (prps) => <IconOption {...(prps as IconOptionProps)} />,
+			}}
 		/>
 	);
 }

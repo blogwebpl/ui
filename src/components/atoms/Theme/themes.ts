@@ -58,7 +58,7 @@ export const defaultTheme = {
 		'0 0.3rem 0.3rem -0.2rem rgba(0,0,0,0.2),0 0.3rem 0.4rem 0 rgba(0,0,0,0.14),0 0.1rem 0.8rem 0 rgba(0,0,0,0.12)',
 	],
 	shape: {
-		borderRadious: '0.4rem',
+		borderRadious: '0.5rem',
 	},
 	typography: {
 		fontFamily: '"Roboto", "Helvetica", "Arial", sans-ServiceUIFrameContext',

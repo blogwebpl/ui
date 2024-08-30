@@ -2,6 +2,7 @@
 import '@total-typescript/ts-reset';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
+import React from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -36,6 +37,7 @@ import {
 import { Language, Translations } from '../../types';
 import styled from 'styled-components';
 import { CardMenu } from '../CardMenu';
+import { getIconComponent } from '../IconSelect/IconSelect';
 
 export interface TableColumn {
 	field: string;
@@ -645,13 +647,27 @@ export function Table({
 											key={`${row.id}-${column.field}`}
 											className={column.type === 'number' ? 'number' : ''}
 										>
-											{typeof cellValue !== 'undefined'
-												? typeof cellValue === 'boolean'
-													? cellValue
-														? 'TAK'
-														: 'NIE'
-													: cellValue.toString()
-												: ''}
+											{typeof cellValue !== 'undefined' ? (
+												typeof cellValue === 'boolean' ? (
+													cellValue ? (
+														'TAK'
+													) : (
+														'NIE'
+													)
+												) : column.type === 'icon' ? (
+													<>
+														{getIconComponent(cellValue.toString()) &&
+															React.createElement(
+																getIconComponent(cellValue.toString())!
+															)}
+														<span>{cellValue.toString()}</span>
+													</>
+												) : (
+													cellValue.toString()
+												)
+											) : (
+												''
+											)}
 										</td>
 									);
 								})}
@@ -705,13 +721,27 @@ export function Table({
 												<span>{column.label[language]}:</span>
 											</td>
 											<td>
-												{typeof cellValue !== 'undefined'
-													? typeof cellValue === 'boolean'
-														? cellValue
-															? 'TAK'
-															: 'NIE'
-														: cellValue.toString()
-													: ''}
+												{typeof cellValue !== 'undefined' ? (
+													typeof cellValue === 'boolean' ? (
+														cellValue ? (
+															'TAK'
+														) : (
+															'NIE'
+														)
+													) : column.type === 'icon' ? (
+														<>
+															{getIconComponent(cellValue.toString()) &&
+																React.createElement(
+																	getIconComponent(cellValue.toString())!
+																)}
+															<span>{cellValue.toString()}</span>
+														</>
+													) : (
+														cellValue.toString()
+													)
+												) : (
+													''
+												)}
 											</td>
 										</tr>
 									);
