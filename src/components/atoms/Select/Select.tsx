@@ -24,25 +24,22 @@ const theme: ThemeConfig = (t: Theme) => {
 };
 
 const styles: StylesConfig<SelectOption, false> = {
-	control: (
-		base: CSSObjectWithLabel,
-		state: ControlProps<SelectOption, false>
-	) => {
-		const { borderColor } = base;
-		return {
-			...base,
-			minHeight: 56,
-			boxShadow: 'none',
-			outline: state.isFocused ? '0.1rem solid' : 'none',
-			outlineColor: borderColor as string,
-		};
-	},
+	control: (base: CSSObjectWithLabel) => ({
+		...base,
+		padding: '1rem 0.5rem',
+	}),
 	menu: (base: CSSObjectWithLabel) => {
 		return {
 			...base,
 			zIndex: 2,
 		};
 	},
+	// multiValue: (base: CSSObjectWithLabel) => {
+	// 	return {
+	// 		...base,
+	// 		padding: '0.5rem',
+	// 	};
+	// },
 };
 
 const Label = styled.label<{ $isfloating?: boolean; $hasvalue?: boolean }>`

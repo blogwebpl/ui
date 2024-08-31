@@ -288,7 +288,7 @@ export function Table({
 			if (newAllChecked) {
 				const newCheckedRows = new Set<string>();
 				data.forEach((row) => {
-					newCheckedRows.add(row.id.toString());
+					newCheckedRows.add(row.id ? row.id.toString() : row.name);
 				});
 				setCheckedRows(newCheckedRows);
 			} else {
@@ -614,7 +614,7 @@ export function Table({
 					<tbody className="table-body">
 						{dataForPage.map((row: DynamicObject) => (
 							<tr
-								key={row.id}
+								key={row.id || row.name}
 								onClick={(event) => {
 									if (
 										!(event.target as HTMLElement).classList.contains(
@@ -622,15 +622,17 @@ export function Table({
 										) &&
 										(event.target as HTMLElement).tagName === 'TD'
 									) {
-										navigateToRow(row.id);
+										navigateToRow(row.id || row.name);
 									}
 								}}
 							>
 								<td className="first-td">
 									<Checkbox
-										checked={checkedRows.has(row.id.toString())}
+										checked={checkedRows.has(
+											row.id ? row.id.toString() : row.name
+										)}
 										onChange={() => {
-											handleCheckboxChange(row.id);
+											handleCheckboxChange(row.id || row.name);
 										}}
 										controlled
 									/>
@@ -644,7 +646,7 @@ export function Table({
 
 									return (
 										<td
-											key={`${row.id}-${column.field}`}
+											key={`${row.id || row.name}-${column.field}`}
 											className={column.type === 'number' ? 'number' : ''}
 										>
 											{typeof cellValue !== 'undefined' ? (
@@ -655,13 +657,19 @@ export function Table({
 														'NIE'
 													)
 												) : column.type === 'icon' ? (
-													<>
+													<div
+														style={{
+															display: 'flex',
+															alignItems: 'center',
+															gap: '0.5rem',
+														}}
+													>
+														<span>{cellValue.toString()}</span>
 														{getIconComponent(cellValue.toString()) &&
 															React.createElement(
 																getIconComponent(cellValue.toString())!
 															)}
-														<span>{cellValue.toString()}</span>
-													</>
+													</div>
 												) : (
 													cellValue.toString()
 												)
@@ -674,7 +682,7 @@ export function Table({
 								<td>
 									<IconButton
 										isLightColor={false}
-										onClick={() => navigateToRow(row.id)}
+										onClick={() => navigateToRow(row.id || row.name)}
 										color="#757575"
 										label=""
 									>
@@ -697,7 +705,7 @@ export function Table({
 				) : (
 					<>
 						{dataForPage.map((row: DynamicObject) => (
-							<tbody key={`${row.id}-tbody`} className="bodyMobile">
+							<tbody key={`${row.id || row.name}-tbody`} className="bodyMobile">
 								{columnsState.map((column: TableColumn, index: number) => {
 									const pathArray = column.field.split('.');
 									const cellValue = pathArray.reduce(
@@ -706,7 +714,10 @@ export function Table({
 									);
 
 									return (
-										<tr key={`${row.id}-tr-${index}`} className="innerRow">
+										<tr
+											key={`${row.id || row.name}-tr-${index}`}
+											className="innerRow"
+										>
 											<td
 												onClick={() => {
 													changeSortOrder(column.field);
@@ -750,14 +761,16 @@ export function Table({
 									<td>Opcje:</td>
 									<td className="options">
 										<Checkbox
-											checked={checkedRows.has(row.id.toString())}
-											onChange={() => handleCheckboxChange(row.id)}
+											checked={checkedRows.has(
+												row.id ? row.id.toString() : row.name
+											)}
+											onChange={() => handleCheckboxChange(row.id || row.name)}
 											controlled
 										/>
 										&nbsp;
 										<IconButton
 											isLightColor={false}
-											onClick={() => navigateToRow(row.id)}
+											onClick={() => navigateToRow(row.id || row.name)}
 											color="#757575"
 											label=""
 										>

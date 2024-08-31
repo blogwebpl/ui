@@ -23,8 +23,9 @@ import {
 	MdElderly as IconOldMan,
 	MdElderlyWoman as IconOldWoman,
 } from 'react-icons/md';
+import { RiAdminFill as IconAdmin } from 'react-icons/ri';
 import { BiSolidDog as IconDog } from 'react-icons/bi';
-import { FaCat as IconCat } from 'react-icons/fa';
+import { FaCat as IconCat, FaList as IconList } from 'react-icons/fa';
 import { IconType } from 'react-icons';
 import { SelectOption } from '../Select';
 
@@ -58,6 +59,8 @@ export const iconComponents: { [key: string]: IconType } = {
 	OldWoman: IconOldWoman,
 	Dog: IconDog,
 	Cat: IconCat,
+	Admin: IconAdmin,
+	List: IconList,
 };
 
 export const getIconComponent = (
@@ -175,6 +178,8 @@ export function IconSelect(props: IconSelectProps) {
 		{ value: 'OldWoman', label: 'OldWoman' },
 		{ value: 'Dog', label: 'Dog' },
 		{ value: 'Cat', label: 'Cat' },
+		{ value: 'Admin', label: 'Admin' },
+		{ value: 'List', label: 'List' },
 	];
 
 	if (props.hidden) return null;
