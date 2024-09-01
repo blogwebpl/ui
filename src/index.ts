@@ -35,3 +35,4 @@ export * from './components/Profile';
 export * from './components/InventorySubitemEdit';
 export * from './components/InventoryItemEdit';
 export * from './components/InventoryItemsSelect';
+export * from './components/atoms/ColumnsEditor';

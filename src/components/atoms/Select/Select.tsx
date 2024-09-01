@@ -7,6 +7,7 @@ import ReactSelect, {
 	ControlProps,
 	MultiValue,
 	SingleValue,
+	NoticeProps,
 } from 'react-select';
 import styled, { DefaultTheme } from 'styled-components';
 
@@ -65,7 +66,7 @@ const Label = styled.label<{ $isfloating?: boolean; $hasvalue?: boolean }>`
 		props.$isfloating || props.$hasvalue ? `1.2rem` : `1.6rem`};
 `;
 
-const NoOptionsMessage = (props: any) => {
+const NoOptionsMessage = (props: NoticeProps<SelectOption, false>) => {
 	return (
 		<components.NoOptionsMessage {...props}>
 			Brak opcji

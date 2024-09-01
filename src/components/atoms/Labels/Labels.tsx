@@ -6,9 +6,11 @@ const StyledLabel = styled.div`
 	padding: 0rem 1.4rem 1rem 1.4rem;
 	display: flex;
 	flex-direction: column;
-	gap: 1.6rem;
 	border: 1px solid #c0c0c0;
 	border-radius: 0.4rem;
+	input:first-child {
+		margin-bottom: 1.6rem;
+	}
 	label:first-child {
 		padding: 0.6rem 0.4rem;
 		background-color: white;
@@ -40,7 +42,8 @@ export function Labels(props: LabelsProps) {
 						type="text"
 						value={props.value?.[language] || labelsDefault[language]}
 						onChange={(e) =>
-							props.onChange && props.onChange({ ...props.value, [language]: e.target.value })
+							props.onChange &&
+							props.onChange({ ...props.value, [language]: e.target.value })
 						}
 						controlled
 					/>

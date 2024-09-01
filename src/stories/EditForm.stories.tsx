@@ -5,6 +5,7 @@ import { Main } from '../components/atoms/Main';
 import { menuItems, menuItemsInMenu } from './MenuEditor.stories';
 import { exampleInventoryItems } from './atoms/InventoryItems.data';
 import { users } from './atoms/UserSelect.stories';
+import { columnsEditorData } from './atoms/ColumnsEditor.stories';
 
 const editFields: Field[] = [
 	{
@@ -111,6 +112,14 @@ const editFields: Field[] = [
 		label: { pl: 'Użytkownicy', en: 'Users' },
 		defaultValue: [],
 	},
+	{
+		field: 'columns',
+		type: 'columnsEditor',
+		tab: 6,
+		required: true,
+		label: { pl: 'Kolumny', en: 'Columns' },
+		defaultValue: [],
+	},
 ];
 
 const roles = [
@@ -146,6 +155,7 @@ const Template = (props: any) => {
 		{ pl: 'Tab4', en: 'Tab4' },
 		{ pl: 'Tab5', en: 'Tab5' },
 		{ pl: 'Tab6', en: 'Tab6' },
+		{ pl: 'Tab7', en: 'Tab7' },
 	];
 	const [fields, setFields] = useState<Field[]>([]);
 	const [values, setValues] = useState({});
@@ -163,6 +173,7 @@ const Template = (props: any) => {
 				menuE: menuItemsInMenu,
 				icon: 'Settings',
 				label: { pl: 'Etykieta', en: 'Label' },
+				columns: columnsEditorData,
 			});
 		}, 300);
 	}, []);

@@ -21,6 +21,7 @@ import { IInventoryItem } from '../types';
 import { InventoryItemsSelect } from '../InventoryItemsSelect';
 import { UserSelect } from '../atoms/UserSelect';
 import { Checkbox } from '../atoms/Checkbox';
+import { ColumnInterface, ColumnsEditor } from '../atoms/ColumnsEditor';
 
 const StyledVerticalGap = styled.div`
 	height: 5.6rem;
@@ -421,6 +422,21 @@ export function EditForm({
 								}}
 								label={field.label[language]}
 								controlled
+							/>
+						</FieldContainer>
+					);
+				case 'columnsEditor':
+					return (
+						<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
+							<ColumnsEditor
+								columns={inputValues?.[field.field] as ColumnInterface[]}
+								setColumns={(newValue: ColumnInterface[]) => {
+									setInputValues((values) => ({
+										...values,
+										[field.field]: newValue,
+									}));
+								}}
+								label={field.label[language]}
 							/>
 						</FieldContainer>
 					);
