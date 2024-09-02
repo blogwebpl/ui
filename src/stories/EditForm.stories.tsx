@@ -41,6 +41,14 @@ const editFields: Field[] = [
 		defaultValue: false,
 	},
 	{
+		field: 'crud',
+		type: 'crud',
+		tab: 0,
+		required: false,
+		label: { pl: 'CRUD', en: 'CRUD' },
+		defaultValue: '1',
+	},
+	{
 		field: 'date',
 		type: 'date',
 		tab: 1,
@@ -120,6 +128,14 @@ const editFields: Field[] = [
 		label: { pl: 'Kolumny', en: 'Columns' },
 		defaultValue: [],
 	},
+	{
+		field: 'tabs',
+		type: 'tabsEditor',
+		tab: 7,
+		required: true,
+		label: { pl: 'Zakładki', en: 'Tabs' },
+		defaultValue: [],
+	},
 ];
 
 const roles = [
@@ -174,6 +190,11 @@ const Template = (props: any) => {
 				icon: 'Settings',
 				label: { pl: 'Etykieta', en: 'Label' },
 				columns: columnsEditorData,
+				crud: 12,
+				tabs: [
+					{ pl: 'Zakładka1', en: 'Tab1' },
+					{ pl: 'Zakładka2', en: 'Tab2' },
+				],
 			});
 		}, 300);
 	}, []);

@@ -620,7 +620,11 @@ export function Table({
 										!(event.target as HTMLElement).classList.contains(
 											'first-td'
 										) &&
-										(event.target as HTMLElement).tagName === 'TD'
+										((event.target as HTMLElement).tagName === 'TD' ||
+											(event.target as HTMLElement).tagName === 'path' ||
+											(event.target as HTMLElement).classList.contains(
+												'icon-td'
+											))
 									) {
 										navigateToRow(row.id || row.name);
 									}
@@ -658,16 +662,20 @@ export function Table({
 													)
 												) : column.type === 'icon' ? (
 													<div
+														className="icon-td"
 														style={{
 															display: 'flex',
 															alignItems: 'center',
 															gap: '0.5rem',
 														}}
 													>
-														<span>{cellValue.toString()}</span>
+														<span className="icon-td">
+															{cellValue.toString()}
+														</span>
 														{getIconComponent(cellValue.toString()) &&
 															React.createElement(
-																getIconComponent(cellValue.toString())!
+																getIconComponent(cellValue.toString())!,
+																{ className: 'icon-td' }
 															)}
 													</div>
 												) : (
@@ -743,7 +751,8 @@ export function Table({
 														<>
 															{getIconComponent(cellValue.toString()) &&
 																React.createElement(
-																	getIconComponent(cellValue.toString())!
+																	getIconComponent(cellValue.toString())!,
+																	{ className: 'icon-td' }
 																)}
 															<span>{cellValue.toString()}</span>
 														</>

@@ -22,6 +22,7 @@ import { InventoryItemsSelect } from '../InventoryItemsSelect';
 import { UserSelect } from '../atoms/UserSelect';
 import { Checkbox } from '../atoms/Checkbox';
 import { ColumnInterface, ColumnsEditor } from '../atoms/ColumnsEditor';
+import { TabsEditor } from '../atoms/TabsEditor';
 
 const StyledVerticalGap = styled.div`
 	height: 5.6rem;
@@ -292,6 +293,20 @@ export function EditForm({
 							/>
 						</FieldContainer>
 					);
+				case 'tabsEditor':
+					return (
+						<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
+							<TabsEditor
+								tabs={inputValues?.[field.field] as Translations[]}
+								setTabs={(newValue: Translations[]) => {
+									setInputValues((values) => ({
+										...values,
+										[field.field]: newValue,
+									}));
+								}}
+							/>
+						</FieldContainer>
+					);
 				case 'roles':
 				case 'permissions':
 				case 'menu':
@@ -308,6 +323,34 @@ export function EditForm({
 							shouldHide={shouldHide}
 							label={field.label[language]}
 							isMulti={isMulti}
+						/>
+					);
+				case 'crud':
+					return (
+						<SpecialSelect
+							key={fieldKey}
+							options={[
+								{ value: '1', label: 'create' },
+								{ value: '2', label: 'read' },
+								{ value: '3', label: 'create and read' },
+								{ value: '4', label: 'update' },
+								{ value: '5', label: 'create and update' },
+								{ value: '6', label: 'read and update' },
+								{ value: '7', label: 'create, read and update' },
+								{ value: '8', label: 'delete' },
+								{ value: '9', label: 'create and delete' },
+								{ value: '10', label: 'read and delete' },
+								{ value: '11', label: 'create, read and delete' },
+								{ value: '12', label: 'update and delete' },
+								{ value: '13', label: 'create, update and delete' },
+								{ value: '14', label: 'read, update and delete' },
+								{ value: '15', label: 'create, read, update and delete' },
+							]}
+							valueIds={inputValues?.[field.field]?.toString() || ''}
+							fieldName={field.field}
+							shouldHide={shouldHide}
+							label={field.label[language]}
+							isMulti={false}
 						/>
 					);
 				case 'inventoryItems':

@@ -233,13 +233,13 @@ export function FreeItems(props: FreeItemsProps) {
 	};
 
 	const renderItemUsage = useMemo(() => {
-		const tagCountMap = new Map();
+		const tagCountMap = new Map<number, number>();
 		props.tags.forEach((tag) => {
-			tagCountMap.set(tag.dgId, (tagCountMap.get(tag.dgId) || 0) + 1);
+			tagCountMap.set(tag.dgId, (tagCountMap.get(tag.dgId) ?? 0) + 1); // Użycie ?? zamiast ||
 		});
 
 		return (item: IInventoryItem) => {
-			const usedTagsCount = tagCountMap.get(item.dgId) || 0;
+			const usedTagsCount = tagCountMap.get(item.dgId) ?? 0;
 			return `${usedTagsCount} / ${item.quantity}`;
 		};
 	}, [props.tags]);

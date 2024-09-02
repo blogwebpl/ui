@@ -36,3 +36,4 @@ export * from './components/InventorySubitemEdit';
 export * from './components/InventoryItemEdit';
 export * from './components/InventoryItemsSelect';
 export * from './components/atoms/ColumnsEditor';
+export * from './components/atoms/TabsEditor';
