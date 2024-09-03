@@ -4,6 +4,9 @@ import { Labels } from '../../../components/atoms/Labels';
 import { FieldContainer } from '../FieldContainer';
 import { TextField } from '../../../components/atoms/TextField';
 import styled from 'styled-components';
+import { Button } from '../Button';
+import { ButtonContainer } from '../ButtonContainer';
+import { Typography } from '../Typography';
 
 const StyledContainer = styled.div`
 	display: flex;
@@ -124,7 +127,11 @@ export function ColumnsEditor(props: ColumnsEditorProps) {
 	if (!props.columns) {
 		return (
 			<StyledContainer>
-				<button onClick={addColumn}>Dodaj nową kolumnę</button>
+				<Button
+					onClick={addColumn}
+					label="Dodaj nową kolumnę"
+					variant="secondary"
+				/>
 			</StyledContainer>
 		);
 	}
@@ -133,20 +140,31 @@ export function ColumnsEditor(props: ColumnsEditorProps) {
 		<StyledContainer>
 			{props.columns.map((column, index) => (
 				<div key={index}>
-					<p>
-						Kolumna {index + 1}
-						<button onClick={() => removeColumn(index)}>Usuń</button>
-						<button onClick={() => insertColumn(index)}>Wstaw</button>
-						<button onClick={() => moveColumnUp(index)} disabled={index === 0}>
-							↑
-						</button>
-						<button
+					<ButtonContainer>
+						<b>Kolumna {index + 1}</b>
+						<Button
+							onClick={() => removeColumn(index)}
+							label="Usuń"
+							variant="secondary"
+						/>
+						<Button
+							onClick={() => insertColumn(index)}
+							label="Wstaw"
+							variant="secondary"
+						/>
+						<Button
+							onClick={() => moveColumnUp(index)}
+							disabled={index === 0}
+							label="↑"
+							variant="secondary"
+						/>
+						<Button
 							onClick={() => moveColumnDown(index)}
 							disabled={index === props.columns.length - 1}
-						>
-							↓
-						</button>
-					</p>
+							label="↓"
+							variant="secondary"
+						/>
+					</ButtonContainer>
 					<FieldContainer>
 						<Select
 							label="Sortowanie"
@@ -240,7 +258,11 @@ export function ColumnsEditor(props: ColumnsEditorProps) {
 					</FieldContainer>
 				</div>
 			))}
-			<button onClick={addColumn}>Dodaj nową kolumnę</button>
+			<Button
+				onClick={addColumn}
+				label="Dodaj nową kolumnę"
+				variant="secondary"
+			/>
 		</StyledContainer>
 	);
 }
