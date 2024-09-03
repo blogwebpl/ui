@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import styled from 'styled-components';
 import { Translations } from '../../types';
 import { Labels } from '../Labels';
 import { Button } from '../Button';
@@ -50,7 +51,30 @@ export function TabsEditor(props: TabsEditorProps) {
 		props.setTabs(updatedTabs);
 	};
 
+	if (!props.tabs) {
+		return null;
+	}
+
+	const moveTab = (fromIndex: number, toIndex: number) => {
+		const updatedTabs = [...props.tabs];
+		const [movedTab] = updatedTabs.splice(fromIndex, 1);
+		updatedTabs.splice(toIndex, 0, movedTab);
+		props.setTabs(updatedTabs);
+	};
+
+	const addTab = (index: number) => {
+		const newTab = {
+			/* default values for a new tab */
+			en: '',
+			pl: '',
+		};
+		const updatedTabs = [...props.tabs];
+		updatedTabs.splice(index + 1, 0, newTab);
+		props.setTabs(updatedTabs);
+	};
+
 	return (
+		<StyledContainer>
 		<StyledContainer>
 			{props.tabs.map((tab, index) => (
 				<StyledTab key={index}>
