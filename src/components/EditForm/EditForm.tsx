@@ -23,6 +23,7 @@ import { UserSelect } from '../atoms/UserSelect';
 import { Checkbox } from '../atoms/Checkbox';
 import { ColumnInterface, ColumnsEditor } from '../atoms/ColumnsEditor';
 import { TabsEditor } from '../atoms/TabsEditor';
+import { FieldInterface, FieldsEditor } from '../atoms/FieldsEditor';
 
 const StyledVerticalGap = styled.div`
 	height: 5.6rem;
@@ -45,7 +46,8 @@ export interface Field {
 	tab: number;
 	required: boolean;
 	label: Translations;
-	defaultValue: unknown;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	defaultValue: any;
 }
 
 interface EditFormProps {
@@ -299,7 +301,6 @@ export function EditForm({
 							<TabsEditor
 								tabs={inputValues?.[field.field] as Translations[]}
 								setTabs={(newValue: Translations[]) => {
-									console.log('tabs', newValue);
 									setInputValues((values) => ({
 										...values,
 										[field.field]: newValue,
@@ -475,6 +476,22 @@ export function EditForm({
 							<ColumnsEditor
 								columns={inputValues?.[field.field] as ColumnInterface[]}
 								setColumns={(newValue: ColumnInterface[]) => {
+									setInputValues((values) => ({
+										...values,
+										[field.field]: newValue,
+									}));
+								}}
+								label={field.label[language]}
+							/>
+						</FieldContainer>
+					);
+
+				case 'fieldsEditor':
+					return (
+						<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
+							<FieldsEditor
+								fields={inputValues?.[field.field] as FieldInterface[]}
+								setFields={(newValue: FieldInterface[]) => {
 									setInputValues((values) => ({
 										...values,
 										[field.field]: newValue,

@@ -6,7 +6,6 @@ import { TextField } from '../../../components/atoms/TextField';
 import styled from 'styled-components';
 import { Button } from '../Button';
 import { ButtonContainer } from '../ButtonContainer';
-import { Typography } from '../Typography';
 
 const StyledContainer = styled.div`
 	display: flex;

@@ -3,6 +3,7 @@ import { TextField } from '../TextField';
 import { Language, Translations, labelsDefault, languages } from '../../types';
 
 const StyledLabel = styled.div`
+	user-select: none;
 	padding: 0rem 1.4rem 1rem 1.4rem;
 	display: flex;
 	flex-direction: column;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { EditForm, Field } from '../components/EditForm';
@@ -136,6 +137,14 @@ const editFields: Field[] = [
 		label: { pl: 'Zakładki', en: 'Tabs' },
 		defaultValue: [],
 	},
+	{
+		field: 'fields',
+		type: 'fieldsEditor',
+		tab: 8,
+		required: true,
+		label: { pl: 'Pola', en: 'Fields' },
+		defaultValue: [],
+	},
 ];
 
 const roles = [
@@ -163,6 +172,7 @@ const menus = [
 	},
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Template = (props: any) => {
 	const tabs = [
 		{ pl: 'Tab1', en: 'Tab1' },
@@ -173,6 +183,7 @@ const Template = (props: any) => {
 		{ pl: 'Tab6', en: 'Tab6' },
 		{ pl: 'Tab7', en: 'Tab7' },
 		{ pl: 'Tab8', en: 'Tab8' },
+		{ pl: 'Tab9', en: 'Tab9' },
 	];
 	const [fields, setFields] = useState<Field[]>([]);
 	const [values, setValues] = useState({});
@@ -195,6 +206,16 @@ const Template = (props: any) => {
 				tabs: [
 					{ pl: 'Zakładka1', en: 'Tab1' },
 					{ pl: 'Zakładka2', en: 'Tab2' },
+				],
+				fields: [
+					{
+						field: 'field1',
+						type: 'text',
+						tab: 0,
+						required: true,
+						label: { pl: 'Pole1', en: 'Field1' },
+						defaultValue: '',
+					},
 				],
 			});
 		}, 300);
