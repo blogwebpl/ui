@@ -299,6 +299,7 @@ export function EditForm({
 							<TabsEditor
 								tabs={inputValues?.[field.field] as Translations[]}
 								setTabs={(newValue: Translations[]) => {
+									console.log('tabs', newValue);
 									setInputValues((values) => ({
 										...values,
 										[field.field]: newValue,

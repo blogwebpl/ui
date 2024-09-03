@@ -172,6 +172,7 @@ const Template = (props: any) => {
 		{ pl: 'Tab5', en: 'Tab5' },
 		{ pl: 'Tab6', en: 'Tab6' },
 		{ pl: 'Tab7', en: 'Tab7' },
+		{ pl: 'Tab8', en: 'Tab8' },
 	];
 	const [fields, setFields] = useState<Field[]>([]);
 	const [values, setValues] = useState({});
