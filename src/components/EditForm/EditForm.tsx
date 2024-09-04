@@ -12,13 +12,13 @@ import { Typography } from '../atoms/Typography';
 import { Alert } from '../atoms/Alert';
 import { Language, Translations, labelsDefault } from '../types';
 import { Select, SelectOption } from '../atoms/Select';
-import { WriteTag } from '../atoms/WriteTag';
+// import { WriteTag } from '../atoms/WriteTag';
 import { MenuEditor } from '../MenuEditor';
 import { IMenuItem, MenuItemsSchema } from '../atoms/Menu';
 import { IconSelect } from '../atoms/IconSelect';
 import { Labels } from '../atoms/Labels';
 import { IInventoryItem } from '../types';
-import { InventoryItemsSelect } from '../InventoryItemsSelect';
+// import { InventoryItemsSelect } from '../InventoryItemsSelect';
 import { UserSelect } from '../atoms/UserSelect';
 import { Checkbox } from '../atoms/Checkbox';
 import { ColumnInterface, ColumnsEditor } from '../atoms/ColumnsEditor';
@@ -61,6 +61,7 @@ interface EditFormProps {
 	mode: 'add' | 'edit' | 'view';
 	roles?: SelectOption[];
 	permissions?: SelectOption[];
+	deviceTypes?: SelectOption[];
 	menus?: SelectOption[];
 	menuItems?: IMenuItem[];
 	inventoryItems?: IInventoryItem[];
@@ -81,6 +82,7 @@ export function EditForm({
 	mode,
 	roles,
 	permissions,
+	deviceTypes,
 	menus,
 	menuItems,
 	saveData,
@@ -201,16 +203,16 @@ export function EditForm({
 			const selectedOptions = options.filter((option) =>
 				isMulti ? valueIds.includes(option.value) : option.value === valueIds
 			);
-			// console.log('Uruchamiam SpecialSelect');
-			// console.log({
-			// 	options,
-			// 	valueIds,
-			// 	fieldName,
-			// 	shouldHide,
-			// 	label,
-			// 	isMulti,
-			// 	selectedOptions,
-			// });
+			console.log('Uruchamiam SpecialSelect');
+			console.log({
+				options,
+				valueIds,
+				fieldName,
+				shouldHide,
+				label,
+				isMulti,
+				selectedOptions,
+			});
 
 			const value = isMulti ? selectedOptions : selectedOptions[0] || null;
 
@@ -276,6 +278,9 @@ export function EditForm({
 				case 'menu':
 					options = menus || [];
 					break;
+				case 'deviceTypes':
+					options = deviceTypes || [];
+					break;
 				default:
 			}
 
@@ -312,6 +317,7 @@ export function EditForm({
 				case 'roles':
 				case 'permissions':
 				case 'menu':
+				case 'deviceTypes':
 					return (
 						<SpecialSelect
 							key={fieldKey}
@@ -513,6 +519,7 @@ export function EditForm({
 			roles,
 			permissions,
 			menus,
+			deviceTypes,
 			menuItems,
 			setInputValues,
 			writeTagFunction,
