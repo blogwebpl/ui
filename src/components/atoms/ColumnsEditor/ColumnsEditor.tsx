@@ -68,12 +68,14 @@ export function ColumnsEditor(props: ColumnsEditorProps) {
 		) {
 			newColumns[index][key] = value as string;
 		} else if (key === 'sortOrder') {
-			newColumns[index][key] = value as number;
+			newColumns[index][key] = Number(value);
 		} else if (key === 'label') {
 			newColumns[index][key] = value as { en: string; pl: string };
 		} else {
 			console.error('Invalid key');
 		}
+
+		console.log({ newColumns });
 
 		props.setColumns(newColumns);
 	};
@@ -204,8 +206,24 @@ export function ColumnsEditor(props: ColumnsEditorProps) {
 								}
 							}}
 							options={[
-								{ value: 'text', label: 'text' },
+								{ value: 'checkbox', label: 'checkbox' },
+								{ value: 'columnsEditor', label: 'columnsEditor' },
+								{ value: 'crud', label: 'crud' },
+								{ value: 'date', label: 'date' },
+								{ value: 'datetime-local', label: 'datetime-local' },
+								{ value: 'email', label: 'email' },
+								{ value: 'fieldsEditor', label: 'fieldsEditor' },
+								{ value: 'icon', label: 'icon' },
+								{ value: 'labels', label: 'labels' },
+								{ value: 'menu', label: 'menu' },
+								{ value: 'menuEditor', label: 'menuEditor' },
 								{ value: 'number', label: 'number' },
+								{ value: 'password', label: 'password' },
+								{ value: 'permissions', label: 'permissions' },
+								{ value: 'roles', label: 'roles' },
+								{ value: 'tabsEditor', label: 'tabsEditor' },
+								{ value: 'text', label: 'text' },
+								{ value: 'users', label: 'users' },
 							]}
 							isMulti={false}
 						/>

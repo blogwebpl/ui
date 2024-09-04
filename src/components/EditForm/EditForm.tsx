@@ -355,34 +355,34 @@ export function EditForm({
 							isMulti={false}
 						/>
 					);
-				case 'inventoryItems':
-					return (
-						<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
-							<InventoryItemsSelect
-								items={inventoryItems || []}
-								setSelectedItems={(newValue: number[]) => {
-									setInputValues((values) => ({
-										...values,
-										[field.field]: newValue,
-									}));
-								}}
-								{...commonProps}
-								selectedItems={(inputValues?.[field.field] as number[]) || []}
-								language={language}
-							/>
-						</FieldContainer>
-					);
-				case 'writeTag':
-					if (writeTagFunction) {
-						return (
-							<WriteTag
-								key={fieldKey}
-								writeTagFunction={writeTagFunction}
-								data={{ id: inputValues?.[field.field] || '' }}
-							/>
-						);
-					}
-					return null;
+				// case 'inventoryItems':
+				// 	return (
+				// 		<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
+				// 			<InventoryItemsSelect
+				// 				items={inventoryItems || []}
+				// 				setSelectedItems={(newValue: number[]) => {
+				// 					setInputValues((values) => ({
+				// 						...values,
+				// 						[field.field]: newValue,
+				// 					}));
+				// 				}}
+				// 				{...commonProps}
+				// 				selectedItems={(inputValues?.[field.field] as number[]) || []}
+				// 				language={language}
+				// 			/>
+				// 		</FieldContainer>
+				// 	);
+				// case 'writeTag':
+				// 	if (writeTagFunction) {
+				// 		return (
+				// 			<WriteTag
+				// 				key={fieldKey}
+				// 				writeTagFunction={writeTagFunction}
+				// 				data={{ id: inputValues?.[field.field] || '' }}
+				// 			/>
+				// 		);
+				// 	}
+				// 	return null;
 				case 'menuEditor':
 					return (
 						<MenuEditor

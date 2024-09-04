@@ -242,11 +242,7 @@ export function FieldsEditor(props: FieldsEditorProps) {
 					</FieldContainer>
 				</div>
 			))}
-			<Button
-				onClick={addField}
-				label="Dodaj nową kolumnę"
-				variant="secondary"
-			/>
+			<Button onClick={addField} label="Dodaj nowe pole" variant="secondary" />
 		</StyledContainer>
 	);
 }

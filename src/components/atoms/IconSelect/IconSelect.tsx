@@ -22,8 +22,13 @@ import {
 	MdOutlineWoman as IconWoman,
 	MdElderly as IconOldMan,
 	MdElderlyWoman as IconOldWoman,
+	MdGpsFixed as IconGPS,
 } from 'react-icons/md';
-import { RiAdminFill as IconAdmin } from 'react-icons/ri';
+import { PiDeviceTabletFill as IconDevice } from 'react-icons/pi';
+import {
+	RiAdminFill as IconAdmin,
+	RiUserLocationFill as IconUserDevice,
+} from 'react-icons/ri';
 import { BiSolidDog as IconDog } from 'react-icons/bi';
 import { FaCat as IconCat, FaList as IconList } from 'react-icons/fa';
 import { IconType } from 'react-icons';
@@ -61,6 +66,9 @@ export const iconComponents: { [key: string]: IconType } = {
 	Cat: IconCat,
 	Admin: IconAdmin,
 	List: IconList,
+	Device: IconDevice,
+	UserDevice: IconUserDevice,
+	GPS: IconGPS,
 };
 
 export const getIconComponent = (
@@ -163,23 +171,26 @@ export function IconSelect(props: IconSelectProps) {
 	};
 
 	const options = [
-		{ value: 'Settings', label: 'Settings' },
-		{ value: 'Map', label: 'Map' },
-		{ value: 'Record', label: 'Record' },
-		{ value: 'Menu', label: 'Menu' },
-		{ value: 'Inventory', label: 'Inventory' },
-		{ value: 'Person', label: 'Person' },
-		{ value: 'Lock', label: 'Lock' },
-		{ value: 'Edit', label: 'Edit' },
+		{ value: 'Admin', label: 'Admin' },
 		{ value: 'Car', label: 'Car' },
+		{ value: 'Cat', label: 'Cat' },
+		{ value: 'Device', label: 'Device' },
+		{ value: 'Dog', label: 'Dog' },
+		{ value: 'Edit', label: 'Edit' },
+		{ value: 'GPS', label: 'GPS' },
+		{ value: 'Inventory', label: 'Inventory' },
+		{ value: 'List', label: 'List' },
+		{ value: 'Lock', label: 'Lock' },
 		{ value: 'Man', label: 'Man' },
-		{ value: 'Woman', label: 'Woman' },
+		{ value: 'Map', label: 'Map' },
+		{ value: 'Menu', label: 'Menu' },
 		{ value: 'OldMan', label: 'OldMan' },
 		{ value: 'OldWoman', label: 'OldWoman' },
-		{ value: 'Dog', label: 'Dog' },
-		{ value: 'Cat', label: 'Cat' },
-		{ value: 'Admin', label: 'Admin' },
-		{ value: 'List', label: 'List' },
+		{ value: 'Person', label: 'Person' },
+		{ value: 'Record', label: 'Record' },
+		{ value: 'Settings', label: 'Settings' },
+		{ value: 'UserDevice', label: 'UserDevice' },
+		{ value: 'Woman', label: 'Woman' },
 	];
 
 	if (props.hidden) return null;
