@@ -3,21 +3,22 @@ import { Card } from '../../components/atoms/Card';
 import { Main } from '../../components/atoms/Main';
 import { UserSelect } from '../../components/atoms/UserSelect';
 
-export const users = [
+const users = [
 	{
-		id: '65bce2d61e5d33ddb6c2e121',
-		name: 'John Doe',
+		value: '65bce2d61e5d33ddb6c2e121',
+		label: 'John Doe',
 	},
 	{
-		id: '65bce2d61e5d33ddb6c2e122',
-		name: 'Jane Doe',
+		value: '65bce2d61e5d33ddb6c2e122',
+		label: 'Jane Doe',
 	},
 	{
-		id: '65bce2d61e5d33ddb6c2e123',
-		name: 'Tom Smith',
+		value: '65bce2d61e5d33ddb6c2e123',
+		label: 'Tom Smith',
 	},
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Template = (args: any) => {
 	const [value, setValue] = useState(null);
 	return (

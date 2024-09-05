@@ -5,8 +5,25 @@ import { EditForm, Field } from '../components/EditForm';
 import { Main } from '../components/atoms/Main';
 import { menuItems, menuItemsInMenu } from './MenuEditor.stories';
 import { exampleInventoryItems } from './atoms/InventoryItems.data';
-import { users } from './atoms/UserSelect.stories';
 import { columnsEditorData } from './atoms/ColumnsEditor.stories';
+
+export const users = [
+	{
+		id: '65bce2d61e5d33ddb6c2e121',
+		name: 'John Doe',
+		email: 'john.doe@example.com',
+	},
+	{
+		id: '65bce2d61e5d33ddb6c2e122',
+		name: 'Jane Doe',
+		email: 'jane.doe@example.com',
+	},
+	{
+		id: '65bce2d61e5d33ddb6c2e123',
+		name: 'Tom Smith',
+		email: 'tom.smith@example.com',
+	},
+];
 
 const editFields: Field[] = [
 	{
@@ -80,6 +97,14 @@ const editFields: Field[] = [
 		required: true,
 		label: { pl: 'Menu', en: 'Menu' },
 		defaultValue: {},
+	},
+	{
+		field: 'userId',
+		type: 'user',
+		tab: 1,
+		required: true,
+		label: { pl: 'Użytkownik', en: 'User' },
+		defaultValue: '',
 	},
 	{
 		field: 'menuE',
@@ -217,6 +242,7 @@ const Template = (props: any) => {
 						defaultValue: '',
 					},
 				],
+				userId: '65bce2d61e5d33ddb6c2e121',
 			});
 		}, 300);
 	}, []);

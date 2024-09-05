@@ -74,7 +74,8 @@ interface UserSelectProps {
 	value: string[];
 	onChange: (newValue: string[]) => void; // Changed the type of newValue to string[]
 	hidden?: boolean;
-	users: { id: string; name: string }[];
+	// users: { id: string; name: string }[];
+	users: SelectOption[];
 }
 
 export function UserSelect(props: UserSelectProps) {
@@ -92,10 +93,10 @@ export function UserSelect(props: UserSelectProps) {
 		);
 	};
 
-	const options = props.users.map((user) => ({
-		value: user.id,
-		label: user.name,
-	}));
+	// const options = props.users.map((user) => ({
+	// 	value: user.id,
+	// 	label: user.name,
+	// }));
 
 	if (props.hidden) return null;
 
@@ -108,7 +109,7 @@ export function UserSelect(props: UserSelectProps) {
 				props.value
 					? props.value.map((id) => ({
 							value: id,
-							label: props.users.find((user) => user.id === id)?.name || '',
+							label: props.users.find((user) => user.value === id)?.label || '',
 						}))
 					: null
 			}
@@ -117,7 +118,7 @@ export function UserSelect(props: UserSelectProps) {
 					(o as SelectOption[]).map((user: SelectOption) => user.value)
 				);
 			}}
-			options={options.sort((a, b) => (a.label > b.label ? 1 : -1))}
+			options={props.users.sort((a, b) => (a.label > b.label ? 1 : -1))}
 			placeholder=""
 			isMulti={true}
 			components={{ Control }}

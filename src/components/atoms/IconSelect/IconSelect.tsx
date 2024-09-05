@@ -30,7 +30,11 @@ import {
 	RiUserLocationFill as IconUserDevice,
 } from 'react-icons/ri';
 import { BiSolidDog as IconDog } from 'react-icons/bi';
-import { FaCat as IconCat, FaList as IconList } from 'react-icons/fa';
+import {
+	FaCat as IconCat,
+	FaList as IconList,
+	FaTruck as IconTruck,
+} from 'react-icons/fa';
 import { IconType } from 'react-icons';
 import { SelectOption } from '../Select';
 
@@ -69,6 +73,7 @@ export const iconComponents: { [key: string]: IconType } = {
 	Device: IconDevice,
 	UserDevice: IconUserDevice,
 	GPS: IconGPS,
+	Truck: IconTruck,
 };
 
 export const getIconComponent = (
@@ -76,6 +81,14 @@ export const getIconComponent = (
 ): IconType | null => {
 	return iconName ? iconComponents[iconName] || null : null;
 };
+
+interface IconOptionProps extends OptionProps<SelectOption, false> {
+	data: SelectOption;
+}
+
+interface IconOptionProps extends OptionProps<SelectOption, false> {
+	data: SelectOption;
+}
 
 const IconOption: React.FC<IconOptionProps> = ({ data, ...rest }) => {
 	const IconComponent = getIconComponent(data.label);
@@ -191,6 +204,7 @@ export function IconSelect(props: IconSelectProps) {
 		{ value: 'Settings', label: 'Settings' },
 		{ value: 'UserDevice', label: 'UserDevice' },
 		{ value: 'Woman', label: 'Woman' },
+		{ value: 'Truck', label: 'Truck' },
 	];
 
 	if (props.hidden) return null;

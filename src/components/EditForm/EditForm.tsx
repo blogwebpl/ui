@@ -12,13 +12,13 @@ import { Typography } from '../atoms/Typography';
 import { Alert } from '../atoms/Alert';
 import { Language, Translations, labelsDefault } from '../types';
 import { Select, SelectOption } from '../atoms/Select';
-// import { WriteTag } from '../atoms/WriteTag';
+import { WriteTag } from '../atoms/WriteTag';
 import { MenuEditor } from '../MenuEditor';
 import { IMenuItem, MenuItemsSchema } from '../atoms/Menu';
 import { IconSelect } from '../atoms/IconSelect';
 import { Labels } from '../atoms/Labels';
 import { IInventoryItem } from '../types';
-// import { InventoryItemsSelect } from '../InventoryItemsSelect';
+import { InventoryItemsSelect } from '../InventoryItemsSelect';
 import { UserSelect } from '../atoms/UserSelect';
 import { Checkbox } from '../atoms/Checkbox';
 import { ColumnInterface, ColumnsEditor } from '../atoms/ColumnsEditor';
@@ -68,7 +68,8 @@ interface EditFormProps {
 	saveData: (formData: Record<string, unknown>) => Promise<boolean>;
 	width?: string;
 	writeTagFunction?: (data: Record<string, unknown>) => Promise<boolean>;
-	users?: { id: string; name: string }[];
+	users?: { id: string; name?: string; email?: string }[];
+	devices?: { id: string; name?: string; imei?: string }[];
 }
 
 export function EditForm({
@@ -90,6 +91,7 @@ export function EditForm({
 	writeTagFunction,
 	inventoryItems,
 	users,
+	devices,
 }: EditFormProps) {
 	if (fields.length === 0) {
 		return null;
@@ -203,7 +205,7 @@ export function EditForm({
 			const selectedOptions = options.filter((option) =>
 				isMulti ? valueIds.includes(option.value) : option.value === valueIds
 			);
-			console.log('Uruchamiam SpecialSelect');
+
 			console.log({
 				options,
 				valueIds,
@@ -218,25 +220,23 @@ export function EditForm({
 
 			return (
 				<FieldContainer id={fieldName} key={fieldName} hidden={shouldHide}>
-					<Capitalize>
-						<Select
-							label={label}
-							options={options}
-							value={value}
-							onChange={(
-								newValue: MultiValue<SelectOption> | SingleValue<SelectOption>
-							) => {
-								setInputValues((v) => ({
-									...v,
-									[fieldName]: isMulti
-										? (newValue as SelectOption[]).map((item) => item.value)
-										: (newValue as SelectOption).value,
-								}));
-							}}
-							isMulti={isMulti}
-							isClearable={false}
-						/>
-					</Capitalize>
+					<Select
+						label={label}
+						options={options}
+						value={value}
+						onChange={(
+							newValue: MultiValue<SelectOption> | SingleValue<SelectOption>
+						) => {
+							setInputValues((v) => ({
+								...v,
+								[fieldName]: isMulti
+									? (newValue as SelectOption[]).map((item) => item.value)
+									: (newValue as SelectOption).value,
+							}));
+						}}
+						isMulti={isMulti}
+						isClearable={false}
+					/>
 				</FieldContainer>
 			);
 		},
@@ -278,6 +278,31 @@ export function EditForm({
 				case 'menu':
 					options = menus || [];
 					break;
+				case 'user':
+					options = users
+						? users.map((user) => ({
+								value: user.id,
+								label: `${user.name + ' - ' || ''} ${user.email || ''}`,
+							}))
+						: [];
+					break;
+				case 'device':
+					options = devices
+						? devices.map((device) => ({
+								value: device.id,
+								label: `${device.name + ' - ' || ''} ${device.imei || ''}`,
+							}))
+						: [];
+					break;
+				case 'users':
+					options = users
+						? users.map((user) => ({
+								value: user.id,
+								label: `${user.name + ' - ' || ''} ${user.email || ''}`,
+							}))
+						: [];
+					isMulti = true;
+					break;
 				case 'deviceTypes':
 					options = deviceTypes || [];
 					break;
@@ -317,6 +342,8 @@ export function EditForm({
 				case 'roles':
 				case 'permissions':
 				case 'menu':
+				case 'user':
+				case 'device':
 				case 'deviceTypes':
 					return (
 						<SpecialSelect
@@ -361,34 +388,34 @@ export function EditForm({
 							isMulti={false}
 						/>
 					);
-				// case 'inventoryItems':
-				// 	return (
-				// 		<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
-				// 			<InventoryItemsSelect
-				// 				items={inventoryItems || []}
-				// 				setSelectedItems={(newValue: number[]) => {
-				// 					setInputValues((values) => ({
-				// 						...values,
-				// 						[field.field]: newValue,
-				// 					}));
-				// 				}}
-				// 				{...commonProps}
-				// 				selectedItems={(inputValues?.[field.field] as number[]) || []}
-				// 				language={language}
-				// 			/>
-				// 		</FieldContainer>
-				// 	);
-				// case 'writeTag':
-				// 	if (writeTagFunction) {
-				// 		return (
-				// 			<WriteTag
-				// 				key={fieldKey}
-				// 				writeTagFunction={writeTagFunction}
-				// 				data={{ id: inputValues?.[field.field] || '' }}
-				// 			/>
-				// 		);
-				// 	}
-				// 	return null;
+				case 'inventoryItems':
+					return (
+						<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
+							<InventoryItemsSelect
+								items={inventoryItems || []}
+								setSelectedItems={(newValue: number[]) => {
+									setInputValues((values) => ({
+										...values,
+										[field.field]: newValue,
+									}));
+								}}
+								{...commonProps}
+								selectedItems={(inputValues?.[field.field] as number[]) || []}
+								language={language}
+							/>
+						</FieldContainer>
+					);
+				case 'writeTag':
+					if (writeTagFunction) {
+						return (
+							<WriteTag
+								key={fieldKey}
+								writeTagFunction={writeTagFunction}
+								data={{ id: inputValues?.[field.field] || '' }}
+							/>
+						);
+					}
+					return null;
 				case 'menuEditor':
 					return (
 						<MenuEditor
@@ -437,7 +464,7 @@ export function EditForm({
 										[field.field]: newValue,
 									}))
 								}
-								users={users || []}
+								users={options || []}
 							/>
 						</FieldContainer>
 					);
