@@ -36,9 +36,9 @@ const StyledTitle = styled.div`
 	margin-bottom: 0;
 `;
 
-const Capitalize = styled.div`
-	text-transform: capitalize;
-`;
+// const Capitalize = styled.div`
+// 	text-transform: capitalize;
+// `;
 
 export interface Field {
 	field: string;
@@ -107,7 +107,15 @@ export function EditForm({
 	const [isSaving, setIsSaving] = useState(false);
 
 	useEffect(() => {
-		setInputValues(initialValues || {});
+		setInputValues((prevValues) => ({
+			...prevValues,
+			...Object.fromEntries(
+				Object.entries(initialValues || {}).filter(
+					// eslint-disable-next-line @typescript-eslint/no-unused-vars
+					([_, value]) => value !== undefined && value !== ''
+				)
+			),
+		}));
 	}, [initialValues]);
 
 	const handleSetActiveTab = useCallback((index: number) => {
@@ -206,15 +214,15 @@ export function EditForm({
 				isMulti ? valueIds.includes(option.value) : option.value === valueIds
 			);
 
-			console.log({
-				options,
-				valueIds,
-				fieldName,
-				shouldHide,
-				label,
-				isMulti,
-				selectedOptions,
-			});
+			// console.log({
+			// 	options,
+			// 	valueIds,
+			// 	fieldName,
+			// 	shouldHide,
+			// 	label,
+			// 	isMulti,
+			// 	selectedOptions,
+			// });
 
 			const value = isMulti ? selectedOptions : selectedOptions[0] || null;
 
@@ -321,7 +329,7 @@ export function EditForm({
 							<TextField
 								type={field.type}
 								{...commonProps}
-								value={inputValues?.[field.field]}
+								value={inputValues?.[field.field] || ''}
 							/>
 						</FieldContainer>
 					);
@@ -491,7 +499,7 @@ export function EditForm({
 					return (
 						<FieldContainer id={field.field} key={fieldKey} hidden={shouldHide}>
 							<Checkbox
-								checked={inputValues?.[field.field] as boolean}
+								checked={(inputValues?.[field.field] as boolean) || false}
 								onChange={(newValue: boolean) => {
 									setInputValues((values) => ({
 										...values,
