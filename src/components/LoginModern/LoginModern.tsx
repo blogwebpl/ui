@@ -55,6 +55,7 @@ const Logo = styled.div`
 // `;
 
 const Container = styled.div<{ $isPending: boolean }>`
+	margin: auto;
 	user-select: none;
 	cursor: ${(props) => (props.$isPending ? 'wait' : 'default')};
 	position: relative;
@@ -153,6 +154,18 @@ const Container = styled.div<{ $isPending: boolean }>`
 		form {
 			width: 90%;
 		}
+	}
+
+	max-height: 60rem;
+
+	@media (orientation: landscape) {
+		height: calc(100vh - 4.8rem);
+	}
+	@media (orientation: portrait) {
+		height: calc(100vh - 5.6rem);
+	}
+	@media (min-width: ${(props) => props.theme.breakpoints.sm}) {
+		height: calc(100vh - 6.4rem);
 	}
 `;
 

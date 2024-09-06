@@ -290,7 +290,7 @@ export function EditForm({
 					options = users
 						? users.map((user) => ({
 								value: user.id,
-								label: `${user.name + ' - ' || ''} ${user.email || ''}`,
+								label: `${user.name ? user.name + ' - ' : ''} ${user.email || ''}`,
 							}))
 						: [];
 					break;
@@ -298,7 +298,7 @@ export function EditForm({
 					options = devices
 						? devices.map((device) => ({
 								value: device.id,
-								label: `${device.name + ' - ' || ''} ${device.imei || ''}`,
+								label: `${device.name === device.imei ? '' : device.name + ' - ' || ''} ${device.imei || ''}`,
 							}))
 						: [];
 					break;

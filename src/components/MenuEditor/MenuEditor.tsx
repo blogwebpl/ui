@@ -13,7 +13,11 @@ import { MultiValue, SingleValue } from 'react-select';
 import { Select, SelectOption } from '../atoms/Select';
 import { Language } from '../types';
 import { IMenuItem, MenuItemsSchema } from '../atoms/Menu';
-import { StyledIconContainer, StyledMenuContainer, StyledMenuEditor } from './menuEditorStyles';
+import {
+	StyledIconContainer,
+	StyledMenuContainer,
+	StyledMenuEditor,
+} from './menuEditorStyles';
 
 const selectLabel = {
 	en: 'Select option',
@@ -40,7 +44,9 @@ interface MenuEditorProps {
 }
 
 export const MenuEditor = (props: MenuEditorProps) => {
-	const [value, setValue] = useState<MultiValue<SelectOption> | SingleValue<SelectOption>>(null);
+	const [value, setValue] = useState<
+		MultiValue<SelectOption> | SingleValue<SelectOption>
+	>(null);
 	const [menuItemsInMenu, setMenuItemsInMenu] = useState<MenuItemsSchema[]>(
 		props.menuItemsInMenu || []
 	);
@@ -77,7 +83,10 @@ export const MenuEditor = (props: MenuEditorProps) => {
 				reorderedSiblings.splice(siblingIndex, 1);
 				reorderedSiblings.splice(newSiblingIndex, 0, itemToMove);
 				const newItems = parentItemId
-					? [...prevItems.filter((item) => item.parent !== parentItemId), ...reorderedSiblings]
+					? [
+							...prevItems.filter((item) => item.parent !== parentItemId),
+							...reorderedSiblings,
+						]
 					: reorderedSiblings.concat(prevItems.filter((item) => item.parent));
 				return newItems;
 			}
@@ -87,19 +96,25 @@ export const MenuEditor = (props: MenuEditorProps) => {
 
 	const removeItem = (itemId: string) => {
 		setMenuItemsInMenu((prevItems) => {
-			const itemToRemoveIndex = prevItems.findIndex((item) => item.item === itemId);
+			const itemToRemoveIndex = prevItems.findIndex(
+				(item) => item.item === itemId
+			);
 			if (itemToRemoveIndex === -1) return prevItems;
-			const newItems = prevItems.filter((item) => item.item !== itemId && item.parent !== itemId);
+			const newItems = prevItems.filter(
+				(item) => item.item !== itemId && item.parent !== itemId
+			);
 			return newItems;
 		});
 	};
 
 	const addParentFromSelect = () => {
 		if (value && Array.isArray(value)) {
-			const newMenuItems = (value as MultiValue<SelectOption>).map((selectedItem) => ({
-				item: selectedItem.value,
-				parent: undefined,
-			}));
+			const newMenuItems = (value as MultiValue<SelectOption>).map(
+				(selectedItem) => ({
+					item: selectedItem.value,
+					parent: undefined,
+				})
+			);
 			setMenuItemsInMenu((prevItems) => [...prevItems, ...newMenuItems]);
 		}
 		setValue(null);
@@ -107,10 +122,12 @@ export const MenuEditor = (props: MenuEditorProps) => {
 
 	const addChildFromSelect = (parentId: string) => {
 		if (value && Array.isArray(value)) {
-			const newMenuItems = (value as MultiValue<SelectOption>).map((selectedItem) => ({
-				item: selectedItem.value,
-				parent: parentId,
-			}));
+			const newMenuItems = (value as MultiValue<SelectOption>).map(
+				(selectedItem) => ({
+					item: selectedItem.value,
+					parent: parentId,
+				})
+			);
 			setMenuItemsInMenu((prevItems) => [...prevItems, ...newMenuItems]);
 		}
 		setValue(null);
@@ -134,9 +151,8 @@ export const MenuEditor = (props: MenuEditorProps) => {
 
 	const potentialMenuItems = props.menuItems
 		? props.menuItems
-				.sort(
-					(a: IMenuItem, b: IMenuItem) =>
-						a.label[props.language]?.localeCompare(b.label[props.language])
+				.sort((a: IMenuItem, b: IMenuItem) =>
+					a.label[props.language]?.localeCompare(b.label[props.language])
 				)
 				.map((item: IMenuItem) => ({
 					value: item.id,
@@ -163,7 +179,9 @@ export const MenuEditor = (props: MenuEditorProps) => {
 						menuItemsInMenu.map((item) => {
 							const isParent = item.parent === undefined;
 							if (isParent) {
-								const parentIcon = props.menuItems.find((i) => i.id === item.item)?.icon;
+								const parentIcon = props.menuItems.find(
+									(i) => i.id === item.item
+								)?.icon;
 								const Icon = getIcon(parentIcon);
 								return (
 									<li key={item.item}>
@@ -171,16 +189,27 @@ export const MenuEditor = (props: MenuEditorProps) => {
 											<StyledIconContainer>
 												{Icon ? <Icon size="2.4rem" /> : null}
 											</StyledIconContainer>
-											{props.menuItems.find((i) => i.id === item.item)?.label[props.language] || ''}
+											{props.menuItems.find((i) => i.id === item.item)?.label[
+												props.language
+											] || ''}
 											<span>
 												&nbsp;&nbsp;&nbsp;
-												<span className="up" onClick={() => moveItem('up', item.item)}>
+												<span
+													className="up"
+													onClick={() => moveItem('up', item.item)}
+												>
 													[ ⬆ ]
 												</span>{' '}
-												<span className="down" onClick={() => moveItem('down', item.item)}>
+												<span
+													className="down"
+													onClick={() => moveItem('down', item.item)}
+												>
 													[ ⬇ ]
 												</span>{' '}
-												<span className="remove" onClick={() => removeItem(item.item)}>
+												<span
+													className="remove"
+													onClick={() => removeItem(item.item)}
+												>
 													[ x ]
 												</span>
 											</span>
@@ -190,12 +219,15 @@ export const MenuEditor = (props: MenuEditorProps) => {
 												.filter((childItem) => childItem.parent === item.item)
 												.map((childItem) => (
 													<li key={childItem.item}>
-														{props.menuItems.find((i) => i.id === childItem.item)?.label[
-															props.language
-														] || ''}
+														{props.menuItems.find(
+															(i) => i.id === childItem.item
+														)?.label[props.language] || ''}
 														<span>
 															&nbsp;&nbsp;&nbsp;
-															<span className="up" onClick={() => moveItem('up', childItem.item)}>
+															<span
+																className="up"
+																onClick={() => moveItem('up', childItem.item)}
+															>
 																[ ⬆ ]
 															</span>{' '}
 															<span
@@ -204,7 +236,10 @@ export const MenuEditor = (props: MenuEditorProps) => {
 															>
 																[ ⬇ ]
 															</span>{' '}
-															<span className="remove" onClick={() => removeItem(childItem.item)}>
+															<span
+																className="remove"
+																onClick={() => removeItem(childItem.item)}
+															>
 																[ x ]
 															</span>
 														</span>

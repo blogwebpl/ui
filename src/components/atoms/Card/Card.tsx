@@ -24,7 +24,7 @@ const StyledCard = styled.div<StyledCardProps>`
 	padding: ${(props) => (props.$padding ? '1.6rem' : '0')};
 	width: 100%;
 	margin-inline: auto;
-	margin: 0.8rem 0.4rem;
+	margin: auto 0.4rem;
 	box-sizing: border-box;
 	opacity: ${(props) => (props.$opacity ? '0.95' : '1')};
 	background-color: ${(props) =>
@@ -34,7 +34,7 @@ const StyledCard = styled.div<StyledCardProps>`
 	backdrop-filter: ${(props) => (props.$opacity ? 'blur(1.5rem)' : 'none')};
 	@media (min-width: 24rem) {
 		border-radius: ${(props) => props.theme.shape.borderRadious};
-		margin: 0.8rem 1.6rem;
+		margin: auto 1.6rem;
 		max-width: min(calc(100% - 3.2rem - 3.2rem), ${(props) => props.$width});
 	}
 	cursor: ${(props) => (props.$isPending ? 'wait' : 'default')};

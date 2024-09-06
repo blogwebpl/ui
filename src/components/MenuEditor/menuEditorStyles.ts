@@ -14,13 +14,13 @@ export const StyledMenuEditor = styled.div`
 		z-index: 1;
 	}
 	label:first-child::before {
-		content: ''; 
+		content: '';
 		position: absolute;
-		left: 0; 
-		right: 0; 
+		left: 0;
+		right: 0;
 		height: 0.1rem;
 		background-color: white;
-		top: 50%; 
+		top: 50%;
 		transform: translateY(-50%);
 		z-index: -1; // Ensure the ::before content is behind the label
 	}
@@ -75,7 +75,7 @@ export const StyledMenuEditor = styled.div`
 `;
 
 export const StyledMenuContainer = styled.div`
-	height: 40rem;
+	height: 30rem;
 	overflow-y: auto;
 	margin-top: 2rem;
 `;
