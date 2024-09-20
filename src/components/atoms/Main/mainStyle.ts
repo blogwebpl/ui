@@ -8,20 +8,20 @@ export const StyledMain = styled.main<{
 	overflow-y: auto;
 	position: relative;
 	min-height: 100vh;
-	height: 100vh;
+	// height: 100vh;
 	@media (orientation: landscape) {
-		padding-top: 4.8rem;
-		min-height: calc(100vh - 4.8rem);
+		top: 4.8rem;
+		min-height: calc(var(--vh, 1vh) * 100 - 4.8rem);
 	}
 	@media (orientation: portrait) {
-		padding-top: 5.6rem;
-		min-height: calc(100vh - 5.6rem);
+		top: 5.6rem;
+		min-height: calc(var(--vh, 1vh) * 100 - 5.6rem);
 	}
 	@media (min-width: ${(props) => props.theme.breakpoints.sm}) {
 		margin-left: ${(props) =>
 			props.$isdraweropen && !props.$iscovered ? '32rem' : '0'};
-		padding-top: 6.4rem;
-		min-height: calc(100vh - 6.4rem);
+		top: 6.4rem;
+		min-height: calc(var(--vh, 1vh) * 100 - 6.4rem);
 	}
 	background-color: ${(props) => props.theme.palette.background.paper};
 	background-image: url(${(props) => props.$background});
@@ -34,15 +34,15 @@ export const StyledMain = styled.main<{
 	&:after {
 		@media (orientation: landscape) {
 			top: 4.8rem;
-			min-height: calc(100vh - 4.8rem);
+			min-height: calc(var(--vh, 1vh) * 100 - 4.8rem);
 		}
 		@media (orientation: portrait) {
 			top: 5.6rem;
-			min-height: calc(100vh - 5.6rem);
+			min-height: calc(var(--vh, 1vh) * 100 - 5.6rem);
 		}
 		@media (min-width: ${(props) => props.theme.breakpoints.sm}) {
 			top: 6.4rem;
-			min-height: calc(100vh - 6.4rem);
+			min-height: calc(var(--vh, 1vh) * 100 - 6.4rem);
 		}
 		background-color: rgba(0, 0, 0, 0.2);
 		bottom: 0;

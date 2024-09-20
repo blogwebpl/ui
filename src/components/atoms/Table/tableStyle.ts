@@ -98,7 +98,7 @@ export const StyledTable = styled.table`
 	// }
 
 	&.desktop tbody tr:hover {
-		background-color: #f7f7f7; 
+		background-color: #f7f7f7;
 	}
 
 	.bodyMobile td {

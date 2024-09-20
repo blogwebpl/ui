@@ -1,4 +1,8 @@
 import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+
+dayjs.extend(duration);
+
 import {
 	MdSkipPrevious,
 	MdFastRewind,
@@ -8,6 +12,11 @@ import {
 	MdSkipNext,
 	MdEject,
 } from 'react-icons/md';
+
+import { FaAnglesDown, FaAnglesUp } from 'react-icons/fa6';
+
+import { RiTimerLine } from 'react-icons/ri';
+
 import styled from 'styled-components';
 import { IconButton } from '../IconButton';
 
@@ -20,6 +29,7 @@ const StyledPlayer = styled.div`
 		padding: 0.4rem 2.4rem;
 	}
 	opacity: 0.9;
+	border-radius: 0.5rem;
 `;
 
 const StyledSlider = styled.input.attrs({
@@ -35,7 +45,9 @@ const StyledTextContainer = styled.div`
 	justify-content: space-between;
 	user-select: none;
 `;
-const StyledLeftText = styled.div``;
+const StyledLeftText = styled.div`
+	display: flex;
+`;
 const StyledRightText = styled.div``;
 
 const StyledControl = styled.div`
@@ -44,11 +56,25 @@ const StyledControl = styled.div`
 	margin: 0.4rem 0 0.8rem 0;
 `;
 
+const MobileInvisible = styled.span`
+	@media (max-width: 28.75rem) {
+		display: none;
+	}
+	color: #f57f17;
+	opacity: 0.9;
+	display: flex;
+	width: auto;
+	align-items: center;
+	justify-content: center;
+`;
+
 interface PlayerProps {
 	isPlaying: boolean;
 	position: number;
 	length: number;
 	time: Date;
+	firstTime?: Date;
+	speed?: number;
 	onButtonClick: (button: string) => void;
 	onChange: (newPosition: number) => void;
 }
@@ -56,15 +82,29 @@ interface PlayerProps {
 export function Player({
 	isPlaying,
 	time,
+	firstTime,
 	position,
 	length,
+	speed,
 	onChange,
 	onButtonClick,
 }: PlayerProps) {
 	return (
 		<StyledPlayer>
 			<StyledTextContainer>
-				<StyledLeftText>{dayjs(time).format('YYYY-MM-DD HH:mm:ss')}</StyledLeftText>
+				<StyledLeftText>
+					{dayjs(time).format('YYYY-MM-DD HH:mm:ss')}
+					<MobileInvisible>
+						&nbsp;&nbsp;&nbsp;
+						<RiTimerLine size="1.4rem" />
+						{firstTime &&
+							dayjs
+								.duration(dayjs(time).diff(dayjs(firstTime)))
+								.format('HH:mm:ss')}
+						&nbsp;&nbsp;&nbsp;{speed ? `${speed}x` : ''}
+					</MobileInvisible>
+				</StyledLeftText>
+
 				<StyledRightText>
 					{position}/{length}
 				</StyledRightText>
@@ -78,15 +118,27 @@ export function Player({
 				>
 					<MdSkipPrevious size="2.4rem" />
 				</IconButton>
-				<IconButton
-					color="#000000"
-					label=""
-					ariaLabel="poprzedni"
-					mobileInvisible
-					onClick={() => onButtonClick('FastRewind')}
-				>
-					<MdFastRewind size="2.4rem" />
-				</IconButton>
+				{isPlaying ? (
+					<IconButton
+						color="#000000"
+						label=""
+						ariaLabel="spowolnij"
+						mobileInvisible
+						onClick={() => onButtonClick('SpeedDown')}
+					>
+						<FaAnglesDown size="2.4rem" />
+					</IconButton>
+				) : (
+					<IconButton
+						color="#000000"
+						label=""
+						ariaLabel="poprzedni"
+						mobileInvisible
+						onClick={() => onButtonClick('FastRewind')}
+					>
+						<MdFastRewind size="2.4rem" />
+					</IconButton>
+				)}
 				<IconButton
 					color="#000000"
 					label=""
@@ -103,15 +155,27 @@ export function Player({
 				>
 					<MdPlayArrow size="2.4rem" color={isPlaying ? 'red' : 'black'} />
 				</IconButton>
-				<IconButton
-					color="#000000"
-					label=""
-					ariaLabel="następny"
-					mobileInvisible
-					onClick={() => onButtonClick('FastForward')}
-				>
-					<MdFastForward size="2.4rem" />
-				</IconButton>
+				{isPlaying ? (b
+					<IconButton
+						color="#000000"
+						label=""
+						ariaLabel="przyspiesz"
+						mobileInvisible
+						onClick={() => onButtonClick('SpeedUp')}
+					>
+						<FaAnglesUp size="2.4rem" />
+					</IconButton>
+				) : (
+					<IconButton
+						color="#000000"
+						label=""
+						ariaLabel="następny"
+						mobileInvisible
+						onClick={() => onButtonClick('FastForward')}
+					>
+						<MdFastForward size="2.4rem" />
+					</IconButton>
+				)}
 				<IconButton
 					color="#000000"
 					label=""
@@ -119,7 +183,7 @@ export function Player({
 					onClick={() => onButtonClick('SkipNext')}
 				>
 					<MdSkipNext size="2.4rem" />
-				</IconButton>{' '}
+				</IconButton>
 				<IconButton
 					color="#000000"
 					label=""

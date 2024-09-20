@@ -60,6 +60,7 @@ const Container = styled.div<{ $isPending: boolean }>`
 	cursor: ${(props) => (props.$isPending ? 'wait' : 'default')};
 	position: relative;
 	width: 70vw;
+	max-width: 90rem;
 	height: 80vh;
 	background: #fff;
 	border-radius: 1.5rem;

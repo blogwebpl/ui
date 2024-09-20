@@ -58,12 +58,23 @@ export const GlobalStyles = createGlobalStyle<{ theme?: typeof defaultTheme }>`
 	}
 	.marker-label-red {
 		color: #363640;
-		font-size: 1.15rem;
+		font-size: 1.15rem !important;
+		line-height: 1.8rem !important;
 	}
 	.marker-label-blue {
 		color: blue;
-		font-size: 1.15rem;
+		font-size: 1.15rem !important;
+		line-height: 1.8rem !important;
 	}
+
+	.tooltip-content {
+		font-size: 1.2rem;
+		background-color: white;
+		opacity: 0.95;
+		width: 12rem !important;
+		height: 5.2rem !important;
+	}
+
 	ul {
 		list-style: none;
 	}

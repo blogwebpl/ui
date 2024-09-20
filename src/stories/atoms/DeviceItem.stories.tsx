@@ -16,10 +16,11 @@ export const Template = () => {
 		<DeviceItem
 			deviceId="123"
 			name="Mazda"
-			time={new Date()}
+			time={new Date().toString()}
 			show={false}
 			handleShowClick={() => {}}
 			handleNameClick={() => {}}
+			handleNameDoubleClick={() => {}}
 			handleFollowClick={() => {}}
 			follow={false}
 			info={false}
@@ -35,21 +36,27 @@ const InSidebarComponent = () => {
 
 	const handleShowClick = (deviceId: string) => {
 		const newDevices = [...devices];
-		const index = newDevices.findIndex((device) => device.deviceId === deviceId);
+		const index = newDevices.findIndex(
+			(device) => device.deviceId === deviceId
+		);
 		newDevices[index].show = !newDevices[index].show;
 		setDevices(newDevices);
 	};
 
 	const handleFollowClick = (deviceId: string) => {
 		const newDevices = [...devices];
-		const index = newDevices.findIndex((device) => device.deviceId === deviceId);
+		const index = newDevices.findIndex(
+			(device) => device.deviceId === deviceId
+		);
 		newDevices[index].follow = !newDevices[index].follow;
 		setDevices(newDevices);
 	};
 
 	const handleInfoClick = (deviceId: string) => {
 		const newDevices = [...devices];
-		const index = newDevices.findIndex((device) => device.deviceId === deviceId);
+		const index = newDevices.findIndex(
+			(device) => device.deviceId === deviceId
+		);
 		newDevices[index].info = !newDevices[index].info;
 		setDevices(newDevices);
 	};
@@ -80,6 +87,7 @@ const InSidebarComponent = () => {
 						handleFollowClick={handleFollowClick}
 						handleInfoClick={handleInfoClick}
 						handleNameClick={(vid: string) => alert(vid)}
+						handleNameDoubleClick={(vid: string) => alert(vid)}
 						handleShowClick={handleShowClick}
 						info={device.info}
 						name={device.name}
@@ -88,6 +96,7 @@ const InSidebarComponent = () => {
 						deviceId={device.deviceId}
 						pos={[18, 53]}
 						io={device.io}
+						key={device.deviceId}
 					/>
 				))}
 			</Sidebar>

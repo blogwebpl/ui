@@ -11,14 +11,16 @@ import { Typography } from '../Typography';
 
 interface PlayerSettingsProps {
 	devices: Device[];
+	fromDate?: Date;
+	toDate?: Date;
 	onLoad: ({
 		deviceId,
-		dateFrom,
-		dateTo,
+		fromDate,
+		toDate,
 	}: {
 		deviceId: string;
-		dateFrom: string;
-		dateTo: string;
+		fromDate: string;
+		toDate: string;
 	}) => void;
 	onClose: () => void;
 }
@@ -35,11 +37,13 @@ export function PlayerSettings({
 	devices,
 	onLoad,
 	onClose,
+	fromDate = todayStart,
+	toDate = todayEnd,
 }: PlayerSettingsProps) {
 	if (!devices || devices.length === 0) return null;
 
-	const dateFromRef = useRef<HTMLInputElement>(null);
-	const dateToRef = useRef<HTMLInputElement>(null);
+	const fromDateRef = useRef<HTMLInputElement>(null);
+	const toDateRef = useRef<HTMLInputElement>(null);
 
 	const options: SelectOption[] = devices
 		.map((device) => ({
@@ -97,14 +101,14 @@ export function PlayerSettings({
 				<TextField
 					label="Od:"
 					type="datetime-local"
-					value={todayStart.toISOString().slice(0, 16)}
-					forwardedRef={dateFromRef}
+					value={fromDate.toISOString().slice(0, 16)}
+					forwardedRef={fromDateRef}
 				/>
 				<TextField
 					label="Do:"
 					type="datetime-local"
-					value={todayEnd.toISOString().slice(0, 16)}
-					forwardedRef={dateToRef}
+					value={toDate.toISOString().slice(0, 16)}
+					forwardedRef={toDateRef}
 				/>
 			</FieldContainer>
 			<ButtonContainer>
@@ -114,12 +118,12 @@ export function PlayerSettings({
 					variant="primary"
 					onClick={() => {
 						const deviceId = singleDevice;
-						const dateFrom = dateFromRef.current
-							? dateFromRef.current.value
+						const fromDate = fromDateRef.current
+							? fromDateRef.current.value
 							: null;
-						const dateTo = dateToRef.current ? dateToRef.current.value : null;
-						if (deviceId && dateFrom && dateTo) {
-							onLoad({ deviceId, dateFrom, dateTo });
+						const toDate = toDateRef.current ? toDateRef.current.value : null;
+						if (deviceId && fromDate && toDate) {
+							onLoad({ deviceId, fromDate, toDate });
 						} else {
 							console.error('Nie wszystkie wymagane dane są dostępne.');
 						}

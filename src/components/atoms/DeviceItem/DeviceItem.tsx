@@ -1,6 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 import styled from 'styled-components';
-import { MdInfo as IconInformation, MdCenterFocusStrong as IconCenter } from 'react-icons/md';
+import {
+	MdInfo as IconInformation,
+	MdCenterFocusStrong as IconCenter,
+} from 'react-icons/md';
 import dayjs from 'dayjs';
 import { Checkbox } from '../Checkbox';
 import { IconButton } from '../IconButton';
@@ -69,8 +72,9 @@ export const StyledSVG = styled.svg`
 export interface DeviceItemProps {
 	deviceId: string;
 	name: string;
-	time: Date;
-	handleNameClick: (id: string, pos: [number, number]) => void;
+	time: string;
+	handleNameClick: (id: string, pos: Point) => void;
+	handleNameDoubleClick: (id: string, pos: Point) => void;
 	show: boolean;
 	handleShowClick: (id: string, show: boolean) => void;
 	info: boolean;
@@ -81,8 +85,10 @@ export interface DeviceItemProps {
 	pos: [number, number];
 }
 
+export type Point = [latitude: number, longitude: number];
+
 export interface Gps {
-	pos: [number, number];
+	pos: Point;
 	alt: number;
 	ang: number;
 	sat: number;
@@ -97,8 +103,8 @@ export interface Device {
 	follow: boolean;
 	gps: Gps;
 	io: [number, number][];
-	st: Date;
-	time: Date;
+	st: string;
+	time: string;
 }
 
 function IconBattery() {
@@ -125,11 +131,18 @@ export function DeviceItem(props: DeviceItemProps) {
 					onChange={() => props.handleShowClick(props.deviceId, !props.show)}
 				/>
 			</StyledCheckboxContainer>
-			<StyledDetailContainer onClick={() => props.handleNameClick(props.deviceId, props.pos)}>
+			<StyledDetailContainer
+				onClick={() => props.handleNameClick(props.deviceId, props.pos)}
+				onDoubleClick={() =>
+					props.handleNameDoubleClick(props.deviceId, props.pos)
+				}
+			>
 				<div>
 					<span>{props.name}</span>
 					<br />
-					<small>{props.time && dayjs(props.time).format('YYYY-MM-DD HH:mm:ss')}</small>
+					<small>
+						{props.time && dayjs(props.time).format('YYYY-MM-DD HH:mm:ss')}
+					</small>
 				</div>
 			</StyledDetailContainer>
 			<StyledIconsContainer>

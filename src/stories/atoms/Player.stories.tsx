@@ -69,6 +69,7 @@ const Template = (args: any) => {
 				onButtonClick={handleButtonClick}
 				isPlaying={isPlaying}
 				time={time}
+				firstTime={args.firstTime}
 			/>
 		</Main>
 	);
@@ -83,6 +84,7 @@ export const Default = {
 	args: {
 		isPlaying: true,
 		time: new Date(),
+		firstTime: new Date(new Date().getTime() - 1834),
 		position: 1,
 		length: 1000,
 	},
