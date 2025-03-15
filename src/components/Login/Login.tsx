@@ -31,12 +31,12 @@ export function Login(props: LoginProps) {
 	const storedEmail = localStorage.getItem('email');
 
 	useEffect(() => {
-		if (storedEmail) {
-			rememberEmailRef.current!.checked = true;
-			emailRef.current!.value = storedEmail;
-			passwordRef.current!.focus();
-		} else {
-			emailRef.current!.focus();
+		if (storedEmail && emailRef.current && rememberEmailRef.current && passwordRef.current) {
+			rememberEmailRef.current.checked = true;
+			emailRef.current.value = storedEmail;
+			passwordRef.current.focus();
+		} else if (emailRef.current) {
+			emailRef.current.focus();
 		}
 	}, []);
 
@@ -44,7 +44,7 @@ export function Login(props: LoginProps) {
 		event.preventDefault();
 		const email = emailRef.current!.value;
 		const password = passwordRef.current!.value;
-		const isRememberEmailChecked = rememberEmailRef.current!.value;
+		const isRememberEmailChecked = rememberEmailRef.current!.checked;
 		if (!email || !password) return;
 		if (isRememberEmailChecked) localStorage.setItem('email', email);
 		else localStorage.removeItem('email');
