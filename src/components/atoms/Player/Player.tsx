@@ -155,7 +155,7 @@ export function Player({
 				>
 					<MdPlayArrow size="2.4rem" color={isPlaying ? 'red' : 'black'} />
 				</IconButton>
-				{isPlaying ? (b
+				{isPlaying ? (
 					<IconButton
 						color="#000000"
 						label=""
