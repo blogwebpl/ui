@@ -272,10 +272,11 @@ export function Table({
 
 			setCheckedRows((prevCheckedRows) => {
 				const newCheckedRows = new Set(prevCheckedRows);
-				if (newCheckedRows.has(rowId.toString())) {
-					newCheckedRows.delete(rowId.toString());
+				const rowIdStr = rowId?.toString() || '';
+				if (newCheckedRows.has(rowIdStr)) {
+					newCheckedRows.delete(rowIdStr);
 				} else {
-					newCheckedRows.add(rowId.toString());
+					newCheckedRows.add(rowIdStr);
 				}
 				return newCheckedRows;
 			});
@@ -288,7 +289,7 @@ export function Table({
 			if (newAllChecked) {
 				const newCheckedRows = new Set<string>();
 				data.forEach((row) => {
-					newCheckedRows.add(row.id ? row.id.toString() : row.name);
+					newCheckedRows.add(row.id ? row.id.toString() : row.name || '');
 				});
 				setCheckedRows(newCheckedRows);
 			} else {
@@ -334,26 +335,29 @@ export function Table({
 
 	const transformData = useCallback(
 		(dataToTransform: DynamicObject[]): DynamicObject[] => {
-			return dataToTransform
-				? dataToTransform.map((row) => {
-						const transformedRow = { ...row };
+			if (!dataToTransform) return [];
 
-						columnsState.forEach((column) => {
-							if (column.field.includes('.')) {
-								const keys = column.field.split('.');
+			return dataToTransform.map((row) => {
+				const transformedRow = { ...row };
 
-								const currentNode = keys.reduce((current, key) => {
-									return Object.prototype.hasOwnProperty.call(current, key)
-										? current[key]
-										: current;
-								}, transformedRow);
+				columnsState.forEach((column) => {
+					if (!column?.field) return;
 
-								transformedRow[column.field] = currentNode;
-							}
-						});
-						return transformedRow;
-					})
-				: [];
+					if (column.field.includes('.')) {
+						const keys = column.field.split('.');
+
+						const currentNode = keys.reduce((current, key) => {
+							return current &&
+								Object.prototype.hasOwnProperty.call(current, key)
+								? current[key]
+								: null;
+						}, transformedRow);
+
+						transformedRow[column.field] = currentNode ?? '';
+					}
+				});
+				return transformedRow;
+			});
 		},
 		[columnsState]
 	);
@@ -367,13 +371,17 @@ export function Table({
 		const bValue = b[column.field] || '';
 		if (column.type === 'text') {
 			if (column.sort === 'asc') {
-				return aValue
-					.toString()
-					.localeCompare(bValue.toString(), 'pl', { sensitivity: 'base' });
+				return (aValue?.toString() || '').localeCompare(
+					bValue?.toString() || '',
+					'pl',
+					{ sensitivity: 'base' }
+				);
 			}
-			return bValue
-				.toString()
-				.localeCompare(aValue.toString(), 'pl', { sensitivity: 'base' });
+			return (bValue?.toString() || '').localeCompare(
+				aValue?.toString() || '',
+				'pl',
+				{ sensitivity: 'base' }
+			);
 		}
 		if (column.type === 'number') {
 			if (column.sort === 'asc') {
@@ -650,10 +658,11 @@ export function Table({
 
 									return (
 										<td
-											key={`${row.id || row.name}-${column.field}`}
+											key={`${row.id || row.name || ''}-${column.field}`}
 											className={column.type === 'number' ? 'number' : ''}
 										>
-											{typeof cellValue !== 'undefined' ? (
+											{typeof cellValue !== 'undefined' &&
+											cellValue !== null ? (
 												typeof cellValue === 'boolean' ? (
 													cellValue ? (
 														'TAK'
@@ -670,16 +679,16 @@ export function Table({
 														}}
 													>
 														<span className="icon-td">
-															{cellValue.toString()}
+															{String(cellValue || '')}
 														</span>
-														{getIconComponent(cellValue.toString()) &&
+														{getIconComponent(String(cellValue || '')) &&
 															React.createElement(
-																getIconComponent(cellValue.toString())!,
+																getIconComponent(String(cellValue || ''))!,
 																{ className: 'icon-td' }
 															)}
 													</div>
 												) : (
-													cellValue.toString()
+													String(cellValue || '')
 												)
 											) : (
 												''
@@ -713,7 +722,10 @@ export function Table({
 				) : (
 					<>
 						{dataForPage.map((row: DynamicObject) => (
-							<tbody key={`${row.id || row.name}-tbody`} className="bodyMobile">
+							<tbody
+								key={`${row.id || row.name || ''}-tbody`}
+								className="bodyMobile"
+							>
 								{columnsState.map((column: TableColumn, index: number) => {
 									const pathArray = column.field.split('.');
 									const cellValue = pathArray.reduce(
@@ -723,7 +735,7 @@ export function Table({
 
 									return (
 										<tr
-											key={`${row.id || row.name}-tr-${index}`}
+											key={`${row.id || row.name || ''}-tr-${index}`}
 											className="innerRow"
 										>
 											<td
@@ -740,7 +752,8 @@ export function Table({
 												<span>{column.label[language]}:</span>
 											</td>
 											<td>
-												{typeof cellValue !== 'undefined' ? (
+												{typeof cellValue !== 'undefined' &&
+												cellValue !== null ? (
 													typeof cellValue === 'boolean' ? (
 														cellValue ? (
 															'TAK'
@@ -749,15 +762,15 @@ export function Table({
 														)
 													) : column.type === 'icon' ? (
 														<>
-															{getIconComponent(cellValue.toString()) &&
+															{getIconComponent(String(cellValue || '')) &&
 																React.createElement(
-																	getIconComponent(cellValue.toString())!,
+																	getIconComponent(String(cellValue || ''))!,
 																	{ className: 'icon-td' }
 																)}
-															<span>{cellValue.toString()}</span>
+															<span>{String(cellValue || '')}</span>
 														</>
 													) : (
-														cellValue.toString()
+														String(cellValue || '')
 													)
 												) : (
 													''
@@ -771,7 +784,7 @@ export function Table({
 									<td className="options">
 										<Checkbox
 											checked={checkedRows.has(
-												row.id ? row.id.toString() : row.name
+												row.id ? row.id.toString() : row.name || ''
 											)}
 											onChange={() => handleCheckboxChange(row.id || row.name)}
 											controlled
